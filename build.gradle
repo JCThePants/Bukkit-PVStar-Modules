@@ -9,29 +9,28 @@ targetCompatibility = 1.7
 
 subprojects {
 
-
     // Set version number
-    if (hasProperty("teamcity")) {
-        version = project.majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
+    if (ext.hasProperty("teamcity")) {
+        version = project.majorVersion + '.' + ext.teamcity["build.number"] + '.git-' + ext.teamcity["build.vcs.number"]
 
-        if (buildBy == null) {
-            buildBy = teamcity["build.triggeredBy.username"]
+        if (project.buildBy == null) {
+            project.buildBy = ext.teamcity["build.triggeredBy.username"]
 
-            if (!buildBy) {
-                buildBy = teamcity["build.triggeredBy"]
+            if (!project.buildBy) {
+                project.buildBy = ext.teamcity["build.triggeredBy"]
             }
 
-            if (!buildBy) {
-                buildBy = teamcity["agent.name"]
+            if (!project.buildBy) {
+                project.buildBy = ext.teamcity["agent.name"]
             }
         }
 
     }else {
-        version = project.majorVerion + '.000.git-unknown'
+        version = project.majorVersion + '.000.git-unknown'
     }
 
-    if (buildBy == null) {
-        buildBy = System.properties['user.name']
+    if (project.buildBy == null) {
+        project.buildBy = System.properties['user.name']
     }
 
 
@@ -80,26 +79,6 @@ subprojects {
     // Jar file output with version number
     jar {
 
-        archiveName = project.projectName + '.' + version + '.jar'
-
-        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-
-        if (project.includeFiles) {
-            from project.includeFiles
-        }
-
-        manifest {
-            attributes("Built-By": buildBy,
-                    "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
-                    "Implementation-Title": projectName,
-                    "Implementation-Version": version)
-        }
-
-    }
-
-    // Task to create a Jar file artifact with no version number
-    task simpleNamedJar(type: Jar) {
-
         archiveName = project.projectName + '.jar'
 
         from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
@@ -109,17 +88,12 @@ subprojects {
         }
 
         manifest {
-            attributes("Built-By": buildBy,
+            attributes("Built-By": project.buildBy,
                     "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
                     "Implementation-Title": projectName,
                     "Implementation-Version": version)
         }
 
-        with jar
-    }
-
-    artifacts {
-        archives simpleNamedJar
     }
 
 }
