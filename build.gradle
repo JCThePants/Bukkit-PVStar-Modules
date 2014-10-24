@@ -11,20 +11,6 @@ project.evaluationDependsOnChildren()
 
 subprojects {
 
-    def projectName = null
-    def majorVersion = '0'
-    def buildBy = null
-    def providedDepends = [
-            'C:/JavaRepo/bukkit/bukkit-1.7.9-R0.jar',
-            '../PV-StarAPI.jar',
-            '../GenericsLib.jar'
-    ]
-
-    def compileDepends = null
-    def includeFiles = null
-
-
-
     // Set version number
     if (ext.hasProperty("teamcity")) {
         version = majorVersion + '.' + ext.teamcity["build.number"] + '.git-' + ext.teamcity["build.vcs.number"]
