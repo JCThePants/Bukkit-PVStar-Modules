@@ -10,7 +10,90 @@ targetCompatibility = 1.7
 subprojects {
 
     afterEvaluate { Project pro ->
-        apply from: 'subBuild.gradle'
+        // Set version number
+        if (hasProperty("teamcity")) {
+            version = pro.majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
+
+            if (pro.buildBy == null) {
+                buildBy = teamcity["build.triggeredBy.username"]
+
+                if (!buildBy) {
+                    buildBy = teamcity["build.triggeredBy"]
+                }
+
+                if (!buildBy) {
+                    buildBy = teamcity["agent.name"]
+                }
+            }
+
+        }else {
+            version = pro.majorVersion + '.000.git-unknown'
+        }
+
+        if (buildBy == null) {
+            buildBy = System.properties['user.name']
+        }
+
+
+        repositories {
+            mavenCentral()
+        }
+
+// Add provided configuration to prevent dependencies
+// from being included in the jar
+        configurations {
+            provided
+        }
+
+        sourceSets {
+
+            main {
+                compileClasspath += configurations.provided
+                runtimeClasspath += configurations.provided
+
+                java {
+                    srcDir 'src'
+                }
+            }
+
+            test {
+                compileClasspath += configurations.provided
+                runtimeClasspath += configurations.provided
+            }
+        }
+
+// Add dependencies
+        dependencies {
+
+            if (pro.compileDepends) {
+                compile files(pro.compileDepends)
+            }
+
+            if (pro.providedDepends) {
+                provided files(pro.providedDepends)
+            }
+        }
+
+
+// Jar file output with version number
+        jar {
+
+            archiveName = pro.projectName + '.jar'
+
+            from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+
+            if (pro.includeFiles) {
+                from pro.includeFiles
+            }
+
+            manifest {
+                attributes("Built-By": buildBy,
+                        "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
+                        "Implementation-Title": pro.projectName,
+                        "Implementation-Version": version)
+            }
+
+        }
     }
 
 }
