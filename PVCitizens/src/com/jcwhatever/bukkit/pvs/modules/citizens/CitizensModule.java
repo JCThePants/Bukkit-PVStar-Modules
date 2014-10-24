@@ -22,8 +22,6 @@ import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCRightClickEvent;
 import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCSpawnEvent;
 import com.jcwhatever.bukkit.pvs.modules.citizens.scripts.CitizensScriptApi;
 import com.jcwhatever.bukkit.pvs.modules.citizens.scripts.ScriptNPC;
-import net.citizensnpcs.Citizens;
-import sun.org.mozilla.javascript.internal.ContextFactory;
 
 public class CitizensModule extends PVStarModule {
 
@@ -80,9 +78,11 @@ public class CitizensModule extends PVStarModule {
         _kitManager = new KitManager(PVStarAPI.getPlugin(), getDataNode("kits"));
         PVStarAPI.getCommandHandler().registerCommand(NpcCommand.class);
 
+        /** TODO: Use reflection
         ContextFactory factory = ContextFactory.getGlobal();
         ClassLoader loader = Citizens.class.getClassLoader();
         factory.initApplicationClassLoader(loader);
+         **/
     }
 
     private void registerEvent(Class<? extends AbstractNPCEvent> eventClass) {
