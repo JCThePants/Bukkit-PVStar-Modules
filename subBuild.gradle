@@ -1,8 +1,8 @@
 // Set version number
 if (hasProperty("teamcity")) {
-    version = majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
+    version = project.majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
 
-    if (buildBy == null) {
+    if (project.buildBy == null) {
         buildBy = teamcity["build.triggeredBy.username"]
 
         if (!buildBy) {
@@ -15,7 +15,7 @@ if (hasProperty("teamcity")) {
     }
 
 }else {
-    version = majorVersion + '.000.git-unknown'
+    version = project.majorVersion + '.000.git-unknown'
 }
 
 if (buildBy == null) {
@@ -53,12 +53,12 @@ sourceSets {
 // Add dependencies
 dependencies {
 
-    if (compileDepends) {
-        compile files(compileDepends)
+    if (project.compileDepends) {
+        compile files(project.compileDepends)
     }
 
-    if (providedDepends) {
-        provided files(providedDepends)
+    if (project.providedDepends) {
+        provided files(project.providedDepends)
     }
 }
 
@@ -66,18 +66,18 @@ dependencies {
 // Jar file output with version number
 jar {
 
-    archiveName = projectName + '.jar'
+    archiveName = project.projectName + '.jar'
 
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 
-    if (includeFiles) {
-        from includeFiles
+    if (project.includeFiles) {
+        from project.includeFiles
     }
 
     manifest {
         attributes("Built-By": buildBy,
                 "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
-                "Implementation-Title": projectName,
+                "Implementation-Title": project.projectName,
                 "Implementation-Version": version)
     }
 
