@@ -6,6 +6,8 @@ apply plugin: 'java'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
+project.evaluationDependsOnChildren()
+
 
 subprojects {
 
@@ -21,7 +23,7 @@ subprojects {
     def compileDepends = null
     def includeFiles = null
 
-    project.evaluationDependsOnChildren()
+
 
     // Set version number
     if (ext.hasProperty("teamcity")) {
