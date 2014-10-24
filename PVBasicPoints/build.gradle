@@ -124,5 +124,5 @@ task simpleNamedJar(type: Jar) {
 }
 
 artifacts {
-    archives file: file(new File('.') + '/artifacts/' + simpleNamedJar.archiveName), builtBy: simpleNamedJar
+    archives file: file(new File('.').absolutePath + '/artifacts/' + simpleNamedJar.archiveName), builtBy: simpleNamedJar
 }
