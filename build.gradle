@@ -6,94 +6,9 @@ apply plugin: 'java'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-project.evaluationDependsOnChildren()
-
 
 subprojects {
 
-    // Set version number
-    if (ext.hasProperty("teamcity")) {
-        version = majorVersion + '.' + ext.teamcity["build.number"] + '.git-' + ext.teamcity["build.vcs.number"]
 
-        if (buildBy == null) {
-            buildBy = ext.teamcity["build.triggeredBy.username"]
-
-            if (!buildBy) {
-                buildBy = ext.teamcity["build.triggeredBy"]
-            }
-
-            if (!buildBy) {
-                buildBy = ext.teamcity["agent.name"]
-            }
-        }
-
-    }else {
-        version = project.majorVersion + '.000.git-unknown'
-    }
-
-    if (buildBy == null) {
-        buildBy = System.properties['user.name']
-    }
-
-
-    repositories {
-        mavenCentral()
-    }
-
-    // Add provided configuration to prevent dependencies
-    // from being included in the jar
-    configurations {
-        provided
-    }
-
-    sourceSets {
-
-        main {
-            compileClasspath += configurations.provided
-            runtimeClasspath += configurations.provided
-
-            java {
-                srcDir 'src'
-            }
-        }
-
-        test {
-            compileClasspath += configurations.provided
-            runtimeClasspath += configurations.provided
-        }
-    }
-
-    // Add dependencies
-    dependencies {
-
-        if (compileDepends) {
-            compile files(compileDepends)
-        }
-
-        if (providedDepends) {
-            provided files(providedDepends)
-        }
-    }
-
-
-    // Jar file output with version number
-    jar {
-
-        archiveName = projectName + '.jar'
-
-        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-
-        if (includeFiles) {
-            from includeFiles
-        }
-
-        manifest {
-            attributes("Built-By": buildBy,
-                    "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
-                    "Implementation-Title": projectName,
-                    "Implementation-Version": version)
-        }
-
-    }
-
+    apply from: 'subBuild.gradle'
 }
