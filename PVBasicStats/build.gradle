@@ -1,11 +1,11 @@
-def projectName = 'PVBasicStats'
-def majorVersion = '0'
-def buildBy = null
-def providedDepends = [
+ext.projectName = 'PVBasicStats'
+ext.majorVersion = '0'
+ext.buildBy = null
+ext.providedDepends = [
         'C:/JavaRepo/bukkit/bukkit-1.7.9-R0.jar',
         '../PV-StarAPI.jar',
         '../GenericsLib.jar'
 ]
 
-def compileDepends = null
-def includeFiles = null
+ext.compileDepends = null
+ext.includeFiles = null

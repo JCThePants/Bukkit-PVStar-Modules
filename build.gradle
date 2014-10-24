@@ -12,7 +12,7 @@ subprojects {
 
     // Set version number
     if (hasProperty("teamcity")) {
-        version = task.majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
+        version = project.majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
 
         if (buildBy == null) {
             buildBy = teamcity["build.triggeredBy.username"]
@@ -27,7 +27,7 @@ subprojects {
         }
 
     }else {
-        version = task.majorVerion + '.000.git-unknown'
+        version = project.majorVerion + '.000.git-unknown'
     }
 
     if (buildBy == null) {
@@ -67,12 +67,12 @@ subprojects {
     // Add dependencies
     dependencies {
 
-        if (task.compileDepends) {
-            compile files(task.compileDepends)
+        if (project.compileDepends) {
+            compile files(project.compileDepends)
         }
 
         if (task.providedDepends) {
-            provided files(task.providedDepends)
+            provided files(project.providedDepends)
         }
     }
 
@@ -80,12 +80,12 @@ subprojects {
     // Jar file output with version number
     jar {
 
-        archiveName = task.projectName + '.' + version + '.jar'
+        archiveName = project.projectName + '.' + version + '.jar'
 
         from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 
-        if (task.includeFiles) {
-            from task.includeFiles
+        if (project.includeFiles) {
+            from project.includeFiles
         }
 
         manifest {
@@ -100,12 +100,12 @@ subprojects {
     // Task to create a Jar file artifact with no version number
     task simpleNamedJar(type: Jar) {
 
-        archiveName = task.projectName + '.jar'
+        archiveName = project.projectName + '.jar'
 
         from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 
-        if (task.includeFiles) {
-            from task.includeFiles
+        if (project.includeFiles) {
+            from project.includeFiles
         }
 
         manifest {
