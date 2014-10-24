@@ -40,7 +40,7 @@ subprojects {
         }
 
     }else {
-        version = majorVersion + '.000.git-unknown'
+        version = moduleInfo.majorVersion + '.000.git-unknown'
     }
 
     if (moduleInfo.buildBy == null) {
