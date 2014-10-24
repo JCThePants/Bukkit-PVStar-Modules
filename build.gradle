@@ -10,5 +10,5 @@ targetCompatibility = 1.7
 subprojects {
 
 
-    apply from: 'subBuild.gradle'
+    apply from: '../subBuild.gradle'
 }
