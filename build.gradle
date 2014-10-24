@@ -1,0 +1,7 @@
+defaultTasks 'build'
+
+apply plugin: 'java'
+
+// Minimum Java Version
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
