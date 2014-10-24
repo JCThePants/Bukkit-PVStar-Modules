@@ -9,8 +9,6 @@ targetCompatibility = 1.7
 
 subprojects {
 
-    project.evaluationDependsOnChildren()
-
     def projectName = null
     def majorVersion = '0'
     def buildBy = null
@@ -22,6 +20,8 @@ subprojects {
 
     def compileDepends = null
     def includeFiles = null
+
+    project.evaluationDependsOnChildren()
 
     // Set version number
     if (ext.hasProperty("teamcity")) {

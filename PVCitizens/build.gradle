@@ -1,4 +1,4 @@
-moduleInfo {
+
     projectName = 'PVCitizens'
     providedDepends = [
             'C:/JavaRepo/bukkit/bukkit-1.7.9-R0.jar',
@@ -6,4 +6,4 @@ moduleInfo {
             '../PV-StarAPI.jar',
             '../GenericsLib.jar'
     ]
-}
+

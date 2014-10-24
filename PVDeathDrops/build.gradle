@@ -1,8 +1,8 @@
-moduleInfo {
+
     projectName = 'PVDeathDrops'
     providedDepends = [
             'C:/JavaRepo/bukkit/bukkit-1.7.9-R0.jar',
             '../PV-StarAPI.jar',
             '../GenericsLib.jar'
     ]
-}
+
