@@ -7,32 +7,33 @@ sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
 
-// Set version number
-if (hasProperty("teamcity")) {
-    version = majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
+subProjects {
 
-    if (buildBy == null) {
-        buildBy = teamcity["build.triggeredBy.username"]
 
-        if (!buildBy) {
-            buildBy = teamcity["build.triggeredBy"]
+    // Set version number
+    if (hasProperty("teamcity")) {
+        version = task.majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
+
+        if (buildBy == null) {
+            buildBy = teamcity["build.triggeredBy.username"]
+
+            if (!buildBy) {
+                buildBy = teamcity["build.triggeredBy"]
+            }
+
+            if (!buildBy) {
+                buildBy = teamcity["agent.name"]
+            }
         }
 
-        if (!buildBy) {
-            buildBy = teamcity["agent.name"]
-        }
+    }else {
+        version = task.majorVerion + '.000.git-unknown'
     }
 
-}else {
-    version = majorVerion + '.000.git-unknown'
-}
+    if (buildBy == null) {
+        buildBy = System.properties['user.name']
+    }
 
-if (buildBy == null) {
-    buildBy = System.properties['user.name']
-}
-
-
-subProjects {
 
 
 
