@@ -106,6 +106,7 @@ jar {
 task simpleNamedJar(type: Jar) {
 
     archiveName = projectName + '.jar'
+    destFile = file(archiveName)
 
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 
