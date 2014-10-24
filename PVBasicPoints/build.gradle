@@ -106,7 +106,6 @@ jar {
 task simpleNamedJar(type: Jar) {
 
     archiveName = projectName + '.jar'
-    destFile = file(archiveName)
 
     from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 
@@ -125,5 +124,5 @@ task simpleNamedJar(type: Jar) {
 }
 
 artifacts {
-    archives simpleNamedJar
+    archives file: file(simpleNamedJar.archiveName), builtBy: simpleNamedJar
 }
