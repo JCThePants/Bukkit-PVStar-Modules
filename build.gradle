@@ -10,7 +10,7 @@ targetCompatibility = 1.7
 subprojects {
 
     afterEvaluate { Project project ->
-        apply from: '../subBuild.gradle'
+        apply from: 'subBuild.gradle'
     }
 
 }
