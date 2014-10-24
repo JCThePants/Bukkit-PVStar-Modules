@@ -1,9 +1,12 @@
+def projectName = 'PVPlayerState'
+def majorVersion = '0'
+def buildBy = null
+def providedDepends = [
+        'C:/JavaRepo/bukkit/bukkit-1.7.9-R0.jar',
+        '../PV-StarAPI.jar',
+        '../GenericsLib.jar'
+]
 
-    projectName = 'PVPlayerState'
-    providedDepends = [
-            'C:/JavaRepo/bukkit/bukkit-1.7.9-R0.jar',
-            '../PV-StarAPI.jar',
-            '../GenericsLib.jar'
-    ]
-
+def compileDepends = null
+def includeFiles = null
 
