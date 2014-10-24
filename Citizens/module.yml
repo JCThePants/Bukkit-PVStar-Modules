@@ -1,0 +1,6 @@
+name: PVCitizens
+logical-version: 0
+display-version: v1.0
+description: Provides integrated Citizens Bukkit plugin support.
+bukkit-depends:
+- Citizens

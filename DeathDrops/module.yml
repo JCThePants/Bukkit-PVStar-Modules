@@ -1,0 +1,4 @@
+name: PVDeathDrops
+logical-version: 0
+display-version: v1.0
+description: Manages item and exp drops from mob and player deaths in arenas.
