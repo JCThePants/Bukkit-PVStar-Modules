@@ -12,23 +12,13 @@
     <orderEntry type="module-library" scope="PROVIDED">
       <library>
         <CLASSES>
-          <root url="jar://$USER_HOME$/Documents/Eclipse/Libs/bukkit-1.7.9-R0.1-20140501.232652-9.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="http://jd.bukkit.org/rb/apidocs/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$USER_HOME$/Documents/Eclipse/Libs/bukkit-1.7.9-R0.1-20140501.232652-9.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" scope="PROVIDED">
-      <library>
-        <CLASSES>
-          <root url="jar://$USER_HOME$/Documents/Eclipse/Libs/Citizens2.0.12.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../depends/Citizens2.0.12.jar!/" />
+          <root url="jar://$MODULE_DIR$/../../depends/bukkit-1.7.9-R0.jar!/" />
         </CLASSES>
         <JAVADOC />
-        <SOURCES />
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../../depends/bukkit-1.7.9-R0.jar!/" />
+        </SOURCES>
       </library>
     </orderEntry>
   </component>
