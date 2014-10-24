@@ -9,31 +9,43 @@ targetCompatibility = 1.7
 
 subprojects {
 
+    task moduleInfo { // add task to all subprojects
+        majorVersion = '0'
+        buildBy = null
+        providedDepends = [
+                'C:/JavaRepo/bukkit/bukkit-1.7.9-R0.jar',
+                '../PV-StarAPI.jar',
+                '../GenericsLib.jar'
+        ]
+
+        compileDepends = null
+        includeFiles = null
+
+    }
+
     // Set version number
     if (ext.hasProperty("teamcity")) {
-        version = project.majorVersion + '.' + ext.teamcity["build.number"] + '.git-' + ext.teamcity["build.vcs.number"]
+        version = majorVersion + '.' + ext.teamcity["build.number"] + '.git-' + ext.teamcity["build.vcs.number"]
 
-        if (project.buildBy == null) {
-            project.buildBy = ext.teamcity["build.triggeredBy.username"]
+        if (buildBy == null) {
+            buildBy = ext.teamcity["build.triggeredBy.username"]
 
-            if (!project.buildBy) {
-                project.buildBy = ext.teamcity["build.triggeredBy"]
+            if (!buildBy) {
+                buildBy = ext.teamcity["build.triggeredBy"]
             }
 
-            if (!project.buildBy) {
-                project.buildBy = ext.teamcity["agent.name"]
+            if (!buildBy) {
+                buildBy = ext.teamcity["agent.name"]
             }
         }
 
     }else {
-        version = project.majorVersion + '.000.git-unknown'
+        version = majorVersion + '.000.git-unknown'
     }
 
-    if (project.buildBy == null) {
-        project.buildBy = System.properties['user.name']
+    if (buildBy == null) {
+        buildBy = System.properties['user.name']
     }
-
-
 
 
     repositories {
@@ -66,12 +78,12 @@ subprojects {
     // Add dependencies
     dependencies {
 
-        if (project.compileDepends) {
-            compile files(project.compileDepends)
+        if (compileDepends) {
+            compile files(compileDepends)
         }
 
-        if (task.providedDepends) {
-            provided files(project.providedDepends)
+        if (providedDepends) {
+            provided files(providedDepends)
         }
     }
 
@@ -79,16 +91,16 @@ subprojects {
     // Jar file output with version number
     jar {
 
-        archiveName = project.projectName + '.jar'
+        archiveName = projectName + '.jar'
 
         from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
 
-        if (project.includeFiles) {
-            from project.includeFiles
+        if (includeFiles) {
+            from includeFiles
         }
 
         manifest {
-            attributes("Built-By": project.buildBy,
+            attributes("Built-By": buildBy,
                     "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
                     "Implementation-Title": projectName,
                     "Implementation-Version": version)

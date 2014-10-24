@@ -1,11 +1,8 @@
-ext.projectName = 'PVKitSigns'
-ext.majorVersion = '0'
-ext.buildBy = null
-ext.providedDepends = [
-        'C:/JavaRepo/bukkit/bukkit-1.7.9-R0.jar',
-        '../PV-StarAPI.jar',
-        '../GenericsLib.jar'
-]
-
-ext.compileDepends = null
-ext.includeFiles = null
+moduleInfo {
+    projectName = 'PVKitSigns'
+    providedDepends = [
+            'C:/JavaRepo/bukkit/bukkit-1.7.9-R0.jar',
+            '../PV-StarAPI.jar',
+            '../GenericsLib.jar'
+    ]
+}
