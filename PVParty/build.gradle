@@ -8,5 +8,5 @@ ext.providedDepends = [
 ]
 
 ext.compileDepends = null
-ext.includeFiles = null
+ext.includeFiles = [ 'module.yml' ]
 
