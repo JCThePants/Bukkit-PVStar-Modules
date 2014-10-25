@@ -115,11 +115,11 @@ subprojects {
 
 }
 
-copy {
+task copyOutput(type: Copy) {
     allprojects {
         from project.getName() + '/build/libs'
     }
     into "TEST"
 }
 
-
+copyOutput
