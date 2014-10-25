@@ -12,6 +12,15 @@ subprojects {
 
     afterEvaluate { Project pro ->
 
+        apply plugin: 'java'
+
+        defaultTasks 'clean', 'build'
+
+        // Minimum Java Version
+        sourceCompatibility = 1.7
+        targetCompatibility = 1.7
+
+
         // Set version number
         if (hasProperty("teamcity")) {
             version = pro.majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
@@ -103,11 +112,6 @@ subprojects {
 
         artifacts {
             archives simpleNamedJar
-        }
-
-        task copyDeploy(type: Copy) {
-            from "build/libs"
-            into "deploy"
         }
     }
 }
