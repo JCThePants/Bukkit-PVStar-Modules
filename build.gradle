@@ -1,16 +1,18 @@
-defaultTasks 'clean', 'build'
-
-apply plugin: 'java'
-
-// Minimum Java Version
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
 
 project.evaluationDependsOnChildren()
 
 subprojects {
 
     afterEvaluate { Project pro ->
+
+        defaultTasks 'clean', 'build'
+
+        apply plugin: 'java'
+
+        // Minimum Java Version
+        sourceCompatibility = 1.7
+        targetCompatibility = 1.7
+
 
         // Set version number
         if (hasProperty("teamcity")) {
