@@ -12,6 +12,9 @@ targetCompatibility = 1.7
 project.evaluationDependsOnChildren()
 
 
+if (hasProperty("teamcity"))
+    def teamcity = teamcity
+
 // module project script
 subprojects {
 
@@ -26,8 +29,6 @@ subprojects {
 
     // Set version number
     if (rootProject.hasProperty("teamcity")) {
-
-        def teamcity = rootProject.teamcity
 
         version = majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
 
