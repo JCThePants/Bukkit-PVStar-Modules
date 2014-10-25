@@ -113,14 +113,15 @@ subprojects {
         artifacts {
             archives simpleNamedJar
         }
+
+        task copyArtifacts(type: Copy) {
+
+            subprojects {
+                from configurations.archives.allArtifacts.files
+            }
+            into "deploy"
+        }
     }
 }
 
 
-task copyArtifacts(type: Copy) {
-
-    subprojects {
-        from configurations.archives.allArtifacts.files
-    }
-    into "deploy"
-}
