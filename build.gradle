@@ -5,7 +5,7 @@ task copyArtifacts(type: Copy) {
     allprojects {
         from project.getName() + '/build/libs'
     }
-    into "build/libs"
+    into "TEST"
 }
 
 defaultTasks 'clean', 'build', 'copyArtifacts'
