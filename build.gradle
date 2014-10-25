@@ -36,13 +36,17 @@ subprojects {
             buildBy = System.properties['user.name']
         }
 
-
         repositories {
             mavenCentral()
+
+            flatDir {
+                name "fileRepo"
+                dirs "repo"
+            }
         }
 
-// Add provided configuration to prevent dependencies
-// from being included in the jar
+        // Add provided configuration to prevent dependencies
+        // from being included in the jar
         configurations {
             provided
         }
@@ -99,6 +103,12 @@ subprojects {
 
         artifacts {
             archives simpleNamedJar
+        }
+
+        uploadArchives {
+            repositories {
+                add project.repositories.fileRepo
+            }
         }
     }
 
