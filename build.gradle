@@ -21,9 +21,9 @@ subprojects {
 
         // Set version number
         if (hasProperty("teamcity")) {
-            version = pro.majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
+            version = majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
 
-            if (pro.buildBy == null) {
+            if (buildBy == null) {
                 buildBy = teamcity["build.triggeredBy.username"]
 
                 if (!buildBy) {
@@ -36,7 +36,7 @@ subprojects {
             }
 
         }else {
-            version = pro.majorVersion + '.000.git-unknown'
+            version = majorVersion + '.000.git-unknown'
         }
 
         if (buildBy == null) {
@@ -78,12 +78,12 @@ subprojects {
         // Add dependencies
         dependencies {
 
-            if (pro.compileDepends) {
-                compile files(pro.compileDepends)
+            if (compileDepends) {
+                compile files(compileDepends)
             }
 
-            if (pro.providedDepends) {
-                provided files(pro.providedDepends)
+            if (providedDepends) {
+                provided files(providedDepends)
             }
         }
 
