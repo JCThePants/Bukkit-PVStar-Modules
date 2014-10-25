@@ -105,20 +105,20 @@ subprojects {
 
         manifest {
             attributes("Built-By": buildBy,
-                       "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
-                       "Implementation-Title": projectName,
-                       "Implementation-Version": version)
+                    "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
+                    "Implementation-Title": projectName,
+                    "Implementation-Version": version)
         }
-
     }
 
 }
 
-task copyOutput(type: Copy) {
+copy {
     allprojects {
         from project.getName() + '/build/libs'
     }
     into "artifacts"
 }
 
-copyOutput
+
+
