@@ -122,4 +122,4 @@ task copyOutput(type: Copy) {
     into "TEST"
 }
 
-copyOutput()
+copyOutput
