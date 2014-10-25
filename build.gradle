@@ -10,96 +10,107 @@ project.evaluationDependsOnChildren()
 
 subprojects {
 
+    afterEvaluate { Project pro ->
 
-    // Set version number
-    if (hasProperty("teamcity")) {
-        version = project.majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
+        // Set version number
+        if (hasProperty("teamcity")) {
+            version = pro.majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
 
-        if (project.buildBy == null) {
-            buildBy = teamcity["build.triggeredBy.username"]
+            if (pro.buildBy == null) {
+                buildBy = teamcity["build.triggeredBy.username"]
 
-            if (!buildBy) {
-                buildBy = teamcity["build.triggeredBy"]
+                if (!buildBy) {
+                    buildBy = teamcity["build.triggeredBy"]
+                }
+
+                if (!buildBy) {
+                    buildBy = teamcity["agent.name"]
+                }
             }
 
-            if (!buildBy) {
-                buildBy = teamcity["agent.name"]
-            }
+        }else {
+            version = pro.majorVersion + '.000.git-unknown'
         }
 
-    }else {
-        version = project.majorVersion + '.000.git-unknown'
-    }
+        if (buildBy == null) {
+            buildBy = System.properties['user.name']
+        }
 
-    if (buildBy == null) {
-        buildBy = System.properties['user.name']
-    }
+        repositories {
+            mavenCentral()
 
-    repositories {
-        mavenCentral()
-    }
-
-    // Add provided configuration to prevent dependencies
-    // from being included in the jar
-    configurations {
-        provided
-    }
-
-    sourceSets {
-
-        main {
-            compileClasspath += configurations.provided
-            runtimeClasspath += configurations.provided
-
-            java {
-                srcDir 'src'
+            flatDir {
+                name "fileRepo"
+                dirs "repo"
             }
         }
 
-        test {
-            compileClasspath += configurations.provided
-            runtimeClasspath += configurations.provided
-        }
-    }
-
-    // Add dependencies
-    dependencies {
-
-        if (project.compileDepends) {
-            compile files(project.compileDepends)
+        // Add provided configuration to prevent dependencies
+        // from being included in the jar
+        configurations {
+            provided
         }
 
-        if (project.providedDepends) {
-            provided files(project.providedDepends)
-        }
-    }
+        sourceSets {
 
-    // Task to create a Jar file artifact with no version number
-    task simpleNamedJar(type: Jar) {
+            main {
+                compileClasspath += configurations.provided
+                runtimeClasspath += configurations.provided
 
-        archiveName = projectName + '.jar'
+                java {
+                    srcDir 'src'
+                }
+            }
 
-        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-
-        if (includeFiles) {
-            from includeFiles
-        }
-
-        manifest {
-            attributes("Built-By": buildBy,
-                    "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
-                    "Implementation-Title": projectName,
-                    "Implementation-Version": version)
+            test {
+                compileClasspath += configurations.provided
+                runtimeClasspath += configurations.provided
+            }
         }
 
-        with jar
-    }
+        // Add dependencies
+        dependencies {
 
-    artifacts {
-        archives simpleNamedJar
+            if (pro.compileDepends) {
+                compile files(pro.compileDepends)
+            }
+
+            if (pro.providedDepends) {
+                provided files(pro.providedDepends)
+            }
+        }
+
+        // Task to create a Jar file artifact with no version number
+        task simpleNamedJar(type: Jar) {
+
+            archiveName = projectName + '.jar'
+
+            from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+
+            if (includeFiles) {
+                from includeFiles
+            }
+
+            manifest {
+                attributes("Built-By": buildBy,
+                        "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
+                        "Implementation-Title": projectName,
+                        "Implementation-Version": version)
+            }
+
+            with jar
+        }
+
+        artifacts {
+            archives simpleNamedJar
+        }
+
+        task copyDeploy(type: Copy) {
+            from "build/libs"
+            into "deploy"
+        }
     }
 }
-
 
 
 task copyArtifacts(type: Copy) {
