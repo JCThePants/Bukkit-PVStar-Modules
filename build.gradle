@@ -1,4 +1,4 @@
-defaultTasks 'build'
+defaultTasks 'clean', 'build'
 
 apply plugin: 'java'
 
