@@ -1,14 +1,7 @@
 apply plugin: 'java'
 
-task copyArtifacts(type: Copy) {
 
-    allprojects {
-        from project.getName() + '/build/libs'
-    }
-    into "TEST"
-}
-
-defaultTasks 'clean', 'build', 'copyArtifacts'
+defaultTasks 'clean', 'build'
 
 // Minimum Java Version
 sourceCompatibility = 1.7
@@ -27,103 +20,106 @@ subprojects {
     targetCompatibility = 1.7
 
 
-        // Set version number
-        if (hasProperty("teamcity")) {
-            version = majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
-
-            if (buildBy == null) {
-                buildBy = teamcity["build.triggeredBy.username"]
-
-                if (!buildBy) {
-                    buildBy = teamcity["build.triggeredBy"]
-                }
-
-                if (!buildBy) {
-                    buildBy = teamcity["agent.name"]
-                }
-            }
-
-        }else {
-            version = majorVersion + '.000.git-unknown'
-        }
+    // Set version number
+    if (hasProperty("teamcity")) {
+        version = majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
 
         if (buildBy == null) {
-            buildBy = System.properties['user.name']
-        }
+            buildBy = teamcity["build.triggeredBy.username"]
 
-        repositories {
-            mavenCentral()
+            if (!buildBy) {
+                buildBy = teamcity["build.triggeredBy"]
+            }
 
-            flatDir {
-                name "fileRepo"
-                dirs "repo"
+            if (!buildBy) {
+                buildBy = teamcity["agent.name"]
             }
         }
 
-        // Add provided configuration to prevent dependencies
-        // from being included in the jar
-        configurations {
-            provided
+    }else {
+        version = majorVersion + '.000.git-unknown'
+    }
+
+    if (buildBy == null) {
+        buildBy = System.properties['user.name']
+    }
+
+    repositories {
+        mavenCentral()
+
+        flatDir {
+            name "fileRepo"
+            dirs "repo"
+        }
+    }
+
+    // Add provided configuration to prevent dependencies
+    // from being included in the jar
+    configurations {
+        provided
+    }
+
+    sourceSets {
+
+        main {
+            compileClasspath += configurations.provided
+            runtimeClasspath += configurations.provided
+
+            java {
+                srcDir 'src'
+            }
         }
 
-        sourceSets {
+        test {
+            compileClasspath += configurations.provided
+            runtimeClasspath += configurations.provided
+        }
+    }
 
-            main {
-                compileClasspath += configurations.provided
-                runtimeClasspath += configurations.provided
+    // Add dependencies
+    dependencies {
 
-                java {
-                    srcDir 'src'
-                }
-            }
-
-            test {
-                compileClasspath += configurations.provided
-                runtimeClasspath += configurations.provided
-            }
+        if (compileDepends) {
+            compile files(compileDepends)
         }
 
-        // Add dependencies
-        dependencies {
+        if (providedDepends) {
+            provided files(providedDepends)
+        }
+    }
 
-            if (compileDepends) {
-                compile files(compileDepends)
-            }
+    // Task to create a Jar file artifact with no version number
+    task simpleNamedJar(type: Jar) {
 
-            if (providedDepends) {
-                provided files(providedDepends)
-            }
+        archiveName = projectName + '.jar'
+
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+
+        if (includeFiles) {
+            from includeFiles
         }
 
-        // Task to create a Jar file artifact with no version number
-        task simpleNamedJar(type: Jar) {
-
-            archiveName = projectName + '.jar'
-
-            from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-
-            if (includeFiles) {
-                from includeFiles
-            }
-
-            manifest {
-                attributes("Built-By": buildBy,
-                        "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
-                        "Implementation-Title": projectName,
-                        "Implementation-Version": version)
-            }
-
-            with jar
+        manifest {
+            attributes("Built-By": buildBy,
+                    "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
+                    "Implementation-Title": projectName,
+                    "Implementation-Version": version)
         }
 
-        artifacts {
-            archives simpleNamedJar
-        }
+        with jar
+    }
+
+    artifacts {
+        archives simpleNamedJar
+    }
 
 }
 
-
-
-
+copy {
+    allprojects {
+        from project.getName() + '/build/libs'
+    }
+    into "TEST"
+}
 
 
