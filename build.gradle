@@ -25,7 +25,10 @@ subprojects {
 
 
     // Set version number
-    if (hasProperty("teamcity")) {
+    if (rootProject.hasProperty("teamcity")) {
+
+        def teamcity = rootProject.teamcity
+
         version = majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
 
         if (buildBy == null) {
