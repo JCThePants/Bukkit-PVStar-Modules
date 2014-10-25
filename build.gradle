@@ -5,7 +5,7 @@ subprojects {
 
     afterEvaluate { Project pro ->
 
-        defaultTasks 'clean', 'build'
+        defaultTasks 'build'
 
         apply plugin: 'java'
 
