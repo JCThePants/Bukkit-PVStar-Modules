@@ -2,116 +2,110 @@ apply plugin: 'java'
 
 defaultTasks 'clean', 'build'
 
+// Minimum Java Version
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+
 project.evaluationDependsOnChildren()
 
 subprojects {
 
-        defaultTasks 'clean', 'build'
 
-        apply plugin: 'java'
+    // Set version number
+    if (hasProperty("teamcity")) {
+        version = project.majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
 
-        // Minimum Java Version
-        sourceCompatibility = 1.7
-        targetCompatibility = 1.7
+        if (project.buildBy == null) {
+            buildBy = teamcity["build.triggeredBy.username"]
 
-
-        // Set version number
-        if (hasProperty("teamcity")) {
-            version = project.majorVersion + '.' + teamcity["build.number"] + '.git-' + teamcity["build.vcs.number"]
-
-            if (project.buildBy == null) {
-                buildBy = teamcity["build.triggeredBy.username"]
-
-                if (!buildBy) {
-                    buildBy = teamcity["build.triggeredBy"]
-                }
-
-                if (!buildBy) {
-                    buildBy = teamcity["agent.name"]
-                }
+            if (!buildBy) {
+                buildBy = teamcity["build.triggeredBy"]
             }
 
-        }else {
-            version = project.majorVersion + '.000.git-unknown'
-        }
-
-        if (buildBy == null) {
-            buildBy = System.properties['user.name']
-        }
-
-        repositories {
-            mavenCentral()
-
-            flatDir {
-                name "fileRepo"
-                dirs "repo"
+            if (!buildBy) {
+                buildBy = teamcity["agent.name"]
             }
         }
 
-        // Add provided configuration to prevent dependencies
-        // from being included in the jar
-        configurations {
-            provided
-        }
+    }else {
+        version = project.majorVersion + '.000.git-unknown'
+    }
 
-        sourceSets {
+    if (buildBy == null) {
+        buildBy = System.properties['user.name']
+    }
 
-            main {
-                compileClasspath += configurations.provided
-                runtimeClasspath += configurations.provided
+    repositories {
+        mavenCentral()
+    }
 
-                java {
-                    srcDir 'src'
-                }
-            }
+    // Add provided configuration to prevent dependencies
+    // from being included in the jar
+    configurations {
+        provided
+    }
 
-            test {
-                compileClasspath += configurations.provided
-                runtimeClasspath += configurations.provided
-            }
-        }
+    sourceSets {
 
-        // Add dependencies
-        dependencies {
+        main {
+            compileClasspath += configurations.provided
+            runtimeClasspath += configurations.provided
 
-            if (project.compileDepends) {
-                compile files(project.compileDepends)
-            }
-
-            if (project.providedDepends) {
-                provided files(project.providedDepends)
+            java {
+                srcDir 'src'
             }
         }
 
-        // Task to create a Jar file artifact with no version number
-        task simpleNamedJar(type: Jar) {
+        test {
+            compileClasspath += configurations.provided
+            runtimeClasspath += configurations.provided
+        }
+    }
 
-            archiveName = projectName + '.jar'
+    // Add dependencies
+    dependencies {
 
-            from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
-
-            if (includeFiles) {
-                from includeFiles
-            }
-
-            manifest {
-                attributes("Built-By": buildBy,
-                        "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
-                        "Implementation-Title": projectName,
-                        "Implementation-Version": version)
-            }
-
-            with jar
+        if (project.compileDepends) {
+            compile files(project.compileDepends)
         }
 
-        artifacts {
-            archives simpleNamedJar
+        if (project.providedDepends) {
+            provided files(project.providedDepends)
+        }
+    }
+
+    // Task to create a Jar file artifact with no version number
+    task simpleNamedJar(type: Jar) {
+
+        archiveName = projectName + '.jar'
+
+        from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+
+        if (includeFiles) {
+            from includeFiles
         }
 
-        task copyDeploy(type: Copy) {
-            from "build/libs"
-            into "deploy"
+        manifest {
+            attributes("Built-By": buildBy,
+                    "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
+                    "Implementation-Title": projectName,
+                    "Implementation-Version": version)
         }
-    
 
+        with jar
+    }
+
+    artifacts {
+        archives simpleNamedJar
+    }
+}
+
+
+
+task copyArtifacts(type: Copy) {
+
+    subprojects {
+        from configurations.archives.allArtifacts.files
+    }
+    into "deploy"
 }
