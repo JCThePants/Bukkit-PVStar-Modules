@@ -1,6 +1,14 @@
 apply plugin: 'java'
 
-defaultTasks 'clean', 'build'
+task copyArtifacts(type: Copy) {
+
+    allprojects {
+        from project.getName() + '/build/libs'
+    }
+    into "build/libs"
+}
+
+defaultTasks 'clean', 'build', 'copyArtifacts'
 
 // Minimum Java Version
 sourceCompatibility = 1.7
@@ -115,13 +123,7 @@ subprojects {
 }
 
 
-task copyArtifacts(type: Copy) {
 
-    allprojects {
-        from project.getName() + '/build/libs'
-    }
-    into "build/libs"
-}
 
 
 
