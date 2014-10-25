@@ -108,10 +108,9 @@ subprojects {
             archives simpleNamedJar
         }
 
-        uploadArchives {
-            repositories {
-                add project.repositories.fileRepo
-            }
+        task copyDeploy(type: Copy) {
+            from "build/libs"
+            into "deploy"
         }
     }
 
