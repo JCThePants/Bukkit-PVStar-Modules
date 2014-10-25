@@ -88,8 +88,8 @@ subprojects {
         }
     }
 
-    // Task to create a Jar file artifact with no version number
-    task simpleNamedJar(type: Jar) {
+    // Jar file output
+    jar {
 
         archiveName = projectName + '.jar'
 
@@ -101,16 +101,11 @@ subprojects {
 
         manifest {
             attributes("Built-By": buildBy,
-                    "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
-                    "Implementation-Title": projectName,
-                    "Implementation-Version": version)
+                       "Created-By": System.properties['java.vm.version'] + " (" + System.properties['java.vm.vendor'] + ")",
+                       "Implementation-Title": projectName,
+                       "Implementation-Version": version)
         }
 
-        with jar
-    }
-
-    artifacts {
-        archives simpleNamedJar
     }
 
 }
