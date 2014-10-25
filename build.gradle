@@ -118,9 +118,9 @@ subprojects {
 task copyArtifacts(type: Copy) {
 
     allprojects {
-        from configurations.archives.allArtifacts.files
+        from project.getName() + '/build/libs'
     }
-    into "deploy"
+    into "build/libs"
 }
 
 
