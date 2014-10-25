@@ -10,15 +10,13 @@ project.evaluationDependsOnChildren()
 
 subprojects {
 
-    afterEvaluate { Project pro ->
+    apply plugin: 'java'
 
-        apply plugin: 'java'
+    defaultTasks 'clean', 'build'
 
-        defaultTasks 'clean', 'build'
-
-        // Minimum Java Version
-        sourceCompatibility = 1.7
-        targetCompatibility = 1.7
+    // Minimum Java Version
+    sourceCompatibility = 1.7
+    targetCompatibility = 1.7
 
 
         // Set version number
@@ -114,14 +112,16 @@ subprojects {
             archives simpleNamedJar
         }
 
-        task copyArtifacts(type: Copy) {
-
-            allprojects {
-                from configurations.archives.allArtifacts.files
-            }
-            into "deploy"
-        }
-    }
 }
+
+
+task copyArtifacts(type: Copy) {
+
+    allprojects {
+        from configurations.archives.allArtifacts.files
+    }
+    into "deploy"
+}
+
 
 
