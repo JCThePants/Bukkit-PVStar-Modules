@@ -116,7 +116,7 @@ subprojects {
 
         task copyArtifacts(type: Copy) {
 
-            subprojects {
+            allprojects {
                 from configurations.archives.allArtifacts.files
             }
             into "deploy"
