@@ -7,7 +7,6 @@ import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
 import com.jcwhatever.bukkit.generic.utils.LocationUtils;
-import com.jcwhatever.bukkit.generic.utils.ModifiedEffects;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaMoveEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaBatchScheduler;
@@ -172,10 +171,9 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements GenericsEve
             origin.setPitch(-90);
             origin.setYaw(startYaw);
 
-            if (_bladeRadius == -1)
-                distance = Math.max(_region.getXWidth(), _region.getZWidth());
-            else
-                distance = _bladeRadius;
+            distance = _bladeRadius == -1
+                    ? Math.max(_region.getXWidth(), _region.getZWidth())
+                    : _bladeRadius;
 
             world = origin.getWorld();
 
@@ -215,7 +213,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements GenericsEve
                         if (next.getType() != Material.AIR)
                             continue;
 
-                        ModifiedEffects.createExplosion(nextLocation, 0.0F, false, false);
+                        nextLocation.getWorld().createExplosion(nextLocation, 0.0F, false);
 
                         if (pitch == 0) {
                             bladeLocations.add(LocationUtils.getBlockLocation(nextLocation));

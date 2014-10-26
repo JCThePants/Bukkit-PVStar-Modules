@@ -1,5 +1,6 @@
 package com.jcwhatever.bukkit.pvs.modules.chests.commands.items;
 
+import com.jcwhatever.bukkit.generic.collections.WeightedList.WeightedIterator;
 import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
@@ -9,7 +10,6 @@ import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
 import com.jcwhatever.bukkit.pvs.api.utils.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.utils.TextUtils.FormatTemplate;
-import com.jcwhatever.bukkit.generic.collections.Weighted;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
@@ -44,9 +44,11 @@ public class ListSubCommand extends AbstractPVCommand {
 
         ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE));
 
-        for (Weighted<ItemStack> weighted : extension.getItemSettings().getItems()) {
-            ItemStack stack = weighted.getItem();
-            pagin.add(ItemStackHelper.serializeToString(stack, SerializerOutputType.COLOR));
+        WeightedIterator<ItemStack> iterator = extension.getItemSettings().getItems().weightedIterator();
+
+        while (iterator.hasNext()) {
+            ItemStack stack = iterator.next();
+            pagin.add(iterator.weight() + "w, " + ItemStackHelper.serializeToString(stack, SerializerOutputType.COLOR));
         }
 
         pagin.show(sender, page, FormatTemplate.RAW);

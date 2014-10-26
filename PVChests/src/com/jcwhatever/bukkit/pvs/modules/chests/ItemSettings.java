@@ -6,8 +6,6 @@ import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.List;
-
 public class ItemSettings {
 
     private final Arena _arena;
@@ -110,17 +108,13 @@ public class ItemSettings {
         _maxRandomItems = _dataNode.getInteger("max-random-items", _maxRandomItems);
 
         ItemStack[] items = _itemsNode.getItemStacks("items");
-        if (items == null) {
-            _chestItems = new WeightedItems();
-        }
-        else {
-            _chestItems = new WeightedItems(items);
-        }
+        _chestItems = items == null
+                ? new WeightedItems()
+                : new WeightedItems(items);
     }
 
     private void saveChestItems() {
-        List<ItemStack> listItems = _chestItems.getItemStacks();
-        ItemStack[] items = listItems.toArray(new ItemStack[listItems.size()]);
+        ItemStack[] items = _chestItems.toArray(new ItemStack[_chestItems.size()]);
         _itemsNode.set("items", items);
         _itemsNode.saveAsync(null);
     }
