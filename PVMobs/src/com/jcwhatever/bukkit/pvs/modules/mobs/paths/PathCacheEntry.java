@@ -59,7 +59,7 @@ public class PathCacheEntry {
      * @param destination  The destination to check.
      */
     public boolean isValidDesination(Location destination) {
-        destination = LocationUtils.findSolidBlockBelow(destination);
+        destination = LocationUtils.findSurfaceBelow(destination);
 
         if (_cachedPaths == null)
             throw new IllegalStateException("Cannot check destination because there is no path cache.");
