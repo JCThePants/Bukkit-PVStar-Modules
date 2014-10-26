@@ -8,6 +8,6 @@ ext.providedDepends = [
 ]
 
 ext.compileDepends = null
-ext.includeFiles = [ 'module.yml' ]
+ext.includeFiles = [ 'module.yml', 'LICENSE.txt' ]
 
 
