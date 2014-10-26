@@ -1,6 +1,7 @@
 package com.jcwhatever.bukkit.pvs.modules.mobs.utils;
 
-import com.jcwhatever.bukkit.generic.pathing.GroundPathCheck;
+import com.jcwhatever.bukkit.generic.pathing.astar.AStar.LocationAdjustment;
+import com.jcwhatever.bukkit.generic.pathing.astar.AStarPathFinder;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -51,7 +52,7 @@ public class DistanceUtils {
 
         // check for cached paths first
         ArenaExtension manager = arena.getExtensionManager().get(MobArenaExtension.NAME);
-        if (manager != null && manager instanceof MobArenaExtension) {
+        if (manager instanceof MobArenaExtension) {
 
             PathCache pathCache = ((MobArenaExtension) manager).getGroupGenerator().getPathCache();
 
@@ -65,12 +66,12 @@ public class DistanceUtils {
         }
 
         // Use real time path checking (slower)
-        GroundPathCheck groundPath = new GroundPathCheck();
+        AStarPathFinder groundPath = new AStarPathFinder();
         groundPath.setMaxRange(searchRadius);
         groundPath.setMaxDropHeight(MAX_DROP_HEIGHT);
         groundPath.setMaxIterations(MAX_ITERATIONS);
 
-        int distance = groundPath.searchDistance(source, destination);
+        int distance = groundPath.getPathDistance(source, destination, LocationAdjustment.FIND_SURFACE);
 
         return distance > -1 && distance <= maxPathDistance;
     }

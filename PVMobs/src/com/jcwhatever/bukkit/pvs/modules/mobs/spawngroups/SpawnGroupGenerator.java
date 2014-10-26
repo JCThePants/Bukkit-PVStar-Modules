@@ -1,6 +1,7 @@
 package com.jcwhatever.bukkit.pvs.modules.mobs.spawngroups;
 
-import com.jcwhatever.bukkit.generic.pathing.GroundPathCheck;
+import com.jcwhatever.bukkit.generic.pathing.astar.AStar.LocationAdjustment;
+import com.jcwhatever.bukkit.generic.pathing.astar.AStarPathFinder;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.TextUtils;
@@ -190,7 +191,7 @@ public class SpawnGroupGenerator {
 
             List<Spawnpoint> groups = new ArrayList<>(_mobSpawns.size());
 
-            GroundPathCheck pathChecker = new GroundPathCheck();
+            AStarPathFinder pathChecker = new AStarPathFinder();
             pathChecker.setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT);
             pathChecker.setMaxIterations(DistanceUtils.MAX_ITERATIONS);
             pathChecker.setMaxRange(DistanceUtils.SEARCH_RADIUS);
@@ -214,7 +215,7 @@ public class SpawnGroupGenerator {
                     double distance = primary.distanceSquared(candidate);
 
                     if (distance <= searchRadiusSquared) {
-                        int pathDistance = pathChecker.searchDistance(primary, candidate);
+                        int pathDistance = pathChecker.getPathDistance(primary, candidate, LocationAdjustment.FIND_SURFACE);
 
                         if (pathDistance > -1 && pathDistance <= DistanceUtils.SEARCH_RADIUS) {
                             group.addSpawn(candidate);

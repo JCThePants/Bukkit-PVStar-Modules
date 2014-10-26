@@ -1,6 +1,7 @@
 package com.jcwhatever.bukkit.pvs.modules.mobs.spawners.proximity;
 
-import com.jcwhatever.bukkit.generic.pathing.GroundPathCheck;
+import com.jcwhatever.bukkit.generic.pathing.astar.AStar.LocationAdjustment;
+import com.jcwhatever.bukkit.generic.pathing.astar.AStarPathFinder;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Scheduler.ScheduledTask;
 import com.jcwhatever.bukkit.generic.utils.Scheduler.TaskHandler;
@@ -41,8 +42,7 @@ public class ProximitySpawner implements ISpawner {
 
 	private boolean _isRunning;
 	private boolean _isPaused;
-	private int _totalPlayers;
-	private int _maxMobs;
+    private int _maxMobs;
 
 	private ScheduledTask _spawnMobsTask;
 	private ScheduledTask _despawnMobsTask;
@@ -84,14 +84,14 @@ public class ProximitySpawner implements ISpawner {
 
 		_isRunning = true;
 
-		_totalPlayers = _arena.getGameManager().getPlayerCount();
+        int totalPlayers = _arena.getGameManager().getPlayerCount();
 		_maxMobs = Math.min(
                 _manager.getMaxMobs(),
-                _settings.getMaxMobsPerPlayer() * _totalPlayers);
+                _settings.getMaxMobsPerPlayer() * totalPlayers);
 
         _mobSpawns = _manager.getMobSpawns();
 
-		_spawnMobsTask = ArenaScheduler.runTaskRepeat(_arena, 5, 20 + (3 * _totalPlayers), new SpawnMobs());
+		_spawnMobsTask = ArenaScheduler.runTaskRepeat(_arena, 5, 20 + (3 * totalPlayers), new SpawnMobs());
 		_despawnMobsTask = ArenaScheduler.runTaskRepeat(_arena, 10, 10, new DespawnMobs());
 	}
 
@@ -201,11 +201,12 @@ public class ProximitySpawner implements ISpawner {
 
                     if (!mob.hasLineOfSight(closest.getHandle())) {
 
-                        GroundPathCheck astar = new GroundPathCheck();
+                        AStarPathFinder astar = new AStarPathFinder();
                         astar.setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT);
                         astar.setMaxRange(_settings.getMaxDistance());
 
-                        int distance = astar.searchDistance(mob.getLocation(), closest.getLocation());
+                        int distance = astar.getPathDistance(
+                                mob.getLocation(), closest.getLocation(), LocationAdjustment.FIND_SURFACE);
 
                         if (distance == -1 || distance > _settings.getMaxPathDistance())
                             _manager.removeMob(mob, DespawnMethod.REMOVE);
