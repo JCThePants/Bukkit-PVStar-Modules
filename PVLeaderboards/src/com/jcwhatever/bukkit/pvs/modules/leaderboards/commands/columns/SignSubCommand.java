@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands.columns;
 import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
-import com.jcwhatever.bukkit.pvs.api.utils.Lang;
+import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.commands.AbstractLeaderboardCommand;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;

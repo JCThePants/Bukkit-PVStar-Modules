@@ -145,7 +145,7 @@ public class CitizensScriptApi extends ScriptApi {
         public ScriptKit getNPCKit(String kitName) {
             PreCon.notNullOrEmpty(kitName);
 
-            Kit kit = CitizensModule.getInstance().getKitManager().getKitByName(kitName);
+            Kit kit = CitizensModule.getModule().getKitManager().getKitByName(kitName);
             if (kit == null)
                 return null;
 

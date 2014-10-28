@@ -54,7 +54,7 @@ public class LeaveSubCommand extends AbstractCommand {
 		
 		Player p = (Player)sender;
 
-        PartyManager manager = PartyModule.getInstance().getManager();
+        PartyManager manager = PartyModule.getModule().getManager();
 
 		if (!manager.isInParty(p)) {
 			tellError(p, "You're not in a party.");

@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands;
 import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
-import com.jcwhatever.bukkit.pvs.api.utils.Lang;
+import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.LeaderboardsModule;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
@@ -59,13 +59,13 @@ public class AddSubCommand extends AbstractLeaderboardCommand {
         if (arenaIds == null)
             return; // finish
 
-        Leaderboard leaderboard = LeaderboardsModule.getInstance().getLeaderboard(leaderboardName);
+        Leaderboard leaderboard = LeaderboardsModule.getModule().getLeaderboard(leaderboardName);
         if (leaderboard != null) {
             tellError(sender, Lang.get(_ALREADY_EXISTS, leaderboardName));
             return; // finish
         }
 
-        leaderboard = LeaderboardsModule.getInstance().addLeaderboard(leaderboardName, arenaIds);
+        leaderboard = LeaderboardsModule.getModule().addLeaderboard(leaderboardName, arenaIds);
         if (leaderboard == null) {
             tellError(sender, Lang.get(_FAILED));
             return; // finish

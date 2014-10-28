@@ -31,16 +31,16 @@ import com.jcwhatever.bukkit.pvs.modules.party.events.PartyEventListener;
 
 public class PartyModule extends PVStarModule {
 
-    private static PartyModule _instance;
+    private static PartyModule _module;
 
-    public static PartyModule getInstance() {
-        return _instance;
+    public static PartyModule getModule() {
+        return _module;
     }
 
     private PartyManager _partyManager;
 
     public PartyModule() {
-        _instance = this;
+        _module = this;
     }
 
     public PartyManager getManager() {

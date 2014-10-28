@@ -31,7 +31,7 @@ import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderExc
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.player.PlayerBlockSelect;
 import com.jcwhatever.bukkit.generic.player.PlayerBlockSelect.PlayerBlockSelectHandler;
-import com.jcwhatever.bukkit.pvs.api.utils.Lang;
+import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
 import org.bukkit.block.Block;

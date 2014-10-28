@@ -96,7 +96,7 @@ public class PartyEventListener implements GenericsEventListener {
         Player p = event.getPlayer().getHandle();
         Arena arena = event.getArena();
 
-        PartyManager manager = PartyModule.getInstance().getManager();
+        PartyManager manager = PartyModule.getModule().getManager();
 
         // Check Party Membership
         if (manager.isInParty(p)) {
@@ -133,7 +133,7 @@ public class PartyEventListener implements GenericsEventListener {
 
         Player p = player.getHandle();
 
-        PartyManager manager = PartyModule.getInstance().getManager();
+        PartyManager manager = PartyModule.getModule().getManager();
 
         // Check Party Membership
         if (!manager.isInParty(p))
@@ -159,7 +159,7 @@ public class PartyEventListener implements GenericsEventListener {
 
         Player p = player.getHandle();
 
-        PartyManager manager = PartyModule.getInstance().getManager();
+        PartyManager manager = PartyModule.getModule().getManager();
 
         // Check Party Membership
         if (manager.isInParty(p)) {

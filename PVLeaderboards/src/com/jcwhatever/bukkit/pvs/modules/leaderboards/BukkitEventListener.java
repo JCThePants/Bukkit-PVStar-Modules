@@ -38,7 +38,7 @@ public class BukkitEventListener implements Listener {
             return;
 
         // prevent leaderboard damage
-        if (LeaderboardsModule.getInstance().isLeaderboardBlock(event.getClickedBlock().getLocation())) {
+        if (LeaderboardsModule.getModule().isLeaderboardBlock(event.getClickedBlock().getLocation())) {
             event.setCancelled(true);
         }
     }

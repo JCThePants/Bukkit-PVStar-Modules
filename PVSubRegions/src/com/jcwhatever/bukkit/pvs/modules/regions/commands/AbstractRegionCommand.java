@@ -24,7 +24,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.commands;
 
-import com.jcwhatever.bukkit.pvs.api.utils.Lang;
+import com.jcwhatever.bukkit.pvs.modules.regions.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
@@ -42,7 +42,7 @@ public abstract class AbstractRegionCommand extends AbstractPVCommand {
     @Nullable
     protected AbstractPVRegion getRegion(CommandSender sender, Arena arena, String regionName) {
 
-        RegionManager manager = SubRegionsModule.getInstance().getManager(arena);
+        RegionManager manager = SubRegionsModule.getModule().getManager(arena);
         AbstractPVRegion region = manager.getRegion(regionName);
         if (region == null) {
             tellError(sender, Lang.get(_REGION_NOT_FOUND, regionName, arena.getName()));

@@ -30,6 +30,18 @@ import com.jcwhatever.bukkit.pvs.modules.deathdrops.commands.DropsCommand;
 
 public class DeathDropsModule extends PVStarModule {
 
+    private static DeathDropsModule _module;
+
+    public static DeathDropsModule getModule() {
+        return _module;
+    }
+
+    public DeathDropsModule() {
+        super();
+
+        _module = this;
+    }
+
     @Override
     protected void onRegisterTypes() {
         // do nothing

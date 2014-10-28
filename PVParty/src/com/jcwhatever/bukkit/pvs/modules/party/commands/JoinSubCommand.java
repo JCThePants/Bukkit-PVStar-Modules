@@ -60,7 +60,7 @@ public class JoinSubCommand extends AbstractCommand {
 		
 		Player p = (Player)sender;
 
-        PartyManager manager = PartyModule.getInstance().getManager();
+        PartyManager manager = PartyModule.getModule().getManager();
 		
 		if (manager.isInParty(p)) {
 			tellError(p, "You're already in a party. You must leave the party you're in before you can join another.");

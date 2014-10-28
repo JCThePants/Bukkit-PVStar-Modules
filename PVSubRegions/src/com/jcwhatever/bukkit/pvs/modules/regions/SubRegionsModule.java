@@ -38,10 +38,10 @@ import java.util.Map;
 
 public class SubRegionsModule extends PVStarModule implements GenericsEventListener {
 
-    private static SubRegionsModule _instance;
+    private static SubRegionsModule _module;
 
-    public static SubRegionsModule getInstance() {
-        return _instance;
+    public static SubRegionsModule getModule() {
+        return _module;
     }
 
     private RegionScriptApi _scriptApi;
@@ -51,7 +51,7 @@ public class SubRegionsModule extends PVStarModule implements GenericsEventListe
     public SubRegionsModule () {
         super();
 
-        _instance = this;
+        _module = this;
     }
 
     @Override

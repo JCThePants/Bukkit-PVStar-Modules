@@ -49,18 +49,18 @@ import com.jcwhatever.bukkit.pvs.modules.citizens.scripts.ScriptNPC;
 
 public class CitizensModule extends PVStarModule {
 
-    private static CitizensModule _instance;
+    private static CitizensModule _module;
     private KitManager _kitManager;
     private CitizensScriptApi _scriptApi;
 
-    public static CitizensModule getInstance() {
-        return _instance;
+    public static CitizensModule getModule() {
+        return _module;
     }
 
     public CitizensModule() {
         super();
 
-        _instance = this;
+        _module = this;
     }
 
     public CitizensScriptApi getScriptApi() {

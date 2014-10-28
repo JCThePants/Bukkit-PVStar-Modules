@@ -78,7 +78,7 @@ public class ScriptNPC {
      */
     public static void registerNPCEvent(Class<? extends AbstractNPCEvent> event) {
         _registeredEvents.put(event.getSimpleName().toLowerCase(), event);
-        _registeredEvents.put(CitizensModule.getInstance().getName().toLowerCase()
+        _registeredEvents.put(CitizensModule.getModule().getName().toLowerCase()
                 + ':' + event.getSimpleName().toLowerCase(), event);
     }
 

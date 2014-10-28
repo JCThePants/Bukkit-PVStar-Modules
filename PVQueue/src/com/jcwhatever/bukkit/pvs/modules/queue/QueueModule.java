@@ -30,6 +30,18 @@ import com.jcwhatever.bukkit.pvs.modules.queue.commands.QueueCommand;
 
 public class QueueModule extends PVStarModule {
 
+    private static QueueModule _module;
+
+    public static QueueModule getModule() {
+        return _module;
+    }
+
+    public QueueModule() {
+        super();
+
+        _module = this;
+    }
+
     @Override
     protected void onRegisterTypes() {
         // do nothing

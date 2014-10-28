@@ -31,7 +31,7 @@ import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.inventory.Kit;
 import com.jcwhatever.bukkit.generic.inventory.KitManager;
 import com.jcwhatever.bukkit.generic.language.Localizable;
-import com.jcwhatever.bukkit.pvs.api.utils.Lang;
+import com.jcwhatever.bukkit.pvs.modules.citizens.Lang;
 import com.jcwhatever.bukkit.pvs.modules.citizens.CitizensModule;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
@@ -54,7 +54,7 @@ public class AddSubCommand extends AbstractCommand {
         String kitName = args.getName("kitName");
         ItemStack[] items = args.getItemStack(sender, "items");
 
-        KitManager manager = CitizensModule.getInstance().getKitManager();
+        KitManager manager = CitizensModule.getModule().getKitManager();
 
         Kit kit = manager.getKitByName(kitName);
         if (kit == null) {

@@ -31,15 +31,15 @@ import com.jcwhatever.bukkit.pvs.modules.notesigns.signs.NoteSignHandler;
 
 public class NoteSignsModule extends PVStarModule {
 
-    private static NoteSignsModule _instance;
+    private static NoteSignsModule _module;
     private NoteSignHandler _handler;
 
-    public static NoteSignsModule getInstances() {
-        return _instance;
+    public static NoteSignsModule getModule() {
+        return _module;
     }
 
     public NoteSignsModule() {
-        _instance = this;
+        _module = this;
     }
 
     public NoteSignHandler getNoteHandler() {

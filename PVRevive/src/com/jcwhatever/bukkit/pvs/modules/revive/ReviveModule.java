@@ -30,6 +30,18 @@ import com.jcwhatever.bukkit.pvs.modules.revive.commands.ReviveCommand;
 
 public class ReviveModule extends PVStarModule {
 
+    private static ReviveModule _module;
+
+    public static ReviveModule getModule() {
+        return _module;
+    }
+
+    public ReviveModule() {
+        super();
+
+        _module = this;
+    }
+
     @Override
     protected void onRegisterTypes() {
         // do nothing

@@ -245,7 +245,7 @@ public class Leaderboard {
      */
     public void setAnchor(Sign anchorSign) {
 
-        LeaderboardsModule.getInstance().removeBlockLocations(this);
+        LeaderboardsModule.getModule().removeBlockLocations(this);
 
         _anchorSign = anchorSign;
         _anchorLocation = anchorSign.getLocation();
@@ -300,7 +300,7 @@ public class Leaderboard {
         _columnsNode.saveAsync(null);
         _isLoaded = true;
 
-        LeaderboardsModule.getInstance().addBlockLocations(this);
+        LeaderboardsModule.getModule().addBlockLocations(this);
     }
 
 
@@ -346,7 +346,7 @@ public class Leaderboard {
 
         _sorter = new PlayerSorter(this);
 
-        LeaderboardsModule.getInstance().addBlockLocations(this);
+        LeaderboardsModule.getModule().addBlockLocations(this);
 
         return true;
 

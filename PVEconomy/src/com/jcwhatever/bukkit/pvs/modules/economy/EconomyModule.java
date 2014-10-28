@@ -30,6 +30,18 @@ import com.jcwhatever.bukkit.pvs.modules.economy.commands.EconomyCommand;
 
 public class EconomyModule extends PVStarModule {
 
+    private static EconomyModule _module;
+
+    public static EconomyModule getModule() {
+        return _module;
+    }
+
+    public EconomyModule() {
+        super();
+
+        _module = this;
+    }
+
     @Override
     protected void onRegisterTypes() {
         // do nothing

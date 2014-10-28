@@ -35,7 +35,7 @@ import com.jcwhatever.bukkit.generic.items.ItemStackSerializer.SerializerOutputT
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
 import com.jcwhatever.bukkit.generic.utils.TextUtils.FormatTemplate;
-import com.jcwhatever.bukkit.pvs.api.utils.Lang;
+import com.jcwhatever.bukkit.pvs.modules.citizens.Lang;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.citizens.CitizensModule;
 import org.bukkit.command.CommandSender;
@@ -62,7 +62,7 @@ public class ListSubCommand extends AbstractCommand {
         String kitName = args.getName("kitName");
         int	page = args.getInt("page");
 
-        KitManager manager = CitizensModule.getInstance().getKitManager();
+        KitManager manager = CitizensModule.getModule().getKitManager();
 
         Kit kit = manager.getKitByName(kitName);
         if (kit == null) {

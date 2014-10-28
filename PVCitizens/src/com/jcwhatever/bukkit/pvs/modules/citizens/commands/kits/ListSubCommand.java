@@ -31,7 +31,7 @@ import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.inventory.Kit;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
-import com.jcwhatever.bukkit.pvs.api.utils.Lang;
+import com.jcwhatever.bukkit.pvs.modules.citizens.Lang;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.citizens.CitizensModule;
 import org.bukkit.command.CommandSender;
@@ -55,7 +55,7 @@ public class ListSubCommand extends AbstractCommand {
 
         int	page = args.getInt("page");
 
-        List<Kit> kits = CitizensModule.getInstance().getKitManager().getKits();
+        List<Kit> kits = CitizensModule.getModule().getKitManager().getKits();
 
         ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE));
 

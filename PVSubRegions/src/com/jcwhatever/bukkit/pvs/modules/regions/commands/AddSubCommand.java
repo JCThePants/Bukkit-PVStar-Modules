@@ -30,7 +30,7 @@ import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderExc
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.regions.RegionSelection;
-import com.jcwhatever.bukkit.pvs.api.utils.Lang;
+import com.jcwhatever.bukkit.pvs.modules.regions.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.utils.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -75,17 +75,17 @@ public class AddSubCommand extends AbstractRegionCommand {
         if (sel == null)
             return; // finish
 
-        if (!SubRegionsModule.getInstance().getTypesManager().hasType(regionType)) {
+        if (!SubRegionsModule.getModule().getTypesManager().hasType(regionType)) {
 
             tellError(sender, Lang.get(_INVALID_TYPE, regionType));
 
-            List<String> typeNames = SubRegionsModule.getInstance().getTypesManager().getRegionTypeNames();
+            List<String> typeNames = SubRegionsModule.getModule().getTypesManager().getRegionTypeNames();
 
             tell(sender, TextUtils.concat(typeNames, ", "));
             return; // finish
         }
 
-        RegionManager manager = SubRegionsModule.getInstance().getManager(arena);
+        RegionManager manager = SubRegionsModule.getModule().getManager(arena);
 
         AbstractPVRegion region = manager.getRegion(regionName);
         if (region != null) {

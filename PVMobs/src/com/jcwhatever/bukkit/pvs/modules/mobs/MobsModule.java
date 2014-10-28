@@ -52,6 +52,18 @@ import com.jcwhatever.bukkit.pvs.modules.mobs.spawntypes.hostile.ZombieVillagerS
 
 public class MobsModule extends PVStarModule {
 
+    private static MobsModule _module;
+
+    public static MobsModule getModule() {
+        return _module;
+    }
+
+    public MobsModule() {
+        super();
+
+        _module = this;
+    }
+
     @Override
     protected void onRegisterTypes() {
 

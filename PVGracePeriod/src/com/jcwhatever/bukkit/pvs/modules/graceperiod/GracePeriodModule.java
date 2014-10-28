@@ -31,6 +31,18 @@ import com.jcwhatever.bukkit.pvs.modules.graceperiod.commands.GraceCommand;
 
 public class GracePeriodModule extends PVStarModule {
 
+    private static GracePeriodModule _module;
+
+    public static GracePeriodModule getModule() {
+        return _module;
+    }
+
+    public GracePeriodModule() {
+        super();
+
+        _module = this;
+    }
+
     @Override
     protected void onRegisterTypes() {
 

@@ -52,10 +52,10 @@ import java.util.UUID;
 
 public class LeaderboardsModule extends PVStarModule implements GenericsEventListener {
 
-    private static LeaderboardsModule _instance;
+    private static LeaderboardsModule _module;
 
-    public  static LeaderboardsModule getInstance() {
-        return _instance;
+    public  static LeaderboardsModule getModule() {
+        return _module;
     }
 
     // map of leader board using scope (arena id) as key
@@ -70,7 +70,7 @@ public class LeaderboardsModule extends PVStarModule implements GenericsEventLis
     public LeaderboardsModule() {
         super();
 
-        _instance = this;
+        _module = this;
     }
 
     @Override

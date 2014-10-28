@@ -54,7 +54,7 @@ public class NewSubCommand extends AbstractCommand {
 		
 		Player p = (Player)sender;
 
-        PartyManager manager = PartyModule.getInstance().getManager();
+        PartyManager manager = PartyModule.getModule().getManager();
 		
 		if (manager.isInParty(p)) {
 			Party current = manager.getParty(p);

@@ -30,6 +30,18 @@ import com.jcwhatever.bukkit.pvs.modules.chests.commands.ChestsCommand;
 
 public class ChestModule extends PVStarModule {
 
+    private static ChestModule _module;
+
+    public static ChestModule getModule() {
+        return _module;
+    }
+
+    public ChestModule() {
+        super();
+
+        _module = this;
+    }
+
     @Override
     protected void onRegisterTypes() {
         PVStarAPI.getExtensionManager().registerType(ChestExtension.class);

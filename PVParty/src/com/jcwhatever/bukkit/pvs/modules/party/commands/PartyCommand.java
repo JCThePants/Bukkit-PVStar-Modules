@@ -31,7 +31,7 @@ import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderExc
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
-import com.jcwhatever.bukkit.pvs.api.utils.Lang;
+import com.jcwhatever.bukkit.pvs.modules.party.Lang;
 import com.jcwhatever.bukkit.generic.utils.TextUtils;
 import com.jcwhatever.bukkit.generic.utils.TextUtils.FormatTemplate;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
@@ -75,7 +75,7 @@ public class PartyCommand extends AbstractCommand {
 	    int page = args.getInt("page");
 
 		Player p = (Player)sender;
-        PartyManager manager = PartyModule.getInstance().getManager();
+        PartyManager manager = PartyModule.getModule().getManager();
 				
 		if (!manager.isInParty(p)) {
 		    String message = Lang.get("No information to display. You're not in a party.");

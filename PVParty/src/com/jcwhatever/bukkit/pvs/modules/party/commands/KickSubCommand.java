@@ -56,7 +56,7 @@ public class KickSubCommand extends AbstractCommand {
 		
 		Player p = (Player)sender;
 
-        PartyManager manager = PartyModule.getInstance().getManager();
+        PartyManager manager = PartyModule.getModule().getManager();
 
 		if (!manager.isInParty(p)) {
 			tellError(p, "You don't have a party to kick anyone from.");

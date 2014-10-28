@@ -28,7 +28,7 @@ import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
-import com.jcwhatever.bukkit.pvs.api.utils.Lang;
+import com.jcwhatever.bukkit.pvs.modules.regions.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionManager;
@@ -58,7 +58,7 @@ public class DelSubCommand extends AbstractRegionCommand {
 
         String regionName = args.getName("regionName");
 
-        RegionManager manager = SubRegionsModule.getInstance().getManager(arena);
+        RegionManager manager = SubRegionsModule.getModule().getManager(arena);
 
         AbstractPVRegion region = getRegion(sender, arena, regionName);
         if (region == null)
