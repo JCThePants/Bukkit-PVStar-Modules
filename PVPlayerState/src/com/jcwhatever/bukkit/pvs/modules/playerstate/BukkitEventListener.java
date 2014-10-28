@@ -25,7 +25,6 @@
 package com.jcwhatever.bukkit.pvs.modules.playerstate;
 
 import com.jcwhatever.bukkit.generic.player.PlayerState;
-import com.jcwhatever.bukkit.generic.player.PlayerState.RestoreChecks;
 import com.jcwhatever.bukkit.generic.player.PlayerState.RestoreLocation;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -79,7 +78,7 @@ public class BukkitEventListener implements Listener {
             Location respawnLocation = null;
 
             try {
-                respawnLocation = state.restore(RestoreLocation.FALSE, RestoreChecks.FORCE_RESTORE);
+                respawnLocation = state.restore(RestoreLocation.FALSE);
             } catch (IOException | InvalidConfigurationException e) {
                 e.printStackTrace();
             }
