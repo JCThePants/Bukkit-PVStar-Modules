@@ -27,7 +27,6 @@ package com.jcwhatever.bukkit.pvs.modules.deathdrops;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.utils.ExpHelper;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Rand;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -247,7 +246,7 @@ public class DeathDropsExtension extends ArenaExtension implements GenericsEvent
         int dropAmount = settings.getExpDropAmount();
 
         if (settings.isDirectExpTransfer()) {
-            ExpHelper.incrementExp(event.getPlayer().getHandle(), dropAmount);
+            event.getPlayer().getHandle().giveExp(dropAmount);
         }
         else {
             event.setDroppedExp(dropAmount);
