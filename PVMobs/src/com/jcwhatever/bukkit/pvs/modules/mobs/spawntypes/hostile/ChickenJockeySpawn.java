@@ -38,7 +38,7 @@ import java.util.List;
 
 public class ChickenJockeySpawn extends SpawnType {
 
-	private static final EntityType[] _types = new EntityType[] { EntityType.CHICKEN, EntityType.ZOMBIE };
+    private static final EntityType[] _types = new EntityType[] { EntityType.CHICKEN, EntityType.ZOMBIE };
 
     @Override
     public String getName() {
@@ -66,9 +66,9 @@ public class ChickenJockeySpawn extends SpawnType {
     }
 
     @Override
-	public EntityType[] getEntityTypes() {
-		return _types;
-	}
+    public EntityType[] getEntityTypes() {
+        return _types;
+    }
 
     @Nullable
     @Override

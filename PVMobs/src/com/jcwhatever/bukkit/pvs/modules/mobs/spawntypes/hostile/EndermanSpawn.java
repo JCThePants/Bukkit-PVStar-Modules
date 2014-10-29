@@ -37,7 +37,7 @@ import java.util.List;
 
 public class EndermanSpawn extends SpawnType {
 
-	private static final EntityType[] _types = new EntityType[] { EntityType.ENDERMAN };
+    private static final EntityType[] _types = new EntityType[] { EntityType.ENDERMAN };
 
     @Override
     public String getName() {
@@ -65,9 +65,9 @@ public class EndermanSpawn extends SpawnType {
     }
 
     @Override
-	public EntityType[] getEntityTypes() {
-		return _types;
-	}
+    public EntityType[] getEntityTypes() {
+        return _types;
+    }
 
     @Nullable
     @Override

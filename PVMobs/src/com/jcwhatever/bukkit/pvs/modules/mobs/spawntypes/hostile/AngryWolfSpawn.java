@@ -37,7 +37,7 @@ import java.util.List;
 
 public class AngryWolfSpawn extends SpawnType {
 
-	private static final EntityType[] _types = new EntityType[] { EntityType.WOLF };
+    private static final EntityType[] _types = new EntityType[] { EntityType.WOLF };
 
     @Override
     public String getName() {
@@ -65,9 +65,9 @@ public class AngryWolfSpawn extends SpawnType {
     }
 
     @Override
-	public EntityType[] getEntityTypes() {
-		return _types;
-	}
+    public EntityType[] getEntityTypes() {
+        return _types;
+    }
 
     @Nullable
     @Override

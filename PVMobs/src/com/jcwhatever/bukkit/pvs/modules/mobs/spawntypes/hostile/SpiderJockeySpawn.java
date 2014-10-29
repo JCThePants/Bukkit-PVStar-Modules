@@ -37,8 +37,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SpiderJockeySpawn extends SpawnType {
-	
-	private static final EntityType[] _types = new EntityType[] { EntityType.SPIDER, EntityType.SKELETON };
+
+    private static final EntityType[] _types = new EntityType[] { EntityType.SPIDER, EntityType.SKELETON };
 
     @Override
     public String getName() {
@@ -66,9 +66,9 @@ public class SpiderJockeySpawn extends SpawnType {
     }
 
     @Override
-	public EntityType[] getEntityTypes() {
-		return _types;
-	}
+    public EntityType[] getEntityTypes() {
+        return _types;
+    }
 
     @Nullable
     @Override

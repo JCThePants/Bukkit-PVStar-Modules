@@ -36,8 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ZombiePigSpawn extends SpawnType {
-	
-	private static final EntityType[] _types = new EntityType[] { EntityType.PIG_ZOMBIE };
+
+    private static final EntityType[] _types = new EntityType[] { EntityType.PIG_ZOMBIE };
 
     @Override
     public String getName() {
@@ -65,9 +65,9 @@ public class ZombiePigSpawn extends SpawnType {
     }
 
     @Override
-	public EntityType[] getEntityTypes() {
-		return _types;
-	}
+    public EntityType[] getEntityTypes() {
+        return _types;
+    }
 
     @Nullable
     @Override

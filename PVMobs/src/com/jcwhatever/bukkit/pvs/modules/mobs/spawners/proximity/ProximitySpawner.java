@@ -49,7 +49,7 @@ import java.util.List;
 /**
  * Spawns mobs in an arena using the settings
  * specified in the mob manager.
- * 
+ *
  * @author JC The Pants
  *
  */
@@ -60,27 +60,27 @@ import java.util.List;
 public class ProximitySpawner implements ISpawner {
 
     private Arena _arena;
-	private MobArenaExtension _manager;
+    private MobArenaExtension _manager;
     private ProximitySettings _settings;
     private List<Spawnpoint> _mobSpawns;
 
-	private boolean _isRunning;
-	private boolean _isPaused;
+    private boolean _isRunning;
+    private boolean _isPaused;
     private int _maxMobs;
 
-	private ScheduledTask _spawnMobsTask;
-	private ScheduledTask _despawnMobsTask;
+    private ScheduledTask _spawnMobsTask;
+    private ScheduledTask _despawnMobsTask;
 
 
 
-	@Override
-	public void init(MobArenaExtension manager) {
-		PreCon.notNull(manager);
+    @Override
+    public void init(MobArenaExtension manager) {
+        PreCon.notNull(manager);
 
-		_arena = manager.getArena();
-		_manager = manager;
+        _arena = manager.getArena();
+        _manager = manager;
         _settings = new ProximitySettings(this);
-	}
+    }
 
     @Override
     public ISpawnerSettings getSettings() {
@@ -91,125 +91,125 @@ public class ProximitySpawner implements ISpawner {
         return _manager;
     }
 
-	/**
-	 * Starts the spawner. The spawner stops when the arena ends,
-	 * there are no more players in the arena, or if there are no mob spawns.
-	 */
+    /**
+     * Starts the spawner. The spawner stops when the arena ends,
+     * there are no more players in the arena, or if there are no mob spawns.
+     */
     @Override
-	public void run() {
+    public void run() {
 
-		_isPaused = false;
+        _isPaused = false;
 
-		if (_arena == null || _isRunning || !_arena.getGameManager().isRunning() || _arena.getGameManager().getPlayerCount() == 0)
-			return;
+        if (_arena == null || _isRunning || !_arena.getGameManager().isRunning() || _arena.getGameManager().getPlayerCount() == 0)
+            return;
 
-		if (!_manager.isEnabled())
-			return;
+        if (!_manager.isEnabled())
+            return;
 
-		_isRunning = true;
+        _isRunning = true;
 
         int totalPlayers = _arena.getGameManager().getPlayerCount();
-		_maxMobs = Math.min(
+        _maxMobs = Math.min(
                 _manager.getMaxMobs(),
                 _settings.getMaxMobsPerPlayer() * totalPlayers);
 
         _mobSpawns = _manager.getMobSpawns();
 
-		_spawnMobsTask = ArenaScheduler.runTaskRepeat(_arena, 5, 20 + (3 * totalPlayers), new SpawnMobs());
-		_despawnMobsTask = ArenaScheduler.runTaskRepeat(_arena, 10, 10, new DespawnMobs());
-	}
+        _spawnMobsTask = ArenaScheduler.runTaskRepeat(_arena, 5, 20 + (3 * totalPlayers), new SpawnMobs());
+        _despawnMobsTask = ArenaScheduler.runTaskRepeat(_arena, 10, 10, new DespawnMobs());
+    }
 
 
     @Override
-	public void pause() {
-		_isPaused = true;
-	}
+    public void pause() {
+        _isPaused = true;
+    }
 
 
-	private void setMobTargets(List<LivingEntity> mobs) {
+    private void setMobTargets(List<LivingEntity> mobs) {
 
-		for (LivingEntity entity : mobs) {
+        for (LivingEntity entity : mobs) {
 
-			if (!(entity instanceof Creature))
-				continue;
+            if (!(entity instanceof Creature))
+                continue;
 
-			Creature creature = (Creature)entity;
+            Creature creature = (Creature)entity;
 
-			ArenaPlayer closest = DistanceUtils.getClosestPlayer(
+            ArenaPlayer closest = DistanceUtils.getClosestPlayer(
                     _arena.getGameManager().getPlayers(), creature.getLocation(), _settings.getMaxMobDistanceSquared());
 
-			if (closest == null) {
-				_manager.removeMob(entity, DespawnMethod.REMOVE);
-				continue;
-			}
+            if (closest == null) {
+                _manager.removeMob(entity, DespawnMethod.REMOVE);
+                continue;
+            }
 
-			creature.setTarget(closest.getHandle());
+            creature.setTarget(closest.getHandle());
 
-			if (creature instanceof PigZombie) {
-				PigZombie pigZ = (PigZombie)creature;
-				pigZ.setAngry(true);
-			}
-		}
-	}
+            if (creature instanceof PigZombie) {
+                PigZombie pigZ = (PigZombie)creature;
+                pigZ.setAngry(true);
+            }
+        }
+    }
 
 
-	/*
-	 * Spawn mobs task
-	 */
-	class SpawnMobs extends TaskHandler {
+    /*
+     * Spawn mobs task
+     */
+    class SpawnMobs extends TaskHandler {
 
-		@Override
-		public void run() {
+        @Override
+        public void run() {
 
-			_manager.removeDead();
+            _manager.removeDead();
 
-			if (_isPaused)
-				return;
+            if (_isPaused)
+                return;
 
-			List<ArenaPlayer> players = _arena.getGameManager().getPlayers();
+            List<ArenaPlayer> players = _arena.getGameManager().getPlayers();
 
-			int maxMobsPerSpawn = _settings.getMaxMobsPerSpawn();
+            int maxMobsPerSpawn = _settings.getMaxMobsPerSpawn();
 
-			if (_manager.getMobCount() < _maxMobs) {
+            if (_manager.getMobCount() < _maxMobs) {
 
-				List<Spawnpoint> spawns = DistanceUtils.getClosestSpawns(
+                List<Spawnpoint> spawns = DistanceUtils.getClosestSpawns(
                         _arena, players, _mobSpawns, _settings.getMaxPathDistance());
 
-				if (!spawns.isEmpty()) {
+                if (!spawns.isEmpty()) {
 
                     // TODO: exlude spawns
 
                     while (_manager.getMobCount() < _maxMobs) {
 
                         Spawnpoint spawn = Rand.get(spawns);
-						List<LivingEntity> spawned = _manager.spawn(spawn, maxMobsPerSpawn);
+                        List<LivingEntity> spawned = _manager.spawn(spawn, maxMobsPerSpawn);
                         if (spawned != null) {
                             setMobTargets(spawned);
                         }
-					}
-				}
-			}
-		}
+                    }
+                }
+            }
+        }
 
-		@Override
-		protected void onCancel() {
-			_manager.reset(DespawnMethod.REMOVE);
-			_isRunning = false;
-			_isPaused = false;
-		}
-	}
+        @Override
+        protected void onCancel() {
+            _manager.reset(DespawnMethod.REMOVE);
+            _isRunning = false;
+            _isPaused = false;
+        }
+    }
 
 
-	class DespawnMobs implements Runnable {
+    class DespawnMobs implements Runnable {
 
-		@Override
-		public void run() {
+        @Override
+        public void run() {
 
-			List<LivingEntity> mobs = _manager.getMobs();
+            List<LivingEntity> mobs = _manager.getMobs();
 
-			if (mobs.size() > 0) {
+            if (mobs.size() > 0) {
 
-				LivingEntity mob = Rand.get(mobs);
+                LivingEntity mob = Rand.get(mobs);
 
                 if (mob.isDead()) {
                     _manager.removeMob(mob, DespawnMethod.REMOVE);
@@ -236,27 +236,27 @@ public class ProximitySpawner implements ISpawner {
                             _manager.removeMob(mob, DespawnMethod.REMOVE);
                     }
                 }
-			}
-		}
-	}
+            }
+        }
+    }
 
 
-	
-	@Override
-	public void dispose() {
-		if (_spawnMobsTask != null) {
-			_spawnMobsTask.cancel();
-			_spawnMobsTask = null;
-		}
-		
-		if (_despawnMobsTask != null) {
-			_despawnMobsTask.cancel();
-			_despawnMobsTask = null;
-		}
-		
-		_arena = null;
-		_manager = null;
-	}
+
+    @Override
+    public void dispose() {
+        if (_spawnMobsTask != null) {
+            _spawnMobsTask.cancel();
+            _spawnMobsTask = null;
+        }
+
+        if (_despawnMobsTask != null) {
+            _despawnMobsTask.cancel();
+            _despawnMobsTask = null;
+        }
+
+        _arena = null;
+        _manager = null;
+    }
 
 
 }

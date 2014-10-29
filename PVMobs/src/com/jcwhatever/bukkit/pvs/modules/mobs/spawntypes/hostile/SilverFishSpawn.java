@@ -36,8 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SilverFishSpawn extends SpawnType {
-	
-	private static final EntityType[] _types = new EntityType[] { EntityType.SILVERFISH };
+
+    private static final EntityType[] _types = new EntityType[] { EntityType.SILVERFISH };
 
     @Override
     public String getName() {
@@ -65,9 +65,9 @@ public class SilverFishSpawn extends SpawnType {
     }
 
     @Override
-	public EntityType[] getEntityTypes() {
-		return _types;
-	}
+    public EntityType[] getEntityTypes() {
+        return _types;
+    }
 
     @Nullable
     @Override

@@ -36,8 +36,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EnderDragonSpawn extends SpawnType {
-	
-	private static final EntityType[] _types = new EntityType[] { EntityType.ENDER_DRAGON };
+
+    private static final EntityType[] _types = new EntityType[] { EntityType.ENDER_DRAGON };
 
     @Override
     public String getName() {
@@ -65,9 +65,9 @@ public class EnderDragonSpawn extends SpawnType {
     }
 
     @Override
-	public EntityType[] getEntityTypes() {
-		return _types;
-	}
+    public EntityType[] getEntityTypes() {
+        return _types;
+    }
 
     @Nullable
     @Override

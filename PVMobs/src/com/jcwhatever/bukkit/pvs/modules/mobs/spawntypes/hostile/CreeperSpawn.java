@@ -35,8 +35,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CreeperSpawn extends SpawnType {
-	
-	private static final EntityType[] _types = new EntityType[] { EntityType.CREEPER };
+
+    private static final EntityType[] _types = new EntityType[] { EntityType.CREEPER };
 
     @Override
     public String getName() {
@@ -64,9 +64,9 @@ public class CreeperSpawn extends SpawnType {
     }
 
     @Override
-	public EntityType[] getEntityTypes() {
-		return _types;
-	}
+    public EntityType[] getEntityTypes() {
+        return _types;
+    }
 
     @Override
     public List<Entity> spawn(Arena arena, Location location, int count) {

@@ -37,7 +37,7 @@ import java.util.List;
 
 public class BlazeSpawn extends SpawnType {
 
-	private static final EntityType[] _types = new EntityType[] { EntityType.BLAZE };
+    private static final EntityType[] _types = new EntityType[] { EntityType.BLAZE };
 
     @Override
     public String getName() {
@@ -65,9 +65,9 @@ public class BlazeSpawn extends SpawnType {
     }
 
     @Override
-	public EntityType[] getEntityTypes() {
-		return _types;
-	}
+    public EntityType[] getEntityTypes() {
+        return _types;
+    }
 
     @Nullable
     @Override
