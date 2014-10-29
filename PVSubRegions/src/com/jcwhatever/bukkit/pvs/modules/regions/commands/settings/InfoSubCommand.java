@@ -88,9 +88,9 @@ public class InfoSubCommand extends AbstractRegionCommand {
         if (defs.size() > 0) {
 
             for (SettingDefinition def : defs.values()) {
-                Object value = region.getSettingsManager().get(def.getConfigName(), true);
+                Object value = region.getSettingsManager().get(def.getSettingName(), true);
 
-                pagin.add(def.getConfigName(), value);
+                pagin.add(def.getSettingName(), value);
             }
         }
 
