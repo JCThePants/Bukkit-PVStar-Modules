@@ -13,6 +13,7 @@ include 'PVBasicPoints',
         'PVNoteSigns',
         'PVParty',
         'PVPlayerState',
+        'PVProtect',
         'PVQueue',
         'PVRevive',
         'PVSubRegions'
