@@ -26,6 +26,7 @@ package com.jcwhatever.bukkit.pvs.modules.autorestore;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
@@ -52,7 +53,7 @@ public class AutoRestoreExtension extends ArenaExtension implements GenericsEven
         getArena().getEventManager().unregister(this);
     }
 
-    @GenericsEventHandler
+    @GenericsEventHandler(priority = GenericsEventPriority.FIRST)
     private void onArenaEnd(ArenaEndedEvent event) {
 
         try {
