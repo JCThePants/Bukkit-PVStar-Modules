@@ -24,7 +24,6 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.bukkit.generic.performance.queued.QueueProject;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.Future;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
 import com.jcwhatever.bukkit.generic.regions.MultiSnapshotRegion;
@@ -147,6 +146,9 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
     public final Future restoreData(BuildMethod buildMethod, boolean forceRestore) throws IOException {
 
+        // TODO: Add Restore Event
+
+        /*
         if (!forceRestore &&
                 _arena.getSettings().isAutoRestoreEnabled() &&
                 _arena.getRegion().canRestore()) {
@@ -155,6 +157,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
             return cancelledProject.cancel("Restore cancelled to prevent redundancy.");
         }
+        */
 
         return restoreData(buildMethod);
     }
