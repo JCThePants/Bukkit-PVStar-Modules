@@ -62,6 +62,10 @@ public class SpleefFloorRegion extends AbstractPVRegion implements GenericsEvent
 
     private ItemStack[] _affectedBlocks;
 
+    public SpleefFloorRegion(String name) {
+        super(name);
+    }
+
     @Override
     protected void onPlayerEnter(ArenaPlayer player) {
         // do nothing

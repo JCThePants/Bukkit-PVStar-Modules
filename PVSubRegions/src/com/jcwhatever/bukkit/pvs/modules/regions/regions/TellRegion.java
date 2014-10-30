@@ -64,6 +64,10 @@ public class TellRegion extends AbstractPVRegion implements GenericsEventListene
     private String _enterMessage;
     private String _leaveMessage;
 
+    public TellRegion(String name) {
+        super(name);
+    }
+
     @Override
     protected boolean canDoPlayerEnter(Player p) {
 

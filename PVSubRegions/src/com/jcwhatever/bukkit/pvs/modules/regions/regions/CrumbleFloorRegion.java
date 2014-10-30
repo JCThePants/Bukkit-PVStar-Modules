@@ -65,6 +65,10 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements GenericsEven
     private ItemStack[] _affectedBlocks;
     private Set<Location> _dropped;
 
+    public CrumbleFloorRegion(String name) {
+        super(name);
+    }
+
     @Override
     protected void onPlayerEnter(ArenaPlayer player) {
         // do nothing

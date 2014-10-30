@@ -56,33 +56,35 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     private List<RegionEventHandler> _onEnter;
     private List<RegionEventHandler> _onLeave;
 
-    public AbstractPVRegion() {
-        super(PVStarAPI.getPlugin());
+    public AbstractPVRegion(String name) {
+        super(PVStarAPI.getPlugin(), name);
     }
 
-    public void init(String name, RegionTypeInfo typeInfo, Arena arena, IDataNode dataNode, SubRegionsModule module) {
+    public void init(RegionTypeInfo typeInfo, Arena arena, IDataNode dataNode, SubRegionsModule module) {
         PreCon.notNull(typeInfo);
-        PreCon.notNullOrEmpty(name);
+        PreCon.notNull(arena);
+        PreCon.notNull(dataNode);
+        PreCon.notNull(module);
 
         if (_isInitialized)
             throw new RuntimeException("Region can only be initialized once.");
 
         _isInitialized = true;
 
+        loadSettings(dataNode);
+
         _typeInfo = typeInfo;
-        _name = name;
-        _searchName = name.toLowerCase();
         _arena = arena;
-        _dataNode = dataNode;
         _module = module;
 
-        _settingsManager = new SettingsManager(_dataNode.getNode("extra"), getSettingDefinitions());
+        //noinspection ConstantConditions
+        _settingsManager = new SettingsManager(getDataNode().getNode("extra"), getSettingDefinitions());
         _settingsManager.addOnSettingsChanged(new Runnable() {
             @Override
             public void run() {
-                _isEnabled = _dataNode.getBoolean("enabled", _isEnabled);
+                _isEnabled = getDataNode().getBoolean("enabled", _isEnabled);
 
-                onLoadSettings(_dataNode);
+                onLoadSettings(getDataNode());
 
                 if (_isEnabled)
                     onEnable();
@@ -123,12 +125,9 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         else
             onDisable();
 
+        //noinspection ConstantConditions
         getDataNode().set("enabled", isEnabled);
         getDataNode().saveAsync(null);
-    }
-
-    public final IDataNode getDataNode() {
-        return _dataNode;
     }
 
     @Override
@@ -150,7 +149,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         if (!forceRestore &&
                 _arena.getRegion().isRestoring()) {
 
-            QueueProject cancelledProject = new QueueProject(_plugin);
+            QueueProject cancelledProject = new QueueProject(getPlugin());
 
             return cancelledProject.cancel("Restore cancelled to prevent redundancy.");
         }

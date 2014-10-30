@@ -58,6 +58,10 @@ public class MusicRegion extends AbstractPVRegion {
     private PlayList _playList;
     private boolean _isLoop;
 
+    public MusicRegion(String name) {
+        super(name);
+    }
+
     @Override
     public boolean canDoPlayerEnter(Player p) {
         return _playList != null && _playList.size() != 0 && super.canDoPlayerEnter(p);

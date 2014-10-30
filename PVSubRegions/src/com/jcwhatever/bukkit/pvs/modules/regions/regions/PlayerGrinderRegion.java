@@ -79,6 +79,10 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements GenericsEve
     private Set<ArenaPlayer> _playersInRegion = new HashSet<>(25);
     private Map<UUID, Set<Location>> _cachedMoveLocations = new PlayerMap<Set<Location>>();
 
+    public PlayerGrinderRegion(String name) {
+        super(name);
+    }
+
 
     public void resetBlades() {
 

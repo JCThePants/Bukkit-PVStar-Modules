@@ -32,6 +32,10 @@ import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
         description="Tell all game players in an arena a message when one of the players enters or leaves the region.")
 public class TellGameRegion extends TellRegion {
 
+    public TellGameRegion(String name) {
+        super(name);
+    }
+
     @Override
     protected void tellMessage(ArenaPlayer player, String message) {
 

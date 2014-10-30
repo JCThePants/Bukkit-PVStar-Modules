@@ -49,6 +49,10 @@ public class DeleteRegion extends AbstractPVRegion {
 
     private boolean _isTriggered;
 
+    public DeleteRegion(String name) {
+        super(name);
+    }
+
 
     @Override
     protected void onPlayerEnter(ArenaPlayer player) {

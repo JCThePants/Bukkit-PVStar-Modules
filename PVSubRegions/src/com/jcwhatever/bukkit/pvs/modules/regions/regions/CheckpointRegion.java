@@ -58,6 +58,10 @@ public class CheckpointRegion extends AbstractPVRegion implements GenericsEventL
     private List<Spawnpoint> _spawnpoints;
     private Map<UUID, Spawnpoint> _checkpointMap = new HashMap<>(25);
 
+    public CheckpointRegion(String name) {
+        super(name);
+    }
+
     @Override
     protected void onEnable() {
         setIsPlayerWatcher(true);

@@ -28,12 +28,17 @@ import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="basic",
         description="Region that does nothing. Used for scripts.")
 
 public class BasicRegion extends AbstractPVRegion {
+
+    public BasicRegion(String name) {
+        super(name);
+    }
 
     @Override
     protected void onPlayerEnter(ArenaPlayer player) {
@@ -71,6 +76,7 @@ public class BasicRegion extends AbstractPVRegion {
     }
 
     @Override
+    @Nullable
     protected SettingDefinitions getSettingDefinitions() {
         return null;
     }

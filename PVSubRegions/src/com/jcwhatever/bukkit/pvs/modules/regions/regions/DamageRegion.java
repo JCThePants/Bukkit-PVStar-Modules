@@ -46,6 +46,10 @@ public class DamageRegion extends AbstractPVRegion {
 
     private double _damage = 1.0D;
 
+    public DamageRegion(String name) {
+        super(name);
+    }
+
 
     @Override
     protected void onPlayerEnter(ArenaPlayer player) {

@@ -61,6 +61,10 @@ public class SpawnTriggerRegion extends AbstractPVRegion implements GenericsEven
 
     private int _triggerCount = 0;
 
+    public SpawnTriggerRegion(String name) {
+        super(name);
+    }
+
     @Override
     protected boolean canDoPlayerEnter(Player p) {
         return isEnabled() && _triggerCount < _maxTriggers;

@@ -60,6 +60,10 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
 
     private Set<Location> _dropped = new HashSet<Location>((int)getVolume());
 
+    public ReCrumbleFloorRegion(String name) {
+        super(name);
+    }
+
     @Override
     protected void onPlayerEnter(ArenaPlayer player) {
         // do nothing

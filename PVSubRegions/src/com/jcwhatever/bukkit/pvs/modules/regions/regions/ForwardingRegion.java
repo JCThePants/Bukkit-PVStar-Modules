@@ -70,6 +70,10 @@ public class ForwardingRegion extends AbstractPVRegion implements GenericsEventL
     private Map<UUID, Location> _forwardLocMap = new HashMap<>(10);
     private Map<UUID, Vector> _vectorMap = new HashMap<>(10);
 
+    public ForwardingRegion(String name) {
+        super(name);
+    }
+
     @GenericsEventHandler
     private void onPlayerAdded(final PlayerAddedEvent event) {
 

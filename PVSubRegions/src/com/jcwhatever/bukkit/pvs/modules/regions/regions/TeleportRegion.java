@@ -64,6 +64,10 @@ public class TeleportRegion extends AbstractPVRegion {
     private float _yawAdjust = 0.0F;
     private int _available = 0;
 
+    public TeleportRegion(String name) {
+        super(name);
+    }
+
     @Override
     protected boolean canDoPlayerEnter(Player p) {
         return isEnabled() && _available > 0 && super.canDoPlayerEnter(p);

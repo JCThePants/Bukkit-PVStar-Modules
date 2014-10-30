@@ -56,6 +56,10 @@ public class DamageIntervalRegion extends AbstractPVRegion {
     private int _interval = 1;
     private Map<UUID, ScheduledTask> _tasks = new HashMap<>(25);
 
+    public DamageIntervalRegion(String name) {
+        super(name);
+    }
+
     @Override
     protected void onPlayerEnter(final ArenaPlayer player) {
 

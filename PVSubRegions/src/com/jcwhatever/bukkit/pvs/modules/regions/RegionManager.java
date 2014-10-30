@@ -31,6 +31,8 @@ import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
 import org.bukkit.Location;
 
 import javax.annotation.Nullable;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -132,6 +134,7 @@ public class RegionManager {
     }
 
 
+    @Nullable
     private AbstractPVRegion loadRegion(String regionName, String regionType, IDataNode dataNode) {
 
         String regionKey = regionName.toLowerCase();
@@ -148,15 +151,23 @@ public class RegionManager {
             return null;
 
         AbstractPVRegion region;
+        Constructor<? extends AbstractPVRegion> constructor;
 
         try {
-            region = regionClass.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
+            constructor = regionClass.getConstructor(String.class);
+        } catch (NoSuchMethodException e) {
             e.printStackTrace();
             return null;
         }
 
-        region.init(regionName, typeInfo, _arena, dataNode, _module);
+        try {
+            region = constructor.newInstance(regionName);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            return null;
+        }
+
+        region.init(typeInfo, _arena, dataNode, _module);
 
         return region;
     }

@@ -55,6 +55,10 @@ public class MazeRegion extends AbstractPVRegion implements GenericsEventListene
 
     protected MazeBuilder _builder;
 
+    public MazeRegion(String name) {
+        super(name);
+    }
+
     @GenericsEventHandler
     private void onArenaEnd(ArenaEndedEvent event) {
 
