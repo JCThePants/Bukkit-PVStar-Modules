@@ -26,6 +26,7 @@ package com.jcwhatever.bukkit.pvs.modules.playerstate;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.player.PlayerHelper;
 import com.jcwhatever.bukkit.generic.player.PlayerState;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -61,7 +62,12 @@ public class PlayerStateExtension extends ArenaExtension implements GenericsEven
         // store player state
         PlayerState state = PlayerState.get(PVStarAPI.getPlugin(), event.getPlayer().getHandle());
         if (state == null) {
-            PlayerState.store(PVStarAPI.getPlugin(), event.getPlayer().getHandle());
+            state = PlayerState.store(PVStarAPI.getPlugin(), event.getPlayer().getHandle());
+        }
+
+        if (state != null) {
+            // clear players inventory and reset state
+            PlayerHelper.resetPlayer(event.getPlayer().getHandle());
         }
     }
 
