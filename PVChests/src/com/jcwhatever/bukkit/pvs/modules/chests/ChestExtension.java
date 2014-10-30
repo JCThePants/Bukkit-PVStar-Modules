@@ -26,15 +26,16 @@ package com.jcwhatever.bukkit.pvs.modules.chests;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
-import com.jcwhatever.bukkit.generic.utils.Scheduler;
 import com.jcwhatever.bukkit.generic.utils.Rand;
+import com.jcwhatever.bukkit.generic.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
-import com.jcwhatever.bukkit.pvs.api.events.ArenaCountdownStartedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
+import com.jcwhatever.bukkit.pvs.api.events.ArenaPreStartEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.ArenaBlockDamagePreventEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerBlockInteractEvent;
 import org.bukkit.Location;
@@ -402,8 +403,8 @@ public class ChestExtension extends ArenaExtension implements GenericsEventListe
 
 
 
-    @GenericsEventHandler
-    private void onArenaCountdownStart(ArenaCountdownStartedEvent event) {
+    @GenericsEventHandler(priority = GenericsEventPriority.LAST)
+    private void onArenaPreStart(ArenaPreStartEvent event) {
 
         if (_chestSettings.isChestsRandomized())
             randomHideChests();

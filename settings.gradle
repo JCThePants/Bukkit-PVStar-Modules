@@ -18,4 +18,5 @@ include 'PVAutoRestore',
         'PVProtect',
         'PVQueue',
         'PVRevive',
+        'PVStartCountdown',
         'PVSubRegions'
