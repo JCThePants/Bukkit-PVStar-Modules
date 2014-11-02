@@ -39,6 +39,7 @@ import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.arena.managers.GameManager;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaStartReason;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaPreStartEvent;
+import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 
 import java.util.List;
@@ -49,6 +50,10 @@ import java.util.Set;
         description = "Adds a countdown timer before the game starts.")
 public class StartCountdownExtension extends ArenaExtension implements GenericsEventListener {
 
+    @Localizable static final String _AUTO_START_INFO =
+            "{YELLOW}Countdown to start will begin once {0} or more players " +
+                    "have joined. Type '/pv vote' if you would like to start the countdown now. All players " +
+                    "must vote in order to start the countdown early.";
     @Localizable static final String _STARTING_COUNTDOWN = "Starting in {0} seconds...";
     @Localizable static final String _MOD_10_SECONDS = "{0} seconds...";
     @Localizable static final String _SECONDS = "{0}...";
@@ -106,6 +111,16 @@ public class StartCountdownExtension extends ArenaExtension implements GenericsE
     protected void onDisable() {
 
         getArena().getEventManager().unregister(this);
+    }
+
+    /*
+     * Called to get a spawn location on a player added to the arena.
+     */
+    @GenericsEventHandler
+    private void onAddPlayer(PlayerAddedEvent event) {
+
+        Msg.tell(event.getPlayer(), Lang.get(_AUTO_START_INFO,
+                getArena().getLobbyManager().getSettings().getMinAutoStartPlayers()));
     }
 
     @GenericsEventHandler(priority = GenericsEventPriority.FIRST)
