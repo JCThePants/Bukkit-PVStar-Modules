@@ -113,9 +113,6 @@ public class StartCountdownExtension extends ArenaExtension implements GenericsE
         getArena().getEventManager().unregister(this);
     }
 
-    /*
-     * Called to get a spawn location on a player added to the arena.
-     */
     @GenericsEventHandler
     private void onAddPlayer(PlayerAddedEvent event) {
 
