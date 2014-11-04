@@ -1,6 +1,7 @@
 include 'PVAutoRestore',
         'PVBasicPoints',
         'PVBasicStats',
+        'PVBorders',
         'PVChests',
         'PVCitizens',
         'PVDeathDrops',
