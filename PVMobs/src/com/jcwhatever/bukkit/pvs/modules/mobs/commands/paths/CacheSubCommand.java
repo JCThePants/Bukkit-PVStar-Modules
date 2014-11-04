@@ -32,6 +32,8 @@ import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.mobs.Lang;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
+import com.jcwhatever.bukkit.pvs.modules.mobs.paths.PathCache;
+import com.jcwhatever.bukkit.pvs.modules.mobs.spawngroups.SpawnGroupGenerator;
 import org.bukkit.command.CommandSender;
 
 @ICommandInfo(
@@ -58,7 +60,11 @@ public class CacheSubCommand extends AbstractPVCommand {
             return; // finish
         }
 
-        extension.getGroupGenerator().getPathCache().cachePaths(16, 18);
+        SpawnGroupGenerator generator = extension.getGroupGenerator();
+
+        PathCache pathCache = generator.getPathCache();
+
+        pathCache.cachePaths(16, 18);
 
         tellSuccess(sender, Lang.get(_SUCCESS, arena.getName()));
     }
