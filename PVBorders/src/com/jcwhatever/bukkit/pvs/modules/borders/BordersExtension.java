@@ -24,6 +24,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.borders;
 
+import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Scheduler;
@@ -99,16 +100,17 @@ public class BordersExtension extends ArenaExtension implements GenericsEventLis
         getArena().getEventManager().unregister(this);
     }
 
+    @GenericsEventHandler
     private void onPlayerEnterRegion(PlayerEnterArenaRegionEvent event) {
+
+        if (getOutsidersAction() == OutsidersAction.NONE)
+            return;
 
         if (!getArena().getGameManager().isRunning())
             return;
 
         final ArenaPlayer player = event.getPlayer();
         if (getArena().equals(player.getArena()))
-            return;
-
-        if (getOutsidersAction() == OutsidersAction.NONE)
             return;
 
         // check again later, gives time for leaving players to be removed from arena
@@ -142,17 +144,17 @@ public class BordersExtension extends ArenaExtension implements GenericsEventLis
         });
     }
 
-
+    @GenericsEventHandler
     private void onPlayerLeaveRegion(PlayerLeaveArenaRegionEvent event) {
+
+        if (getOutOfBoundsAction() == OutOfBoundsAction.NONE)
+            return;
 
         if (!getArena().getGameManager().isRunning())
             return;
 
         final ArenaPlayer player = event.getPlayer();
         if (!getArena().equals(player.getArena()))
-            return;
-
-        if (getOutsidersAction() == OutsidersAction.NONE)
             return;
 
         if (getArena().equals(player.getArena()) && player.getArenaRelation() == ArenaPlayerRelation.GAME) {
