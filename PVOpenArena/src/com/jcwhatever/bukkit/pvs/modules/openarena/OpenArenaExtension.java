@@ -39,6 +39,8 @@ import com.jcwhatever.bukkit.pvs.api.events.ArenaPreStartEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerJoinEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerPreAddEvent;
+import com.jcwhatever.bukkit.pvs.api.events.region.PlayerEnterArenaRegionEvent;
+import com.jcwhatever.bukkit.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 
 import java.util.List;
@@ -121,5 +123,28 @@ public class OpenArenaExtension extends ArenaExtension implements GenericsEventL
         List<ArenaPlayer> players = getArena().getLobbyManager().getPlayers();
 
         event.getJoiningPlayers().addAll(players);
+    }
+
+    /*
+     *  Add players entering region to arena.
+     */
+    @GenericsEventHandler
+    private void onPlayerEnterArena(PlayerEnterArenaRegionEvent event) {
+
+        if (event.getPlayer().getArena() == null) {
+            getArena().join(event.getPlayer(), AddPlayerReason.PLAYER_JOIN);
+        }
+    }
+
+    /*
+     *  Remove players leaving region.
+     */
+    @GenericsEventHandler
+    private void onPlayerLeaveArena(PlayerLeaveArenaRegionEvent event) {
+
+        if (getArena().equals(event.getPlayer().getArena())) {
+
+            getArena().remove(event.getPlayer(), RemovePlayerReason.PLAYER_LEAVE);
+        }
     }
 }
