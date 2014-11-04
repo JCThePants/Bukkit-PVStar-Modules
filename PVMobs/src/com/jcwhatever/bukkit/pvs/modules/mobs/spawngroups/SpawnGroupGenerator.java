@@ -256,6 +256,8 @@ public class SpawnGroupGenerator {
 
             _spawnGroups = groups;
 
+            _pathCache = new PathCache(_manager, groups);
+
             try {
                 _pathCache.clearCachePaths();
             } catch (IOException e) {
