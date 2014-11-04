@@ -76,7 +76,8 @@ public class OpenArenaExtension extends ArenaExtension implements GenericsEventL
     @GenericsEventHandler
     private void onPlayerPreAdd(PlayerPreAddEvent event) {
 
-        if (event.getReason() != AddPlayerReason.PLAYER_JOIN)
+        if (event.getReason() != AddPlayerReason.PLAYER_JOIN &&
+                event.getReason() != AddPlayerReason.FORWARDING)
             return;
 
         if (!getArena().getGameManager().isRunning()) {
@@ -96,7 +97,8 @@ public class OpenArenaExtension extends ArenaExtension implements GenericsEventL
     @GenericsEventHandler
     private void onPlayerAdded(PlayerAddedEvent event) {
 
-        if (event.getReason() != AddPlayerReason.PLAYER_JOIN)
+        if (event.getReason() != AddPlayerReason.PLAYER_JOIN &&
+                event.getReason() != AddPlayerReason.FORWARDING)
             return;
 
         if (!getArena().getGameManager().isRunning())
