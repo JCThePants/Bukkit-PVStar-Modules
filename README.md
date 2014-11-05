@@ -29,6 +29,8 @@ A collection of PV-Star Modules to extend PV-Star's functionality.
  
  * **PVInfinitLives** - Adds an arena extension that provides infinite lives to players.
  
+ * **PVKitSigns** - Adds signs players can use to purchase kits inside arenas.
+ 
  * **PVLeaderboards** - Add leaderboards that use PV-Star arena statistics.
  
  * **PVMessages** - Add basic status and event messages displayed to players in an arena via extension.
