@@ -26,24 +26,24 @@ package com.jcwhatever.bukkit.pvs.modules.deathdrops;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.player.PlayerStateSnapshot;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Rand;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
+import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaDeathEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaKillEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaRespawnEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 import javax.annotation.Nullable;
-import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -53,7 +53,7 @@ import java.util.UUID;
 public class DeathDropsExtension extends ArenaExtension implements GenericsEventListener {
 
     private Map<EntityType, DropSettings> _entitySettings = new EnumMap<>(EntityType.class);
-    private Map<UUID, List<ItemStack>> _itemsToRestore = new HashMap<>(25);
+    private Map<UUID, PlayerStateSnapshot> _itemsToRestore = new HashMap<>(25);
 
     private DropSettings _globalSettings; // all
     private DropSettings _playerSettings; // player entity
@@ -123,49 +123,11 @@ public class DeathDropsExtension extends ArenaExtension implements GenericsEvent
         getArena().getEventManager().unregister(this);
     }
 
+    /*
+     *  Player kills entity (possibly another player)
+     */
     @GenericsEventHandler
     private void onPlayerKill(PlayerArenaKillEvent event) {
-        handleDeath(event);
-        handleKill(event);
-    }
-
-    @GenericsEventHandler
-    private void onPlayerRespawn(PlayerArenaRespawnEvent event) {
-        if (!_canKeepItemsOnDeath)
-            return;
-
-        List<ItemStack> items = _itemsToRestore.get(event.getPlayer().getUniqueId());
-        if (items == null)
-            return;
-
-        PlayerInventory inventory = event.getPlayer().getHandle().getInventory();
-
-        for (ItemStack item : items) {
-            inventory.addItem(item);
-        }
-    }
-
-    @GenericsEventHandler
-    private void  onArenaEnd(ArenaEndedEvent event) {
-        _itemsToRestore.clear();
-    }
-
-    private void handleDeath(PlayerArenaKillEvent event) {
-        if (event.getDeadPlayer() == null)
-            return;
-
-        if (!_canKeepItemsOnDeath)
-            return;
-
-        List<ItemStack> droppedItems = new ArrayList<>(event.getDrops());
-
-        event.getDrops().clear();
-
-        _itemsToRestore.put(event.getDeadPlayer().getUniqueId(), droppedItems);
-
-    }
-
-    private void handleKill(PlayerArenaKillEvent event) {
         DropSettings settings;
 
         // check for player kill
@@ -195,6 +157,44 @@ public class DeathDropsExtension extends ArenaExtension implements GenericsEvent
         else {
             event.setDroppedExp(0);
         }
+    }
+
+    /*
+     *  Player dies.
+     */
+    @GenericsEventHandler
+    private void onPlayerDeath(PlayerArenaDeathEvent event) {
+
+        if (!_canKeepItemsOnDeath)
+            return;
+
+        PlayerStateSnapshot snapshot = new PlayerStateSnapshot(event.getPlayer().getHandle());
+
+        _itemsToRestore.put(event.getPlayer().getUniqueId(), snapshot);
+
+        event.getDrops().clear();
+    }
+
+    /*
+     * Player respawn.
+     */
+    @GenericsEventHandler
+    private void onPlayerRespawn(PlayerArenaRespawnEvent event) {
+        if (!_canKeepItemsOnDeath)
+            return;
+
+        PlayerStateSnapshot snapshot = _itemsToRestore.remove(event.getPlayer().getUniqueId());
+        if (snapshot == null)
+            return;
+
+        Player p = event.getPlayer().getHandle();
+        p.getInventory().setContents(snapshot.getItems());
+        p.getInventory().setArmorContents(snapshot.getArmor());
+    }
+
+    @GenericsEventHandler
+    private void  onArenaEnd(ArenaEndedEvent event) {
+        _itemsToRestore.clear();
     }
 
     private void dropItems(PlayerArenaKillEvent event, DropSettings settings) {
