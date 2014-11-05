@@ -32,13 +32,13 @@ import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
 import com.jcwhatever.bukkit.generic.utils.LocationUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaMoveEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaBatchScheduler;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.BlockIterator;
 
 import java.util.HashSet;
@@ -165,7 +165,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements GenericsEve
     }
 
     @GenericsEventHandler
-    private void onPlayerMove(PlayerArenaMoveEvent event) {
+    private void onPlayerMove(PlayerMoveEvent event) {
 
         if (!contains(event.getFrom()))
             return;
@@ -195,6 +195,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements GenericsEve
             _region = region;
 
             origin = _region.getCenter();
+            //noinspection ConstantConditions
             origin.setY(_region.getYStart());
             origin.setPitch(-90);
             origin.setYaw(startYaw);

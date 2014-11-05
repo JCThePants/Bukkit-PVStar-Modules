@@ -37,12 +37,12 @@ import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
 import com.jcwhatever.bukkit.generic.utils.BlockUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaMoveEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
@@ -158,7 +158,7 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements GenericsEven
     }
 
     @GenericsEventHandler
-    private void onPlayerMove(PlayerArenaMoveEvent event) {
+    private void onPlayerMove(PlayerMoveEvent event) {
 
         if (!isEnabled())
             return;
@@ -181,11 +181,11 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements GenericsEven
 
         _dropped.add(adjusted);
 
-        breakBlock(block, event.getPlayer());
+        breakBlock(block);
     }
 
 
-    private void breakBlock(final Block block, ArenaPlayer breaker) {
+    private void breakBlock(final Block block) {
 
         ItemStack[] affected = _affectedBlocks;
         if (affected == null)
@@ -210,10 +210,10 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements GenericsEven
 
                 Block below = block.getLocation().clone().add(0, -1, 0).getBlock();
 
-                if (below.getType() != Material.AIR) {
-                    block.setType(Material.AIR);
-                } else {
+                if (below.getType() == Material.AIR) {
                     BlockUtils.dropRemoveBlock(block.getLocation(), 20);
+                } else {
+                    block.setType(Material.AIR);
                 }
             }
 

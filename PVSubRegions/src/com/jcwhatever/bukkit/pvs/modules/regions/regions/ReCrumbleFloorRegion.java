@@ -39,13 +39,13 @@ import com.jcwhatever.bukkit.generic.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaMoveEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
+import org.bukkit.event.player.PlayerMoveEvent;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -153,7 +153,7 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
     }
 
     @GenericsEventHandler
-    private void onPlayerMove(PlayerArenaMoveEvent event) {
+    private void onPlayerMove(PlayerMoveEvent event) {
 
         if (!isEnabled())
             return;
@@ -190,10 +190,10 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
                 Block below = location.clone().add(0, -1, 0).getBlock();
                 final BlockState blockState = location.getBlock().getState();
 
-                if (below.getType() != Material.AIR) {
-                    location.getBlock().setType(Material.AIR);
-                } else {
+                if (below.getType() == Material.AIR) {
                     BlockUtils.dropRemoveBlock(location, 20);
+                } else {
+                    location.getBlock().setType(Material.AIR);
                 }
 
                 Scheduler.runTaskLater(PVStarAPI.getPlugin(), 40, new Runnable() {
