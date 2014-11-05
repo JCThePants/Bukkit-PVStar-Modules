@@ -27,7 +27,6 @@ package com.jcwhatever.bukkit.pvs.modules.protect;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerBlockInteractEvent;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Hanging;
@@ -38,7 +37,6 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.hanging.HangingBreakEvent.RemoveCause;
 import org.bukkit.event.player.PlayerInteractEntityEvent;
-import org.bukkit.event.player.PlayerInteractEvent;
 
 public class BukkitEventListener implements Listener {
 
@@ -108,27 +106,4 @@ public class BukkitEventListener implements Listener {
 
         event.setCancelled(true);
     }
-
-    /*
-       Handle arena damage (Blocks)
-     */
-    @EventHandler
-    private void onProtectArenaBlocks(PlayerInteractEvent event) {
-
-        if (!event.hasBlock())
-            return;
-
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getPlayer());
-        Arena arena = player.getArena();
-        if (arena == null)
-            return;
-
-        PlayerBlockInteractEvent interactEvent = new PlayerBlockInteractEvent(arena, player, event);
-        arena.getEventManager().call(interactEvent);
-
-        if (interactEvent.isCancelled()) {
-            event.setCancelled(true);
-        }
-    }
-
 }

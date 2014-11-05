@@ -27,11 +27,12 @@ package com.jcwhatever.bukkit.pvs.modules.protect;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.events.players.ArenaBlockDamagePreventEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerBlockInteractEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.event.player.PlayerInteractEvent;
 
 @ArenaExtensionInfo(
         name="PVProtect",
@@ -58,12 +59,18 @@ public class ProtectExtension extends ArenaExtension implements GenericsEventLis
     }
 
     @GenericsEventHandler
-    private void onPlayerBlockInteract(PlayerBlockInteractEvent event) {
+    private void onPlayerBlockInteract(PlayerInteractEvent event) {
+
+        if (!event.hasBlock())
+            return;
+
+        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getPlayer());
+
         // deny interaction
 
         // allow other modules/extensions to cancel the damage prevention
         ArenaBlockDamagePreventEvent preventEvent = new ArenaBlockDamagePreventEvent(
-                getArena(), event.getPlayer(), event.getParentEvent());
+                getArena(), player, event);
 
         getArena().getEventManager().call(preventEvent);
 

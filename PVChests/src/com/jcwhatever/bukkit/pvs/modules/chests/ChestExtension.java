@@ -31,13 +31,13 @@ import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Rand;
 import com.jcwhatever.bukkit.generic.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaPreStartEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.ArenaBlockDamagePreventEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerBlockInteractEvent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -45,6 +45,7 @@ import org.bukkit.block.Chest;
 import org.bukkit.block.DoubleChest;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
@@ -437,17 +438,22 @@ public class ChestExtension extends ArenaExtension implements GenericsEventListe
     }
 
     @GenericsEventHandler
-    private void onChestInteract(PlayerBlockInteractEvent event) {
+    private void onChestInteract(PlayerInteractEvent event) {
+
+        if (!event.hasBlock())
+            return;
 
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 
+        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getPlayer());
+
         // check that player is in an arena game
-        if (event.getPlayer().getArenaRelation() != ArenaPlayerRelation.GAME)
+        if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
             return;
 
         // determine if the player clicked a chest block
-        BlockState blockState = event.getBlock().getState();
+        BlockState blockState = event.getClickedBlock().getState();
         if (blockState instanceof Chest || blockState instanceof DoubleChest) {
 
             // fill chest with items

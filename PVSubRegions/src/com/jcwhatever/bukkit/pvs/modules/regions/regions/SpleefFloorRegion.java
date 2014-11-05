@@ -38,11 +38,11 @@ import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
 import com.jcwhatever.bukkit.generic.utils.BlockUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerBlockInteractEvent;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
@@ -152,9 +152,11 @@ public class SpleefFloorRegion extends AbstractPVRegion implements GenericsEvent
     }
 
     @GenericsEventHandler
-    private void onArenaPlayerInteract(PlayerBlockInteractEvent event) {
+    private void onArenaPlayerInteract(PlayerInteractEvent event) {
+        if (!event.hasBlock())
+            return;
 
-        Block clicked = event.getBlock();
+        Block clicked = event.getClickedBlock();
 
         if (!contains(clicked.getLocation()))
             return;
