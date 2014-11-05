@@ -27,10 +27,13 @@ package com.jcwhatever.bukkit.pvs.modules.points.pointstypes;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaKillEvent;
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.points.PointsType;
 import com.jcwhatever.bukkit.pvs.modules.points.pointstypes.KillPlayerPointsType.KillPlayerPointsHandler;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDeathEvent;
 
 public class KillPlayerPointsType extends AbstractPointsType<KillPlayerPointsHandler> {
 
@@ -56,12 +59,17 @@ public class KillPlayerPointsType extends AbstractPointsType<KillPlayerPointsHan
         }
 
         @GenericsEventHandler
-        private void onPlayerKill(PlayerArenaKillEvent event) {
+        private void onPlayerKill(EntityDeathEvent event) {
 
-            if (event.getDeadPlayer() == null)
+            if (!(event.getEntity() instanceof Player))
                 return;
 
-            event.getPlayer().incrementPoints(getPoints());
+            if (event.getEntity().getKiller() == null)
+                return;
+
+            ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
+
+            player.incrementPoints(getPoints());
         }
 
     }

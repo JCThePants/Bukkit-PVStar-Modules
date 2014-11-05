@@ -25,19 +25,20 @@
 package com.jcwhatever.bukkit.pvs.modules.economy;
 
 import com.jcwhatever.bukkit.generic.economy.EconomyHelper;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
+import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaDeathEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaKillEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerLoseEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerWinEvent;
+import org.bukkit.event.entity.EntityDeathEvent;
 
 @ArenaExtensionInfo(
         name="PVEconomy",
@@ -82,13 +83,18 @@ public class EconomyExtension extends ArenaExtension implements GenericsEventLis
     }
 
     @GenericsEventHandler
-    private void onPlayerKill(PlayerArenaKillEvent event) {
+    private void onPlayerKill(EntityDeathEvent event) {
 
-        if (event.getPlayer().getArenaRelation() != ArenaPlayerRelation.GAME)
+        if (event.getEntity().getKiller() == null)
+            return;
+
+        ArenaPlayer killer = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
+
+        if (killer.getArenaRelation() != ArenaPlayerRelation.GAME)
             return;
 
         // Kill reward
-        giveMoney(event.getPlayer(), getKillAmount());
+        giveMoney(killer, getKillAmount());
     }
 
     @GenericsEventHandler

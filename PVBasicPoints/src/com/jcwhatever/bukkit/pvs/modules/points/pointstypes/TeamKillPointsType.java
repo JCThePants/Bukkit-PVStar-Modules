@@ -26,11 +26,14 @@ package com.jcwhatever.bukkit.pvs.modules.points.pointstypes;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaTeam;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaKillEvent;
 import com.jcwhatever.bukkit.pvs.api.points.PointsType;
 import com.jcwhatever.bukkit.pvs.modules.points.pointstypes.TeamKillPointsType.TeamKillPointsHandler;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDeathEvent;
 
 public class TeamKillPointsType extends AbstractPointsType<TeamKillPointsHandler> {
 
@@ -56,15 +59,21 @@ public class TeamKillPointsType extends AbstractPointsType<TeamKillPointsHandler
         }
 
         @GenericsEventHandler
-        private void onPlayerKill(PlayerArenaKillEvent event) {
+        private void onPlayerKill(EntityDeathEvent event) {
 
-            if (event.getDeadPlayer() == null)
+            if (!(event.getEntity() instanceof Player))
                 return;
 
-            if (event.getPlayer().getTeam() == event.getDeadPlayer().getTeam() &&
-                    event.getPlayer().getTeam() != ArenaTeam.NONE) {
+            if (event.getEntity().getKiller() == null)
+                return;
 
-                event.getPlayer().incrementPoints(getPoints());
+            ArenaPlayer dead = PVStarAPI.getArenaPlayer(event.getEntity());
+            ArenaPlayer killer = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
+
+            if (killer.getTeam() == dead.getTeam() &&
+                    killer.getTeam() != ArenaTeam.NONE) {
+
+                killer.incrementPoints(getPoints());
             }
         }
 

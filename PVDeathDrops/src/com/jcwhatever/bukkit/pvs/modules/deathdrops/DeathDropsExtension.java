@@ -34,11 +34,11 @@ import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaDeathEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaKillEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaRespawnEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
@@ -127,16 +127,20 @@ public class DeathDropsExtension extends ArenaExtension implements GenericsEvent
      *  Player kills entity (possibly another player)
      */
     @GenericsEventHandler
-    private void onPlayerKill(PlayerArenaKillEvent event) {
+    private void onPlayerKill(EntityDeathEvent event) {
+
+        if (event.getEntity().getKiller() == null)
+            return;
+
         DropSettings settings;
 
         // check for player kill
-        if (event.getDeadPlayer() != null) {
+        if (event.getEntity() instanceof Player) {
             settings = _playerSettings;
         }
         // check for living entity kill
         else {
-            EntityType type = event.getDeadEntity().getType();
+            EntityType type = event.getEntity().getType();
 
             settings = getLivingEntitySettings(type);
         }
@@ -197,7 +201,7 @@ public class DeathDropsExtension extends ArenaExtension implements GenericsEvent
         _itemsToRestore.clear();
     }
 
-    private void dropItems(PlayerArenaKillEvent event, DropSettings settings) {
+    private void dropItems(EntityDeathEvent event, DropSettings settings) {
 
         if (!Rand.chance((int)settings.getItemDropRate()))
             return;
@@ -227,18 +231,21 @@ public class DeathDropsExtension extends ArenaExtension implements GenericsEvent
         }
     }
 
-    private void addDrop(ItemStack item, PlayerArenaKillEvent event, DropSettings settings) {
+    private void addDrop(ItemStack item, EntityDeathEvent event, DropSettings settings) {
 
         if (settings.isDirectItemTransfer()) {
             // direct
-            event.getPlayer().getHandle().getInventory().addItem(item);
+
+            Player killer = event.getEntity().getKiller();
+
+            killer.getInventory().addItem(item);
         }
         else {
             event.getDrops().add(item);
         }
     }
 
-    private void dropExp(PlayerArenaKillEvent event, DropSettings settings) {
+    private void dropExp(EntityDeathEvent event, DropSettings settings) {
 
         if (!Rand.chance((int)settings.getExpDropRate()))
             return;
@@ -246,7 +253,7 @@ public class DeathDropsExtension extends ArenaExtension implements GenericsEvent
         int dropAmount = settings.getExpDropAmount();
 
         if (settings.isDirectExpTransfer()) {
-            event.getPlayer().getHandle().giveExp(dropAmount);
+            event.getEntity().getKiller().giveExp(dropAmount);
         }
         else {
             event.setDroppedExp(dropAmount);

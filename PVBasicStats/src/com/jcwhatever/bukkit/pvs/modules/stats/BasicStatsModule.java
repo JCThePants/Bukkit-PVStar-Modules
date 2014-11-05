@@ -34,13 +34,13 @@ import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaStartedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaDeathEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaKillEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerLoseEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerPreRemoveEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerWinEvent;
 import com.jcwhatever.bukkit.pvs.api.stats.ArenaStats;
 import com.jcwhatever.bukkit.pvs.api.stats.StatTracking;
 import com.jcwhatever.bukkit.pvs.api.stats.StatType;
+import org.bukkit.event.entity.EntityDeathEvent;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -89,9 +89,14 @@ public class BasicStatsModule extends PVStarModule implements GenericsEventListe
     }
 
     @GenericsEventHandler
-    private void onPlayerKill(PlayerArenaKillEvent event) {
+    private void onPlayerKill(EntityDeathEvent event) {
 
-        SessionStatTracker tracker = getStatTracker(event.getPlayer(), KILLS);
+        if (event.getEntity().getKiller() == null)
+            return;
+
+        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
+
+        SessionStatTracker tracker = getStatTracker(player, KILLS);
         if (tracker == null)
             return;
 
