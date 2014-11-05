@@ -36,7 +36,7 @@ public class GambleTriggeredEvent extends AbstractPlayerEvent {
     private final SignContainer _signContainer;
 
     public GambleTriggeredEvent(Arena arena, ArenaPlayer player, String eventName, SignContainer sign) {
-        super(arena, player, false);
+        super(arena, player);
 
         PreCon.notNullOrEmpty(eventName);
         PreCon.notNull(sign);

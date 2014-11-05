@@ -24,7 +24,6 @@
 
 package com.jcwhatever.bukkit.pvs.modules.citizens.scripts;
 
-import com.jcwhatever.bukkit.generic.events.AbstractGenericsEvent;
 import com.jcwhatever.bukkit.generic.events.EventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.inventory.Kit;
@@ -93,7 +92,7 @@ public class CitizensScriptApi extends ScriptApi {
 
             _arenaEndHandler = new EventHandler() {
                 @Override
-                public void call(AbstractGenericsEvent event) {
+                public void call(Object event) {
                     _npcRegistry.deregisterAll();
                 }
             };

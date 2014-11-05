@@ -36,7 +36,7 @@ public class EntityTargetNPCEvent extends AbstractNPCEvent {
     private final EntityTargetEvent _parentEvent;
 
     public EntityTargetNPCEvent(Arena arena, ScriptNPC scriptNPC, EntityTargetEvent parentEvent) {
-        super(arena, scriptNPC, false);
+        super(arena, scriptNPC);
 
         PreCon.notNull(parentEvent);
 

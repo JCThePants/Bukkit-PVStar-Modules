@@ -25,7 +25,6 @@
 package com.jcwhatever.bukkit.pvs.modules.citizens.scripts;
 
 import com.jcwhatever.bukkit.generic.collections.MultiValueMap;
-import com.jcwhatever.bukkit.generic.events.AbstractGenericsEvent;
 import com.jcwhatever.bukkit.generic.events.EventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventManager;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
@@ -86,7 +85,7 @@ public class ScriptNPC {
     private final Arena _arena;
     private final NPC _npc;
     private final GenericsEventManager _eventManager;
-    private final MultiValueMap<Class<? extends AbstractGenericsEvent>, EventHandler> _registeredHandlers
+    private final MultiValueMap<Class<?>, EventHandler> _registeredHandlers
                     = new MultiValueMap<>(15);
 
     private boolean _isDisposedOnDeath = true;
@@ -247,9 +246,9 @@ public class ScriptNPC {
 
         _npc.destroy();
 
-        Set<Class<? extends AbstractGenericsEvent>> events = _registeredHandlers.keySet();
+        Set<Class<?>> events = _registeredHandlers.keySet();
 
-        for (Class<? extends AbstractGenericsEvent> event : events) {
+        for (Class<?> event : events) {
 
             List<EventHandler> handlers = _registeredHandlers.getValues(event);
             if (handlers == null)
@@ -447,7 +446,7 @@ public class ScriptNPC {
 
         EventHandler eventHandler = new EventHandler() {
             @Override
-            public void call(AbstractGenericsEvent event) {
+            public void call(Object event) {
                 handler.call(event);
             }
         };
@@ -471,10 +470,6 @@ public class ScriptNPC {
     public static interface NPCEventHandler {
 
         void call(Object event);
-    }
-
-    public static interface NPCGoal extends Goal {
-
     }
 
 }

@@ -33,8 +33,8 @@ public class AbstractNPCEvent extends AbstractArenaEvent {
 
     private final ScriptNPC _scriptNPC;
 
-    public AbstractNPCEvent(Arena arena, ScriptNPC scriptNPC, boolean isCancellable) {
-        super(arena, isCancellable);
+    public AbstractNPCEvent(Arena arena, ScriptNPC scriptNPC) {
+        super(arena);
 
         PreCon.notNull(scriptNPC);
 

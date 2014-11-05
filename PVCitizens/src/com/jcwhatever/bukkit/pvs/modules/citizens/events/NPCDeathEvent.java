@@ -37,7 +37,7 @@ public class NPCDeathEvent extends AbstractNPCEvent {
     private final EntityDeathEvent _parentEvent;
 
     public NPCDeathEvent(Arena arena, ScriptNPC scriptNPC, EntityDeathEvent parentEvent) {
-        super(arena, scriptNPC, false);
+        super(arena, scriptNPC);
 
         PreCon.notNull(parentEvent);
 

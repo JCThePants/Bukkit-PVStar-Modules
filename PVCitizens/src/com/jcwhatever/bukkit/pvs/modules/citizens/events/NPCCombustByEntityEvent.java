@@ -35,7 +35,7 @@ public class NPCCombustByEntityEvent extends AbstractNPCEvent {
     private final EntityCombustByEntityEvent _parentEvent;
 
     public NPCCombustByEntityEvent(Arena arena, ScriptNPC scriptNPC, EntityCombustByEntityEvent parentEvent) {
-        super(arena, scriptNPC, false);
+        super(arena, scriptNPC);
 
         PreCon.notNull(parentEvent);
 

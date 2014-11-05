@@ -33,7 +33,7 @@ public class AbstractNPCNavigatorEvent extends AbstractNPCEvent {
     private final Navigator _navigator;
 
     public AbstractNPCNavigatorEvent(ScriptNPC scriptNPC, Navigator navigator) {
-        super(scriptNPC.getArena(), scriptNPC, false);
+        super(scriptNPC.getArena(), scriptNPC);
 
         PreCon.notNull(navigator);
 

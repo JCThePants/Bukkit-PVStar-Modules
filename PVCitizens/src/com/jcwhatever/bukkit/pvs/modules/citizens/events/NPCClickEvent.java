@@ -34,7 +34,7 @@ public class NPCClickEvent extends AbstractNPCEvent {
     private final ArenaPlayer _clicker;
 
     public NPCClickEvent(Arena arena, ScriptNPC scriptNPC, ArenaPlayer clicker) {
-        super(arena, scriptNPC, false);
+        super(arena, scriptNPC);
 
         PreCon.notNull(clicker);
 

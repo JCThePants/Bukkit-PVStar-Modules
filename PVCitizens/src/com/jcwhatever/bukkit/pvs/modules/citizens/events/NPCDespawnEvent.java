@@ -24,14 +24,25 @@
 
 package com.jcwhatever.bukkit.pvs.modules.citizens.events;
 
-import com.jcwhatever.bukkit.generic.events.Cancellable;
+import com.jcwhatever.bukkit.generic.mixins.ICancellable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.modules.citizens.scripts.ScriptNPC;
 
-@Cancellable
-public class NPCDespawnEvent extends AbstractNPCEvent {
+public class NPCDespawnEvent extends AbstractNPCEvent implements ICancellable {
+
+    private boolean _isCancelled;
 
     public NPCDespawnEvent(Arena arena, ScriptNPC scriptNPC) {
-        super(arena, scriptNPC, true);
+        super(arena, scriptNPC);
+    }
+
+    @Override
+    public boolean isCancelled() {
+        return _isCancelled;
+    }
+
+    @Override
+    public void setCancelled(boolean isCancelled) {
+        _isCancelled = isCancelled;
     }
 }
