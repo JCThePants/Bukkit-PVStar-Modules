@@ -27,13 +27,16 @@ package com.jcwhatever.bukkit.pvs.modules.graceperiod;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.arena.managers.GameManager;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaStartedEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerDamagedEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 
 @ArenaExtensionInfo(
         name="PVGracePeriod",
@@ -92,15 +95,20 @@ public class GracePeriodExtension extends ArenaExtension implements GenericsEven
     }
 
     @GenericsEventHandler(priority = GenericsEventPriority.FIRST)
-    private void onPvp(PlayerDamagedEvent event) {
+    private void onPvp(EntityDamageByEntityEvent event) {
 
         if (!_isGracePeriod)
             return;
 
-        if (event.getDamagerPlayer() == null)
+        if (!(event.getEntity() instanceof Player))
             return;
 
-        if (event.getPlayer().getArenaRelation() != ArenaPlayerRelation.GAME)
+        if (!(event.getDamager() instanceof Player))
+            return;
+
+        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
+
+        if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
             return;
 
         event.setCancelled(true);

@@ -37,8 +37,9 @@ import com.jcwhatever.bukkit.pvs.api.arena.PlayerMeta;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerDamagedEvent;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
@@ -145,38 +146,42 @@ public class ReviveExtension extends ArenaExtension implements GenericsEventList
     }
 
     @GenericsEventHandler(priority = GenericsEventPriority.WATCHER)
-    private void onPlayerRevive(PlayerDamagedEvent event) {
+    private void onPlayerRevive(EntityDamageByEntityEvent event) {
 
-        if (event.getPlayer().getArenaRelation() != ArenaPlayerRelation.GAME)
+        if (!(event.getEntity() instanceof Player))
             return;
 
-        PlayerMeta meta = event.getPlayer().getSessionMeta();
+        if (!(event.getDamager() instanceof Player))
+            return;
+
+        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
+        ArenaPlayer reviver = PVStarAPI.getArenaPlayer(event.getDamager());
+
+        if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
+            return;
+
+        PlayerMeta meta = player.getSessionMeta();
 
         // make sure player is down
         if (!"true".equals(meta.get(KEY_IS_DOWN)))
             return;
 
-        // check that there is a player attempting to revive the player
-        ArenaPlayer damager = event.getDamagerPlayer();
-        if (damager == null)
-            return;
-
         // only allow players on the same team to revive each other
-        if (damager.getTeam() != event.getPlayer().getTeam())
+        if (player.getTeam() != reviver.getTeam())
             return;
 
         // get the item in the damager/reviver's hand
-        ItemStack inHand = damager.getHandle().getItemInHand();
+        ItemStack inHand = reviver.getHandle().getItemInHand();
 
         // see if the item is a revival item
         for (ItemStack revivalItem : _revivalItems) {
             if (ItemStackComparer.getDefault().isSame(inHand, revivalItem)) {
 
-                ScheduledTask task = event.getPlayer().getSessionMeta().get(KEY_TASK);
+                ScheduledTask task = player.getSessionMeta().get(KEY_TASK);
                 if (task != null) {
                     task.cancel();
                 }
-                event.getPlayer().getHandle().setHealth(_reviveHealth);
+                player.getHandle().setHealth(_reviveHealth);
                 break;
             }
         }
