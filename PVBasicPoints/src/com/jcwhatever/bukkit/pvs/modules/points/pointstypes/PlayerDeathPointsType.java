@@ -27,10 +27,12 @@ package com.jcwhatever.bukkit.pvs.modules.points.pointstypes;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaDeathEvent;
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.points.PointsType;
 import com.jcwhatever.bukkit.pvs.modules.points.pointstypes.PlayerDeathPointsType.PlayerDeathPointsHandler;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 public class PlayerDeathPointsType extends AbstractPointsType<PlayerDeathPointsHandler> {
 
@@ -57,9 +59,11 @@ public class PlayerDeathPointsType extends AbstractPointsType<PlayerDeathPointsH
         }
 
         @GenericsEventHandler
-        private void onPlayerDeath(PlayerArenaDeathEvent event) {
+        private void onPlayerDeath(PlayerDeathEvent event) {
 
-            event.getPlayer().incrementPoints(getPoints());
+            ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
+
+            player.incrementPoints(getPoints());
         }
 
     }

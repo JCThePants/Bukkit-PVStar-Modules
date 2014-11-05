@@ -33,12 +33,12 @@ import com.jcwhatever.bukkit.generic.utils.Rand;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaDeathEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaRespawnEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
@@ -167,14 +167,14 @@ public class DeathDropsExtension extends ArenaExtension implements GenericsEvent
      *  Player dies.
      */
     @GenericsEventHandler
-    private void onPlayerDeath(PlayerArenaDeathEvent event) {
+    private void onPlayerDeath(PlayerDeathEvent event) {
 
         if (!_canKeepItemsOnDeath)
             return;
 
-        PlayerStateSnapshot snapshot = new PlayerStateSnapshot(event.getPlayer().getHandle());
+        PlayerStateSnapshot snapshot = new PlayerStateSnapshot(event.getEntity());
 
-        _itemsToRestore.put(event.getPlayer().getUniqueId(), snapshot);
+        _itemsToRestore.put(event.getEntity().getUniqueId(), snapshot);
 
         event.getDrops().clear();
     }

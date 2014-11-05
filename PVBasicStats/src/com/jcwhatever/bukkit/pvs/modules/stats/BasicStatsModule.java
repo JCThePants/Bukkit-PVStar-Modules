@@ -28,19 +28,19 @@ import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.performance.TripleKeySingleCache;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
-import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaStartedEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaDeathEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerLoseEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerPreRemoveEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerWinEvent;
+import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
 import com.jcwhatever.bukkit.pvs.api.stats.ArenaStats;
 import com.jcwhatever.bukkit.pvs.api.stats.StatTracking;
 import com.jcwhatever.bukkit.pvs.api.stats.StatType;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 import javax.annotation.Nullable;
 import java.util.HashMap;
@@ -104,8 +104,11 @@ public class BasicStatsModule extends PVStarModule implements GenericsEventListe
     }
 
     @GenericsEventHandler
-    private void onPlayerDeath(PlayerArenaDeathEvent event) {
-        SessionStatTracker tracker = getStatTracker(event.getPlayer(), DEATHS);
+    private void onPlayerDeath(PlayerDeathEvent event) {
+
+        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
+
+        SessionStatTracker tracker = getStatTracker(player, DEATHS);
         if (tracker == null)
             return;
 

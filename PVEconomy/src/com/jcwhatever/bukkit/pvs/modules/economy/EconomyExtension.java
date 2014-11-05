@@ -35,10 +35,10 @@ import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaDeathEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerLoseEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerWinEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 
 @ArenaExtensionInfo(
         name="PVEconomy",
@@ -73,13 +73,15 @@ public class EconomyExtension extends ArenaExtension implements GenericsEventLis
     }
 
     @GenericsEventHandler
-    private void onPlayerDeath(PlayerArenaDeathEvent event) {
+    private void onPlayerDeath(PlayerDeathEvent event) {
 
-        if (event.getPlayer().getArenaRelation() != ArenaPlayerRelation.GAME)
+        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
+
+        if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
             return;
 
         // Death reward
-        giveMoney(event.getPlayer(), getDeathAmount());
+        giveMoney(player, getDeathAmount());
     }
 
     @GenericsEventHandler

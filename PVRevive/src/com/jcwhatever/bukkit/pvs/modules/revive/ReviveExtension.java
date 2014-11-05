@@ -37,10 +37,9 @@ import com.jcwhatever.bukkit.pvs.api.arena.PlayerMeta;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaDeathEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerDamagedEvent;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
@@ -110,30 +109,37 @@ public class ReviveExtension extends ArenaExtension implements GenericsEventList
     }
 
     @GenericsEventHandler(priority = GenericsEventPriority.FIRST)
-    private void onPlayerDeath(PlayerArenaDeathEvent event) {
+    private void onPlayerDeath(PlayerDeathEvent event) {
 
-        if (event.getPlayer().getArenaRelation() != ArenaPlayerRelation.GAME)
+        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
+
+        if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
             return;
 
-        PlayerMeta meta = event.getPlayer().getSessionMeta();
+        PlayerMeta meta = player.getSessionMeta();
 
         if ("true".equals(meta.get(KEY_IS_DOWN))) {
             // allow death if player is down
             meta.set(KEY_IS_DOWN, null);
         }
         else {
+
             meta.set(KEY_IS_DOWN, "true");
-            meta.set(KEY_KILLER, event.getKiller());
+            meta.set(KEY_KILLER, event.getEntity().getKiller());
 
-            event.setCancelled(true);
+            // cancel event
+            double health = player.getHandle().getHealth();
+            if (Double.compare(health, 0.0D) == 0 || health < 0.0D)
+                player.getHandle().setHealth(1.0D);
 
-            Player p = event.getPlayer().getHandle();
-            p.setHealth(_timeToReviveSeconds);
+            player.getHandle().setHealth(_timeToReviveSeconds);
 
-            event.getPlayer().setInvulnerable(true);
-            event.getPlayer().setImmobilized(true);
+            player.setInvulnerable(true);
+            player.setImmobilized(true);
 
-            ScheduledTask task = Scheduler.runTaskRepeat(PVStarAPI.getPlugin(), 20, 20, new PlayerDownedTimer(event.getPlayer()));
+            ScheduledTask task = Scheduler.runTaskRepeat(PVStarAPI.getPlugin(), 20, 20,
+                    new PlayerDownedTimer(player));
+
             meta.set(KEY_TASK, task);
         }
     }
