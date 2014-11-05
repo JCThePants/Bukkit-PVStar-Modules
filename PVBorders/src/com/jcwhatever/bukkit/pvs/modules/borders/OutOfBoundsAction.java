@@ -1,4 +1,5 @@
-/* This file is part of PV-Star Modules: PVBorders for Bukkit, licensed under the MIT License (MIT).
+/*
+ * This file is part of PV-StarModules for Bukkit, licensed under the MIT License (MIT).
  *
  * Copyright (c) JCThePants (www.jcwhatever.com)
  *
