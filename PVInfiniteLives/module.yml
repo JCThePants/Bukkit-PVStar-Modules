@@ -1,4 +1,5 @@
 name: PVInfiniteLives
+authors: JCThePants
 logical-version: 0
 display-version: v1.0
 description: Adds an arena extension that provides infinite lives to players.

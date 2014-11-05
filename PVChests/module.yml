@@ -1,4 +1,5 @@
 name: PVChests
+authors: JCThePants
 logical-version: 0
 display-version: v1.0
 description: Provides arena extension for randomized chests and random chest items.

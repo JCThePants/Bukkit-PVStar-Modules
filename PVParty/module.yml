@@ -1,4 +1,5 @@
 name: PVParty
+authors: JCThePants
 logical-version: 0
 display-version: v1.0
 description: Provides player party support.
