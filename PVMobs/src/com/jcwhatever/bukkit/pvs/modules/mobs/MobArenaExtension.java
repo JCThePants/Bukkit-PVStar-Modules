@@ -82,6 +82,8 @@ public class MobArenaExtension extends ArenaExtension implements GenericsEventLi
     protected void onEnable() {
 
         String spawnerName = getDataNode().getString("spawner", "proximity");
+
+        //noinspection ConstantConditions
         setSpawner(spawnerName);
 
         loadSettings();
