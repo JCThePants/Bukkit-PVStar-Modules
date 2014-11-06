@@ -55,9 +55,6 @@ import java.util.WeakHashMap;
 /**
  * Spawns mobs in an arena using the settings
  * specified in the mob manager.
- *
- * @author JC The Pants
- *
  */
 @SpawnerInfo(
         name="Proximity",
@@ -145,6 +142,9 @@ public class ProximitySpawner implements ISpawner {
         _manager = null;
     }
 
+    /*
+     * Set mob targets
+     */
     private void setMobTargets(List<LivingEntity> mobs) {
 
         for (LivingEntity entity : mobs) {
@@ -252,6 +252,9 @@ public class ProximitySpawner implements ISpawner {
     }
 
 
+    /*
+     * Despawn mobs that are out of range of players
+     */
     class DespawnMobs implements Runnable {
 
         @Override
