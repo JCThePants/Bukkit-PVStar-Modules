@@ -28,18 +28,20 @@ package com.jcwhatever.bukkit.pvs.modules.chests;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 public class ChestSettings {
 
@@ -105,13 +107,15 @@ public class ChestSettings {
     }
 
     public void scanChests() {
-        Set<Location> chestLocations = _arena.getRegion().find(Material.CHEST);
+        LinkedList<Location> chestLocations = _arena.getRegion().find(Material.CHEST);
         Map<Location, ChestInfo> chestInfo = new HashMap<>(chestLocations.size());
 
         _chestNode.clear();
 
         int count = 0;
-        for (Location loc : chestLocations) {
+        while (!chestLocations.isEmpty()) {
+
+            Location loc = chestLocations.remove();
 
             BlockState state = loc.getBlock().getState();
             if (!(state instanceof Chest))
