@@ -67,9 +67,6 @@ public class MobArenaExtension extends ArenaExtension implements GenericsEventLi
     private SpawnGroupGenerator _groups;
     private ISpawner _spawner;
 
-    private boolean _allowMobDrops = false;
-    private int _maxMobs = 15;
-
     private List<LivingEntity> _mobs = new ArrayList<LivingEntity>(100);
 
     // stores max spawn limit for an entity type
@@ -127,32 +124,6 @@ public class MobArenaExtension extends ArenaExtension implements GenericsEventLi
 
     public List<Spawnpoint> getMobSpawns() {
         return _groups.getSpawnGroups();
-    }
-
-    public boolean isDropsAllowed() {
-        return _allowMobDrops;
-    }
-
-    public void setIsDropsAllowed(boolean isDropsAllowed) {
-        _allowMobDrops = isDropsAllowed;
-
-        IDataNode settings = getDataNode();
-
-        settings.set("allow-drops", isDropsAllowed);
-        settings.saveAsync(null);
-    }
-
-    public int getMaxMobs() {
-        return _maxMobs;
-    }
-
-    public void setMaxMobs(int value) {
-        _maxMobs = value;
-
-        IDataNode settings = getDataNode();
-
-        settings.set("max-mobs", value);
-        settings.saveAsync(null);
     }
 
     public ISpawner getSpawner() {
@@ -277,17 +248,11 @@ public class MobArenaExtension extends ArenaExtension implements GenericsEventLi
         return _mobs.size();
     }
 
-
     /**
      * Get a list of the spawned mobs
      */
     public List<LivingEntity> getMobs() {
         return new ArrayList<LivingEntity>(_mobs);
-    }
-
-
-    public boolean isAtSpawnLimit() {
-        return getMaxMobs() - _mobs.size() <= 0;
     }
 
     /**
@@ -298,10 +263,6 @@ public class MobArenaExtension extends ArenaExtension implements GenericsEventLi
     @Nullable
     public List<LivingEntity> spawn(Spawnpoint spawn, int count) {
         PreCon.notNull(spawn);
-
-        // make sure more spawns are allowed.
-        if (isAtSpawnLimit())
-            return null;
 
         // make sure the type hasn't reached its limit
         if (!canSpawnType(spawn.getSpawnType()))
@@ -398,8 +359,6 @@ public class MobArenaExtension extends ArenaExtension implements GenericsEventLi
     private void loadSettings() {
         IDataNode settings = getDataNode();
 
-        _allowMobDrops = settings.getBoolean("allow-drops", _allowMobDrops);
-        _maxMobs = settings.getInteger("max-mobs", _maxMobs);
         _groups = new SpawnGroupGenerator(this, getGameMobSpawns());
 
         // entity type limits
