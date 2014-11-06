@@ -33,6 +33,7 @@ import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.events.players.ArenaBlockDamagePreventEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 @ArenaExtensionInfo(
@@ -78,5 +79,14 @@ public class ProtectExtension extends ArenaExtension implements GenericsEventLis
         if (!preventEvent.isCancelled()) {
             event.setCancelled(true);
         }
+    }
+
+    /*
+     * Prevent entities such as endermen from changing arena blocks.
+     */
+    @GenericsEventHandler
+    private void onEntityChangeBlock(EntityChangeBlockEvent event) {
+
+        event.setCancelled(true);
     }
 }
