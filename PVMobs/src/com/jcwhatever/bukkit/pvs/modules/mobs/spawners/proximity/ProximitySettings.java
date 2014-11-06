@@ -30,9 +30,7 @@ import com.jcwhatever.bukkit.generic.storage.settings.ISettingsManager;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingsManager;
 import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
-import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawnerSettings;
-import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 
 public class ProximitySettings implements ISpawnerSettings {
 
@@ -49,38 +47,31 @@ public class ProximitySettings implements ISpawnerSettings {
         ;
     }
 
-    private int _maxMobsPerSpawn;
-    private int _maxMobsPerPlayer;
-    private int _maxMobPathDistance; // max distance of a valid mob path
-    private int _maxMobDistance;
+    private int _maxMobsPerSpawn = 2;
+    private int _maxMobsPerPlayer = 4;
+    private int _maxMobPathDistance = 18; // max distance of a valid mob path
+    private int _maxMobDistance = 24;
     private int _maxMobDistanceSquared; // max distance when getting closest mob (squared)
 
-    private final MobArenaExtension _manager;
-    private final ProximitySpawner _spawner;
-    private final Arena _arena;
     private final IDataNode _dataNode;
     private final SettingsManager _settingsManager;
 
-
     ProximitySettings(ProximitySpawner spawner) {
-        _spawner = spawner;
-        _manager = spawner.getManager();
-        _arena = spawner.getManager().getArena();
         _dataNode = spawner.getManager().getDataNode().getNode("spawners.proximity");
         _settingsManager = new SettingsManager(_dataNode, _settings);
 
         _settingsManager.addOnSettingsChanged(new Runnable() {
             @Override
             public void run() {
-                _maxMobsPerSpawn = _settingsManager.get("max-per-spawn");
-                _maxMobsPerPlayer = _settingsManager.get("max-mobs-per-player");
-                _maxMobPathDistance = _settingsManager.get("max-path-distance");
-                _maxMobDistance = _settingsManager.get("max-distance");
+
+                _maxMobsPerSpawn = _dataNode.getInteger("max-per-spawn", _maxMobsPerSpawn);
+                _maxMobsPerPlayer = _dataNode.getInteger("max-mobs-per-player", _maxMobsPerPlayer);
+                _maxMobPathDistance = _dataNode.getInteger("max-path-distance", _maxMobPathDistance);
+                _maxMobDistance = _dataNode.getInteger("max-distance", _maxMobDistance);
                 _maxMobDistanceSquared = _maxMobDistance * _maxMobDistance;
             }
         }, true);
     }
-
 
     @Override
     public SettingDefinitions getDefinitions() {
