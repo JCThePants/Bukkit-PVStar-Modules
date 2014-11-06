@@ -68,6 +68,11 @@ public class AnchorColumn extends AbstractColumn {
 
         String format = _lineFormats[signLine];
 
-        return (format != null ? format : "") + PlayerHelper.getPlayerName(playerUniqueId);
+        //noinspection ConstantConditions
+        String playerName = PlayerHelper.getPlayerName(playerUniqueId);
+        if (playerName == null)
+            playerName = "?";
+
+        return (format != null ? format : "") + playerName;
     }
 }
