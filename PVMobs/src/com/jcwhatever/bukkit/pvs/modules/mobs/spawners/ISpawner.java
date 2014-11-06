@@ -25,9 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.spawners;
 
+import com.jcwhatever.bukkit.generic.mixins.IDisposable;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 
-public interface ISpawner {
+public interface ISpawner extends IDisposable {
 
     /**
      * Called when instantiated. Should only be called once.
@@ -51,5 +52,6 @@ public interface ISpawner {
      * Called when no longer needed. Cleans up resources, breaks down
      * association with arena and stops all internal tasks.
      */
+    @Override
     public void dispose();
 }
