@@ -28,9 +28,9 @@ package com.jcwhatever.bukkit.pvs.modules.mobs.spawners.proximity;
 import com.jcwhatever.bukkit.generic.pathing.astar.AStar.LocationAdjustment;
 import com.jcwhatever.bukkit.generic.pathing.astar.AStarPathFinder;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.bukkit.generic.utils.Rand;
 import com.jcwhatever.bukkit.generic.utils.Scheduler.ScheduledTask;
 import com.jcwhatever.bukkit.generic.utils.Scheduler.TaskHandler;
-import com.jcwhatever.bukkit.generic.utils.Rand;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
@@ -41,11 +41,16 @@ import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawnerSettings;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.SpawnerInfo;
 import com.jcwhatever.bukkit.pvs.modules.mobs.utils.DistanceUtils;
+
 import org.bukkit.entity.Creature;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.PigZombie;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.WeakHashMap;
 
 /**
  * Spawns mobs in an arena using the settings
@@ -71,8 +76,6 @@ public class ProximitySpawner implements ISpawner {
 
     private ScheduledTask _spawnMobsTask;
     private ScheduledTask _despawnMobsTask;
-
-
 
     @Override
     public void init(MobArenaExtension manager) {
@@ -126,6 +129,21 @@ public class ProximitySpawner implements ISpawner {
         _isPaused = true;
     }
 
+    @Override
+    public void dispose() {
+        if (_spawnMobsTask != null) {
+            _spawnMobsTask.cancel();
+            _spawnMobsTask = null;
+        }
+
+        if (_despawnMobsTask != null) {
+            _despawnMobsTask.cancel();
+            _despawnMobsTask = null;
+        }
+
+        _arena = null;
+        _manager = null;
+    }
 
     private void setMobTargets(List<LivingEntity> mobs) {
 
@@ -159,6 +177,8 @@ public class ProximitySpawner implements ISpawner {
      */
     class SpawnMobs extends TaskHandler {
 
+        private Map<Spawnpoint, SpawnpointInfo> _spawnInfoMap = new HashMap<>(25);
+
         @Override
         public void run() {
 
@@ -171,21 +191,44 @@ public class ProximitySpawner implements ISpawner {
 
             int maxMobsPerSpawn = _settings.getMaxMobsPerSpawn();
 
+            // make sure mob limit has no been reached.
             if (_manager.getMobCount() < _maxMobs) {
 
+                // get spawns in proximity to players
                 List<Spawnpoint> spawns = DistanceUtils.getClosestSpawns(
                         _arena, players, _mobSpawns, _settings.getMaxPathDistance());
 
                 if (!spawns.isEmpty()) {
 
-                    // TODO: exlude spawns
-
-                    while (_manager.getMobCount() < _maxMobs) {
+                    // spawn till max is reached
+                    while (canAddMobs() && !spawns.isEmpty()) {
 
                         Spawnpoint spawn = Rand.get(spawns);
-                        List<LivingEntity> spawned = _manager.spawn(spawn, maxMobsPerSpawn);
+
+                        // get spawn info to track entities spawned at spawnpoint
+                        SpawnpointInfo info = _spawnInfoMap.get(spawn);
+                        if (info == null) {
+                            info = new SpawnpointInfo(spawn, _settings);
+                            _spawnInfoMap.put(spawn, info);
+                        }
+
+                        // make sure mobs per spawn is not reached.
+                        if (info.getEntityCount() >= _settings.getMaxMobsPerSpawn()) {
+
+                            // remove maxed spawn from candidates
+                            spawns.remove(spawn);
+                            continue;
+                        }
+
+                        int spawnCount = getSpawnCount(maxMobsPerSpawn);
+
+                        List<LivingEntity> spawned = _manager.spawn(spawn, spawnCount);
                         if (spawned != null) {
                             setMobTargets(spawned);
+
+                            for (LivingEntity entity : spawned) {
+                                info.addEntity(entity);
+                            }
                         }
                     }
                 }
@@ -197,6 +240,14 @@ public class ProximitySpawner implements ISpawner {
             _manager.reset(DespawnMethod.REMOVE);
             _isRunning = false;
             _isPaused = false;
+        }
+
+        private boolean canAddMobs() {
+            return _manager.getMobCount() < _maxMobs;
+        }
+
+        private int getSpawnCount(int maxMobsPerSpawn) {
+            return Math.min(_maxMobs - _manager.getMobCount(), maxMobsPerSpawn);
         }
     }
 
@@ -242,22 +293,38 @@ public class ProximitySpawner implements ISpawner {
     }
 
 
+    /*
+     * Tracks entities spawned on a spawnpoint.
+     */
+    static class SpawnpointInfo {
 
-    @Override
-    public void dispose() {
-        if (_spawnMobsTask != null) {
-            _spawnMobsTask.cancel();
-            _spawnMobsTask = null;
+        private final Spawnpoint _spawnpoint;
+        private final Map<Entity, Void> _spawnedEntities;
+
+        SpawnpointInfo(Spawnpoint spawnpoint, ProximitySettings settings) {
+            _spawnpoint = spawnpoint;
+            _spawnedEntities = new WeakHashMap<>(settings.getMaxMobsPerSpawn() + 5);
         }
 
-        if (_despawnMobsTask != null) {
-            _despawnMobsTask.cancel();
-            _despawnMobsTask = null;
+        public Spawnpoint getSpawnpoint() {
+            return _spawnpoint;
         }
 
-        _arena = null;
-        _manager = null;
+        public int getEntityCount() {
+            int count = 0;
+            for (Entity entity : _spawnedEntities.keySet()) {
+
+                if (entity.isDead())
+                    continue;
+
+                count++;
+            }
+
+            return count;
+        }
+
+        public void addEntity(Entity entity) {
+            _spawnedEntities.put(entity, null);
+        }
     }
-
-
 }
