@@ -40,13 +40,15 @@ public class ProximitySettings implements ISpawnerSettings {
         _settings = new SettingDefinitions();
 
         _settings
-                .set("max-per-spawn", 2, ValueType.INTEGER, "Maximum mobs per spawnpoint per spawn cycle.")
+                .set("max-mobs", 20, ValueType.INTEGER, "Maximum mobs spawned.")
+                .set("max-per-spawn", 2, ValueType.INTEGER, "Maximum mobs alive per spawnpoint.")
                 .set("max-mobs-per-player", 4, ValueType.INTEGER, "Maximum mobs spawned per player.")
                 .set("max-path-distance", 18, ValueType.INTEGER, "Maximum mob path distance when detecting proximity.")
                 .set("max-distance", 24, ValueType.INTEGER, "Maximum distance when detecting proximity.")
         ;
     }
 
+    private int _maxMobs = 20;
     private int _maxMobsPerSpawn = 2;
     private int _maxMobsPerPlayer = 4;
     private int _maxMobPathDistance = 18; // max distance of a valid mob path
@@ -64,6 +66,7 @@ public class ProximitySettings implements ISpawnerSettings {
             @Override
             public void run() {
 
+                _maxMobs = _dataNode.getInteger("max-mobs", _maxMobs);
                 _maxMobsPerSpawn = _dataNode.getInteger("max-per-spawn", _maxMobsPerSpawn);
                 _maxMobsPerPlayer = _dataNode.getInteger("max-mobs-per-player", _maxMobsPerPlayer);
                 _maxMobPathDistance = _dataNode.getInteger("max-path-distance", _maxMobPathDistance);
@@ -81,6 +84,10 @@ public class ProximitySettings implements ISpawnerSettings {
     @Override
     public ISettingsManager getManager() {
         return _settingsManager;
+    }
+
+    public int getMaxMobs() {
+        return _maxMobs;
     }
 
     public int getMaxMobsPerSpawn() {
