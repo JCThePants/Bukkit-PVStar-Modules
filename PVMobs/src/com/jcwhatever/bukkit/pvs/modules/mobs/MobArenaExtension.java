@@ -240,6 +240,20 @@ public class MobArenaExtension extends ArenaExtension implements GenericsEventLi
         settings.saveAsync(null);
     }
 
+    /**
+     * Remove mob limit for an entity type.
+     *
+     * @param type  The entity type.
+     */
+    public void removeMobLimit(EntityType type) {
+        PreCon.notNull(type);
+
+        if (_mobLimits.remove(type) != null) {
+            IDataNode settings = getDataNode();
+            settings.remove("limits." + type.name());
+            settings.saveAsync(null);
+        }
+    }
 
     /**
      * Get number of spawned mobs.
