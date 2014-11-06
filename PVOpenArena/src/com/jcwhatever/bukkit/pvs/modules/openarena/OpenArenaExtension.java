@@ -29,6 +29,7 @@ import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.bukkit.pvs.api.arena.PlayerMeta;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.arena.managers.LobbyManager;
@@ -40,6 +41,7 @@ import com.jcwhatever.bukkit.pvs.api.events.ArenaPreStartEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerJoinEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerPreAddEvent;
+import com.jcwhatever.bukkit.pvs.api.events.players.PlayerRemovedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.region.PlayerEnterArenaRegionEvent;
 import com.jcwhatever.bukkit.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
@@ -50,6 +52,9 @@ import java.util.List;
         name = "PVOpenArena",
         description = "Allow players to join an arena at any time and the game starts immediately.")
 public class OpenArenaExtension extends ArenaExtension implements GenericsEventListener {
+
+    private static final String META_LEAVE = OpenArenaExtension.class.getName() + "META_LEAVE";
+    private static final String META_ENTER = OpenArenaExtension.class.getName() + "META_ENTER";
 
     @Override
     protected void onEnable() {
@@ -104,11 +109,20 @@ public class OpenArenaExtension extends ArenaExtension implements GenericsEventL
                 event.getReason() != AddPlayerReason.FORWARDING)
             return;
 
+        // prevent spawn teleport if player enters arena on foot
+        PlayerMeta meta = event.getPlayer().getMeta();
+        if (meta.get(META_ENTER) == true) {
+            event.setSpawnLocation(null);
+            meta.set(META_ENTER, null);
+        }
+
+        // check if game is already running
         if (!getArena().getGameManager().isRunning())
             return;
 
         PlayerManager manager = event.getPlayer().getRelatedManager();
 
+        // auto forward player to game manager
         if (manager instanceof LobbyManager) {
 
             getArena().getLobbyManager().removePlayer(event.getPlayer(), RemovePlayerReason.ARENA_RELATION_CHANGE);
@@ -133,19 +147,36 @@ public class OpenArenaExtension extends ArenaExtension implements GenericsEventL
     private void onPlayerEnterArena(PlayerEnterArenaRegionEvent event) {
 
         if (event.getPlayer().getArena() == null) {
+            event.getPlayer().getMeta().set(META_ENTER, true);
             getArena().join(event.getPlayer(), AddPlayerReason.PLAYER_JOIN);
         }
     }
 
     /*
-     *  Remove players leaving region.
+     *  Remove players who leave arena region.
      */
     @GenericsEventHandler
     private void onPlayerLeaveArena(PlayerLeaveArenaRegionEvent event) {
 
         if (getArena().equals(event.getPlayer().getArena())) {
 
+            event.getPlayer().getMeta().set(META_LEAVE, true);
             getArena().remove(event.getPlayer(), RemovePlayerReason.PLAYER_LEAVE);
+
+        }
+    }
+
+    /*
+     * Prevent location restore if the player is leaving the arena on foot.
+     */
+    @GenericsEventHandler
+    private void onPlayerRemove(PlayerRemovedEvent event) {
+
+        PlayerMeta meta = event.getPlayer().getMeta();
+
+        if (meta.get(META_LEAVE) == true) {
+            event.setRestoreLocation(null);
+            meta.set(META_LEAVE, null);
         }
     }
 }
