@@ -29,12 +29,13 @@ import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
+
 import org.bukkit.entity.Entity;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import javax.annotation.Nullable;
 
 public class SpawnGroup extends Spawnpoint {
 
@@ -70,7 +71,7 @@ public class SpawnGroup extends Spawnpoint {
 
         for (Spawnpoint spawn : _spawns) {
 
-            int max = _manager.getMaxMobs() - _manager.getMobCount();
+            int max = _manager.getSpawner().getSettings().getMaxMobs() - _manager.getMobCount();
 
             if (max <= 0)
                 break;
@@ -84,6 +85,4 @@ public class SpawnGroup extends Spawnpoint {
 
         return result;
     }
-
-
 }

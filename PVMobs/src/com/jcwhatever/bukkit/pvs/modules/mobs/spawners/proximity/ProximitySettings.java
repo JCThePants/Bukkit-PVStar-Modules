@@ -86,6 +86,7 @@ public class ProximitySettings implements ISpawnerSettings {
         return _settingsManager;
     }
 
+    @Override
     public int getMaxMobs() {
         return _maxMobs;
     }
