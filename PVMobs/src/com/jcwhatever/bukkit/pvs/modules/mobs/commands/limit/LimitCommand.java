@@ -22,28 +22,23 @@
  * THE SOFTWARE.
  */
 
-
-package com.jcwhatever.bukkit.pvs.modules.mobs.commands;
+package com.jcwhatever.bukkit.pvs.modules.mobs.commands.limit;
 
 import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
-import com.jcwhatever.bukkit.pvs.modules.mobs.commands.limit.LimitCommand;
-import com.jcwhatever.bukkit.pvs.modules.mobs.commands.paths.PathsCommand;
-import com.jcwhatever.bukkit.pvs.modules.mobs.commands.settings.SettingsCommand;
-import com.jcwhatever.bukkit.pvs.modules.mobs.commands.spawner.SpawnerCommand;
 
 @ICommandInfo(
-        command="mobs",
-        description="Manage mob settings.")
+        parent="mobs",
+        command="limit",
+        description="Manage entity limits.")
 
-public class MobsCommand extends AbstractPVCommand {
+public class LimitCommand extends AbstractPVCommand {
 
-    public MobsCommand() {
+    public LimitCommand() {
         super();
 
-        registerSubCommand(LimitCommand.class);
-        registerSubCommand(PathsCommand.class);
-        registerSubCommand(SettingsCommand.class);
-        registerSubCommand(SpawnerCommand.class);
+        registerSubCommand(InfoSubCommand.class);
+        registerSubCommand(ResetSubCommand.class);
+        registerSubCommand(SetSubCommand.class);
     }
 }
