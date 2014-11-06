@@ -111,7 +111,7 @@ public class ProximitySpawner implements ISpawner {
 
         int totalPlayers = _arena.getGameManager().getPlayerCount();
         _maxMobs = Math.min(
-                _manager.getMaxMobs(),
+                _settings.getMaxMobs(),
                 _settings.getMaxMobsPerPlayer() * totalPlayers);
 
         _mobSpawns = _manager.getMobSpawns();
