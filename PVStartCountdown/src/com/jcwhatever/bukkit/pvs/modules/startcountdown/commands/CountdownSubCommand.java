@@ -69,7 +69,7 @@ public class CountdownSubCommand extends AbstractPVCommand {
         }
         else {
 
-            int seconds = args.getInt("seconds");
+            int seconds = args.getInteger("seconds");
 
             extension.setStartCountdownSeconds(seconds);
 

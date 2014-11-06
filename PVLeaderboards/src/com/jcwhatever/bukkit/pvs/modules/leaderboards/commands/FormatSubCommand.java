@@ -50,7 +50,7 @@ public class FormatSubCommand extends AbstractLeaderboardCommand {
     public void execute(CommandSender sender, CommandArguments args) throws InvalidValueException {
 
         String leaderboardName = args.getName("leaderboardName");
-        int lineNumber = args.getInt("lineNumber");
+        int lineNumber = args.getInteger("lineNumber");
         String rawColor = args.getString("lineColor");
 
         String color = ChatColor.getLastColors(

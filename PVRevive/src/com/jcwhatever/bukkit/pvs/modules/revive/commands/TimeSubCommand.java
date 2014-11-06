@@ -69,7 +69,7 @@ public class TimeSubCommand extends AbstractPVCommand {
         }
         else {
 
-            int seconds = Math.max(1, args.getInt("seconds"));
+            int seconds = Math.max(1, args.getInteger("seconds"));
 
             extension.setTimeToReviveSeconds(seconds);
 

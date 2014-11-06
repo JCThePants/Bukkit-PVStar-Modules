@@ -61,7 +61,7 @@ public class ListSubCommand extends AbstractCommand {
     public void execute(CommandSender sender, CommandArguments args) throws InvalidValueException {
 
         String kitName = args.getName("kitName");
-        int	page = args.getInt("page");
+        int	page = args.getInteger("page");
 
         KitManager manager = CitizensModule.getModule().getKitManager();
 

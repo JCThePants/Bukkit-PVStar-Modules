@@ -67,7 +67,7 @@ public class MaxSubCommand extends AbstractPVCommand {
         }
         else {
 
-            int max = args.getInt("number");
+            int max = args.getInteger("number");
 
             extension.getItemSettings().setMaxRandomItems(max);
 

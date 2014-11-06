@@ -63,7 +63,7 @@ public class GraceCommand extends AbstractPVCommand {
             tell(sender, Lang.get(_GRACE_SECONDS_INFO, arena.getName(), seconds));
         } else {
 
-            int seconds = args.getInt("seconds");
+            int seconds = args.getInteger("seconds");
 
             extension.setGracePeriodSeconds(seconds);
 

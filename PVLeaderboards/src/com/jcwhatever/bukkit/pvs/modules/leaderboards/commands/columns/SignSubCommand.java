@@ -57,8 +57,8 @@ public class SignSubCommand extends AbstractLeaderboardCommand {
     public void execute(CommandSender sender, CommandArguments args) throws InvalidValueException {
 
         String leaderboardName = args.getName("leaderboardName");
-        int signIndex = args.getInt("signIndex");
-        int lineNum = args.getInt("lineNumber");
+        int signIndex = args.getInteger("signIndex");
+        int lineNum = args.getInteger("lineNumber");
         String text = args.getString("text");
 
         text = ChatColor.translateAlternateColorCodes('&', text);

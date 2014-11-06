@@ -59,7 +59,7 @@ public class ListSubCommand extends AbstractRegionCommand {
         if (arena == null)
             return; // finish
 
-        int page = args.getInt("page");
+        int page = args.getInteger("page");
 
         RegionManager manager = SubRegionsModule.getModule().getManager(arena);
 

@@ -77,7 +77,7 @@ public class AmountSubCommand extends AbstractDropsCommand {
         }
         else {
 
-            int amount = args.getInt("number");
+            int amount = args.getInteger("number");
 
             settings.setExpDropAmount(amount);
 

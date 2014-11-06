@@ -69,7 +69,7 @@ public class HealthSubCommand extends AbstractPVCommand {
         }
         else {
 
-            int health = Math.max(1, args.getInt("amount"));
+            int health = Math.max(1, args.getInteger("amount"));
 
             extension.setReviveHealth(health);
 

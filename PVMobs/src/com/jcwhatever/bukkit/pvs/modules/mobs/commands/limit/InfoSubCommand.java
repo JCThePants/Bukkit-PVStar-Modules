@@ -68,7 +68,7 @@ public class InfoSubCommand extends AbstractPVCommand {
             return; // finish
         }
 
-        int page = args.getInt("page");
+        int page = args.getInteger("page");
 
         ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE, arena.getName()));
 

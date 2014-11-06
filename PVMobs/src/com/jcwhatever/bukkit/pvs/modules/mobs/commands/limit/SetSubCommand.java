@@ -65,7 +65,7 @@ public class SetSubCommand extends AbstractPVCommand {
         EntityTypeExt type = args.getEnum("entityType",
                 EntityTypeExt.class, EntityTypeExt.getMatching(EntityProperty.ALIVE));
 
-        int limit = args.getInt("limit");
+        int limit = args.getInteger("limit");
 
         extension.setMobLimit(type.getType(), limit);
 

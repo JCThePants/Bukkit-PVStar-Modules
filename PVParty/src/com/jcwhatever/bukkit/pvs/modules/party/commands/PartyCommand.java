@@ -73,7 +73,7 @@ public class PartyCommand extends AbstractCommand {
 
 	    InvalidCommandSenderException.check(sender, CommandSenderType.PLAYER);
 	    
-	    int page = args.getInt("page");
+	    int page = args.getInteger("page");
 
 		Player p = (Player)sender;
         PartyManager manager = PartyModule.getModule().getManager();

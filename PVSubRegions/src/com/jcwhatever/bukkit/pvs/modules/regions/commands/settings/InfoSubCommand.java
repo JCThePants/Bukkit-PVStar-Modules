@@ -64,7 +64,7 @@ public class InfoSubCommand extends AbstractRegionCommand {
             return; // finish
 
         String regionName = args.getName("regionName");
-        int page = args.getInt("page");
+        int page = args.getInteger("page");
 
         AbstractPVRegion region = getRegion(sender, arena, regionName);
         if (region == null)

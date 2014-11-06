@@ -55,7 +55,7 @@ public class InfoSubCommand extends AbstractLeaderboardCommand {
     public void execute(CommandSender sender, CommandArguments args) throws InvalidValueException {
 
         String leaderboardName = args.getName("leaderboardName");
-        int page = args.getInt("page");
+        int page = args.getInteger("page");
 
         Leaderboard leaderboard = getLeaderboard(sender, leaderboardName);
         if (leaderboard == null)
