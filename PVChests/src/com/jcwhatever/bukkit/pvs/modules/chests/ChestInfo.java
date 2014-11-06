@@ -30,13 +30,15 @@ import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nullable;
+
 public class ChestInfo {
 
     private final Location _location;
     private final ItemStack[] _contents;
     private final int _hash;
 
-    public ChestInfo (Location location, ItemStack[] contents) {
+    public ChestInfo (Location location, @Nullable ItemStack[] contents) {
         _location = location;
         _contents = contents;
         _hash = location.hashCode();
@@ -46,10 +48,12 @@ public class ChestInfo {
         return _location;
     }
 
+    @Nullable
     public ItemStack[] getPresetContents() {
         return _contents;
     }
 
+    @Nullable
     public Chest getChest() {
         BlockState state = _location.getBlock().getState();
 
