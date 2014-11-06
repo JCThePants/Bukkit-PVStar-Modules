@@ -27,8 +27,8 @@ package com.jcwhatever.bukkit.pvs.modules.mobs;
 
 import com.jcwhatever.bukkit.generic.collections.EntryCounter;
 import com.jcwhatever.bukkit.generic.collections.EntryCounter.RemovalPolicy;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
+import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.EnumUtils;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
@@ -44,17 +44,18 @@ import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.SpawnerManager;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.proximity.ProximitySpawner;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawngroups.SpawnGroupGenerator;
+
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 @ArenaExtensionInfo(
         name="PVMobs",
@@ -95,7 +96,9 @@ public class MobArenaExtension extends ArenaExtension implements GenericsEventLi
     @GenericsEventHandler
     private void onArenaStart(ArenaStartedEvent event) {
 
-        // TODO: Only run spawner if there are mob spawns
+        // make sure there are spawns
+        if (_groups.getSpawnGroups().isEmpty())
+            return;
 
         // run spawner
         _spawner.run();
