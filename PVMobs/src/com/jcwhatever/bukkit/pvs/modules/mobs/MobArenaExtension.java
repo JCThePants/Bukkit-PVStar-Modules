@@ -105,7 +105,7 @@ public class MobArenaExtension extends ArenaExtension implements GenericsEventLi
 
     @GenericsEventHandler
     private void onArenaEnd(@SuppressWarnings("UnusedParameters") ArenaEndedEvent event) {
-
+        reset(DespawnMethod.REMOVE);
     }
 
     @GenericsEventHandler
