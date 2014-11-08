@@ -36,8 +36,8 @@ import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaStartedEvent;
-import com.jcwhatever.bukkit.pvs.api.events.spawns.AddSpawnEvent;
-import com.jcwhatever.bukkit.pvs.api.events.spawns.RemoveSpawnEvent;
+import com.jcwhatever.bukkit.pvs.api.events.spawns.SpawnAddedEvent;
+import com.jcwhatever.bukkit.pvs.api.events.spawns.SpawnRemovedEvent;
 import com.jcwhatever.bukkit.pvs.api.spawns.SpawnType;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawner;
@@ -93,7 +93,7 @@ public class MobArenaExtension extends ArenaExtension implements GenericsEventLi
     }
 
     @GenericsEventHandler
-    private void onArenaStart(ArenaStartedEvent event) {
+    private void onArenaStart(@SuppressWarnings("UnusedParameters") ArenaStartedEvent event) {
 
         // make sure there are spawns
         if (_groups.getSpawnGroups().isEmpty())
@@ -104,17 +104,17 @@ public class MobArenaExtension extends ArenaExtension implements GenericsEventLi
     }
 
     @GenericsEventHandler
-    private void onArenaEnd(ArenaEndedEvent event) {
+    private void onArenaEnd(@SuppressWarnings("UnusedParameters") ArenaEndedEvent event) {
 
     }
 
     @GenericsEventHandler
-    private void onAddSpawn(AddSpawnEvent event) {
+    private void onAddSpawn(@SuppressWarnings("UnusedParameters") SpawnAddedEvent event) {
         loadSettings();
     }
 
     @GenericsEventHandler
-    private void onRemoveSpawn(RemoveSpawnEvent event) {
+    private void onRemoveSpawn(@SuppressWarnings("UnusedParameters") SpawnRemovedEvent event) {
         loadSettings();
     }
 
