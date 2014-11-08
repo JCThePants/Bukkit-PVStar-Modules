@@ -71,8 +71,9 @@ public class ProtectExtension extends ArenaExtension implements GenericsEventLis
         // deny interaction
 
         // allow other modules/extensions to cancel the damage prevention
+        //noinspection ConstantConditions
         ArenaBlockDamagePreventEvent preventEvent = new ArenaBlockDamagePreventEvent(
-                getArena(), player, event);
+                getArena(), player, player.getRelatedManager(), event);
 
         getArena().getEventManager().call(preventEvent);
 
