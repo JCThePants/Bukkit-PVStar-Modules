@@ -290,12 +290,17 @@ public class MobArenaExtension extends ArenaExtension implements GenericsEventLi
         List<LivingEntity> result = new ArrayList<>(entities.size());
 
         // record each spawned entity and place into LivingEntity result list
-        for (Entity entity : entities) {
+        Iterator<Entity> entityIterator = entities.iterator();
+        while (entityIterator.hasNext()) {
+
+            Entity entity = entityIterator.next();
+
             if (entity == null)
                 throw new NullPointerException("Entity array has a null entry.");
 
             if (!(entity instanceof LivingEntity)) {
                 entity.remove();
+                entityIterator.remove();
                 continue;
             }
 
