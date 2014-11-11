@@ -27,15 +27,18 @@ package com.jcwhatever.bukkit.pvs.modules.mobs.spawntypes.hostile;
 
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.spawns.SpawnType;
+
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Skeleton;
 import org.bukkit.entity.Skeleton.SkeletonType;
+import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nullable;
 
 public class WitherSkeletonSpawn extends SpawnType {
 
@@ -79,6 +82,8 @@ public class WitherSkeletonSpawn extends SpawnType {
         for (int i=0; i < count; i++) {
             Skeleton skeleton = location.getWorld().spawn(location, Skeleton.class);
             skeleton.setSkeletonType(SkeletonType.WITHER);
+            skeleton.getEquipment().clear();
+            skeleton.getEquipment().setItemInHand(new ItemStack(Material.GOLD_SWORD));
             result.add(skeleton);
         }
 
