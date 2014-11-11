@@ -128,8 +128,9 @@ public class SpawnGroupGenerator {
 
     private boolean loadSpawnGroups() {
 
-        if (!isSpawnsChanged())
-            return false;
+        if (isSpawnsChanged()) {
+            generateGroups();
+        }
 
         Set<String> groupNames = _groupsNode.getSubNodeNames();
         if (groupNames == null || groupNames.isEmpty()) {
