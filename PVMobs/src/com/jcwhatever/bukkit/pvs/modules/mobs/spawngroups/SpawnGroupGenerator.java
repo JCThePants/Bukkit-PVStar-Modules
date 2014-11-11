@@ -39,7 +39,6 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -108,14 +107,16 @@ public class SpawnGroupGenerator {
 
     public boolean isSpawnsChanged() {
 
-        Set<String> currentSpawnList = new HashSet<>(_mobSpawns.keySet());
+        Set<String> currentSpawnList = _mobSpawns.keySet();
         List<String> cachedSpawnList = _dataNode.getStringList("spawns", null);
         if (cachedSpawnList == null)
             return true;
 
+        // if the size has changed, then spawns have changed.
         if (currentSpawnList.size() != cachedSpawnList.size())
             return true;
 
+        // check that all spawn names are the same.
         for (String spawnName : cachedSpawnList) {
             if (!currentSpawnList.contains(spawnName))
                 return true;
