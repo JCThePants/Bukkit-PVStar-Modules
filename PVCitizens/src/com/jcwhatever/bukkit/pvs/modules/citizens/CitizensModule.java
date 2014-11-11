@@ -48,6 +48,11 @@ import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCSpawnEvent;
 import com.jcwhatever.bukkit.pvs.modules.citizens.scripts.CitizensScriptApi;
 import com.jcwhatever.bukkit.pvs.modules.citizens.scripts.ScriptNPC;
 
+import net.citizensnpcs.Citizens;
+
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 public class CitizensModule extends PVStarModule {
 
     private static CitizensModule _module;
@@ -103,16 +108,46 @@ public class CitizensModule extends PVStarModule {
         _kitManager = new KitManager(PVStarAPI.getPlugin(), getDataNode("kits"));
         PVStarAPI.getCommandHandler().registerCommand(NpcCommand.class);
 
-        /** TODO: Use reflection
-        ContextFactory factory = ContextFactory.getGlobal();
-        ClassLoader loader = Citizens.class.getClassLoader();
-        factory.initApplicationClassLoader(loader);
-         **/
+        try {
+            initClassLoader();
+        } catch (ClassNotFoundException | NoSuchMethodException |
+                IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
     private void registerEvent(Class<? extends AbstractNPCEvent> eventClass) {
 
         PVStarAPI.getScriptManager().registerEventType(this, eventClass);
         ScriptNPC.registerNPCEvent(eventClass);
+    }
+
+    /*
+     * Init Citizens class loader into global factory.
+     * Reflection used to prevent compile issues with "internal" package.
+     *
+     * Equivalent code:
+     *
+     * ContextFactory factory = ContextFactory.getGlobal();
+     * ClassLoader loader = Citizens.class.getClassLoader();
+     * factory.initApplicationClassLoader(loader);
+     */
+    private void initClassLoader() throws ClassNotFoundException,
+            NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+
+        Class<?> contextFactoryClass = Class.forName("sun.org.mozilla.javascript.internal.ContextFactory");
+
+        Method getGlobal = contextFactoryClass.getDeclaredMethod("getGlobal");
+        getGlobal.setAccessible(true);
+
+        ClassLoader citizensLoader = Citizens.class.getClassLoader();
+
+        Method initApplicationClassLoader = contextFactoryClass.getDeclaredMethod(
+                "initApplicationClassLoader", ClassLoader.class);
+        initApplicationClassLoader.setAccessible(true);
+
+        Object contextFactory = getGlobal.invoke(null);
+
+        initApplicationClassLoader.invoke(contextFactory, citizensLoader);
     }
 }
