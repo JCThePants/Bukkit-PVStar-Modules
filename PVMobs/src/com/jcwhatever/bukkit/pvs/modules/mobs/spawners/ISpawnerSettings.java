@@ -35,4 +35,6 @@ public interface ISpawnerSettings {
     public ISettingsManager getManager();
 
     public int getMaxMobs();
+
+    public int getMaxMobsPerPlayer();
 }

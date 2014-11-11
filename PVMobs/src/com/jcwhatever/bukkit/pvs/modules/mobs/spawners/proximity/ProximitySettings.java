@@ -101,10 +101,10 @@ public class ProximitySettings implements ISpawnerSettings {
     }
 
 
+    @Override
     public int getMaxMobsPerPlayer() {
         return _maxMobsPerPlayer;
     }
-
 
     public void setMaxMobsPerPlayer(int value) {
         _settingsManager.set("max-mobs-per-player", value);

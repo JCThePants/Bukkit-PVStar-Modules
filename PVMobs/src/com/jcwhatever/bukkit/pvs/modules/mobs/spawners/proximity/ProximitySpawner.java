@@ -50,7 +50,6 @@ import org.bukkit.entity.PigZombie;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.WeakHashMap;
 
 /**
  * Spawns mobs in an arena using the settings
@@ -306,7 +305,7 @@ public class ProximitySpawner implements ISpawner {
 
         SpawnpointInfo(Spawnpoint spawnpoint, ProximitySettings settings) {
             _spawnpoint = spawnpoint;
-            _spawnedEntities = new WeakHashMap<>(settings.getMaxMobsPerSpawn() + 5);
+            _spawnedEntities = new HashMap<>(settings.getMaxMobsPerSpawn() + 5);
         }
 
         public Spawnpoint getSpawnpoint() {
