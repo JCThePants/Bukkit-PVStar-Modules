@@ -29,24 +29,7 @@ import com.jcwhatever.bukkit.generic.inventory.KitManager;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
 import com.jcwhatever.bukkit.pvs.modules.citizens.commands.NpcCommand;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.AbstractNPCEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.EntityTargetNPCEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCClickEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCCombustByBlockEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCCombustByEntityEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCCombustEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCDamageEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCDeathEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCDespawnEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCLeftClickEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCNavigationBeginEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCNavigationCancelEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCNavigationCompleteEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCNavigationReplaceEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCRightClickEvent;
-import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCSpawnEvent;
 import com.jcwhatever.bukkit.pvs.modules.citizens.scripts.CitizensScriptApi;
-import com.jcwhatever.bukkit.pvs.modules.citizens.scripts.ScriptNPC;
 
 import net.citizensnpcs.Citizens;
 
@@ -83,23 +66,6 @@ public class CitizensModule extends PVStarModule {
         _scriptApi = new CitizensScriptApi();
 
         PVStarAPI.getScriptManager().registerApiType(_scriptApi);
-
-        registerEvent(EntityTargetNPCEvent.class);
-        registerEvent(NPCClickEvent.class);
-        registerEvent(NPCCombustByBlockEvent.class);
-        registerEvent(NPCCombustByEntityEvent.class);
-        registerEvent(NPCCombustEvent.class);
-        registerEvent(NPCDamageEvent.class);
-        registerEvent(NPCDeathEvent.class);
-        registerEvent(NPCDespawnEvent.class);
-        registerEvent(NPCLeftClickEvent.class);
-        registerEvent(NPCRightClickEvent.class);
-        registerEvent(NPCSpawnEvent.class);
-
-        registerEvent(NPCNavigationBeginEvent.class);
-        registerEvent(NPCNavigationCancelEvent.class);
-        registerEvent(NPCNavigationCompleteEvent.class);
-        registerEvent(NPCNavigationReplaceEvent.class);
     }
 
     @Override
@@ -114,12 +80,6 @@ public class CitizensModule extends PVStarModule {
                 IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
         }
-    }
-
-    private void registerEvent(Class<? extends AbstractNPCEvent> eventClass) {
-
-        PVStarAPI.getScriptManager().registerEventType(this, eventClass);
-        ScriptNPC.registerNPCEvent(eventClass);
     }
 
     /*
