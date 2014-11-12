@@ -35,6 +35,12 @@ import com.jcwhatever.bukkit.pvs.modules.citizens.CitizensModule;
 import com.jcwhatever.bukkit.pvs.modules.citizens.events.AbstractNPCEvent;
 import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCDespawnEvent;
 import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCSpawnEvent;
+
+import org.bukkit.Location;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
+
 import net.citizensnpcs.api.ai.Goal;
 import net.citizensnpcs.api.ai.GoalController;
 import net.citizensnpcs.api.ai.GoalController.GoalEntry;
@@ -44,18 +50,14 @@ import net.citizensnpcs.api.npc.NPC;
 import net.citizensnpcs.api.npc.NPCRegistry;
 import net.citizensnpcs.api.trait.Trait;
 import net.citizensnpcs.api.trait.trait.MobType;
-import org.bukkit.Location;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
+import javax.annotation.Nullable;
 
 public class ScriptNPC {
 
@@ -128,11 +130,20 @@ public class ScriptNPC {
     }
 
     /**
-     * Get the NPC's name
+     * Get the NPC's name.
      */
     public String getName() {
 
         return _npc.getName();
+    }
+
+    /**
+     * Set the NPC's name.
+     *
+     * @param name  The name.
+     */
+    public void setName(String name) {
+        _npc.setName(name);
     }
 
     /**
@@ -141,6 +152,36 @@ public class ScriptNPC {
     public String getFullName() {
 
         return _npc.getFullName();
+    }
+
+    /**
+     * Get the player name used for the NPC skin.
+     */
+    public String getSkinName() {
+        String name = _npc.data().get("player-skin-name");
+        return name == null
+                ? _npc.getName()
+                : name;
+    }
+
+    /**
+     * Set the player name used for the NPC skin.
+     *
+     * @param name  The name.
+     */
+    public void setSkinName(@Nullable String name) {
+        if (name == null) {
+            _npc.data().remove("player-skin-name");
+        }
+        else {
+            _npc.data().set("player-skin-name", name);
+        }
+
+        if (_npc.isSpawned()) {
+            Location location = _npc.getStoredLocation();
+            _npc.despawn(DespawnReason.PENDING_RESPAWN);
+            _npc.spawn(location);
+        }
     }
 
     /**
