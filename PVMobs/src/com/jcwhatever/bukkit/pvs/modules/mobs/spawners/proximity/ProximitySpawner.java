@@ -211,11 +211,12 @@ public class ProximitySpawner implements ISpawner {
                             _spawnInfoMap.put(spawn, info);
                         }
 
+                        spawns.remove(spawn);
+
                         // make sure mobs per spawn is not reached.
                         if (info.getEntityCount() >= _settings.getMaxMobsPerSpawn()) {
 
                             // remove maxed spawn from candidates
-                            spawns.remove(spawn);
                             continue;
                         }
 
