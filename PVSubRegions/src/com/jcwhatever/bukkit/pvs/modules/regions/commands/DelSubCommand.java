@@ -65,7 +65,7 @@ public class DelSubCommand extends AbstractRegionCommand {
         if (region == null)
             return; // finish
 
-        if (manager.removeRegion(regionName)) {
+        if (!manager.removeRegion(regionName)) {
             tellError(sender, Lang.get(_FAILED));
             return; // finish
         }
