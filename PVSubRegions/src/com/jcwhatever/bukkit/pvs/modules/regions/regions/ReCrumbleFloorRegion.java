@@ -48,6 +48,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockState;
 import org.bukkit.event.player.PlayerMoveEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
 import java.util.HashSet;
@@ -62,6 +63,8 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
 
     static {
         _possibleSettings
+                .set("affected-blocks", ValueType.ITEMSTACK,
+                        "Set the blocks affected by the region. Null or air affects all blocks.")
                 .set("crumble-delay-ticks", 0, ValueType.INTEGER,
                         "The delay time in ticks that a block crumbles after being stepped on.")
                 .set("rebuild-delay-ticks", 40, ValueType.INTEGER,
@@ -72,6 +75,7 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
     private Set<Location> _dropped = new HashSet<Location>((int)getVolume());
     private int _crumbleDelayTicks = 0;
     private int _rebuildDelayTicks = 40;
+    private ItemStack[] _affectedBlocks;
 
     public ReCrumbleFloorRegion(String name) {
         super(name);
@@ -134,6 +138,7 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
 
     @Override
     protected void onLoadSettings(IDataNode dataNode) {
+        _affectedBlocks = dataNode.getItemStacks("affected-blocks");
         _crumbleDelayTicks = dataNode.getInteger("crumble-delay-ticks", _crumbleDelayTicks);
         _rebuildDelayTicks = dataNode.getInteger("rebuild-delay-ticks", _rebuildDelayTicks);
     }
@@ -174,7 +179,8 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
 
         Location loc = event.getPlayer().getLocation();
 
-        Location adjusted = new Location(loc.getWorld(), loc.getBlockX(), loc.getBlockY() - 1, loc.getBlockZ());
+        Block block = loc.getBlock().getRelative(0, -1, 0);
+        Location adjusted = block.getLocation();
 
         if (_dropped.contains(adjusted))
             return;
@@ -182,7 +188,6 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
         if (!contains(adjusted))
             return;
 
-        Block block = adjusted.getBlock();
         if (block.getType() == Material.AIR ||
                 block.getType() == Material.WATER ||
                 block.getType() == Material.LAVA)
@@ -190,33 +195,47 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
 
         _dropped.add(adjusted);
 
-        scheduleBlockBreak(block.getLocation());
+        scheduleBlockBreak(block);
     }
 
-    private void scheduleBlockBreak(final Location location) {
+    private void scheduleBlockBreak(final Block block) {
 
         if (_crumbleDelayTicks <= 0) {
-            breakBlock(location);
+            breakBlock(block);
         }
         else {
             Scheduler.runTaskLater(PVStarAPI.getPlugin(), _crumbleDelayTicks, new Runnable() {
                 @Override
                 public void run() {
-                    breakBlock(location);
+                    breakBlock(block);
                 }
             });
         }
     }
 
-    private void breakBlock(final Location location) {
+    private void breakBlock(final Block block) {
 
-        Block below = location.clone().add(0, -1, 0).getBlock();
-        final BlockState blockState = location.getBlock().getState();
+        ItemStack[] affected = _affectedBlocks;
+
+        if (affected != null && affected.length > 0) {
+            boolean isFound = false;
+            for (ItemStack item : affected) {
+                if (block.getState().getData().equals(item.getData())) {
+                    isFound = true;
+                    break;
+                }
+            }
+            if (!isFound)
+                return;
+        }
+
+        Block below = block.getRelative(0, -1, 0);
+        final BlockState blockState = block.getState();
 
         if (below.getType() == Material.AIR) {
-            BlockUtils.dropRemoveBlock(location, 20);
+            BlockUtils.dropRemoveBlock(block, 20);
         } else {
-            location.getBlock().setType(Material.AIR);
+            block.setType(Material.AIR);
         }
 
         Scheduler.runTaskLater(PVStarAPI.getPlugin(), _rebuildDelayTicks, new Runnable() {
@@ -224,7 +243,7 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
             @Override
             public void run() {
                 blockState.update(true);
-                _dropped.remove(location);
+                _dropped.remove(block.getLocation());
             }
         });
     }
