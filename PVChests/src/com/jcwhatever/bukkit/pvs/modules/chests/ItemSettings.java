@@ -25,10 +25,11 @@
 
 package com.jcwhatever.bukkit.pvs.modules.chests;
 
-import com.jcwhatever.bukkit.generic.items.ItemStackHelper;
 import com.jcwhatever.bukkit.generic.items.WeightedItems;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
+
+import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class ItemSettings {
@@ -89,42 +90,44 @@ public class ItemSettings {
     public void addDefaultItems() {
 
         new DefaultItemHelper()
-                .add("APPLE")       		.add("ARROW")
-                .add("BAKED_POTATO")		.add("BLAZE_POWDER")
-                .add("BOAT")        		.add("BONE")
-                .add("BOWL")        		.add("BREAD")
-                .add("BROWN_MUSHROOM")		.add("CAKE")
-                .add("CARROT")      		.add("CHAINMAIL_BOOTS")
-                .add("CHAINMAIL_CHESTPLATE").add("CHAINMAIL_HELMET")
-                .add("CHAINMAIL_LEGGINGS")	.add("COAL")
-                .add("COOKED_BEEF")			.add("COOKED_CHICKEN")
-                .add("COOKED_FISH")			.add("COOKIE")
-                .add("DIAMOND")				.add("DIAMOND_AXE")
-                .add("DIAMOND_BOOTS")		.add("DIAMOND_CHESTPLATE")
-                .add("DIAMOND_HELMET")		.add("DIAMOND_LEGGINGS")
-                .add("DIAMOND_SWORD")		.add("EGG")
-                .add("ENDER_PEARL")			.add("FEATHER")
-                .add("ARROW")				.add("FLINT")
-                .add("FLINT_AND_STEEL")		.add("GOLD_AXE")
-                .add("GOLD_BOOTS")			.add("GOLD_CHESTPLATE")
-                .add("GOLD_HELMET")			.add("GOLD_INGOT")
-                .add("GOLD_LEGGINGS")		.add("GOLD_SWORD")
-                .add("IRON_AXE")			.add("IRON_BOOTS")
-                .add("IRON_CHESTPLATE")		.add("IRON_HELMET")
-                .add("IRON_INGOT")			.add("IRON_LEGGINGS")
-                .add("LEATHER_BOOTS")		.add("LEATHER_CHESTPLATE")
-                .add("LEATHER_HELMET")		.add("LEATHER_LEGGINGS")
-                .add("MELON")				.add("ARROW")
-                .add("NETHER_WARTS")		.add("ARROW")
-                .add("POISONOUS_POTATO")	.add("PORK")
-                .add("POTATO_ITEM")			.add("PUMPKIN_PIE")
-                .add("RAW_BEEF")			.add("RAW_CHICKEN")
-                .add("RAW_FISH")			.add("ROTTEN_FLESH")
-                .add("SNOW_BALL")			.add("STICK")
-                .add("STONE_AXE")			.add("STONE_SWORD")
-                .add("STRING")				.add("STICK")
-                .add("WOOD_AXE")			.add("WOOD_SWORD")
+                .add(Material.APPLE)       		    .add(Material.ARROW)
+                .add(Material.BAKED_POTATO)		    .add(Material.BLAZE_POWDER)
+                .add(Material.BOAT)        		    .add(Material.BONE)
+                .add(Material.BOWL)        		    .add(Material.BREAD)
+                .add(Material.BROWN_MUSHROOM)		.add(Material.CAKE)
+                .add(Material.CARROT)      		    .add(Material.CHAINMAIL_BOOTS)
+                .add(Material.CHAINMAIL_CHESTPLATE) .add(Material.CHAINMAIL_HELMET)
+                .add(Material.CHAINMAIL_LEGGINGS)	.add(Material.COAL)
+                .add(Material.COOKED_BEEF)			.add(Material.COOKED_CHICKEN)
+                .add(Material.COOKED_FISH)			.add(Material.COOKIE)
+                .add(Material.DIAMOND)				.add(Material.DIAMOND_AXE)
+                .add(Material.DIAMOND_BOOTS)		.add(Material.DIAMOND_CHESTPLATE)
+                .add(Material.DIAMOND_HELMET)		.add(Material.DIAMOND_LEGGINGS)
+                .add(Material.DIAMOND_SWORD)		.add(Material.EGG)
+                .add(Material.ENDER_PEARL)			.add(Material.FEATHER)
+                .add(Material.ARROW)				.add(Material.FLINT)
+                .add(Material.FLINT_AND_STEEL)		.add(Material.GOLD_AXE)
+                .add(Material.GOLD_BOOTS)			.add(Material.GOLD_CHESTPLATE)
+                .add(Material.GOLD_HELMET)			.add(Material.GOLD_INGOT)
+                .add(Material.GOLD_LEGGINGS)		.add(Material.GOLD_SWORD)
+                .add(Material.IRON_AXE)			    .add(Material.IRON_BOOTS)
+                .add(Material.IRON_CHESTPLATE)		.add(Material.IRON_HELMET)
+                .add(Material.IRON_INGOT)			.add(Material.IRON_LEGGINGS)
+                .add(Material.LEATHER_BOOTS)		.add(Material.LEATHER_CHESTPLATE)
+                .add(Material.LEATHER_HELMET)		.add(Material.LEATHER_LEGGINGS)
+                .add(Material.MELON)				.add(Material.ARROW)
+                .add(Material.NETHER_WARTS)		    .add(Material.ARROW)
+                .add(Material.POISONOUS_POTATO)	    .add(Material.PORK)
+                .add(Material.POTATO_ITEM)			.add(Material.PUMPKIN_PIE)
+                .add(Material.RAW_BEEF)			    .add(Material.RAW_CHICKEN)
+                .add(Material.RAW_FISH)			    .add(Material.ROTTEN_FLESH)
+                .add(Material.SNOW_BALL)			.add(Material.STICK)
+                .add(Material.STONE_AXE)			.add(Material.STONE_SWORD)
+                .add(Material.STRING)				.add(Material.STICK)
+                .add(Material.WOOD_AXE)			    .add(Material.WOOD_SWORD)
         ;
+
+        saveChestItems();
     }
 
     private void loadItemSettings() {
@@ -145,10 +148,8 @@ public class ItemSettings {
     }
 
     private class DefaultItemHelper {
-        public DefaultItemHelper add(String materialName) {
-            ItemStack[] stacks = ItemStackHelper.parse(materialName);
-            _chestItems.add(stacks);
-            saveChestItems();
+        public DefaultItemHelper add(Material material) {
+            _chestItems.add(new ItemStack(material));
             return this;
         }
     }
