@@ -38,11 +38,13 @@ import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.bukkit.pvs.modules.regions.SubRegionsModule;
+
 import org.bukkit.entity.Player;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nonnull;
 
 public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
@@ -53,6 +55,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     private RegionTypeInfo _typeInfo;
     private SettingsManager _settingsManager;
     private SubRegionsModule _module;
+    private IDataNode _dataNode;
 
     private List<RegionEventHandler> _onEnter;
     private List<RegionEventHandler> _onLeave;
@@ -77,9 +80,10 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         _typeInfo = typeInfo;
         _arena = arena;
         _module = module;
+        _dataNode = dataNode;
 
         //noinspection ConstantConditions
-        _settingsManager = new SettingsManager(getDataNode().getNode("extra"), getSettingDefinitions());
+        _settingsManager = new SettingsManager(dataNode.getNode("extra"), getSettingDefinitions());
         _settingsManager.addOnSettingsChanged(new Runnable() {
             @Override
             public void run() {
@@ -93,6 +97,12 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         }, true);
 
         onInit();
+    }
+
+    @Override
+    @Nonnull
+    public IDataNode getDataNode() {
+        return _dataNode;
     }
 
     public final Arena getArena() {
