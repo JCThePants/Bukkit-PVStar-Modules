@@ -36,6 +36,8 @@ import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
 import com.jcwhatever.bukkit.generic.utils.BlockUtils;
+import com.jcwhatever.bukkit.generic.utils.Scheduler;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
@@ -59,10 +61,14 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements GenericsEven
 
     static {
         _possibleSettings
-                .set("affected-blocks", ValueType.ITEMSTACK, "Set the blocks affected by the region. Null or air affects all blocks.")
+                .set("affected-blocks", ValueType.ITEMSTACK,
+                        "Set the blocks affected by the region. Null or air affects all blocks.")
+                .set("crumble-delay-ticks", 0, ValueType.INTEGER,
+                        "The delay time in ticks that a block crumbles after being stepped on.")
         ;
     }
 
+    private int _crumbleDelayTicks = 0;
     private ItemStack[] _affectedBlocks;
     private Set<Location> _dropped;
 
@@ -126,6 +132,7 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements GenericsEven
 
     @Override
     protected void onLoadSettings(IDataNode dataNode) {
+        _crumbleDelayTicks = dataNode.getInteger("crumble-delay-ticks", _crumbleDelayTicks);
         _affectedBlocks = dataNode.getItemStacks("affected-blocks");
         _dropped = new HashSet<Location>((int)getVolume());
     }
@@ -185,14 +192,26 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements GenericsEven
         breakBlock(block);
     }
 
+    private void scheduleBlockBreak(final Block block) {
+
+        if (_crumbleDelayTicks <= 0) {
+            breakBlock(block);
+        }
+        else {
+            Scheduler.runTaskLater(PVStarAPI.getPlugin(), _crumbleDelayTicks, new Runnable() {
+                @Override
+                public void run() {
+                    breakBlock(block);
+                }
+            });
+        }
+    }
 
     private void breakBlock(final Block block) {
 
         ItemStack[] affected = _affectedBlocks;
-        if (affected == null)
-            return;
 
-        if (affected.length > 0) {
+        if (affected != null && affected.length > 0) {
             boolean isFound = false;
             for (ItemStack item : affected) {
                 if (block.getState().getData().equals(item.getData())) {
