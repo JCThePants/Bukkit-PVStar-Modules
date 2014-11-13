@@ -35,13 +35,14 @@ import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.Future;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
+import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
 import com.jcwhatever.bukkit.generic.utils.BlockUtils;
 import com.jcwhatever.bukkit.generic.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
-import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -59,7 +60,18 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
 
     private static SettingDefinitions _possibleSettings = new SettingDefinitions();
 
+    static {
+        _possibleSettings
+                .set("crumble-delay-ticks", 0, ValueType.INTEGER,
+                        "The delay time in ticks that a block crumbles after being stepped on.")
+                .set("rebuild-delay-ticks", 40, ValueType.INTEGER,
+                        "The delay time in ticks before a block is placed back after crumbling.")
+        ;
+    }
+
     private Set<Location> _dropped = new HashSet<Location>((int)getVolume());
+    private int _crumbleDelayTicks = 0;
+    private int _rebuildDelayTicks = 40;
 
     public ReCrumbleFloorRegion(String name) {
         super(name);
@@ -122,7 +134,8 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
 
     @Override
     protected void onLoadSettings(IDataNode dataNode) {
-
+        _crumbleDelayTicks = dataNode.getInteger("crumble-delay-ticks", _crumbleDelayTicks);
+        _rebuildDelayTicks = dataNode.getInteger("rebuild-delay-ticks", _rebuildDelayTicks);
     }
 
     @Override
@@ -140,7 +153,7 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
     }
 
     @GenericsEventHandler(priority = GenericsEventPriority.LAST)
-    private void onArenaEnd(ArenaEndedEvent event) {
+    private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
 
         if (!isEnabled())
             return;
@@ -177,39 +190,42 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
 
         _dropped.add(adjusted);
 
-        breakBlock(block.getLocation());
+        scheduleBlockBreak(block.getLocation());
     }
 
+    private void scheduleBlockBreak(final Location location) {
+
+        if (_crumbleDelayTicks <= 0) {
+            breakBlock(location);
+        }
+        else {
+            Scheduler.runTaskLater(PVStarAPI.getPlugin(), _crumbleDelayTicks, new Runnable() {
+                @Override
+                public void run() {
+                    breakBlock(location);
+                }
+            });
+        }
+    }
 
     private void breakBlock(final Location location) {
 
-        ArenaScheduler.runTaskLater(getArena(), 5, new Runnable() {
+        Block below = location.clone().add(0, -1, 0).getBlock();
+        final BlockState blockState = location.getBlock().getState();
+
+        if (below.getType() == Material.AIR) {
+            BlockUtils.dropRemoveBlock(location, 20);
+        } else {
+            location.getBlock().setType(Material.AIR);
+        }
+
+        Scheduler.runTaskLater(PVStarAPI.getPlugin(), _rebuildDelayTicks, new Runnable() {
 
             @Override
             public void run() {
-
-                Block below = location.clone().add(0, -1, 0).getBlock();
-                final BlockState blockState = location.getBlock().getState();
-
-                if (below.getType() == Material.AIR) {
-                    BlockUtils.dropRemoveBlock(location, 20);
-                } else {
-                    location.getBlock().setType(Material.AIR);
-                }
-
-                Scheduler.runTaskLater(PVStarAPI.getPlugin(), 40, new Runnable() {
-
-                    @Override
-                    public void run() {
-                        blockState.update(true);
-                        _dropped.remove(location);
-                    }
-                });
+                blockState.update(true);
+                _dropped.remove(location);
             }
-
         });
     }
-
-
-
 }
