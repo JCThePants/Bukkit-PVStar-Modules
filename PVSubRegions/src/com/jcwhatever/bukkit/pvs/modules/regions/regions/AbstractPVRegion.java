@@ -48,7 +48,9 @@ import javax.annotation.Nonnull;
 
 public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
-    private boolean _isEnabled = true;
+    private static final boolean DEFAULT_ENABLE = true;
+
+    private boolean _isEnabled = false;
     private boolean _isInitialized = false;
 
     private Arena _arena;
@@ -56,6 +58,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     private SettingsManager _settingsManager;
     private SubRegionsModule _module;
     private IDataNode _dataNode;
+    private IDataNode _extraNode;
 
     private List<RegionEventHandler> _onEnter;
     private List<RegionEventHandler> _onLeave;
@@ -81,17 +84,21 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         _arena = arena;
         _module = module;
         _dataNode = dataNode;
+        _extraNode = dataNode.getNode("extra");
 
         //noinspection ConstantConditions
-        _settingsManager = new SettingsManager(dataNode.getNode("extra"), getSettingDefinitions());
+        _settingsManager = new SettingsManager(_extraNode, getSettingDefinitions());
         _settingsManager.addOnSettingsChanged(new Runnable() {
             @Override
             public void run() {
-                _isEnabled = getDataNode().getBoolean("enabled", _isEnabled);
 
-                onLoadSettings(getDataNode());
+                boolean prevEnabled = _isEnabled;
 
-                if (_isEnabled)
+                _isEnabled = getDataNode().getBoolean("enabled", DEFAULT_ENABLE);
+
+                onLoadSettings(_extraNode);
+
+                if (_isEnabled && !prevEnabled)
                     onEnable();
             }
         }, true);

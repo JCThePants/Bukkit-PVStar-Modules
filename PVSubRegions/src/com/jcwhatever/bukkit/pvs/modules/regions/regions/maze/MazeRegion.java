@@ -51,19 +51,21 @@ public class MazeRegion extends AbstractPVRegion implements GenericsEventListene
         _possibleSettings
                 .set("wall-materials", ValueType.ITEMSTACK, "Set the materials used to construct the maze walls.")
                 .set("block-size", ValueType.INTEGER, "Set the size of the maze blocks. Determines size of passageways.")
+                .set("run-on-arena-end", true, ValueType.BOOLEAN, "Set true to rebuild maze when the owning arena ends.")
         ;
     }
 
-    protected MazeBuilder _builder;
+    private MazeBuilder _builder;
+    private boolean _runOnArenaEnd = true;
 
     public MazeRegion(String name) {
         super(name);
     }
 
     @GenericsEventHandler
-    private void onArenaEnd(ArenaEndedEvent event) {
+    private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
 
-        if (!isEnabled())
+        if (!_runOnArenaEnd || !isEnabled())
             return;
 
 
@@ -114,7 +116,8 @@ public class MazeRegion extends AbstractPVRegion implements GenericsEventListene
 
     @Override
     protected void onLoadSettings(IDataNode dataNode) {
-        _builder = new MazeBuilder(PVStarAPI.getPlugin(), this, getDataNode());
+        _builder = new MazeBuilder(PVStarAPI.getPlugin(), this, dataNode);
+        _runOnArenaEnd = dataNode.getBoolean("run-on-arena-end", _runOnArenaEnd);
     }
 
     @Override
