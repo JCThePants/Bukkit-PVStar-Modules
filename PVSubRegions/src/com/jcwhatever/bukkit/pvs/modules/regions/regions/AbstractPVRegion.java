@@ -148,16 +148,6 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         getDataNode().saveAsync(null);
     }
 
-    @Override
-    public final void dispose() {
-        super.dispose();
-
-        if (_isEnabled)
-            onDisable();
-
-        onDispose();
-    }
-
     public final SettingsManager getSettingsManager() {
         return _settingsManager;
     }
@@ -293,7 +283,14 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     }
 
     protected void onInit() {}
-    protected void onDispose() {}
+
+    @Override
+    protected void onDispose() {
+
+        if (_isEnabled)
+            onDisable();
+    }
+
 
     protected abstract void onPlayerEnter(ArenaPlayer player);
     protected abstract void onPlayerLeave(ArenaPlayer player);
