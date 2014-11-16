@@ -29,7 +29,7 @@ import com.jcwhatever.bukkit.generic.items.ItemStackHelper;
 import com.jcwhatever.bukkit.generic.regions.BuildChunkSnapshot;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
 import com.jcwhatever.bukkit.generic.regions.BuildableRegion;
-import com.jcwhatever.bukkit.generic.regions.RegionChunkSection;
+import com.jcwhatever.bukkit.generic.regions.data.RegionChunkSection;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.Rand;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.maze.MazeGenerator.Orientation;

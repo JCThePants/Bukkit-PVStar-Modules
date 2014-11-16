@@ -30,7 +30,7 @@ import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.FailHandler;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.Future;
 import com.jcwhatever.bukkit.generic.regions.BuildChunkSnapshot;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
-import com.jcwhatever.bukkit.generic.regions.RegionChunkSection;
+import com.jcwhatever.bukkit.generic.regions.data.RegionChunkSection;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
