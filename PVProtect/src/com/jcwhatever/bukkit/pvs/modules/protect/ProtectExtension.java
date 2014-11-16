@@ -33,6 +33,7 @@ import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.events.players.ArenaBlockDamagePreventEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
@@ -68,7 +69,9 @@ public class ProtectExtension extends ArenaExtension implements GenericsEventLis
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getPlayer());
 
-        // deny interaction
+        // allow right clicking
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
+            return;
 
         // allow other modules/extensions to cancel the damage prevention
         //noinspection ConstantConditions
