@@ -32,9 +32,14 @@ import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.events.players.ArenaBlockDamagePreventEvent;
-import org.bukkit.Bukkit;
+
+import org.bukkit.entity.EntityType;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
+import org.bukkit.event.hanging.HangingBreakEvent.RemoveCause;
+import org.bukkit.event.player.PlayerInteractEntityEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 
 @ArenaExtensionInfo(
@@ -42,15 +47,8 @@ import org.bukkit.event.player.PlayerInteractEvent;
         description="Prevent players from damaging the arena.")
 public class ProtectExtension extends ArenaExtension implements GenericsEventListener {
 
-    private static BukkitEventListener _bukkitListener;
-
     @Override
     protected void onEnable() {
-
-        if (_bukkitListener == null) {
-            _bukkitListener = new BukkitEventListener();
-            Bukkit.getPluginManager().registerEvents(_bukkitListener, PVStarAPI.getPlugin());
-        }
 
         getArena().getEventManager().register(this);
     }
@@ -90,6 +88,44 @@ public class ProtectExtension extends ArenaExtension implements GenericsEventLis
      */
     @GenericsEventHandler
     private void onEntityChangeBlock(EntityChangeBlockEvent event) {
+
+        event.setCancelled(true);
+    }
+
+    /*
+      Handle arena damage (Item Frames and Paintings)
+     */
+    @GenericsEventHandler
+    private void onItemFrameDamage(EntityDamageEvent event) {
+
+        if (event.getEntityType() != EntityType.ITEM_FRAME && event.getEntityType() != EntityType.PAINTING)
+            return;
+
+        event.setDamage(0.0);
+        event.setCancelled(true);
+    }
+
+    /*
+      Handle arena damage (Item Frames and Paintings)
+     */
+    @GenericsEventHandler
+    private void onItemFrameBreak(HangingBreakEvent event) {
+
+        // do not prevent physics break
+        if (event.getCause() == RemoveCause.PHYSICS)
+            return;
+
+        event.setCancelled(true);
+    }
+
+    /*
+      Handle arena damage (Item Frames and Paintings)
+     */
+    @GenericsEventHandler
+    private void onPlayerInteractItemFrame(PlayerInteractEntityEvent event) {
+
+        if (event.getRightClicked().getType() != EntityType.ITEM_FRAME)
+            return;
 
         event.setCancelled(true);
     }
