@@ -27,6 +27,8 @@ package com.jcwhatever.bukkit.pvs.modules.party;
 
 import com.jcwhatever.bukkit.generic.player.collections.PlayerMap;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
+
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ import java.util.UUID;
 
 public class PartyManager {
 	
-	private Map<UUID, Party> _partyMap = new PlayerMap<Party>();
+	private Map<UUID, Party> _partyMap = new PlayerMap<Party>(PVStarAPI.getPlugin());
 	
 	private int _invitationTimeout = 20 * 30;
 	

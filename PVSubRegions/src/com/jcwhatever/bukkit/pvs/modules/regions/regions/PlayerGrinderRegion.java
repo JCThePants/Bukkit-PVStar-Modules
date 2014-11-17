@@ -32,6 +32,7 @@ import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
 import com.jcwhatever.bukkit.generic.utils.LocationUtils;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaBatchScheduler;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
@@ -78,7 +79,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements GenericsEve
     private int _bladesRendered = 0;
 
     private Set<ArenaPlayer> _playersInRegion = new HashSet<>(25);
-    private Map<UUID, Set<Location>> _cachedMoveLocations = new PlayerMap<Set<Location>>();
+    private Map<UUID, Set<Location>> _cachedMoveLocations = new PlayerMap<Set<Location>>(PVStarAPI.getPlugin());
 
     public PlayerGrinderRegion(String name) {
         super(name);

@@ -71,7 +71,7 @@ public final class QueueManager {
 		PreCon.notNull(arena);
 				
 		_arena = arena;
-		_queue = new PlayerQueue();
+		_queue = new PlayerQueue(PVStarAPI.getPlugin());
 	}
 
 	public Arena getArena() {

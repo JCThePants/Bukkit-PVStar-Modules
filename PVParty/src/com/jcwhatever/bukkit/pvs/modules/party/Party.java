@@ -27,17 +27,20 @@ package com.jcwhatever.bukkit.pvs.modules.party;
 
 import com.jcwhatever.bukkit.generic.collections.TimedList;
 import com.jcwhatever.bukkit.generic.player.collections.PlayerSet;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
+
 import org.bukkit.entity.Player;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 public class Party {
 
-	Set<Player> _players = new PlayerSet();
+	Set<Player> _players = new PlayerSet(PVStarAPI.getPlugin());
 	TimedList<Player> _invitations = new TimedList<Player>();
     WeakReference<Player> _leader;
 
@@ -55,7 +58,8 @@ public class Party {
 		_partyName += " Party";
 		
 	}
-	
+
+	@Nullable
 	public Player getLeader() {
 		if (_leader == null)
 			return null;
