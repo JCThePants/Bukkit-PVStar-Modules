@@ -35,6 +35,7 @@ import com.jcwhatever.bukkit.pvs.api.events.players.ArenaBlockDamagePreventEvent
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.hanging.HangingBreakEvent;
@@ -81,6 +82,14 @@ public class ProtectExtension extends ArenaExtension implements GenericsEventLis
         if (!preventEvent.isCancelled()) {
             event.setCancelled(true);
         }
+    }
+
+    /*
+     * Prevent placing blocks
+     */
+    @GenericsEventHandler
+    private void onBlockPlace(BlockPlaceEvent event) {
+        event.setCancelled(true);
     }
 
     /*
