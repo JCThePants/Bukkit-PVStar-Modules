@@ -30,8 +30,9 @@ import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.player.PlayerState;
 import com.jcwhatever.bukkit.generic.player.PlayerState.RestoreLocation;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
+import com.jcwhatever.bukkit.pvs.api.events.players.PlayerLeaveEvent;
 import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerRemovedEvent;
+
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
 
@@ -53,7 +54,7 @@ public class PlayerStateModule extends PVStarModule implements GenericsEventList
     }
 
     @GenericsEventHandler
-    private void onPlayerRemoved(PlayerRemovedEvent event) {
+    private void onPlayerLeave(PlayerLeaveEvent event) {
 
         if (!event.isRestoring() || event.getPlayer().getHandle().isDead())
             return;
