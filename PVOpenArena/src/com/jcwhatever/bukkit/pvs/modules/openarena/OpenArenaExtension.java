@@ -39,8 +39,8 @@ import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaStartReason;
 import com.jcwhatever.bukkit.pvs.api.arena.options.RemovePlayerReason;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaPreStartEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.PlayerJoinEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerPreAddEvent;
+import com.jcwhatever.bukkit.pvs.api.events.players.PlayerPreJoinEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerRemovedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.region.PlayerEnterArenaRegionEvent;
 import com.jcwhatever.bukkit.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
@@ -69,7 +69,7 @@ public class OpenArenaExtension extends ArenaExtension implements GenericsEventL
     }
 
     @GenericsEventHandler(priority = GenericsEventPriority.HIGH, ignoreCancelled = true)
-    private void onPlayerJoin(PlayerJoinEvent event) {
+    private void onPlayerJoin(PlayerPreJoinEvent event) {
 
         // override default behavior of rejecting players
         // because the arena is already running.
