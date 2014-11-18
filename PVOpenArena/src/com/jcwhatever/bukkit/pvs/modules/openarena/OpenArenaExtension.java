@@ -148,7 +148,7 @@ public class OpenArenaExtension extends ArenaExtension implements GenericsEventL
 
         if (event.getPlayer().getArena() == null) {
             event.getPlayer().getMeta().set(META_ENTER, true);
-            getArena().join(event.getPlayer(), AddPlayerReason.PLAYER_JOIN);
+            getArena().join(event.getPlayer());
         }
     }
 

@@ -34,10 +34,10 @@ import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.api.arena.options.AddPlayerReason;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.queue.Lang;
 import com.jcwhatever.bukkit.pvs.modules.queue.QueueManager;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
@@ -115,7 +115,7 @@ public class QueueCommand extends AbstractPVCommand {
         }
 
         if (arena.canJoin()) {
-            arena.join(player, AddPlayerReason.PLAYER_JOIN);
+            arena.join(player);
             return; // finish
         }
 

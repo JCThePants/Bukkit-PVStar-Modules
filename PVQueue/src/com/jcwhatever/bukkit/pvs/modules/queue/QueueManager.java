@@ -30,14 +30,15 @@ import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.api.arena.options.AddPlayerReason;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerJoinQueryEvent;
+
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 public final class QueueManager {
 
@@ -96,11 +97,7 @@ public final class QueueManager {
             // make sure other modules agree to the player joining the arena
             Set<ArenaPlayer> partyMembers = _arena.getEventManager().call(new PlayerJoinQueryEvent(_arena, player)).getPlayers();
 
-            if (!partyMembers.contains(player)) {
-                _queue.remove();
-                // TODO tell player removed from queue
-            }
-            else {
+            if (partyMembers.contains(player)) {
 
                 // make sure there is enough room for the party
                 if (_arena.getAvailableSlots() < partyMembers.size()) {
@@ -116,14 +113,18 @@ public final class QueueManager {
                 _queue.remove(); // remove party leader/player from queue
 
                 for (ArenaPlayer partyMember : partyMembers) {
-                    _arena.join(partyMember, AddPlayerReason.PLAYER_JOIN);
+                    _arena.join(partyMember);
                 }
+            } else {
+                _queue.remove();
+                // TODO tell player removed from queue
             }
         }
 
 		return true;
 	}
-	
+
+    @Nullable
 	public static Arena getCurrentQueue(ArenaPlayer player) {
 		PreCon.notNull(player);
 

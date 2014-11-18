@@ -38,12 +38,13 @@ import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.party.Party;
 import com.jcwhatever.bukkit.pvs.modules.party.PartyManager;
 import com.jcwhatever.bukkit.pvs.modules.party.PartyModule;
+
 import org.bukkit.entity.Player;
 
-import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 public class PartyEventListener implements GenericsEventListener {
 
@@ -122,7 +123,7 @@ public class PartyEventListener implements GenericsEventListener {
                     player.getSessionMeta().set(META_ALLOW_JOIN_ARENA, event.getArena());
 
                     // join arena
-                    arena.join(player, AddPlayerReason.PLAYER_JOIN);
+                    arena.join(player);
                 }
             }
         }

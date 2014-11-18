@@ -33,12 +33,12 @@ import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.bukkit.pvs.api.arena.options.AddPlayerReason;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.bukkit.pvs.api.arena.options.RemovePlayerReason;
 import com.jcwhatever.bukkit.pvs.api.events.region.PlayerEnterArenaRegionEvent;
 import com.jcwhatever.bukkit.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
+
 import org.bukkit.Location;
 
 @ArenaExtensionInfo(
@@ -131,7 +131,7 @@ public class BordersExtension extends ArenaExtension implements GenericsEventLis
                         return;
 
                     case JOIN:
-                        getArena().join(player, AddPlayerReason.PLAYER_JOIN);
+                        getArena().join(player);
                         break;
 
                     case KICK:
