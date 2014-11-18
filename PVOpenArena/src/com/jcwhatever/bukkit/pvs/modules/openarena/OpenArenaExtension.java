@@ -28,6 +28,8 @@ package com.jcwhatever.bukkit.pvs.modules.openarena;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
+import com.jcwhatever.bukkit.generic.player.collections.PlayerSet;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.PlayerMeta;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -37,6 +39,7 @@ import com.jcwhatever.bukkit.pvs.api.arena.managers.PlayerManager;
 import com.jcwhatever.bukkit.pvs.api.arena.options.AddPlayerReason;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaStartReason;
 import com.jcwhatever.bukkit.pvs.api.arena.options.RemovePlayerReason;
+import com.jcwhatever.bukkit.pvs.api.events.ArenaIdleEvent;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaPreStartEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerLeaveEvent;
@@ -46,7 +49,10 @@ import com.jcwhatever.bukkit.pvs.api.events.region.PlayerEnterArenaRegionEvent;
 import com.jcwhatever.bukkit.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 
+import org.bukkit.entity.Player;
+
 import java.util.List;
+import java.util.Set;
 
 @ArenaExtensionInfo(
         name = "PVOpenArena",
@@ -55,6 +61,10 @@ public class OpenArenaExtension extends ArenaExtension implements GenericsEventL
 
     private static final String META_LEAVE = OpenArenaExtension.class.getName() + "META_LEAVE";
     private static final String META_ENTER = OpenArenaExtension.class.getName() + "META_ENTER";
+
+    // stores player-->arena so players entering an arena that is busy can be added
+    // when it becomes idle.
+    private static final Set<Player> _joinOnIdle = new PlayerSet(PVStarAPI.getPlugin(), 10);
 
     @Override
     protected void onEnable() {
@@ -147,8 +157,14 @@ public class OpenArenaExtension extends ArenaExtension implements GenericsEventL
     private void onPlayerEnterArena(PlayerEnterArenaRegionEvent event) {
 
         if (event.getPlayer().getArena() == null) {
-            event.getPlayer().getMeta().set(META_ENTER, true);
-            getArena().join(event.getPlayer());
+
+            if (getArena().isBusy()) {
+                _joinOnIdle.add(event.getPlayer().getHandle());
+            }
+            else {
+                event.getPlayer().getMeta().set(META_ENTER, true);
+                getArena().join(event.getPlayer());
+            }
         }
     }
 
@@ -160,9 +176,13 @@ public class OpenArenaExtension extends ArenaExtension implements GenericsEventL
 
         if (getArena().equals(event.getPlayer().getArena())) {
 
-            event.getPlayer().getMeta().set(META_LEAVE, true);
-            getArena().remove(event.getPlayer(), RemovePlayerReason.PLAYER_LEAVE);
-
+            if (_joinOnIdle.contains(event.getPlayer().getHandle())) {
+                _joinOnIdle.remove(event.getPlayer().getHandle());
+            }
+            else {
+                event.getPlayer().getMeta().set(META_LEAVE, true);
+                getArena().remove(event.getPlayer(), RemovePlayerReason.PLAYER_LEAVE);
+            }
         }
     }
 
@@ -178,5 +198,27 @@ public class OpenArenaExtension extends ArenaExtension implements GenericsEventL
             event.setRestoreLocation(null);
             meta.set(META_LEAVE, null);
         }
+    }
+
+    /*
+     * Add players that were unable to join because the arena was busy.
+     */
+    @GenericsEventHandler
+    private void onArenaIdle(@SuppressWarnings("unused") ArenaIdleEvent event) {
+        for (Player p : _joinOnIdle) {
+
+            ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
+
+            if (player.getArena() != null)
+                continue;
+
+            if (!getArena().getRegion().contains(p.getLocation()))
+                continue;
+
+            player.getMeta().set(META_ENTER, true);
+            getArena().join(player);
+        }
+
+        _joinOnIdle.clear();
     }
 }
