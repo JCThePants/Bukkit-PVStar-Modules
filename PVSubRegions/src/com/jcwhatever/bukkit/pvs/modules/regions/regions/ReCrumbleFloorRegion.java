@@ -77,6 +77,8 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
     private int _rebuildDelayTicks = 40;
     private ItemStack[] _affectedBlocks;
 
+    private boolean _hasRestored;
+
     public ReCrumbleFloorRegion(String name) {
         super(name);
     }
@@ -105,7 +107,21 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
     protected void onEnable() {
         getArena().getEventManager().register(this);
 
-        if (!canRestore()) {
+        if (canRestore()) {
+
+            // restore in case server was shut down before the
+            // re-crumble region finished rebuilding itself.
+            if (!_hasRestored) {
+                try {
+                    restoreData(BuildMethod.PERFORMANCE);
+                    _hasRestored = true;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        } else {
+
+            // save region data
 
             Future result;
 
@@ -119,12 +135,14 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
             result.onCancel(new CancelHandler() {
                 @Override
                 public void run(String reason) {
+                    // disable to prevent loss of build
                     setEnabled(false);
 
                 }
             }).onFail(new FailHandler() {
                 @Override
                 public void run(String reason) {
+                    // disable to prevent loss of build
                     setEnabled(false);
                 }
             });
@@ -163,11 +181,6 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
         if (!isEnabled())
             return;
 
-        try {
-            restoreData(BuildMethod.PERFORMANCE, false);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
         _dropped.clear();
     }
 
