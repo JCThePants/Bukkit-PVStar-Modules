@@ -167,11 +167,15 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEv
     }
 
     @Override
-    protected void onCoordsChanged(Location p1, Location p2) throws IOException {
+    protected void onCoordsChanged(Location p1, Location p2) {
         super.onCoordsChanged(p1, p2);
 
         if (!canRestore()) {
-            saveData();
+            try {
+                saveData();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

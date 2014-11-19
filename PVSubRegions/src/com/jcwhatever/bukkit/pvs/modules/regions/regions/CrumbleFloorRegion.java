@@ -143,11 +143,15 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements GenericsEven
     }
 
     @Override
-    protected void onCoordsChanged(Location p1, Location p2) throws IOException {
+    protected void onCoordsChanged(Location p1, Location p2) {
         super.onCoordsChanged(p1, p2);
 
         if (!this.canRestore()) {
-            saveData();
+            try {
+                saveData();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 

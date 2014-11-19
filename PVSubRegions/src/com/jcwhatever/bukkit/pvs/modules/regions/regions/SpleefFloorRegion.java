@@ -134,16 +134,20 @@ public class SpleefFloorRegion extends AbstractPVRegion implements GenericsEvent
     }
 
     @Override
-    protected void onCoordsChanged(Location p1, Location p2) throws IOException {
+    protected void onCoordsChanged(Location p1, Location p2) {
         super.onCoordsChanged(p1, p2);
 
         if (!this.canRestore()) {
-            saveData();
+            try {
+                saveData();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 
     @GenericsEventHandler(priority = GenericsEventPriority.LAST)
-    private void onArenaEnded(ArenaEndedEvent event) {
+    private void onArenaEnded(@SuppressWarnings("unused") ArenaEndedEvent event) {
 
         try {
             restoreData(BuildMethod.PERFORMANCE, false);
