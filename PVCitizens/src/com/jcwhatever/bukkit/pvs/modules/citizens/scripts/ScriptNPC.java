@@ -27,11 +27,20 @@ package com.jcwhatever.bukkit.pvs.modules.citizens.scripts;
 
 import com.jcwhatever.bukkit.generic.collections.MultiValueMap;
 import com.jcwhatever.bukkit.generic.events.EventHandler;
+import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
+import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventManager;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.mixins.IDisposable;
+import com.jcwhatever.bukkit.generic.mixins.IViewable;
+import com.jcwhatever.bukkit.generic.player.collections.PlayerSet;
+import com.jcwhatever.bukkit.generic.utils.EnumUtils;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.bukkit.pvs.api.events.players.PlayerJoinedEvent;
+import com.jcwhatever.bukkit.pvs.api.events.players.PlayerLeaveEvent;
 import com.jcwhatever.bukkit.pvs.modules.citizens.CitizensModule;
 import com.jcwhatever.bukkit.pvs.modules.citizens.events.AbstractNPCEvent;
 import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCDespawnEvent;
@@ -40,6 +49,7 @@ import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCSpawnEvent;
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 
 import net.citizensnpcs.api.ai.Goal;
@@ -60,11 +70,15 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import javax.annotation.Nullable;
 
-public class ScriptNPC implements IDisposable {
+public class ScriptNPC implements IViewable, GenericsEventListener, IDisposable {
 
     private static Map<String, Class<? extends AbstractNPCEvent>> _registeredEvents = new HashMap<>(250);
     private static Map<NPC, ScriptNPC> _npcMap = new WeakHashMap<>(50);
 
+    // IViewable
+    private ViewMode _viewMode = ViewMode.BLACKLIST;
+    private Set<Player> _viewers = new PlayerSet(PVStarAPI.getPlugin(), 20);
+    private boolean _isViewingActivated;
 
     /**
      * Get an existing {@code ScriptNPC} from the specified NPC.
@@ -243,11 +257,21 @@ public class ScriptNPC implements IDisposable {
 
         if (_npc.isSpawned()) {
             _npc.teleport(location, TeleportCause.PLUGIN);
+
+            if (_isViewingActivated) {
+                setViewMode(_viewMode);
+            }
+
             return true;
         }
         else if (_npc.spawn(location)) {
 
             NPCEntityRegistry.registerNPCEntity(getArena(), _npc.getEntity(), _npc);
+
+            if (_isViewingActivated) {
+                setViewMode(_viewMode);
+            }
+
             return true;
         }
 
@@ -304,6 +328,11 @@ public class ScriptNPC implements IDisposable {
         }
 
         _registeredHandlers.clear();
+        _viewers.clear();
+
+        if (_isViewingActivated) {
+            _arena.getEventManager().unregister(this);
+        }
 
         getEventManager().dispose();
     }
@@ -509,6 +538,152 @@ public class ScriptNPC implements IDisposable {
     NPC getHandle() {
 
         return _npc;
+    }
+
+    @Override
+    public ViewMode getViewMode() {
+        return _viewMode;
+    }
+
+    public void setViewMode(String viewModeName) {
+        PreCon.notNullOrEmpty(viewModeName);
+
+        ViewMode viewMode = EnumUtils.searchEnum(viewModeName, ViewMode.class);
+        if (viewMode == null) {
+            throw new IllegalArgumentException("Invalid view mode name: " + viewModeName);
+        }
+
+        setViewMode(viewMode);
+    }
+
+    @Override
+    public void setViewMode(ViewMode viewMode) {
+        PreCon.notNull(viewMode);
+
+        _viewMode = viewMode;
+
+        if (getEntityType() != EntityType.PLAYER)
+            return;
+
+        if (!_npc.isSpawned())
+            return;
+
+        activateViewing();
+
+        List<ArenaPlayer> players = getArena().getGameManager().getPlayers();
+
+        for (ArenaPlayer arenaPlayer : players) {
+            Player p = arenaPlayer.getHandle();
+
+            if (_viewMode == ViewMode.BLACKLIST) {
+
+                if (_viewers.contains(p)) {
+                    p.hidePlayer((Player)getEntity());
+                }
+                else {
+                    p.showPlayer((Player) getEntity());
+                }
+            }
+            else { /* WHITELIST */
+
+                if (_viewers.contains(p)) {
+                    p.showPlayer((Player) getEntity());
+                }
+                else {
+                    p.hidePlayer((Player)getEntity());
+                }
+            }
+        }
+    }
+
+    @Override
+    public boolean hasViewer(Player player) {
+        PreCon.notNull(player);
+
+        return _viewers.contains(player);
+    }
+
+    @Override
+    public void addViewer(Player player) {
+        PreCon.notNull(player);
+
+        if (_viewers.add(player)) {
+
+            activateViewing();
+
+            if (getEntityType() != EntityType.PLAYER)
+                return;
+
+            if (_viewMode == ViewMode.BLACKLIST) {
+                player.hidePlayer((Player)getEntity());
+            }
+            else { /* WHITELIST */
+                player.showPlayer((Player) getEntity());
+            }
+        }
+    }
+
+    @Override
+    public void removeViewer(Player player) {
+        PreCon.notNull(player);
+
+        if (_viewers.remove(player)) {
+
+            activateViewing();
+
+            if (_viewMode == ViewMode.BLACKLIST) {
+                player.showPlayer((Player) getEntity());
+            }
+            else { /* WHITELIST */
+                player.hidePlayer((Player) getEntity());
+            }
+        }
+    }
+
+    @Override
+    public void clearViewers() {
+        _viewers.clear();
+        setViewMode(_viewMode);
+    }
+
+    @Override
+    public List<Player> getViewers() {
+        return new ArrayList<>(_viewers);
+    }
+
+    private void activateViewing() {
+        if (_isViewingActivated)
+            return;
+
+        _isViewingActivated = true;
+
+        _arena.getEventManager().register(this);
+    }
+
+    @GenericsEventHandler
+    private void onPlayerJoin(PlayerJoinedEvent event) {
+
+        if (getEntityType() != EntityType.PLAYER)
+            return;
+
+        Player player = event.getPlayer().getHandle();
+
+        if (_viewMode == ViewMode.BLACKLIST) {
+            player.showPlayer((Player) getEntity());
+        }
+        else { /* WHITELIST */
+            player.hidePlayer((Player) getEntity());
+        }
+    }
+
+    @GenericsEventHandler
+    private void onPlayerLeave(PlayerLeaveEvent event) {
+
+        if (getEntityType() != EntityType.PLAYER)
+            return;
+
+        Player player = event.getPlayer().getHandle();
+        player.showPlayer((Player) getEntity());
     }
 
     public static interface NPCEventHandler {
