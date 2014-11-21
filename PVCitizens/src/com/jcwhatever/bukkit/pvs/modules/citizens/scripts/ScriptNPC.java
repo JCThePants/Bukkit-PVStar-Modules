@@ -29,6 +29,7 @@ import com.jcwhatever.bukkit.generic.collections.MultiValueMap;
 import com.jcwhatever.bukkit.generic.events.EventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventManager;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
+import com.jcwhatever.bukkit.generic.mixins.IDisposable;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.modules.citizens.CitizensModule;
@@ -59,7 +60,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import javax.annotation.Nullable;
 
-public class ScriptNPC {
+public class ScriptNPC implements IDisposable {
 
     private static Map<String, Class<? extends AbstractNPCEvent>> _registeredEvents = new HashMap<>(250);
     private static Map<NPC, ScriptNPC> _npcMap = new WeakHashMap<>(50);
@@ -284,6 +285,7 @@ public class ScriptNPC {
      * Dispose the NPC and remove from
      * registry.
      */
+    @Override
     public void dispose() {
 
         _npc.destroy();
