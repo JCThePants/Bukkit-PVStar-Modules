@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.commands.spawner;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 
-@ICommandInfo(
+@CommandInfo(
         parent="mobs",
         command="spawner",
         description="Manage arena mob spawner.")

@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.commands.settings;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 
-@ICommandInfo(
+@CommandInfo(
         parent="regions",
         command={ "settings" },
         description="Manage special arena region settings.")

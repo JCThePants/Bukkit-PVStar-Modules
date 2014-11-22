@@ -25,11 +25,11 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.commands.columns.ColumnsCommand;
 
-@ICommandInfo(
+@CommandInfo(
         command={ "lb", "leaderboards", "pvleaderboards" },
         description="Manage leaderboards.")
 

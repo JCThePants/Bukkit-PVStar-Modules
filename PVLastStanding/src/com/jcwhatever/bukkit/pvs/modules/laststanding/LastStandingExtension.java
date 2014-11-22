@@ -25,7 +25,7 @@
 package com.jcwhatever.bukkit.pvs.modules.laststanding;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaTeam;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
 @ArenaExtensionInfo(
         name="PVLastStanding",
         description = "Declares the last player or team in an arena the winner.")
-public class LastStandingExtension extends ArenaExtension implements GenericsEventListener {
+public class LastStandingExtension extends ArenaExtension implements IGenericsEventListener {
 
     @Override
     protected void onEnable() {

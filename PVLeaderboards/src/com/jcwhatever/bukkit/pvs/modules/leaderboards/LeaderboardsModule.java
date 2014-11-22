@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.leaderboards;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueWorker;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
@@ -51,7 +51,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class LeaderboardsModule extends PVStarModule implements GenericsEventListener {
+public class LeaderboardsModule extends PVStarModule implements IGenericsEventListener {
 
     private static LeaderboardsModule _module;
 

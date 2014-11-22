@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.stats;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.performance.TripleKeySingleCache;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -49,7 +49,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-public class BasicStatsModule extends PVStarModule implements GenericsEventListener {
+public class BasicStatsModule extends PVStarModule implements IGenericsEventListener {
 
     public static final StatType KILLS = new StatType("kills", "Kills", StatTracking.TOTAL_MIN_MAX);
     public static final StatType DEATHS = new StatType("deaths", "Deaths", StatTracking.TOTAL_MIN_MAX);

@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.mobs;
 import com.jcwhatever.bukkit.generic.collections.EntryCounter;
 import com.jcwhatever.bukkit.generic.collections.EntryCounter.RemovalPolicy;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.EnumUtils;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
@@ -60,7 +60,7 @@ import javax.annotation.Nullable;
 @ArenaExtensionInfo(
         name="PVMobs",
         description = "Adds mob spawning support to an arena.")
-public class MobArenaExtension extends ArenaExtension implements GenericsEventListener {
+public class MobArenaExtension extends ArenaExtension implements IGenericsEventListener {
 
     public static final String NAME = "PVMobs";
 

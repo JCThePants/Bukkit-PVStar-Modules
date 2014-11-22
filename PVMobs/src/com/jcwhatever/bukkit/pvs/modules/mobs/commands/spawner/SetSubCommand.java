@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.commands.spawner;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.pvs.modules.mobs.Lang;
@@ -37,7 +37,7 @@ import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.SpawnerManager;
 import org.bukkit.command.CommandSender;
 
-@ICommandInfo(
+@CommandInfo(
         parent="spawner",
         command="set",
         staticParams = { "spawnerName" },

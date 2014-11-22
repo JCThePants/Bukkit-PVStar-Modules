@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.revive.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.items.ItemStackHelper;
@@ -39,7 +39,7 @@ import com.jcwhatever.bukkit.pvs.modules.revive.ReviveExtension;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
-@ICommandInfo(
+@CommandInfo(
         parent="revive",
         command="item",
         staticParams={"itemStack=info"},

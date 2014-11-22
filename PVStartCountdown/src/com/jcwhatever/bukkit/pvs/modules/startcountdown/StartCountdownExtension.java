@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.startcountdown;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.internal.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
@@ -49,7 +49,7 @@ import java.util.Set;
 @ArenaExtensionInfo(
         name="PVStartCountdown",
         description = "Adds a countdown timer before the game starts.")
-public class StartCountdownExtension extends ArenaExtension implements GenericsEventListener {
+public class StartCountdownExtension extends ArenaExtension implements IGenericsEventListener {
 
     @Localizable static final String _AUTO_START_INFO =
             "{YELLOW}Countdown to start will begin once {0} or more players " +

@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.autorestore;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -40,7 +40,7 @@ import java.io.IOException;
         description = "Auto restores the arena region when the arena ends. " +
                 "Region must be already saved to disk."
 )
-public class AutoRestoreExtension extends ArenaExtension implements GenericsEventListener {
+public class AutoRestoreExtension extends ArenaExtension implements IGenericsEventListener {
 
     @Override
     protected void onEnable() {

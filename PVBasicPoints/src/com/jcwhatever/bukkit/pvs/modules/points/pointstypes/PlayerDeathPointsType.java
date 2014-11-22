@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.points.pointstypes;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -53,7 +53,7 @@ public class PlayerDeathPointsType extends AbstractPointsType<PlayerDeathPointsH
     }
 
 
-    public static class PlayerDeathPointsHandler extends AbstractPointsHandler implements GenericsEventListener {
+    public static class PlayerDeathPointsHandler extends AbstractPointsHandler implements IGenericsEventListener {
 
         PlayerDeathPointsHandler(Arena arena, PointsType type, IDataNode node) {
             super(arena, type, node);

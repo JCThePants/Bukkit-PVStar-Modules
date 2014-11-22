@@ -25,14 +25,14 @@
 
 package com.jcwhatever.bukkit.pvs.modules.points.pointstypes;
 
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.points.PointsHandler;
 import com.jcwhatever.bukkit.pvs.api.points.PointsType;
 
-public class AbstractPointsHandler implements PointsHandler, GenericsEventListener {
+public class AbstractPointsHandler implements PointsHandler, IGenericsEventListener {
 
     private final Arena _arena;
     private final PointsType _type;

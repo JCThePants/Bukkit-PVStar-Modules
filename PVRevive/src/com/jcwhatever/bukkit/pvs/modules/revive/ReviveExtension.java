@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.revive;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.items.ItemStackComparer;
 import com.jcwhatever.bukkit.generic.utils.Scheduler;
@@ -49,7 +49,7 @@ import org.bukkit.potion.PotionEffectType;
 @ArenaExtensionInfo(
         name = "PVRevive",
         description = "Adds down and revive mechanics to an arena.")
-public class ReviveExtension extends ArenaExtension implements GenericsEventListener {
+public class ReviveExtension extends ArenaExtension implements IGenericsEventListener {
 
     private static final String KEY_IS_DOWN = "com.jcwhatever.bukkit.pvs.modules.revive.ReviveExtension.KEY_IS_DOWN";
     private static final String KEY_KILLER = "com.jcwhatever.bukkit.pvs.modules.revive.ReviveExtension.KEY_KILLER";

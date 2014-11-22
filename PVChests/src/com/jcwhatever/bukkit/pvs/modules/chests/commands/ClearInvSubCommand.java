@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.chests.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.pvs.modules.chests.Lang;
@@ -36,7 +36,7 @@ import com.jcwhatever.bukkit.pvs.modules.chests.ChestExtension;
 import com.jcwhatever.bukkit.pvs.modules.chests.ChestExtension.ClearChestRestore;
 import org.bukkit.command.CommandSender;
 
-@ICommandInfo(
+@CommandInfo(
         parent="chests",
         command="clearinv",
         usage="/{plugin-command} chests clearinv",

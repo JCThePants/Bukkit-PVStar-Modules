@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.citizens.scripts;
 
-import com.jcwhatever.bukkit.generic.events.EventHandler;
+import com.jcwhatever.bukkit.generic.events.IEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.inventory.Kit;
 import com.jcwhatever.bukkit.generic.scripting.api.IScriptApiObject;
@@ -77,7 +77,7 @@ public class CitizensScriptApi extends ScriptApi {
         private final Arena _arena;
         private final NPCDataStore _dataStore;
         private final NPCRegistry _npcRegistry;
-        private final EventHandler _arenaEndHandler;
+        private final IEventHandler _arenaEndHandler;
         private final Map<NPC, ScriptNPC> _npcs = new WeakHashMap<>(35);
 
         /**
@@ -91,7 +91,7 @@ public class CitizensScriptApi extends ScriptApi {
             _dataStore = new BlackHoleNPCDataStore();
             _npcRegistry = CitizensAPI.createAnonymousNPCRegistry(_dataStore);
 
-            _arenaEndHandler = new EventHandler() {
+            _arenaEndHandler = new IEventHandler() {
                 @Override
                 public void call(Object event) {
                     _npcRegistry.deregisterAll();

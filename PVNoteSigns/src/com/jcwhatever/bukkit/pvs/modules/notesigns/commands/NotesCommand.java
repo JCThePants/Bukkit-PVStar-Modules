@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.notesigns.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 
-@ICommandInfo(
+@CommandInfo(
         command={ "notes", "pvnotes", "adminnotes" },
         description="Manage arena chests.")
 

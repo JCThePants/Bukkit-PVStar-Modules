@@ -25,14 +25,14 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.mobs.commands.limit.LimitCommand;
 import com.jcwhatever.bukkit.pvs.modules.mobs.commands.paths.PathsCommand;
 import com.jcwhatever.bukkit.pvs.modules.mobs.commands.settings.SettingsCommand;
 import com.jcwhatever.bukkit.pvs.modules.mobs.commands.spawner.SpawnerCommand;
 
-@ICommandInfo(
+@CommandInfo(
         command="mobs",
         description="Manage mob settings.")
 

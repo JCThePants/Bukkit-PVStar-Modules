@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.CancelHandler;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.FailHandler;
@@ -57,7 +57,7 @@ import java.util.Set;
 @RegionTypeInfo(
         name="recrumble",
         description="A region of blocks that are removed moments after being walked on by players. Blocks are restored moments later.")
-public class ReCrumbleFloorRegion extends AbstractPVRegion implements GenericsEventListener {
+public class ReCrumbleFloorRegion extends AbstractPVRegion implements IGenericsEventListener {
 
     private static SettingDefinitions _possibleSettings = new SettingDefinitions();
 

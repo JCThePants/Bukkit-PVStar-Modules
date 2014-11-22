@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.commands.spawner;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
@@ -42,7 +42,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-@ICommandInfo(
+@CommandInfo(
         parent="spawner",
         command="types",
         staticParams = { "page=1" },

@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
@@ -36,7 +36,7 @@ import org.bukkit.command.CommandSender;
 import java.util.List;
 import java.util.UUID;
 
-@ICommandInfo(
+@CommandInfo(
         parent="lb",
         command="setarenas",
         staticParams={"leaderboardName", "arenaNames"},

@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.openarena;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.player.collections.PlayerSet;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -57,7 +57,7 @@ import java.util.Set;
 @ArenaExtensionInfo(
         name = "PVOpenArena",
         description = "Allow players to join an arena at any time and the game starts immediately.")
-public class OpenArenaExtension extends ArenaExtension implements GenericsEventListener {
+public class OpenArenaExtension extends ArenaExtension implements IGenericsEventListener {
 
     private static final String META_LEAVE = OpenArenaExtension.class.getName() + "META_LEAVE";
     private static final String META_ENTER = OpenArenaExtension.class.getName() + "META_ENTER";

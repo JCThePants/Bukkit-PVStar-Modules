@@ -25,12 +25,12 @@
 
 package com.jcwhatever.bukkit.pvs.modules.deathdrops.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.commands.exp.ExpCommand;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.commands.items.ItemsCommand;
 
-@ICommandInfo(
+@CommandInfo(
         command="drops",
         description="Manage death drop settings.")
 

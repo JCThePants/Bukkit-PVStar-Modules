@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
@@ -46,7 +46,7 @@ import java.util.UUID;
 @RegionTypeInfo(
         name="checkpoint",
         description="Changes a players respawn point.")
-public class CheckpointRegion extends AbstractPVRegion implements GenericsEventListener {
+public class CheckpointRegion extends AbstractPVRegion implements IGenericsEventListener {
 
     private static SettingDefinitions _possibleSettings = new SettingDefinitions();
 

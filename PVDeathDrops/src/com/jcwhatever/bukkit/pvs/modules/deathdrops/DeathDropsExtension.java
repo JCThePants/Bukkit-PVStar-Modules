@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.deathdrops;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.player.PlayerStateSnapshot;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
@@ -51,7 +51,7 @@ import java.util.UUID;
 @ArenaExtensionInfo(
         name="PVDeathDrops",
         description="Manage items dropped when players or mobs are killed in an arena.")
-public class DeathDropsExtension extends ArenaExtension implements GenericsEventListener {
+public class DeathDropsExtension extends ArenaExtension implements IGenericsEventListener {
 
     private Map<EntityType, DropSettings> _entitySettings = new EnumMap<>(EntityType.class);
     private Map<UUID, PlayerStateSnapshot> _itemsToRestore = new HashMap<>(25);

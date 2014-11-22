@@ -25,11 +25,11 @@
 
 package com.jcwhatever.bukkit.pvs.modules.citizens.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.citizens.commands.kits.KitsCommand;
 
-@ICommandInfo(
+@CommandInfo(
         command={ "npc", "citizensnpc" },
         description="Manage NPC kits.")
 

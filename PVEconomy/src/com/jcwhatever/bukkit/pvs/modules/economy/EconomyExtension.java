@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.economy;
 
 import com.jcwhatever.bukkit.generic.economy.EconomyHelper;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -45,7 +45,7 @@ import org.bukkit.event.entity.PlayerDeathEvent;
         name="PVEconomy",
         description = "Adds economy earnings/rewards to an arena.")
 
-public class EconomyExtension extends ArenaExtension implements GenericsEventListener {
+public class EconomyExtension extends ArenaExtension implements IGenericsEventListener {
 
     private double _kill = 0.0D;
     private double _death = 0.0D;

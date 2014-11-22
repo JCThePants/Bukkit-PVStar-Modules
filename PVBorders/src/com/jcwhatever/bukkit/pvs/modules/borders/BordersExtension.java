@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.borders;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -44,7 +44,7 @@ import org.bukkit.Location;
 @ArenaExtensionInfo(
         name="PVBorders",
         description="Add arena region entry and exit handling.")
-public class BordersExtension extends ArenaExtension implements GenericsEventListener {
+public class BordersExtension extends ArenaExtension implements IGenericsEventListener {
 
     private OutOfBoundsAction _outOfBoundsAction = OutOfBoundsAction.NONE;
     private OutsidersAction _outsidersAction = OutsidersAction.NONE;

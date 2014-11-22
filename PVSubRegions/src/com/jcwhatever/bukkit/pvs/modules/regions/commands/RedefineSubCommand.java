@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
@@ -38,7 +38,7 @@ import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-@ICommandInfo(
+@CommandInfo(
         parent="regions",
         command="redefine",
         staticParams={ "regionName" },

@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.deathdrops.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.Lang;
@@ -34,7 +34,7 @@ import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.DeathDropsExtension;
 import org.bukkit.command.CommandSender;
 
-@ICommandInfo(
+@CommandInfo(
         parent="drops",
         command="keepitems",
         staticParams = { "on|off|info=info"},

@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.chests;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Rand;
@@ -58,7 +58,7 @@ import java.util.Set;
         name = "PVChests",
         description = "Add randomized chests and chest contents to an arena.")
 
-public class ChestExtension extends ArenaExtension implements GenericsEventListener, Listener {
+public class ChestExtension extends ArenaExtension implements IGenericsEventListener, Listener {
 
     public enum ClearChestRestore {
         NONE,

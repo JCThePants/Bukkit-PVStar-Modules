@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.gamblesigns;
 
 import com.jcwhatever.bukkit.generic.collections.MultiValueMap;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.scripting.api.IScriptApiObject;
 import com.jcwhatever.bukkit.generic.signs.SignContainer;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -38,7 +38,7 @@ import com.jcwhatever.bukkit.pvs.modules.gamblesigns.events.GambleTriggeredEvent
 
 import java.util.List;
 
-public class GambleScriptApi extends ScriptApi implements GenericsEventListener {
+public class GambleScriptApi extends ScriptApi implements IGenericsEventListener {
 
     @Override
     public String getVariableName() {
@@ -55,7 +55,7 @@ public class GambleScriptApi extends ScriptApi implements GenericsEventListener 
         return apiObject;
     }
 
-    public static class ApiObject implements IScriptApiObject, GenericsEventListener {
+    public static class ApiObject implements IScriptApiObject, IGenericsEventListener {
 
         private MultiValueMap<String, GambleHandler> _gambleHandlers = new MultiValueMap<>(25);
 

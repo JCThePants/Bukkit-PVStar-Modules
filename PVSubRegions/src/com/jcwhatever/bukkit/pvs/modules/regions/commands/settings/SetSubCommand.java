@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.commands.settings;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
@@ -35,7 +35,7 @@ import com.jcwhatever.bukkit.pvs.modules.regions.commands.AbstractRegionCommand;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
 import org.bukkit.command.CommandSender;
 
-@ICommandInfo(
+@CommandInfo(
         parent="settings",
         command="set",
         staticParams={ "regionName", "property", "value"},

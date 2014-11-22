@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands.columns;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 
-@ICommandInfo(
+@CommandInfo(
         parent="lb",
         command={ "columns" },
         description="Manage leaderboard columns.")

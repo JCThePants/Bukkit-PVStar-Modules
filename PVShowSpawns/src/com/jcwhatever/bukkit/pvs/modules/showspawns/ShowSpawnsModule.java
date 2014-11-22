@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.showspawns;
 
 import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.items.ItemStackHelper;
 import com.jcwhatever.bukkit.generic.signs.SignHelper;
 import com.jcwhatever.bukkit.generic.utils.LocationUtils;
@@ -51,7 +51,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class ShowSpawnsModule extends PVStarModule implements GenericsEventListener {
+public class ShowSpawnsModule extends PVStarModule implements IGenericsEventListener {
 
     private static ShowSpawnsModule _module;
 

@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.queue.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
@@ -42,7 +42,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
 
-@ICommandInfo(
+@CommandInfo(
         command={"q", "queue"},
         staticParams={"arenaName=$info"},
         usage="/{plugin-command} q [arenaName]",

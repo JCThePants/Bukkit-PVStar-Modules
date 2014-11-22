@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.borders.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
@@ -36,7 +36,7 @@ import com.jcwhatever.bukkit.pvs.modules.borders.Lang;
 import com.jcwhatever.bukkit.pvs.modules.borders.OutsidersAction;
 import org.bukkit.command.CommandSender;
 
-@ICommandInfo(
+@CommandInfo(
         parent="arena",
         command="outsiders",
         staticParams={"none|join|kick|info=info"},

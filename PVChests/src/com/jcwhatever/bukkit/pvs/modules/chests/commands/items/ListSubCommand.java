@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.chests.commands.items;
 
 import com.jcwhatever.bukkit.generic.collections.WeightedList.WeightedIterator;
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.items.ItemStackHelper;
@@ -43,7 +43,7 @@ import com.jcwhatever.bukkit.pvs.modules.chests.Lang;
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
-@ICommandInfo(
+@CommandInfo(
         parent="items",
         command="list",
         staticParams={"page=1"},

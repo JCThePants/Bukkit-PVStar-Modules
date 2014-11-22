@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
@@ -44,7 +44,7 @@ import java.util.List;
         name="spawntrigger",
         description="Trigger mob spawners by entering the region.")
 
-public class SpawnTriggerRegion extends AbstractPVRegion implements GenericsEventListener {
+public class SpawnTriggerRegion extends AbstractPVRegion implements IGenericsEventListener {
 
     private static SettingDefinitions _possibleSettings = new SettingDefinitions();
 

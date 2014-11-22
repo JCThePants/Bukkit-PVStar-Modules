@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.commands.settings;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
@@ -42,7 +42,7 @@ import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.SpawnerInfo;
 import org.bukkit.command.CommandSender;
 
-@ICommandInfo(
+@CommandInfo(
         parent="settings",
         command="info",
         staticParams={ "page=1"},

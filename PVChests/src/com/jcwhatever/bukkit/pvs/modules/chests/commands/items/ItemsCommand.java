@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.chests.commands.items;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 
-@ICommandInfo(
+@CommandInfo(
         parent="chests",
         command="items",
         description="Manage arena chest content items.")

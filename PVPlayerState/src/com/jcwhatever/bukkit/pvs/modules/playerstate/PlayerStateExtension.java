@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.playerstate;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.player.PlayerHelper;
 import com.jcwhatever.bukkit.generic.player.PlayerState;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -38,7 +38,7 @@ import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
 @ArenaExtensionInfo(
         name="PVPlayerState",
         description="Adds player state save and restore to an arena.")
-public class PlayerStateExtension extends ArenaExtension implements GenericsEventListener{
+public class PlayerStateExtension extends ArenaExtension implements IGenericsEventListener {
 
     @Override
     protected void onEnable() {

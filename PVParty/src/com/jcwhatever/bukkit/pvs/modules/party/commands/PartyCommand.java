@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.party.commands;
 
 import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
@@ -47,7 +47,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@ICommandInfo(
+@CommandInfo(
 		command={"party", "p"},
 		staticParams={
 		        "page=1"

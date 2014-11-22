@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.protect;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 
@@ -43,7 +43,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 @ArenaExtensionInfo(
         name="PVProtect",
         description="Prevent players from damaging the arena.")
-public class ProtectExtension extends ArenaExtension implements GenericsEventListener {
+public class ProtectExtension extends ArenaExtension implements IGenericsEventListener {
 
     @Override
     protected void onEnable() {

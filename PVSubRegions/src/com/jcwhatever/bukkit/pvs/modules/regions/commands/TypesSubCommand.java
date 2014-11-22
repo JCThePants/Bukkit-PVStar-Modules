@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.commands;
 
-import com.jcwhatever.bukkit.generic.commands.ICommandInfo;
+import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
@@ -40,7 +40,7 @@ import org.bukkit.command.CommandSender;
 
 import java.util.List;
 
-@ICommandInfo(
+@CommandInfo(
         parent="regions",
         command="types",
         staticParams={ "page=1" },

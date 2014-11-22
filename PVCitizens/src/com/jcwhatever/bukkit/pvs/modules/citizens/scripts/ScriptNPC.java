@@ -26,9 +26,9 @@
 package com.jcwhatever.bukkit.pvs.modules.citizens.scripts;
 
 import com.jcwhatever.bukkit.generic.collections.MultiValueMap;
-import com.jcwhatever.bukkit.generic.events.EventHandler;
+import com.jcwhatever.bukkit.generic.events.IEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventManager;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.mixins.IDisposable;
@@ -70,7 +70,7 @@ import java.util.Set;
 import java.util.WeakHashMap;
 import javax.annotation.Nullable;
 
-public class ScriptNPC implements IViewable, GenericsEventListener, IDisposable {
+public class ScriptNPC implements IViewable, IGenericsEventListener, IDisposable {
 
     private static Map<String, Class<? extends AbstractNPCEvent>> _registeredEvents = new HashMap<>(250);
     private static Map<NPC, ScriptNPC> _npcMap = new WeakHashMap<>(50);
@@ -103,7 +103,7 @@ public class ScriptNPC implements IViewable, GenericsEventListener, IDisposable 
     private final Arena _arena;
     private final NPC _npc;
     private final GenericsEventManager _eventManager;
-    private final MultiValueMap<Class<?>, EventHandler> _registeredHandlers
+    private final MultiValueMap<Class<?>, IEventHandler> _registeredHandlers
                     = new MultiValueMap<>(15);
 
     private boolean _isDisposedOnDeath = true;
@@ -318,11 +318,11 @@ public class ScriptNPC implements IViewable, GenericsEventListener, IDisposable 
 
         for (Class<?> event : events) {
 
-            List<EventHandler> handlers = _registeredHandlers.getValues(event);
+            List<IEventHandler> handlers = _registeredHandlers.getValues(event);
             if (handlers == null)
                 continue;
 
-            for (EventHandler handler : handlers) {
+            for (IEventHandler handler : handlers) {
                 _arena.getEventManager().unregister(event, handler);
             }
         }
@@ -517,7 +517,7 @@ public class ScriptNPC implements IViewable, GenericsEventListener, IDisposable 
             e.printStackTrace();
         }
 
-        EventHandler eventHandler = new EventHandler() {
+        IEventHandler eventHandler = new IEventHandler() {
             @Override
             public void call(Object event) {
                 handler.call(event);

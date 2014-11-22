@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.points.pointstypes;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -53,7 +53,7 @@ public class KillPlayerPointsType extends AbstractPointsType<KillPlayerPointsHan
         return new KillPlayerPointsHandler(arena, this, node);
     }
 
-    public static class KillPlayerPointsHandler extends AbstractPointsHandler implements GenericsEventListener {
+    public static class KillPlayerPointsHandler extends AbstractPointsHandler implements IGenericsEventListener {
 
         KillPlayerPointsHandler(Arena arena, PointsType type, IDataNode node) {
             super(arena, type, node);

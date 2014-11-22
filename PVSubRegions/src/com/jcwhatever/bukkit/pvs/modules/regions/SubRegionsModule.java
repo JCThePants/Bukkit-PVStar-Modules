@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.regions;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaDisposeEvent;
@@ -38,7 +38,7 @@ import com.jcwhatever.bukkit.pvs.modules.regions.scripting.RegionScriptApi;
 import java.util.HashMap;
 import java.util.Map;
 
-public class SubRegionsModule extends PVStarModule implements GenericsEventListener {
+public class SubRegionsModule extends PVStarModule implements IGenericsEventListener {
 
     private static SubRegionsModule _module;
 

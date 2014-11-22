@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.doorsigns;
 
 import com.jcwhatever.bukkit.generic.collections.MultiValueMap;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.signs.SignContainer;
 import com.jcwhatever.bukkit.generic.signs.SignHandler;
 import com.jcwhatever.bukkit.generic.signs.SignManager;
@@ -47,7 +47,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class DoorManager implements GenericsEventListener {
+public class DoorManager implements IGenericsEventListener {
 
     private Map<String, DoorBlocks> _doorsBySign = new HashMap<>(20);
     private MultiValueMap<Arena, DoorBlocks> _doorsByArena = new MultiValueMap<Arena, DoorBlocks>();
