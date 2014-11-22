@@ -268,7 +268,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
         onPlayerLeave(player);
 
-        if (_onEnter != null) {
+        if (_onLeave != null) {
             for (RegionEventHandler handler : _onLeave) {
                 handler.onCall(player);
             }
