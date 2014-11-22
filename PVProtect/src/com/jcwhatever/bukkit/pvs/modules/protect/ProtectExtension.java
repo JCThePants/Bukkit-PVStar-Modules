@@ -27,11 +27,8 @@ package com.jcwhatever.bukkit.pvs.modules.protect;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventListener;
-import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
-import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.bukkit.pvs.api.events.players.ArenaBlockDamagePreventEvent;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.block.Action;
@@ -66,22 +63,11 @@ public class ProtectExtension extends ArenaExtension implements GenericsEventLis
         if (!event.hasBlock())
             return;
 
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getPlayer());
-
         // allow right clicking
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
             return;
 
-        // allow other modules/extensions to cancel the damage prevention
-        //noinspection ConstantConditions
-        ArenaBlockDamagePreventEvent preventEvent = new ArenaBlockDamagePreventEvent(
-                getArena(), player, player.getRelatedManager(), event);
-
-        getArena().getEventManager().call(preventEvent);
-
-        if (!preventEvent.isCancelled()) {
-            event.setCancelled(true);
-        }
+        event.setCancelled(true);
     }
 
     /*

@@ -38,7 +38,6 @@ import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaPreStartEvent;
-import com.jcwhatever.bukkit.pvs.api.events.players.ArenaBlockDamagePreventEvent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -423,18 +422,19 @@ public class ChestExtension extends ArenaExtension implements GenericsEventListe
         // TODO clear items ?
     }
 
-    @GenericsEventHandler
-    private void onChestInteractPrevented(ArenaBlockDamagePreventEvent event) {
+    @GenericsEventHandler(ignoreCancelled=true)
+    private void onChestInteractPrevented(PlayerInteractEvent event) {
 
         // only allow right clicking chests
-        if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK &&
+                !event.isCancelled())
             return;
 
-        BlockState state = event.getBlock().getState();
+        BlockState state = event.getClickedBlock().getState();
 
         // allow interacting with chests
         if (state instanceof Chest || state instanceof DoubleChest) {
-            event.setCancelled(true);
+            event.setCancelled(false);
         }
     }
 
