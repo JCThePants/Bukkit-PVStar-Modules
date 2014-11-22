@@ -28,6 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.regions.scripting;
 import com.jcwhatever.bukkit.generic.collections.MultiValueMap;
 import com.jcwhatever.bukkit.generic.scripting.api.IScriptApiObject;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.scripting.EvaluatedScript;
 import com.jcwhatever.bukkit.pvs.api.scripting.ScriptApi;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionManager;
@@ -37,6 +38,7 @@ import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion.Region
 
 import java.util.List;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 public class RegionScriptApi extends ScriptApi {
 
@@ -48,7 +50,7 @@ public class RegionScriptApi extends ScriptApi {
 
     @Override
     public String getVariableName() {
-        return "_subRegions";
+        return "pvSubRegions";
     }
 
     @Override
@@ -99,6 +101,7 @@ public class RegionScriptApi extends ScriptApi {
             _leaveHandlers.clear();
         }
 
+        @Nullable
         public AbstractPVRegion getRegion(String regionName) {
 
             RegionManager manager = _module.getManager(_script.getArena());
@@ -108,23 +111,39 @@ public class RegionScriptApi extends ScriptApi {
             return manager.getRegion(regionName);
         }
 
-        public boolean onEnter(String regionName, RegionEventHandler handler) {
+        public boolean onEnter(String regionName, final RegionEventHandler handler) {
             AbstractPVRegion region = getRegion(regionName);
             if (region == null)
                 return false;
 
-            _enterHandlers.put(region, handler);
-            region.addEnterEventHandler(handler);
+            // wrap handler to ensure compatibility with hash maps
+            RegionEventHandler wrapper = new RegionEventHandler() {
+                @Override
+                public void onCall(ArenaPlayer player) {
+                    handler.onCall(player);
+                }
+            };
+
+            _enterHandlers.put(region, wrapper);
+            region.addEnterEventHandler(wrapper);
             return true;
         }
 
-        public boolean onLeave(String regionName, RegionEventHandler handler) {
+        public boolean onLeave(String regionName, final RegionEventHandler handler) {
             AbstractPVRegion region = getRegion(regionName);
             if (region == null)
                 return false;
 
-            _leaveHandlers.put(region, handler);
-            region.addLeaveEventHandler(handler);
+            // wrap handler to ensure compatibility with hash maps
+            RegionEventHandler wrapper = new RegionEventHandler() {
+                @Override
+                public void onCall(ArenaPlayer player) {
+                    handler.onCall(player);
+                }
+            };
+
+            _leaveHandlers.put(region, wrapper);
+            region.addLeaveEventHandler(wrapper);
             return true;
         }
     }
