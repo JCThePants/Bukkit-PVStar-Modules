@@ -73,6 +73,7 @@ public class RegionScriptApi extends ScriptApi {
         @Override
         public void reset() {
 
+            // remove enter region handlers
             Set<AbstractPVRegion> enterRegions = _enterHandlers.keySet();
             for (AbstractPVRegion region : enterRegions) {
 
@@ -85,10 +86,11 @@ public class RegionScriptApi extends ScriptApi {
                 }
             }
 
-            Set<AbstractPVRegion> leaveRegions = _enterHandlers.keySet();
+            // remove leave region handlers
+            Set<AbstractPVRegion> leaveRegions = _leaveHandlers.keySet();
             for (AbstractPVRegion region : leaveRegions) {
 
-                List<RegionEventHandler> handlers = _enterHandlers.getValues(region);
+                List<RegionEventHandler> handlers = _leaveHandlers.getValues(region);
                 if (handlers == null)
                     continue;
 
