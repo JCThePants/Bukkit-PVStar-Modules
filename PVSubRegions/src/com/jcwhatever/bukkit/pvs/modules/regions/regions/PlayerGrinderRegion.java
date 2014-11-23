@@ -25,28 +25,31 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
-import com.jcwhatever.bukkit.generic.player.collections.PlayerMap;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
 import com.jcwhatever.bukkit.generic.utils.LocationUtils;
+import com.jcwhatever.bukkit.generic.utils.Scheduler;
+import com.jcwhatever.bukkit.generic.utils.Scheduler.ScheduledTask;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.api.utils.ArenaBatchScheduler;
+import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.util.BlockIterator;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
+import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="playergrinder",
@@ -74,28 +77,13 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
     private int _bladeRadius = -1;
     private double _damage = 20;
     private final Object _sync = new Object();
-    private ArenaBatchScheduler _bladeTasks;
-
-    private int _bladesRendered = 0;
+    private ScheduledTask _bladeTask;
+    private BladeRotator _bladeRotator;
 
     private Set<ArenaPlayer> _playersInRegion = new HashSet<>(25);
-    private Map<UUID, Set<Location>> _cachedMoveLocations = new PlayerMap<Set<Location>>(PVStarAPI.getPlugin());
 
     public PlayerGrinderRegion(String name) {
         super(name);
-    }
-
-
-    public void resetBlades() {
-
-        if (_bladeTasks != null) {
-            _bladeTasks.cancelAll();
-            _bladeTasks = null;
-        }
-
-        synchronized(_sync) {
-            _playersInRegion.clear();
-        }
     }
 
     @Override
@@ -104,17 +92,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
             _playersInRegion.add(player);
         }
 
-        if (_bladeTasks != null)
-            return;
-
-
-        _bladeTasks = new ArenaBatchScheduler(getArena());
-
-        int bladeSpacing = 360 / _bladeCount;
-
-        for (int i = 0; i < _bladeCount; i++) {
-            _bladeTasks.runTaskRepeat(10, _bladeDelay, new RotateBlade(this, i * bladeSpacing));
-        }
+        runBlades();
     }
 
     @Override
@@ -123,9 +101,9 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
             _playersInRegion.remove(player);
         }
 
-        if (_bladeTasks != null && _playersInRegion.isEmpty()) {
-            _bladeTasks.cancelAll();
-            _bladeTasks = null;
+        if (_bladeTask != null && _playersInRegion.isEmpty()) {
+            _bladeTask.cancel();
+            _bladeTask = null;
         }
     }
 
@@ -159,6 +137,8 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
         _bladeHeight = dataNode.getInteger("blade-height", _bladeHeight);
         _bladeRadius = dataNode.getInteger("blade-radius", _bladeRadius);
         _damage = dataNode.getDouble("damage", _damage);
+
+        resetBlades();
     }
 
     @Override
@@ -166,124 +146,247 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
         return _possibleSettings;
     }
 
-    @GenericsEventHandler
-    private void onPlayerMove(PlayerMoveEvent event) {
+    @Override
+    protected void onCoordsChanged(Location p1, Location p2) {
+        resetBlades();
+    }
 
-        if (!contains(event.getFrom()))
-            return;
+    /*
+     * Reset blade rotator and, if the rotator is running,
+     * restart it.
+     */
+    private void resetBlades() {
+        _bladeRotator = null;
 
-        synchronized (_sync) {
+        if (_bladeTask != null) {
+            _bladeTask.cancel();
+            _bladeTask = null;
 
-            Set<Location> locations = _cachedMoveLocations.get(event.getPlayer().getUniqueId());
-
-            if (locations == null) {
-                locations = new HashSet<Location>(30);
-                _cachedMoveLocations.put(event.getPlayer().getUniqueId(), locations);
-            }
-
-            locations.add(LocationUtils.getBlockLocation(event.getPlayer().getLocation()));
+            runBlades();
         }
     }
 
-    private class RotateBlade implements Runnable {
+    /*
+     * Begin rotating blades (if not already started)
+     */
+    private void runBlades() {
+        if (_bladeTask != null)
+            return;
 
-        private Location origin;
-        private int distance;
-        private World world;
-        private int height;
-        private PlayerGrinderRegion _region;
+        if (_bladeRotator == null) {
+            _bladeRotator = new BladeRotator(this);
+        }
 
-        public RotateBlade (PlayerGrinderRegion region, float startYaw) {
+        _bladeRotator.reset();
+
+        _bladeTask = ArenaScheduler.runTaskRepeat(getArena(), 10, _bladeDelay, _bladeRotator);
+    }
+
+
+    /*
+     * Contains locations where explosions occur for a single blade.
+     */
+    private static class Blade {
+        private float _yaw;
+        private float _pitch;
+        private List<Location> _locations;
+        private Set<Location> _blockLocations;
+
+        Blade(float yaw, float pitch, int size) {
+            _yaw = yaw;
+            _pitch = pitch;
+            _locations = new ArrayList<>(size);
+            _blockLocations = new HashSet<>(size);
+        }
+
+        float getYaw() {
+            return _yaw;
+        }
+
+        float getPitch() {
+            return _pitch;
+        }
+
+        void add(Location location) {
+            _locations.add(location);
+            _blockLocations.add(LocationUtils.getBlockLocation(location));
+
+        }
+
+        void explode() {
+            for (Location location : _locations) {
+                location.getWorld().createExplosion(location, 0.0F, false);
+            }
+        }
+
+        boolean contains(Location location) {
+            return _blockLocations.contains(location);
+        }
+    }
+
+    /*
+     * Generates and rotates blades when scheduled for a repeating task.
+     */
+    private static class BladeRotator implements Runnable {
+
+        private final PlayerGrinderRegion _region;
+        private final Location _origin;
+        private final World _world;
+        private int _distance;
+        private int _height;
+        protected int _bladeSpacing;
+        protected int _bladeCount;
+        private Map<String, Blade> _blades;
+        private int _currentYaw = 0;
+        private int _currentPitch = -90;
+        private volatile boolean _isGenerating;
+
+        BladeRotator(PlayerGrinderRegion region) {
             _region = region;
+            _world = region.getWorld();
+            _origin = region.getCenter();
 
-            origin = _region.getCenter();
-            //noinspection ConstantConditions
-            origin.setY(_region.getYStart());
-            origin.setPitch(-90);
-            origin.setYaw(startYaw);
-
-            distance = _bladeRadius == -1
+            _distance = _region._bladeRadius == -1
                     ? Math.max(_region.getXWidth(), _region.getZWidth())
-                    : _bladeRadius;
+                    : _region._bladeRadius;
 
-            world = origin.getWorld();
+            _height = _region.getYStart() + _region._bladeHeight;
 
-            height = _region.getYStart() + _bladeHeight;
+            _bladeCount = _region._bladeCount;
+            _bladeSpacing = 360 / _region._bladeCount;
         }
 
         @Override
         public void run() {
 
-            synchronized (_sync) {
-                float yaw = origin.getYaw() + _bladeSpeed;
-                float pitch = Math.min(origin.getPitch() + 5, 0);
-                origin.setYaw(yaw);
-                origin.setPitch(pitch);
+            if (_isGenerating)
+                return;
 
-                Set<Location> bladeLocations = new HashSet<Location>(height * distance * (Math.abs(origin.getBlockX() - origin.getBlockZ())));
+            if (_blades == null) {
+                generateBlades();
+                return;
+            }
 
-                for (int y = _region.getYStart(); y <= height; y++) {
+            for (int i = 0; i < _bladeCount; i++) {
+                int yaw = getYaw(_currentYaw + (i * _bladeSpacing));
+                displayBlade(yaw, _currentPitch);
+            }
 
-                    BlockIterator bit = new BlockIterator(world,
-                            new Location(world, origin.getBlockX(), y, origin.getBlockZ()).toVector(),
-                            origin.getDirection(),
-                            0, distance);
+            _currentPitch = Math.min(_currentPitch + 5, 0);
+            _currentYaw = getYaw(_currentYaw + _region._bladeSpeed);
+        }
 
-                    Block next;
-                    while(bit.hasNext())
-                    {
-                        next = bit.next();
-                        if (next == null)
-                            continue;
+        private void generateBlades() {
+            _isGenerating = true;
 
-                        Location nextLocation = next.getLocation();
+            Scheduler.runTaskLaterAsync(PVStarAPI.getPlugin(), 1, new Runnable() {
+                @Override
+                public void run() {
 
-                        if (!_region.contains(nextLocation, true, false, true))
-                            break;
+                    int pitchIncrement = 5;
+                    _blades = new HashMap<>(360);
+                    _currentYaw = 0;
+                    _currentPitch = -90;
+                    boolean isFinished = false;
 
-                        if (next.getType() != Material.AIR)
-                            continue;
+                    while (!isFinished) {
 
-                        nextLocation.getWorld().createExplosion(nextLocation, 0.0F, false);
+                        for (int i = 0; i < _bladeCount; i++) {
 
-                        if (pitch == 0) {
-                            bladeLocations.add(LocationUtils.getBlockLocation(nextLocation));
+                            int yaw = getYaw(_currentYaw + (i * _bladeSpacing));
+
+                            String bladeKey = getBladeKey(yaw, _currentPitch);
+                            if (_blades.containsKey(bladeKey)) {
+                                isFinished = true;
+                                break;
+                            }
+
+                            Blade blade = createBlade(nextBlade(yaw, _currentPitch));
+                            _blades.put(bladeKey, blade);
                         }
+
+                        _currentYaw = getYaw(_currentYaw + _region._bladeSpeed);
+                        _currentPitch = Math.min(_currentPitch + pitchIncrement, 0);
                     }
+
+                    _isGenerating = false;
+
+                    reset();
                 }
+            });
+        }
 
-                for (ArenaPlayer player : _playersInRegion) {
+        @Nullable
+        private Blade getBlade(int yaw, int pitch) {
+            String bladeKey = getBladeKey(yaw, pitch);
+            return _blades.get(bladeKey);
+        }
 
-                    Set<Location> locations = _cachedMoveLocations.get(player.getUniqueId());
-                    if (locations == null || locations.isEmpty()) {
+        public void reset() {
+            if (_isGenerating)
+                return;
 
-                        Location currentLocation = LocationUtils.getBlockLocation(player.getLocation());
+            _currentPitch = -90;
+            _currentYaw = 0;
+        }
 
-                        if (bladeLocations.contains(currentLocation) ||
-                                bladeLocations.contains(currentLocation.add(0, 1, 0))) {
-                            damagePlayer(player);
-                        }
+        Location nextBlade(int yaw, int pitch) {
+            Location bladeLocation = _origin.clone();
+            bladeLocation.setY(_region.getYStart());
+            bladeLocation.setPitch(pitch);
+            bladeLocation.setYaw(yaw);
 
+            return bladeLocation;
+        }
+
+        Blade createBlade(Location bladeLocation) {
+
+            Blade blade = new Blade(bladeLocation.getYaw(), bladeLocation.getPitch(), 50);
+
+            for (int y = _region.getYStart(); y < _height; y++) {
+
+                BlockIterator bit = new BlockIterator(_world,
+                        new Location(_world, bladeLocation.getBlockX(), y, bladeLocation.getBlockZ()).toVector(),
+                        bladeLocation.getDirection(),
+                        0, _distance);
+
+                Block next;
+                while(bit.hasNext())
+                {
+                    next = bit.next();
+                    if (next == null)
                         continue;
-                    }
 
-                    for (Location location : locations) {
-                        if (bladeLocations.contains(location)) {
+                    Location nextLocation = next.getLocation();
 
-                            damagePlayer(player);
-                            break;
-                        }
-                    }
-                }
+                    if (!_region.contains(nextLocation, true, false, true))
+                        break;
 
-                _bladesRendered++;
+                    if (next.getType() != Material.AIR)
+                        continue;
 
-                if (_bladesRendered == _bladeCount) {
-                    _bladesRendered = 0;
-                    _cachedMoveLocations.clear();
+                    blade.add(nextLocation);
                 }
             }
 
+            return blade;
+        }
+
+        private void displayBlade(int yaw, int pitch) {
+            Blade blade = getBlade(yaw, pitch);
+
+            if (blade == null)
+                return;
+
+            blade.explode();
+
+            for (ArenaPlayer player : _region._playersInRegion) {
+
+                if (blade.contains(player.getLocation())) {
+                    damagePlayer(player);
+                }
+
+            }
         }
 
         private void damagePlayer(ArenaPlayer player) {
@@ -295,9 +398,26 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
                 }
 
                 // damage players
-                player.getHandle().damage(_damage);
+                player.getHandle().damage(_region._damage);
             }
         }
 
+        private int getYaw(float yaw) {
+            if (Float.compare(yaw, 180.0F) == 0) {
+                return 180;
+            }
+            if (yaw > 0) {
+                return (int) (yaw % 360) - 180;
+            }
+            else if (yaw < 0) {
+                return (int)-((Math.abs(yaw) % 360) - 180);
+            }
+
+            return 0;
+        }
+
+        String getBladeKey(int yaw, int pitch) {
+            return String.valueOf(yaw) + '.' + pitch;
+        }
     }
 }
