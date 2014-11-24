@@ -27,14 +27,18 @@ package com.jcwhatever.bukkit.pvs.modules.citizens.scripts;
 
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
-import net.citizensnpcs.api.npc.NPC;
+
 import org.bukkit.entity.Entity;
 
-import javax.annotation.Nullable;
+import net.citizensnpcs.api.npc.NPC;
+
 import java.util.Map;
 import java.util.WeakHashMap;
+import javax.annotation.Nullable;
 
 public class NPCEntityRegistry {
+
+    private NPCEntityRegistry() {}
 
     private static Map<Entity, RegisteredNPC> _entityMap = new WeakHashMap<>(150);
 
