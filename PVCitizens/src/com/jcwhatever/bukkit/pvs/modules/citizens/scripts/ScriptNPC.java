@@ -26,11 +26,11 @@
 package com.jcwhatever.bukkit.pvs.modules.citizens.scripts;
 
 import com.jcwhatever.bukkit.generic.collections.MultiValueMap;
-import com.jcwhatever.bukkit.generic.events.IEventHandler;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventManager;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
+import com.jcwhatever.bukkit.generic.events.IEventHandler;
+import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.mixins.IDisposable;
 import com.jcwhatever.bukkit.generic.mixins.IViewable;
 import com.jcwhatever.bukkit.generic.player.collections.PlayerSet;
@@ -41,6 +41,7 @@ import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerJoinedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerLeaveEvent;
+import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.modules.citizens.CitizensModule;
 import com.jcwhatever.bukkit.pvs.modules.citizens.events.AbstractNPCEvent;
 import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCDespawnEvent;
@@ -481,7 +482,8 @@ public class ScriptNPC implements IViewable, IGenericsEventListener, IDisposable
      * Get a trait instance from the NPC.
      *
      * @param traitClass  The trait type.
-     * @param <T>         The trait type.
+     *
+     * @param <T>  The trait type.
      */
     @Nullable
     public <T extends Trait> T getTrait(Class<T> traitClass) {
@@ -492,11 +494,83 @@ public class ScriptNPC implements IViewable, IGenericsEventListener, IDisposable
     /**
      * Remove a trait from the NPC.
      *
-      * @param trait  The trait type.
+     * @param trait  The trait type.
      */
     public void removeTrait(Class<? extends Trait> trait) {
 
         _npc.removeTrait(trait);
+    }
+
+    /**
+     * Get the NPC Vehicle.
+     *
+     * @return  Null if no vehicle or vehicle is not an NPC
+     * from the same registry as the passenger NPC.
+     */
+    @Nullable
+    public ScriptNPC getNPCVehicle() {
+        if (!_npc.isSpawned())
+            return null;
+
+        Entity vehicle = _npc.getEntity().getVehicle();
+        if (vehicle == null)
+            return null;
+
+        NPC npc = _npc.getOwningRegistry().getNPC(vehicle);
+        if (npc == null)
+            return null;
+
+        return ScriptNPC.get(npc);
+    }
+
+    /**
+     * Get the NPC Passenger.
+     *
+     * @return  Null if no passenger or passenger is not an NPC
+     * from the same registry as the vehicle NPC.
+     */
+    @Nullable
+    public ScriptNPC getNPCPassenger() {
+        if (!_npc.isSpawned())
+            return null;
+
+        Entity passenger = _npc.getEntity().getPassenger();
+        if (passenger == null)
+            return null;
+
+        NPC npc = _npc.getOwningRegistry().getNPC(passenger);
+        if (npc == null)
+            return null;
+
+        return ScriptNPC.get(npc);
+    }
+
+    /**
+     * Mount another NPC.
+     *
+     * @param vehicleNpc  The NPC to mount.
+     */
+    public void mountNPC(final ScriptNPC vehicleNpc) {
+        PreCon.notNull(vehicleNpc);
+
+        ArenaScheduler.runTaskLater(getArena(), new Runnable() {
+            @Override
+            public void run() {
+
+                Entity npcEntity = _npc.getEntity();
+
+                if (npcEntity.getVehicle() == vehicleNpc.getEntity())
+                    return;
+
+                Entity vehicle = vehicleNpc.getEntity();
+
+                vehicle.setPassenger(null);
+
+                vehicle.teleport(npcEntity.getLocation());
+
+                vehicle.setPassenger(getEntity());
+            }
+        });
     }
 
     /**
