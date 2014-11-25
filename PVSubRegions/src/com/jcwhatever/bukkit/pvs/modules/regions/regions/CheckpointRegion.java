@@ -89,14 +89,14 @@ public class CheckpointRegion extends AbstractPVRegion implements IGenericsEvent
     }
 
     @Override
-    protected void onPlayerEnter(ArenaPlayer player) {
+    protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
         Spawnpoint spawn = Rand.get(_spawnpoints);
 
         _checkpointMap.put(player.getUniqueId(), spawn);
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player) {
+    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
         // do nothing
     }
 
@@ -111,7 +111,7 @@ public class CheckpointRegion extends AbstractPVRegion implements IGenericsEvent
     }
 
     @Override
-    protected boolean canDoPlayerEnter(Player p) {
+    protected boolean canDoPlayerEnter(Player p, EnterRegionReason reason) {
         return _spawnpoints != null && !_spawnpoints.isEmpty() && !_checkpointMap.containsKey(p.getUniqueId());
     }
 

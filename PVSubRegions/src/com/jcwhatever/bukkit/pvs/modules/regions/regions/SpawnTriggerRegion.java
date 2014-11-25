@@ -67,12 +67,12 @@ public class SpawnTriggerRegion extends AbstractPVRegion implements IGenericsEve
     }
 
     @Override
-    protected boolean canDoPlayerEnter(Player p) {
+    protected boolean canDoPlayerEnter(Player p, EnterRegionReason reason) {
         return isEnabled() && _triggerCount < _maxTriggers;
     }
 
     @Override
-    protected void onPlayerEnter(ArenaPlayer player) {
+    protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
         for (Spawnpoint spawn : _spawns) {
             spawn.spawn(getArena(), _spawnCount);
         }
@@ -80,12 +80,12 @@ public class SpawnTriggerRegion extends AbstractPVRegion implements IGenericsEve
     }
 
     @Override
-    protected boolean canDoPlayerLeave(Player p) {
+    protected boolean canDoPlayerLeave(Player p, LeaveRegionReason reason) {
         return false;
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player) {
+    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
         // do nothing
     }
 
@@ -140,7 +140,7 @@ public class SpawnTriggerRegion extends AbstractPVRegion implements IGenericsEve
     }
 
     @GenericsEventHandler
-    private void onArenaEnd(ArenaEndedEvent event) {
+    private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
         _triggerCount = 0;
     }
 }

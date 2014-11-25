@@ -87,7 +87,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
     }
 
     @Override
-    protected void onPlayerEnter(ArenaPlayer player) {
+    protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
         synchronized(_sync) {
             _playersInRegion.add(player);
         }
@@ -96,7 +96,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player) {
+    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
         synchronized(_sync) {
             _playersInRegion.remove(player);
         }
@@ -190,13 +190,13 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
         private float _yaw;
         private float _pitch;
         private List<Location> _locations;
-        private Set<Location> _blockLocations;
+        private Set<Location> _deathLocations;
 
         Blade(float yaw, float pitch, int size) {
             _yaw = yaw;
             _pitch = pitch;
             _locations = new ArrayList<>(size);
-            _blockLocations = new HashSet<>(size);
+            _deathLocations = new HashSet<>(size);
         }
 
         float getYaw() {
@@ -207,10 +207,12 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
             return _pitch;
         }
 
-        void add(Location location) {
+        void addExplosionLocation(Location location) {
             _locations.add(location);
-            _blockLocations.add(LocationUtils.getBlockLocation(location));
+        }
 
+        void addDeathLocation(Location location) {
+            _deathLocations.add(LocationUtils.getBlockLocation(location));
         }
 
         void explode() {
@@ -220,7 +222,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
         }
 
         boolean contains(Location location) {
-            return _blockLocations.contains(location);
+            return _deathLocations.contains(LocationUtils.getBlockLocation(location));
         }
     }
 
@@ -362,10 +364,12 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
                     if (!_region.contains(nextLocation, true, false, true))
                         break;
 
+                    blade.addDeathLocation(nextLocation);
+
                     if (next.getType() != Material.AIR)
                         continue;
 
-                    blade.add(nextLocation);
+                    blade.addExplosionLocation(nextLocation);
                 }
             }
 

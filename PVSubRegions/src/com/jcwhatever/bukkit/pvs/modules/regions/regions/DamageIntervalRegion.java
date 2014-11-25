@@ -62,7 +62,7 @@ public class DamageIntervalRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected void onPlayerEnter(final ArenaPlayer player) {
+    protected void onPlayerEnter(final ArenaPlayer player, EnterRegionReason reason) {
 
         ScheduledTask task = ArenaScheduler.runTaskRepeat(getArena(), 1, _interval * 20, new TaskHandler() {
 
@@ -97,7 +97,7 @@ public class DamageIntervalRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player) {
+    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
 
         ScheduledTask task = _tasks.remove(player.getUniqueId());
 

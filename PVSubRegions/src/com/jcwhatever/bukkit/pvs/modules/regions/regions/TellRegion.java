@@ -70,7 +70,7 @@ public class TellRegion extends AbstractPVRegion implements IGenericsEventListen
     }
 
     @Override
-    protected boolean canDoPlayerEnter(Player p) {
+    protected boolean canDoPlayerEnter(Player p, EnterRegionReason reason) {
 
         if (!isEnabled() || _enterMessage == null)
             return false;
@@ -87,7 +87,7 @@ public class TellRegion extends AbstractPVRegion implements IGenericsEventListen
     }
 
     @Override
-    protected void onPlayerEnter(ArenaPlayer player) {
+    protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
 
         tellMessage(player, _enterMessage);
 
@@ -96,7 +96,7 @@ public class TellRegion extends AbstractPVRegion implements IGenericsEventListen
 
 
     @Override
-    protected boolean canDoPlayerLeave(Player p) {
+    protected boolean canDoPlayerLeave(Player p, LeaveRegionReason reason) {
 
         if (!isEnabled() || _leaveMessage == null)
             return false;
@@ -113,7 +113,7 @@ public class TellRegion extends AbstractPVRegion implements IGenericsEventListen
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player) {
+    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
 
         tellMessage(player, _leaveMessage);
 

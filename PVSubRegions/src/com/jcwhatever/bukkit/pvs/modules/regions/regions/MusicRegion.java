@@ -64,12 +64,12 @@ public class MusicRegion extends AbstractPVRegion {
     }
 
     @Override
-    public boolean canDoPlayerEnter(Player p) {
-        return _playList != null && _playList.size() != 0 && super.canDoPlayerEnter(p);
+    public boolean canDoPlayerEnter(Player p, EnterRegionReason reason) {
+        return _playList != null && _playList.size() != 0 && super.canDoPlayerEnter(p, reason);
     }
 
     @Override
-    protected void onPlayerEnter(ArenaPlayer player) {
+    protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
 
         PlayerSoundQueue currentQueue = _playList.getSoundQueue(player.getHandle());
         if (currentQueue != null)
@@ -79,12 +79,12 @@ public class MusicRegion extends AbstractPVRegion {
     }
 
     @Override
-    public boolean canDoPlayerLeave(Player p) {
+    public boolean canDoPlayerLeave(Player p, LeaveRegionReason reason) {
         return _playList != null;
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player) {
+    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
         _playList.removePlayer(player.getHandle());
     }
 

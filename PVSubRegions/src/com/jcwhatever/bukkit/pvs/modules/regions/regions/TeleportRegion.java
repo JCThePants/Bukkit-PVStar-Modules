@@ -70,12 +70,12 @@ public class TeleportRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected boolean canDoPlayerEnter(Player p) {
-        return isEnabled() && _available > 0 && super.canDoPlayerEnter(p);
+    protected boolean canDoPlayerEnter(Player p, EnterRegionReason reason) {
+        return isEnabled() && _available > 0 && super.canDoPlayerEnter(p, reason);
     }
 
     @Override
-    protected void onPlayerEnter(final ArenaPlayer player) {
+    protected void onPlayerEnter(final ArenaPlayer player, EnterRegionReason reason) {
 
         List<Location> locations = new ArrayList<Location>(_spawnpoints.size() + 3);
 
@@ -117,12 +117,12 @@ public class TeleportRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected boolean canDoPlayerLeave(Player p) {
+    protected boolean canDoPlayerLeave(Player p, LeaveRegionReason reason) {
         return false;
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player) {
+    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
         // do nothing
     }
 

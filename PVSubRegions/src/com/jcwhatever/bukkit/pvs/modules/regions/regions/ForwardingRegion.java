@@ -99,12 +99,12 @@ public class ForwardingRegion extends AbstractPVRegion implements IGenericsEvent
     }
 
     @Override
-    protected boolean canDoPlayerEnter(Player p) {
-        return _forwardArena != null && super.canDoPlayerEnter(p);
+    protected boolean canDoPlayerEnter(Player p, EnterRegionReason reason) {
+        return _forwardArena != null && super.canDoPlayerEnter(p, reason);
     }
 
     @Override
-    protected void onPlayerEnter(final ArenaPlayer player) {
+    protected void onPlayerEnter(final ArenaPlayer player, EnterRegionReason reason) {
 
         boolean doRegionTeleport = _doTeleport &&
                                    _destinationRegion != null &&
@@ -122,12 +122,12 @@ public class ForwardingRegion extends AbstractPVRegion implements IGenericsEvent
     }
 
     @Override
-    protected boolean canDoPlayerLeave(Player p) {
+    protected boolean canDoPlayerLeave(Player p, LeaveRegionReason reason) {
         return false;
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player) {
+    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
         // do nothing
     }
 

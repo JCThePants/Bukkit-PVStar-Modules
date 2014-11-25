@@ -29,6 +29,7 @@ import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.player.collections.PlayerSet;
+import com.jcwhatever.bukkit.generic.regions.Region.LeaveRegionReason;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.PlayerMeta;
@@ -173,6 +174,10 @@ public class OpenArenaExtension extends ArenaExtension implements IGenericsEvent
      */
     @GenericsEventHandler
     private void onPlayerLeaveArena(PlayerLeaveArenaRegionEvent event) {
+
+        // prevent removing player if they are simply dead
+        if (event.getReason() == LeaveRegionReason.DEAD)
+            return;
 
         if (getArena().equals(event.getPlayer().getArena())) {
 

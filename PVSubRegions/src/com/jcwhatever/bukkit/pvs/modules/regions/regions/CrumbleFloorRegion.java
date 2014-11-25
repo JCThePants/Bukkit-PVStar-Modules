@@ -77,12 +77,12 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements IGenericsEve
     }
 
     @Override
-    protected void onPlayerEnter(ArenaPlayer player) {
+    protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
         // do nothing
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player) {
+    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
         // do nothing
     }
 
