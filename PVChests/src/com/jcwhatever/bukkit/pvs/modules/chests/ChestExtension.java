@@ -425,6 +425,9 @@ public class ChestExtension extends ArenaExtension implements IGenericsEventList
     @GenericsEventHandler(ignoreCancelled=true)
     private void onChestInteractPrevented(PlayerInteractEvent event) {
 
+        if (!event.hasBlock())
+            return;
+
         // only allow right clicking chests
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK &&
                 !event.isCancelled())
