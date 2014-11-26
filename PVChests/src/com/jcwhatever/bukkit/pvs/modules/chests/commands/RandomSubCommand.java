@@ -74,6 +74,8 @@ public class RandomSubCommand extends AbstractPVCommand {
 
             boolean isEnabled = args.getBoolean("on|off|info");
 
+            extension.getChestSettings().setIsChestsRandomized(isEnabled);
+
             if (isEnabled)
                 tellSuccess(sender, Lang.get(_SET_ENABLED, arena.getName()));
             else

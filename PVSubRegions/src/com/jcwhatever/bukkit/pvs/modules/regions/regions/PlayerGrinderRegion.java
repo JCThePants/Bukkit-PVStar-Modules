@@ -384,12 +384,15 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEv
 
             blade.explode();
 
-            for (ArenaPlayer player : _region._playersInRegion) {
+            synchronized (_region._sync) {
 
-                if (blade.contains(player.getLocation())) {
-                    damagePlayer(player);
+                for (ArenaPlayer player : _region._playersInRegion) {
+
+                    if (blade.contains(player.getLocation())) {
+                        damagePlayer(player);
+                    }
+
                 }
-
             }
         }
 

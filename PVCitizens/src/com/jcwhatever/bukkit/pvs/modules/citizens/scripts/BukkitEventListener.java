@@ -37,7 +37,7 @@ import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCDeathEvent;
 import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCLeftClickEvent;
 import com.jcwhatever.bukkit.pvs.modules.citizens.events.NPCRightClickEvent;
 import com.jcwhatever.bukkit.pvs.modules.citizens.scripts.NPCEntityRegistry.RegisteredNPC;
-import net.citizensnpcs.api.npc.NPC;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -140,14 +140,11 @@ public class BukkitEventListener implements Listener {
 
         Arena arena = registeredNPC.getArena();
 
-        event.setCancelled(!registeredNPC.getNPC().data().get(NPC.DAMAGE_OTHERS_METADATA, true));
-
         if (!event.isCancelled()) {
             NPCDamageEvent npcEvent = new NPCDamageEvent(arena, registeredNPC.getScriptNPC(), event);
 
             registeredNPC.getScriptNPC().getEventManager().call(npcEvent);
         }
-
 
         if (event instanceof EntityDamageByEntityEvent) {
 
@@ -165,6 +162,10 @@ public class BukkitEventListener implements Listener {
             }
         }
 
+        if (registeredNPC.getNPC().isProtected()) {
+            event.setCancelled(true);
+            event.setDamage(0.0D);
+        }
     }
 
     @EventHandler
