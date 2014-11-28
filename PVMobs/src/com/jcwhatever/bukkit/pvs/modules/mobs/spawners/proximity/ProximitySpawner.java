@@ -27,10 +27,10 @@ package com.jcwhatever.bukkit.pvs.modules.mobs.spawners.proximity;
 
 import com.jcwhatever.bukkit.generic.pathing.astar.AStar.LocationAdjustment;
 import com.jcwhatever.bukkit.generic.pathing.astar.AStarPathFinder;
+import com.jcwhatever.bukkit.generic.scheduler.ScheduledTask;
+import com.jcwhatever.bukkit.generic.scheduler.TaskHandler;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Rand;
-import com.jcwhatever.bukkit.generic.utils.Scheduler.ScheduledTask;
-import com.jcwhatever.bukkit.generic.utils.Scheduler.TaskHandler;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;

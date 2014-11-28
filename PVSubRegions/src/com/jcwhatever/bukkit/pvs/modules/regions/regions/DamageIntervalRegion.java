@@ -25,14 +25,15 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
+import com.jcwhatever.bukkit.generic.scheduler.ScheduledTask;
+import com.jcwhatever.bukkit.generic.scheduler.TaskHandler;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
-import com.jcwhatever.bukkit.generic.utils.Scheduler.ScheduledTask;
-import com.jcwhatever.bukkit.generic.utils.Scheduler.TaskHandler;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;

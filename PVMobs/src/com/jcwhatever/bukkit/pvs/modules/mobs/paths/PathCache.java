@@ -25,19 +25,19 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.paths;
 
+import com.jcwhatever.bukkit.generic.scheduler.TaskHandler;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Scheduler;
-import com.jcwhatever.bukkit.generic.utils.Scheduler.TaskHandler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 
-import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 public class PathCache {
 
