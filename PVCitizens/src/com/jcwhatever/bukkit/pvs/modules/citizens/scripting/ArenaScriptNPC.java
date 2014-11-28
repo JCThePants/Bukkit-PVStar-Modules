@@ -22,52 +22,42 @@
  * THE SOFTWARE.
  */
 
+package com.jcwhatever.bukkit.pvs.modules.citizens.scripting;
 
-package com.jcwhatever.bukkit.pvs.modules.citizens.scripts;
-
-import com.jcwhatever.bukkit.generic.inventory.Kit;
+import com.jcwhatever.bukkit.generic.citizens.npc.ScriptNPC;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
-import com.jcwhatever.bukkit.pvs.modules.citizens.kits.Equipper;
-import org.bukkit.inventory.ItemStack;
+import com.jcwhatever.bukkit.pvs.api.arena.Arena;
+import com.jcwhatever.bukkit.pvs.modules.citizens.traits.PVStarNPCTrait;
+
+import net.citizensnpcs.api.npc.NPC;
 
 /**
- * Wraps a {@code Kit} and provides script with NPC kit
- * utilities.
+ * Script NPC for an arena.
  */
-public class ScriptKit {
+public class ArenaScriptNPC extends ScriptNPC {
 
-    private final Kit _kit;
+    private final Arena _arena;
 
-    /**
-     * Constructor.
-     *
-     * @param kit  The kit to wrap.
-     */
-    public ScriptKit(Kit kit) {
-        PreCon.notNull(kit);
+    public ArenaScriptNPC(Arena arena, ArenaScriptNPCRegistry registry, NPC npc) {
+        super(registry, npc);
 
-        _kit = kit;
+        PreCon.notNull(arena);
+
+        _arena = arena;
+    }
+
+    public Arena getArena() {
+        return _arena;
     }
 
     /**
-     * Apply the kit to the specified NPC.
-     *
-     * @param npc  The NPC to apply the kit to.
+     * Add core script NPC traits.
      */
-    public void apply(ScriptNPC npc) {
-        PreCon.notNull(npc);
+    @Override
+    protected void addCoreTraits() {
+        super.addCoreTraits();
 
-        if (!npc.isSpawned())
-            return;
-
-        Equipper equipper = Equipper.getEquipper(npc.getEntityType());
-
-        for (ItemStack armor : _kit.getArmor()) {
-            equipper.equip(npc, armor);
-        }
-
-        for (ItemStack item : _kit.getItems()) {
-            equipper.equip(npc, item);
-        }
+        NPC npc = getHandle();
+        npc.addTrait(new PVStarNPCTrait(this));
     }
 }

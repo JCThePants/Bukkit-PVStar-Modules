@@ -22,28 +22,34 @@
  * THE SOFTWARE.
  */
 
-
-package com.jcwhatever.bukkit.pvs.modules.citizens.events;
+package com.jcwhatever.bukkit.pvs.modules.citizens.traits;
 
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
-import com.jcwhatever.bukkit.pvs.modules.citizens.scripts.ScriptNPC;
-import org.bukkit.entity.Entity;
-import org.bukkit.event.entity.EntityCombustByEntityEvent;
+import com.jcwhatever.bukkit.pvs.modules.citizens.scripting.ArenaScriptNPC;
 
-public class NPCCombustByEntityEvent extends AbstractNPCEvent {
+import net.citizensnpcs.api.trait.Trait;
 
-    private final EntityCombustByEntityEvent _parentEvent;
+/*
+ * 
+ */
+public class PVStarNPCTrait extends Trait {
 
-    public NPCCombustByEntityEvent(Arena arena, ScriptNPC scriptNPC, EntityCombustByEntityEvent parentEvent) {
-        super(arena, scriptNPC);
+    private final ArenaScriptNPC _scriptNPC;
 
-        PreCon.notNull(parentEvent);
+    public PVStarNPCTrait(ArenaScriptNPC scriptNPC) {
+        super("PVStarNPC");
 
-        _parentEvent = parentEvent;
+        PreCon.notNull(scriptNPC);
+
+        _scriptNPC = scriptNPC;
     }
 
-    public Entity getCombuster() {
-        return _parentEvent.getCombuster();
+    public Arena getArena() {
+        return _scriptNPC.getArena();
+    }
+
+    public ArenaScriptNPC getScriptNPC() {
+        return _scriptNPC;
     }
 }

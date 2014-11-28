@@ -22,16 +22,35 @@
  * THE SOFTWARE.
  */
 
+package com.jcwhatever.bukkit.pvs.modules.citizens.scripting;
 
-package com.jcwhatever.bukkit.pvs.modules.citizens.events;
-
+import com.jcwhatever.bukkit.generic.citizens.npc.AbstractScriptNPCRegistry;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
-import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.modules.citizens.scripts.ScriptNPC;
 
-public class NPCLeftClickEvent extends NPCClickEvent {
+import org.bukkit.plugin.Plugin;
 
-    public NPCLeftClickEvent(Arena arena, ScriptNPC scriptNPC, ArenaPlayer clicker) {
-        super(arena, scriptNPC, clicker);
+import net.citizensnpcs.api.npc.NPC;
+import net.citizensnpcs.api.npc.NPCRegistry;
+
+/**
+ * Script NPC Registry for an arena.
+ */
+public class ArenaScriptNPCRegistry extends AbstractScriptNPCRegistry<ArenaScriptNPC> {
+
+    private final Arena _arena;
+
+    public ArenaScriptNPCRegistry(Plugin plugin, NPCRegistry registry, Arena arena) {
+        super(plugin, registry, arena.getEventManager());
+
+        _arena = arena;
+    }
+
+    public Arena getArena() {
+        return _arena;
+    }
+
+    @Override
+    protected ArenaScriptNPC instantiateScriptNPC(NPC npc) {
+        return new ArenaScriptNPC(_arena, this, npc);
     }
 }
