@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions.maze;
 
-import com.jcwhatever.bukkit.generic.items.ItemStackHelper;
+import com.jcwhatever.bukkit.generic.utils.ItemStackUtils;
 import com.jcwhatever.bukkit.generic.regions.BuildChunkSnapshot;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
 import com.jcwhatever.bukkit.generic.regions.BuildableRegion;
@@ -225,7 +225,7 @@ public class MazeBuilder {
                     _map[mapx][y][mapz] = wall;
                 }
                 else {
-                    _map[mapx][y][mapz] = ItemStackHelper.AIR;
+                    _map[mapx][y][mapz] = ItemStackUtils.AIR;
                 }
 
             }

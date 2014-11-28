@@ -31,7 +31,7 @@ import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.inventory.Kit;
 import com.jcwhatever.bukkit.generic.inventory.KitManager;
-import com.jcwhatever.bukkit.generic.items.ItemStackHelper;
+import com.jcwhatever.bukkit.generic.utils.ItemStackUtils;
 import com.jcwhatever.bukkit.generic.items.serializer.ItemStackSerializer.SerializerOutputType;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
@@ -84,7 +84,7 @@ public class ListSubCommand extends AbstractCommand {
         else {
 
             for (ItemStack item : armor) {
-                pagin.add(ItemStackHelper.serializeToString(item, SerializerOutputType.COLOR));
+                pagin.add(ItemStackUtils.serializeToString(item, SerializerOutputType.COLOR));
             }
         }
 
@@ -98,7 +98,7 @@ public class ListSubCommand extends AbstractCommand {
         else {
 
             for (ItemStack item : items) {
-                pagin.add(ItemStackHelper.serializeToString(item, SerializerOutputType.COLOR));
+                pagin.add(ItemStackUtils.serializeToString(item, SerializerOutputType.COLOR));
             }
         }
 

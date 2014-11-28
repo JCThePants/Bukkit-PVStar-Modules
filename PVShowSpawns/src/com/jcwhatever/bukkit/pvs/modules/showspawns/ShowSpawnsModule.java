@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.showspawns;
 import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
-import com.jcwhatever.bukkit.generic.items.ItemStackHelper;
+import com.jcwhatever.bukkit.generic.utils.ItemStackUtils;
 import com.jcwhatever.bukkit.generic.utils.SignUtils;
 import com.jcwhatever.bukkit.generic.utils.LocationUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -94,7 +94,7 @@ public class ShowSpawnsModule extends PVStarModule implements IGenericsEventList
             states.addLast(spawn.getBlock().getState());
 
             MaterialData materialData = new MaterialData(Material.BEDROCK);
-            ItemStackHelper.setBlock(spawn.getBlock(), materialData);
+            ItemStackUtils.setBlock(spawn.getBlock(), materialData);
 
             Block above = spawn.getBlock().getRelative(0, 1, 0);
 
@@ -102,7 +102,7 @@ public class ShowSpawnsModule extends PVStarModule implements IGenericsEventList
 
             ItemStack signStack = new ItemStack(Material.SIGN_POST);
 
-            ItemStackHelper.setBlock(above, signStack);
+            ItemStackUtils.setBlock(above, signStack);
 
             above = spawn.getBlock().getRelative(0, 1, 0);
 

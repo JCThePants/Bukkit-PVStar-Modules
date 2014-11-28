@@ -29,7 +29,7 @@ import com.jcwhatever.bukkit.generic.collections.WeightedList.WeightedIterator;
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
-import com.jcwhatever.bukkit.generic.items.ItemStackHelper;
+import com.jcwhatever.bukkit.generic.utils.ItemStackUtils;
 import com.jcwhatever.bukkit.generic.items.serializer.ItemStackSerializer.SerializerOutputType;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
@@ -74,7 +74,7 @@ public class ListSubCommand extends AbstractPVCommand {
 
         while (iterator.hasNext()) {
             ItemStack stack = iterator.next();
-            pagin.add(iterator.weight() + "w, " + ItemStackHelper.serializeToString(stack, SerializerOutputType.COLOR));
+            pagin.add(iterator.weight() + "w, " + ItemStackUtils.serializeToString(stack, SerializerOutputType.COLOR));
         }
 
         pagin.show(sender, page, FormatTemplate.RAW);

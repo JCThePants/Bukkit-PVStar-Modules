@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.revive.commands;
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
-import com.jcwhatever.bukkit.generic.items.ItemStackHelper;
+import com.jcwhatever.bukkit.generic.utils.ItemStackUtils;
 import com.jcwhatever.bukkit.generic.items.serializer.ItemStackSerializer.SerializerOutputType;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -69,7 +69,7 @@ public class ItemSubCommand extends AbstractPVCommand {
 
             ItemStack[] revivalItems = extension.getRevivalItems();
 
-            tell(sender, Lang.get(_CURRENT, ItemStackHelper.serializeToString(revivalItems, SerializerOutputType.COLOR)));
+            tell(sender, Lang.get(_CURRENT, ItemStackUtils.serializeToString(revivalItems, SerializerOutputType.COLOR)));
         }
         else {
 
@@ -78,7 +78,7 @@ public class ItemSubCommand extends AbstractPVCommand {
             extension.setRevivalItems(revivalItems);
 
             tellSuccess(sender, Lang.get(_CHANGED, arena.getName()));
-            tell(sender, ItemStackHelper.serializeToString(revivalItems, SerializerOutputType.COLOR));
+            tell(sender, ItemStackUtils.serializeToString(revivalItems, SerializerOutputType.COLOR));
         }
     }
 }
