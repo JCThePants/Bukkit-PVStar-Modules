@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.economy.commands;
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
-import com.jcwhatever.bukkit.generic.economy.EconomyHelper;
+import com.jcwhatever.bukkit.generic.utils.EconomyUtils;
 import com.jcwhatever.bukkit.pvs.modules.economy.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -74,10 +74,10 @@ public class DeathSubCommand extends AbstractPVCommand {
                 tell(sender, Lang.get(_INFO_NO_REWARD, arena.getName()));
             }
             else if (amount > 0.0D) {
-                tell(sender, Lang.get(_INFO_REWARD, EconomyHelper.formatAmount(amount), arena.getName()));
+                tell(sender, Lang.get(_INFO_REWARD, EconomyUtils.formatAmount(amount), arena.getName()));
             }
             else {
-                tell(sender, Lang.get(_INFO_PENALTY, EconomyHelper.formatAmount(amount), arena.getName()));
+                tell(sender, Lang.get(_INFO_PENALTY, EconomyUtils.formatAmount(amount), arena.getName()));
             }
         }
         else {
@@ -90,10 +90,10 @@ public class DeathSubCommand extends AbstractPVCommand {
                 tellSuccess(sender, Lang.get(_SET_NO_REWARD, arena.getName()));
             }
             else if (amount > 0.0D) {
-                tellSuccess(sender, Lang.get(_SET_REWARD, arena.getName(), EconomyHelper.formatAmount(amount)));
+                tellSuccess(sender, Lang.get(_SET_REWARD, arena.getName(), EconomyUtils.formatAmount(amount)));
             }
             else {
-                tellSuccess(sender, Lang.get(_SET_PENALTY, arena.getName(), EconomyHelper.formatAmount(Math.abs(amount))));
+                tellSuccess(sender, Lang.get(_SET_PENALTY, arena.getName(), EconomyUtils.formatAmount(Math.abs(amount))));
             }
         }
     }

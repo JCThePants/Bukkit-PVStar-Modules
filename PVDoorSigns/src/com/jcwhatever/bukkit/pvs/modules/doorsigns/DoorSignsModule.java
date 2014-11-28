@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.doorsigns;
 
-import com.jcwhatever.bukkit.generic.economy.EconomyHelper;
+import com.jcwhatever.bukkit.generic.utils.EconomyUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
 import com.jcwhatever.bukkit.pvs.modules.doorsigns.signs.EconDoorSignHandler;
@@ -61,7 +61,7 @@ public class DoorSignsModule extends PVStarModule {
         PVStarAPI.getSignManager().registerSignType(new PointsDoorSignHandler());
         PVStarAPI.getSignManager().registerSignType(new ExpDoorSignHandler());
 
-        if (EconomyHelper.hasEconomy()) {
+        if (EconomyUtils.hasEconomy()) {
             PVStarAPI.getSignManager().registerSignType(new EconDoorSignHandler());
         }
     }

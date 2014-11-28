@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.economy;
 
-import com.jcwhatever.bukkit.generic.economy.EconomyHelper;
+import com.jcwhatever.bukkit.generic.utils.EconomyUtils;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
@@ -170,10 +170,10 @@ public class EconomyExtension extends ArenaExtension implements IGenericsEventLi
     private void giveMoney(ArenaPlayer player, double amount) {
         PreCon.notNull(player);
 
-        if (!isEnabled() || Double.compare(amount, 0.0D) == 0 || !EconomyHelper.hasEconomy())
+        if (!isEnabled() || Double.compare(amount, 0.0D) == 0 || !EconomyUtils.hasEconomy())
             return;
 
-        EconomyHelper.giveMoney(player.getHandle(), amount);
+        EconomyUtils.giveMoney(player.getHandle(), amount);
     }
 
 }
