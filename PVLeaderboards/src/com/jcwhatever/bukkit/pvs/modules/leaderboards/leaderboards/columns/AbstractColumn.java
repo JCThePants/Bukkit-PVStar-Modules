@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.columns;
 
-import com.jcwhatever.bukkit.generic.signs.SignHelper;
+import com.jcwhatever.bukkit.generic.utils.SignUtils;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
@@ -67,7 +67,7 @@ public abstract class AbstractColumn {
 
         for (Sign archive : _signs) {
 
-            Sign sign = SignHelper.getRecent(archive);
+            Sign sign = SignUtils.getRecent(archive);
 
             if (sign == null) {
                 Msg.debug("Null sign in leaderboard column");
@@ -115,7 +115,7 @@ public abstract class AbstractColumn {
         ArrayList<Sign> signs = new ArrayList<Sign>(_signs.size());
         for (Sign archive : _signs) {
 
-            Sign sign = SignHelper.getRecent(archive);
+            Sign sign = SignUtils.getRecent(archive);
             if (sign == null)
                 continue;
 
@@ -146,17 +146,17 @@ public abstract class AbstractColumn {
 
         if (getHeaderSign() != null) {
             blocks.add(getHeaderSign().getBlock());
-            blocks.add(SignHelper.getSignAttachedBlock(getHeaderSign()));
+            blocks.add(SignUtils.getSignAttachedBlock(getHeaderSign()));
         }
 
         for (Sign archive : _signs) {
 
-            Sign sign = SignHelper.getRecent(archive);
+            Sign sign = SignUtils.getRecent(archive);
             if (sign == null)
                 continue;
 
             blocks.add(sign.getBlock());
-            Block attached = SignHelper.getSignAttachedBlock(sign);
+            Block attached = SignUtils.getSignAttachedBlock(sign);
             if (attached != null)
                 blocks.add(attached);
         }
@@ -168,7 +168,7 @@ public abstract class AbstractColumn {
 
     // get signs below the column header sign
     protected void addColumnSigns(Sign headerSign) {
-        for (Sign sign : SignHelper.getAdjacentSigns(headerSign.getBlock(), BlockFace.DOWN)) {
+        for (Sign sign : SignUtils.getAdjacentSigns(headerSign.getBlock(), BlockFace.DOWN)) {
             _signs.add(sign);
         }
     }

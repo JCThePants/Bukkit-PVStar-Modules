@@ -29,7 +29,7 @@ import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.items.ItemStackHelper;
-import com.jcwhatever.bukkit.generic.signs.SignHelper;
+import com.jcwhatever.bukkit.generic.utils.SignUtils;
 import com.jcwhatever.bukkit.generic.utils.LocationUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -106,7 +106,7 @@ public class ShowSpawnsModule extends PVStarModule implements IGenericsEventList
 
             above = spawn.getBlock().getRelative(0, 1, 0);
 
-            Sign sign = SignHelper.getSign(above);
+            Sign sign = SignUtils.getSign(above);
             if (sign == null)
                 continue;
 
