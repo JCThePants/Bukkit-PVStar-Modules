@@ -31,7 +31,7 @@ import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
-import com.jcwhatever.bukkit.generic.player.PlayerHelper;
+import com.jcwhatever.bukkit.generic.utils.PlayerUtils;
 import com.jcwhatever.bukkit.pvs.modules.party.Party;
 import com.jcwhatever.bukkit.pvs.modules.party.PartyManager;
 import com.jcwhatever.bukkit.pvs.modules.party.PartyModule;
@@ -73,7 +73,7 @@ public class KickSubCommand extends AbstractCommand {
 		
 		String playerName = args.getName("playerName");
 		
-		Player kickedPlayer = PlayerHelper.getPlayer(playerName);
+		Player kickedPlayer = PlayerUtils.getPlayer(playerName);
 		
 		if (kickedPlayer == null) {
 			tellError(p, "Could not find player '{0}'", playerName);

@@ -31,7 +31,7 @@ import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
-import com.jcwhatever.bukkit.generic.player.PlayerHelper;
+import com.jcwhatever.bukkit.generic.utils.PlayerUtils;
 import com.jcwhatever.bukkit.generic.utils.TextUtils;
 import com.jcwhatever.bukkit.pvs.modules.party.Party;
 import com.jcwhatever.bukkit.pvs.modules.party.PartyManager;
@@ -103,7 +103,7 @@ public class JoinSubCommand extends AbstractCommand {
 		
 		
 		
-		Player leader = PlayerHelper.getPlayer(playerName);
+		Player leader = PlayerUtils.getPlayer(playerName);
 		if (leader == null) {
 			tellError(p, "Player '{0}' was not found.", playerName);
 			return; // finish

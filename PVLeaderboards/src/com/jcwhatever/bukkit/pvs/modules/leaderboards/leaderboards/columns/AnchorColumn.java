@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.columns;
 
-import com.jcwhatever.bukkit.generic.player.PlayerHelper;
+import com.jcwhatever.bukkit.generic.utils.PlayerUtils;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Utils;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
@@ -69,7 +69,7 @@ public class AnchorColumn extends AbstractColumn {
         String format = _lineFormats[signLine];
 
         //noinspection ConstantConditions
-        String playerName = PlayerHelper.getPlayerName(playerUniqueId);
+        String playerName = PlayerUtils.getPlayerName(playerUniqueId);
         if (playerName == null)
             playerName = "?";
 
