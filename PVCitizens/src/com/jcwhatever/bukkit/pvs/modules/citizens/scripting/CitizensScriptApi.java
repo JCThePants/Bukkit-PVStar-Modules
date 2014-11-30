@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.citizens.scripting;
 
 import com.jcwhatever.bukkit.generic.citizens.CitizensScriptApiObject;
-import com.jcwhatever.bukkit.generic.citizens.storage.BlackHoleNPCStore;
+import com.jcwhatever.bukkit.generic.citizens.storage.TransientNPCStore;
 import com.jcwhatever.bukkit.generic.events.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.events.IEventHandler;
 import com.jcwhatever.bukkit.generic.scripting.api.IScriptApiObject;
@@ -52,7 +52,7 @@ public class CitizensScriptApi extends ScriptApi {
     @Override
     protected IScriptApiObject onCreateApiObject(Arena arena, EvaluatedScript script) {
 
-        NPCRegistry registry = CitizensAPI.createAnonymousNPCRegistry(new BlackHoleNPCStore());
+        NPCRegistry registry = CitizensAPI.createAnonymousNPCRegistry(new TransientNPCStore());
         ArenaScriptNPCRegistry scriptRegistry = new ArenaScriptNPCRegistry(PVStarAPI.getPlugin(), registry, arena);
 
         return new ApiObject(arena, scriptRegistry);
