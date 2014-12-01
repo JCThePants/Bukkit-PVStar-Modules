@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.gamblesigns;
 
-import com.jcwhatever.bukkit.generic.collections.MultiValueBiMap;
+import com.jcwhatever.bukkit.generic.collections.HashSetMap;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.scripting.api.IScriptApiObject;
@@ -36,7 +36,7 @@ import com.jcwhatever.bukkit.pvs.api.scripting.EvaluatedScript;
 import com.jcwhatever.bukkit.pvs.api.scripting.ScriptApi;
 import com.jcwhatever.bukkit.pvs.modules.gamblesigns.events.GambleTriggeredEvent;
 
-import java.util.List;
+import java.util.Set;
 
 public class GambleScriptApi extends ScriptApi implements IGenericsEventListener {
 
@@ -57,7 +57,7 @@ public class GambleScriptApi extends ScriptApi implements IGenericsEventListener
 
     public static class ApiObject implements IScriptApiObject, IGenericsEventListener {
 
-        private MultiValueBiMap<String, GambleHandler> _gambleHandlers = new MultiValueBiMap<>(25);
+        private HashSetMap<String, GambleHandler> _gambleHandlers = new HashSetMap<>(25);
         private boolean _isDisposed;
 
         public void addWinHandler(String eventName, GambleHandler handler) {
@@ -83,7 +83,7 @@ public class GambleScriptApi extends ScriptApi implements IGenericsEventListener
         private void onGambleTriggered(GambleTriggeredEvent event) {
             String eventName = event.getEventName();
 
-            List<GambleHandler> handlers = _gambleHandlers.getValues(eventName);
+            Set<GambleHandler> handlers = _gambleHandlers.getAll(eventName);
             if (handlers == null)
                 return;
 

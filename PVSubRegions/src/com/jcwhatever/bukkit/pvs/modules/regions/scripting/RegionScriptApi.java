@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.scripting;
 
-import com.jcwhatever.bukkit.generic.collections.MultiValueBiMap;
+import com.jcwhatever.bukkit.generic.collections.HashSetMap;
 import com.jcwhatever.bukkit.generic.scripting.api.IScriptApiObject;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -36,7 +36,6 @@ import com.jcwhatever.bukkit.pvs.modules.regions.SubRegionsModule;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion.RegionEventHandler;
 
-import java.util.List;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -62,8 +61,8 @@ public class RegionScriptApi extends ScriptApi {
 
         private final EvaluatedScript _script;
         private final SubRegionsModule _module;
-        private final MultiValueBiMap<AbstractPVRegion, RegionEventHandler> _enterHandlers = new MultiValueBiMap<>(20);
-        private final MultiValueBiMap<AbstractPVRegion, RegionEventHandler> _leaveHandlers = new MultiValueBiMap<>(20);
+        private final HashSetMap<AbstractPVRegion, RegionEventHandler> _enterHandlers = new HashSetMap<>(20);
+        private final HashSetMap<AbstractPVRegion, RegionEventHandler> _leaveHandlers = new HashSetMap<>(20);
         private boolean _isDisposed;
 
         ApiObject (SubRegionsModule module, EvaluatedScript script) {
@@ -83,7 +82,7 @@ public class RegionScriptApi extends ScriptApi {
             Set<AbstractPVRegion> enterRegions = _enterHandlers.keySet();
             for (AbstractPVRegion region : enterRegions) {
 
-                List<RegionEventHandler> handlers = _enterHandlers.getValues(region);
+                Set<RegionEventHandler> handlers = _enterHandlers.getAll(region);
                 if (handlers == null)
                     continue;
 
@@ -96,7 +95,7 @@ public class RegionScriptApi extends ScriptApi {
             Set<AbstractPVRegion> leaveRegions = _leaveHandlers.keySet();
             for (AbstractPVRegion region : leaveRegions) {
 
-                List<RegionEventHandler> handlers = _leaveHandlers.getValues(region);
+                Set<RegionEventHandler> handlers = _leaveHandlers.getAll(region);
                 if (handlers == null)
                     continue;
 

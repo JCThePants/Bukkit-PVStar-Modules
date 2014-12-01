@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.doorsigns;
 
-import com.jcwhatever.bukkit.generic.collections.MultiValueBiMap;
+import com.jcwhatever.bukkit.generic.collections.HashSetMap;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.signs.SignContainer;
@@ -36,21 +36,23 @@ import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaStartedEvent;
+
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import javax.annotation.Nullable;
 
 public class DoorManager implements IGenericsEventListener {
 
     private Map<String, DoorBlocks> _doorsBySign = new HashMap<>(20);
-    private MultiValueBiMap<Arena, DoorBlocks> _doorsByArena = new MultiValueBiMap<Arena, DoorBlocks>();
+    private HashSetMap<Arena, DoorBlocks> _doorsByArena = new HashSetMap<Arena, DoorBlocks>();
 
     public DoorManager() {
         PVStarAPI.getEventManager().register(this);
@@ -131,7 +133,7 @@ public class DoorManager implements IGenericsEventListener {
 
     private void closeDoors(Arena arena) {
 
-        List<DoorBlocks> doorBlocks = _doorsByArena.remove(arena);
+        Set<DoorBlocks> doorBlocks = _doorsByArena.removeAll(arena);
         if (doorBlocks == null)
             return;
 
