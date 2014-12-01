@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.columns;
 
-import com.jcwhatever.bukkit.generic.collections.TimedMap;
+import com.jcwhatever.bukkit.generic.collections.TimedHashMap;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.stats.ArenaStats;
 import com.jcwhatever.bukkit.pvs.api.stats.StatType;
@@ -38,7 +38,7 @@ public class StatisticsColumn extends AbstractColumn {
 
     private final StatType _statType;
     // keyed to player id as a string
-    private TimedMap<String, Double> _cachedValues = new TimedMap<String, Double>(1);
+    private TimedHashMap<String, Double> _cachedValues = new TimedHashMap<String, Double>(1);
     private ColumnSetting _settings;
 
     public StatisticsColumn(StatType type, Leaderboard leaderboard, Sign columnHeader, ColumnSetting settings) {

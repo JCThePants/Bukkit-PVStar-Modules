@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.party;
 
-import com.jcwhatever.bukkit.generic.collections.TimedList;
+import com.jcwhatever.bukkit.generic.collections.TimedArrayList;
 import com.jcwhatever.bukkit.generic.player.collections.PlayerSet;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
 public class Party {
 
 	Set<Player> _players = new PlayerSet(PVStarAPI.getPlugin());
-	TimedList<Player> _invitations = new TimedList<Player>();
+	TimedArrayList<Player> _invitations = new TimedArrayList<Player>();
     WeakReference<Player> _leader;
 
 	private String _partyName;
