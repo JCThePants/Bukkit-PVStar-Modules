@@ -93,9 +93,9 @@ public class CitizensScriptApi extends ScriptApi {
          * Reset and release resources.
          */
         @Override
-        public void reset() {
+        public void dispose() {
 
-            super.reset();
+            super.dispose();
 
             _npcRegistry.deregisterAll();
 

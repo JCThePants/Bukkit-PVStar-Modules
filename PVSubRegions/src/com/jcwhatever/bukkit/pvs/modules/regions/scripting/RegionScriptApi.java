@@ -71,7 +71,7 @@ public class RegionScriptApi extends ScriptApi {
         }
 
         @Override
-        public void reset() {
+        public void dispose() {
 
             // remove enter region handlers
             Set<AbstractPVRegion> enterRegions = _enterHandlers.keySet();

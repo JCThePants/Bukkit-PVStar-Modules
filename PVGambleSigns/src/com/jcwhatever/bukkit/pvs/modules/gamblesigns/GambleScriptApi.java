@@ -68,7 +68,7 @@ public class GambleScriptApi extends ScriptApi implements IGenericsEventListener
         }
 
         @Override
-        public void reset() {
+        public void dispose() {
             _gambleHandlers.clear();
         }
 
