@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.scripting;
 
-import com.jcwhatever.bukkit.generic.collections.MultiValueMap;
+import com.jcwhatever.bukkit.generic.collections.MultiValueBiMap;
 import com.jcwhatever.bukkit.generic.scripting.api.IScriptApiObject;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -62,8 +62,8 @@ public class RegionScriptApi extends ScriptApi {
 
         private final EvaluatedScript _script;
         private final SubRegionsModule _module;
-        private final MultiValueMap<AbstractPVRegion, RegionEventHandler> _enterHandlers = new MultiValueMap<>(20);
-        private final MultiValueMap<AbstractPVRegion, RegionEventHandler> _leaveHandlers = new MultiValueMap<>(20);
+        private final MultiValueBiMap<AbstractPVRegion, RegionEventHandler> _enterHandlers = new MultiValueBiMap<>(20);
+        private final MultiValueBiMap<AbstractPVRegion, RegionEventHandler> _leaveHandlers = new MultiValueBiMap<>(20);
         private boolean _isDisposed;
 
         ApiObject (SubRegionsModule module, EvaluatedScript script) {

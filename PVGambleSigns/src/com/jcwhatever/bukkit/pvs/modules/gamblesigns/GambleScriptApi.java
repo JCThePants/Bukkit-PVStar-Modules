@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.gamblesigns;
 
-import com.jcwhatever.bukkit.generic.collections.MultiValueMap;
+import com.jcwhatever.bukkit.generic.collections.MultiValueBiMap;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.scripting.api.IScriptApiObject;
@@ -57,7 +57,7 @@ public class GambleScriptApi extends ScriptApi implements IGenericsEventListener
 
     public static class ApiObject implements IScriptApiObject, IGenericsEventListener {
 
-        private MultiValueMap<String, GambleHandler> _gambleHandlers = new MultiValueMap<>(25);
+        private MultiValueBiMap<String, GambleHandler> _gambleHandlers = new MultiValueBiMap<>(25);
         private boolean _isDisposed;
 
         public void addWinHandler(String eventName, GambleHandler handler) {

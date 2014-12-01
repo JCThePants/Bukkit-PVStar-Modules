@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.doorsigns;
 
-import com.jcwhatever.bukkit.generic.collections.MultiValueMap;
+import com.jcwhatever.bukkit.generic.collections.MultiValueBiMap;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.signs.SignContainer;
@@ -50,7 +50,7 @@ import java.util.Map;
 public class DoorManager implements IGenericsEventListener {
 
     private Map<String, DoorBlocks> _doorsBySign = new HashMap<>(20);
-    private MultiValueMap<Arena, DoorBlocks> _doorsByArena = new MultiValueMap<Arena, DoorBlocks>();
+    private MultiValueBiMap<Arena, DoorBlocks> _doorsByArena = new MultiValueBiMap<Arena, DoorBlocks>();
 
     public DoorManager() {
         PVStarAPI.getEventManager().register(this);
