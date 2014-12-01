@@ -73,6 +73,8 @@ public class ProximitySpawner implements ISpawner {
     private ScheduledTask _spawnMobsTask;
     private ScheduledTask _despawnMobsTask;
 
+    private boolean _isDisposed;
+
     @Override
     public void init(MobArenaExtension manager) {
         PreCon.notNull(manager);
@@ -126,6 +128,11 @@ public class ProximitySpawner implements ISpawner {
     }
 
     @Override
+    public boolean isDisposed() {
+        return _isDisposed;
+    }
+
+    @Override
     public void dispose() {
         if (_spawnMobsTask != null) {
             _spawnMobsTask.cancel();
@@ -139,6 +146,8 @@ public class ProximitySpawner implements ISpawner {
 
         _arena = null;
         _manager = null;
+
+        _isDisposed = true;
     }
 
     /*

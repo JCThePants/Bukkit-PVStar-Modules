@@ -58,6 +58,7 @@ public class GambleScriptApi extends ScriptApi implements IGenericsEventListener
     public static class ApiObject implements IScriptApiObject, IGenericsEventListener {
 
         private MultiValueMap<String, GambleHandler> _gambleHandlers = new MultiValueMap<>(25);
+        private boolean _isDisposed;
 
         public void addWinHandler(String eventName, GambleHandler handler) {
             _gambleHandlers.put(eventName, handler);
@@ -68,8 +69,14 @@ public class GambleScriptApi extends ScriptApi implements IGenericsEventListener
         }
 
         @Override
+        public boolean isDisposed() {
+            return _isDisposed;
+        }
+
+        @Override
         public void dispose() {
             _gambleHandlers.clear();
+            _isDisposed = true;
         }
 
         @GenericsEventHandler

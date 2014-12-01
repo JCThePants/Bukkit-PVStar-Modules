@@ -64,10 +64,16 @@ public class RegionScriptApi extends ScriptApi {
         private final SubRegionsModule _module;
         private final MultiValueMap<AbstractPVRegion, RegionEventHandler> _enterHandlers = new MultiValueMap<>(20);
         private final MultiValueMap<AbstractPVRegion, RegionEventHandler> _leaveHandlers = new MultiValueMap<>(20);
+        private boolean _isDisposed;
 
         ApiObject (SubRegionsModule module, EvaluatedScript script) {
             _module = module;
             _script = script;
+        }
+
+        @Override
+        public boolean isDisposed() {
+            return _isDisposed;
         }
 
         @Override
@@ -101,6 +107,8 @@ public class RegionScriptApi extends ScriptApi {
 
             _enterHandlers.clear();
             _leaveHandlers.clear();
+
+            _isDisposed = true;
         }
 
         @Nullable
