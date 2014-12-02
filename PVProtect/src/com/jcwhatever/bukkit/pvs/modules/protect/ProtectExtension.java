@@ -31,7 +31,8 @@ import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 
 import org.bukkit.entity.EntityType;
-import org.bukkit.event.block.Action;
+import org.bukkit.event.Event.Result;
+import org.bukkit.event.block.BlockMultiPlaceEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
 import org.bukkit.event.entity.EntityDamageEvent;
@@ -63,11 +64,8 @@ public class ProtectExtension extends ArenaExtension implements IGenericsEventLi
         if (!event.hasBlock())
             return;
 
-        // allow right clicking
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK)
-            return;
-
-        event.setCancelled(true);
+        event.setUseInteractedBlock(Result.ALLOW);
+        event.setUseItemInHand(Result.DENY);
     }
 
     /*
@@ -75,6 +73,14 @@ public class ProtectExtension extends ArenaExtension implements IGenericsEventLi
      */
     @GenericsEventHandler
     private void onBlockPlace(BlockPlaceEvent event) {
+        event.setCancelled(true);
+    }
+
+    /*
+     * Prevent placing blocks
+     */
+    @GenericsEventHandler
+    private void onBlockMultiPlace(BlockMultiPlaceEvent event) {
         event.setCancelled(true);
     }
 
