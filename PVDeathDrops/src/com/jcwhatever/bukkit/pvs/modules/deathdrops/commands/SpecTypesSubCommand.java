@@ -61,7 +61,7 @@ public class SpecTypesSubCommand extends AbstractDropsCommand {
             pagin.add(type);
         }
 
-        pagin.show(sender, page, FormatTemplate.ITEM);
+        pagin.show(sender, page, FormatTemplate.LIST_ITEM);
     }
 }
 

@@ -122,6 +122,6 @@ public class PartyCommand extends AbstractCommand {
 		label = Lang.get("Invitations");
 		pagin.add(label, invited.size() > 0 ? TextUtils.concat(invited, ", ") : noneLabel);
 		
-		pagin.show(sender, page, FormatTemplate.DEFINITION);
+		pagin.show(sender, page, FormatTemplate.CONSTANT_DEFINITION);
 	}
 }

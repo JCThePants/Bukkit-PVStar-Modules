@@ -69,6 +69,6 @@ public class TypesSubCommand extends AbstractRegionCommand {
             pagin.add(info.name(), info.description());
         }
 
-        pagin.show(sender, page, FormatTemplate.ITEM_DESCRIPTION);
+        pagin.show(sender, page, FormatTemplate.LIST_ITEM_DESCRIPTION);
     }
 }

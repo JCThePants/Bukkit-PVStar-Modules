@@ -95,7 +95,7 @@ public class InfoSubCommand extends AbstractRegionCommand {
             }
         }
 
-        pagin.show(sender, page, FormatTemplate.DEFINITION);
+        pagin.show(sender, page, FormatTemplate.CONSTANT_DEFINITION);
     }
 
 }

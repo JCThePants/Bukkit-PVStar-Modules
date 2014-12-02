@@ -79,7 +79,7 @@ public class ListSubCommand extends AbstractCommand {
         ItemStack[] armor = kit.getArmor();
 
         if (armor.length == 0) {
-            pagin.addFormatted(FormatTemplate.ITEM, Lang.get(_LABEL_NONE));
+            pagin.addFormatted(FormatTemplate.LIST_ITEM, Lang.get(_LABEL_NONE));
         }
         else {
 
@@ -93,7 +93,7 @@ public class ListSubCommand extends AbstractCommand {
         ItemStack[] items = kit.getItems();
 
         if (items.length == 0) {
-            pagin.addFormatted(FormatTemplate.ITEM, Lang.get(_LABEL_NONE));
+            pagin.addFormatted(FormatTemplate.LIST_ITEM, Lang.get(_LABEL_NONE));
         }
         else {
 

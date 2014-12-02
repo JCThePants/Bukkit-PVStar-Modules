@@ -69,6 +69,6 @@ public class InfoSubCommand extends AbstractLeaderboardCommand {
             pagin.add(column.getStatType().getName(), column.getSettings().getSortOrder().name());
         }
 
-        pagin.show(sender, page, FormatTemplate.ITEM_DESCRIPTION);
+        pagin.show(sender, page, FormatTemplate.LIST_ITEM_DESCRIPTION);
     }
 }

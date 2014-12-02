@@ -71,6 +71,6 @@ public class ListSubCommand extends AbstractRegionCommand {
             pagin.add(region.getName(), region.getTypeName());
         }
 
-        pagin.show(sender, page, FormatTemplate.ITEM_DESCRIPTION);
+        pagin.show(sender, page, FormatTemplate.LIST_ITEM_DESCRIPTION);
     }
 }

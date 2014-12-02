@@ -83,7 +83,7 @@ public class InfoSubCommand extends AbstractPVCommand {
             pagin.add(type.name(), limit >= 0 ? limit : noneLabel);
         }
 
-        pagin.show(sender, page, FormatTemplate.DEFINITION);
+        pagin.show(sender, page, FormatTemplate.CONSTANT_DEFINITION);
     }
 }
 
