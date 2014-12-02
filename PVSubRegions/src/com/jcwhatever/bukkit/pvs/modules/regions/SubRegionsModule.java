@@ -27,6 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.regions;
 
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.scripting.ScriptApiRepo;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaDisposeEvent;
@@ -46,7 +47,6 @@ public class SubRegionsModule extends PVStarModule implements IGenericsEventList
         return _module;
     }
 
-    private RegionScriptApi _scriptApi;
     private TypesManager _typesManager = new TypesManager();
     private Map<Arena, RegionManager> _regionManagers = new HashMap<>(30);
 
@@ -59,12 +59,7 @@ public class SubRegionsModule extends PVStarModule implements IGenericsEventList
     @Override
     protected void onRegisterTypes() {
 
-        if (_scriptApi != null)
-            _scriptApi.reset();
-
-        _scriptApi = new RegionScriptApi(this);
-
-        PVStarAPI.getScriptManager().registerApiType(_scriptApi);
+        ScriptApiRepo.registerApiType(PVStarAPI.getPlugin(), RegionScriptApi.class);
     }
 
     public TypesManager getTypesManager() {

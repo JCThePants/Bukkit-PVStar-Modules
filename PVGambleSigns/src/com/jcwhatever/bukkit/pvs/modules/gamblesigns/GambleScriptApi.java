@@ -28,37 +28,47 @@ package com.jcwhatever.bukkit.pvs.modules.gamblesigns;
 import com.jcwhatever.bukkit.generic.collections.HashSetMap;
 import com.jcwhatever.bukkit.generic.events.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.scripting.IEvaluatedScript;
+import com.jcwhatever.bukkit.generic.scripting.ScriptApiInfo;
+import com.jcwhatever.bukkit.generic.scripting.api.GenericsScriptApi;
 import com.jcwhatever.bukkit.generic.scripting.api.IScriptApiObject;
 import com.jcwhatever.bukkit.generic.signs.SignContainer;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.api.scripting.EvaluatedScript;
-import com.jcwhatever.bukkit.pvs.api.scripting.ScriptApi;
 import com.jcwhatever.bukkit.pvs.modules.gamblesigns.events.GambleTriggeredEvent;
+
+import org.bukkit.plugin.Plugin;
 
 import java.util.Set;
 
-public class GambleScriptApi extends ScriptApi implements IGenericsEventListener {
+@ScriptApiInfo(
+        variableName = "pvGamble",
+        description = "Provide scripts with api access to PV-Star PVGambleSigns module.")
+public class GambleScriptApi extends GenericsScriptApi {
 
-    @Override
-    public String getVariableName() {
-        return "_gamble";
+    /**
+     * Constructor.
+     *
+     * @param plugin The owning plugin
+     */
+    public GambleScriptApi(Plugin plugin) {
+        super(plugin);
     }
 
     @Override
-    protected IScriptApiObject onCreateApiObject(Arena arena, EvaluatedScript script) {
-
-        ApiObject apiObject = new ApiObject();
-
-        arena.getEventManager().register(apiObject);
-
-        return apiObject;
+    public IScriptApiObject getApiObject(IEvaluatedScript script) {
+        return new ApiObject();
     }
 
     public static class ApiObject implements IScriptApiObject, IGenericsEventListener {
 
         private HashSetMap<String, GambleHandler> _gambleHandlers = new HashSetMap<>(25);
         private boolean _isDisposed;
+
+        ApiObject() {
+            PVStarAPI.getEventManager().register(this);
+        }
 
         public void addWinHandler(String eventName, GambleHandler handler) {
             _gambleHandlers.put(eventName, handler);
@@ -76,6 +86,7 @@ public class GambleScriptApi extends ScriptApi implements IGenericsEventListener
         @Override
         public void dispose() {
             _gambleHandlers.clear();
+            PVStarAPI.getEventManager().unregister(this);
             _isDisposed = true;
         }
 
@@ -88,14 +99,14 @@ public class GambleScriptApi extends ScriptApi implements IGenericsEventListener
                 return;
 
             for (GambleHandler handler : handlers) {
-                handler.onCall(event.getPlayer(), eventName, event.getSignContainer());
+                handler.onCall(event.getArena(), event.getPlayer(), eventName, event.getSignContainer());
             }
         }
     }
 
     public static interface GambleHandler {
 
-        public void onCall(ArenaPlayer signClicker, String eventName, SignContainer sign);
+        public void onCall(Arena arena, ArenaPlayer signClicker, String eventName, SignContainer sign);
 
     }
 }

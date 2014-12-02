@@ -26,48 +26,50 @@
 package com.jcwhatever.bukkit.pvs.modules.regions.scripting;
 
 import com.jcwhatever.bukkit.generic.collections.HashSetMap;
+import com.jcwhatever.bukkit.generic.scripting.IEvaluatedScript;
+import com.jcwhatever.bukkit.generic.scripting.ScriptApiInfo;
+import com.jcwhatever.bukkit.generic.scripting.api.GenericsScriptApi;
 import com.jcwhatever.bukkit.generic.scripting.api.IScriptApiObject;
+import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.api.scripting.EvaluatedScript;
-import com.jcwhatever.bukkit.pvs.api.scripting.ScriptApi;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionManager;
 import com.jcwhatever.bukkit.pvs.modules.regions.SubRegionsModule;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion.RegionEventHandler;
 
+import org.bukkit.plugin.Plugin;
+
 import java.util.Set;
 import javax.annotation.Nullable;
 
-public class RegionScriptApi extends ScriptApi {
+@ScriptApiInfo(
+        variableName = "pvSubRegions",
+        description = "Provides script api access to PV-Star PVSubRegions module."
+)
+public class RegionScriptApi extends GenericsScriptApi {
 
     private final SubRegionsModule _module;
 
-    public RegionScriptApi(SubRegionsModule module) {
-        _module = module;
+    public RegionScriptApi(Plugin plugin) {
+        super(plugin);
+        _module = SubRegionsModule.getModule();
     }
 
     @Override
-    public String getVariableName() {
-        return "pvSubRegions";
-    }
-
-    @Override
-    protected IScriptApiObject onCreateApiObject(Arena arena, EvaluatedScript script) {
-        return new ApiObject(_module, script);
+    public IScriptApiObject getApiObject(IEvaluatedScript script) {
+        return new ApiObject(_module);
     }
 
     public static class ApiObject implements IScriptApiObject {
 
-        private final EvaluatedScript _script;
         private final SubRegionsModule _module;
         private final HashSetMap<AbstractPVRegion, RegionEventHandler> _enterHandlers = new HashSetMap<>(20);
         private final HashSetMap<AbstractPVRegion, RegionEventHandler> _leaveHandlers = new HashSetMap<>(20);
         private boolean _isDisposed;
 
-        ApiObject (SubRegionsModule module, EvaluatedScript script) {
+        ApiObject (SubRegionsModule module) {
             _module = module;
-            _script = script;
         }
 
         @Override
@@ -111,17 +113,23 @@ public class RegionScriptApi extends ScriptApi {
         }
 
         @Nullable
-        public AbstractPVRegion getRegion(String regionName) {
+        public AbstractPVRegion getRegion(Arena arena, String regionName) {
+            PreCon.notNull(arena);
+            PreCon.notNullOrEmpty(regionName);
 
-            RegionManager manager = _module.getManager(_script.getArena());
+            RegionManager manager = _module.getManager(arena);
             if (manager == null)
                 return null;
 
             return manager.getRegion(regionName);
         }
 
-        public boolean onEnter(String regionName, final RegionEventHandler handler) {
-            AbstractPVRegion region = getRegion(regionName);
+        public boolean onEnter(Arena arena, String regionName, final RegionEventHandler handler) {
+            PreCon.notNull(arena);
+            PreCon.notNullOrEmpty(regionName);
+            PreCon.notNull(handler);
+
+            AbstractPVRegion region = getRegion(arena, regionName);
             if (region == null)
                 return false;
 
@@ -138,8 +146,12 @@ public class RegionScriptApi extends ScriptApi {
             return true;
         }
 
-        public boolean onLeave(String regionName, final RegionEventHandler handler) {
-            AbstractPVRegion region = getRegion(regionName);
+        public boolean onLeave(Arena arena, String regionName, final RegionEventHandler handler) {
+            PreCon.notNull(arena);
+            PreCon.notNullOrEmpty(regionName);
+            PreCon.notNull(handler);
+
+            AbstractPVRegion region = getRegion(arena, regionName);
             if (region == null)
                 return false;
 
