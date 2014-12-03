@@ -32,6 +32,7 @@ import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.Event.Result;
+import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockMultiPlaceEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.entity.EntityChangeBlockEvent;
@@ -66,6 +67,9 @@ public class ProtectExtension extends ArenaExtension implements IGenericsEventLi
 
         event.setUseInteractedBlock(Result.ALLOW);
         event.setUseItemInHand(Result.DENY);
+
+        if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
+            event.setCancelled(true);
     }
 
     /*
