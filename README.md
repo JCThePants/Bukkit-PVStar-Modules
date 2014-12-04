@@ -5,10 +5,14 @@ A collection of PV-Star Modules to extend PV-Star's functionality.
 
 *Under heavy development, expect breaking changes.*
 
+
+
 **Definitions**
 
  * Module - Extends PV-Star functionality by adding new types, extensions, commands or anything else.
  * Extension - Can be applied to 1 or more arenas to modify and extend its behavior.
+
+
 
  **Modules in project**
 
