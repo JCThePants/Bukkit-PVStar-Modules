@@ -1,9 +1,16 @@
-Bukkit-PVStar-Modules
+PVStar-Modules
 =====================
 
-A collection of PV-Star Modules to extend PV-Star's functionality. 
+A collection of PV-Star Modules to extend PV-Star's functionality.
 
-*Under heavy development, expect large changes.*
+*Under heavy development, expect breaking changes.*
+
+**Definitions**
+
+ * Module - Extends PV-Star functionality by adding new types, extensions, commands or anything else.
+ * Extension - Can be applied to 1 or more arenas to modify and extend its behavior.
+
+ **Modules in project**
 
  * **PVAutoRestore** - Add arena region auto-restore extension.
  
@@ -14,8 +21,6 @@ A collection of PV-Star Modules to extend PV-Star's functionality.
  * **PVBorders** - Provides arena extension for handling players entering or leaving the arena region.
  
  * **PVChests** - Provides arena extension for randomized chests, random chest items and preset chest items.
- 
- * **PVCitizens** - Provides integrated Citizens Bukkit plugin support.
  
  * **PVDeathDrops** - Manages item and exp drops from mob and player deaths in arenas.
  
