@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.deathdrops.commands;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
-import com.jcwhatever.bukkit.generic.utils.TextUtils;
+import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.DeathDropsExtension;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.DropSettings;

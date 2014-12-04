@@ -33,7 +33,7 @@ import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.regions.data.RegionSelection;
 import com.jcwhatever.bukkit.pvs.modules.regions.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
-import com.jcwhatever.bukkit.generic.utils.TextUtils;
+import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionManager;
 import com.jcwhatever.bukkit.pvs.modules.regions.SubRegionsModule;

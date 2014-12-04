@@ -33,8 +33,8 @@ import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderExc
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
 import com.jcwhatever.bukkit.pvs.modules.party.Lang;
-import com.jcwhatever.bukkit.generic.utils.TextUtils;
-import com.jcwhatever.bukkit.generic.utils.TextUtils.FormatTemplate;
+import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
+import com.jcwhatever.bukkit.generic.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.party.Party;
 import com.jcwhatever.bukkit.pvs.modules.party.PartyManager;

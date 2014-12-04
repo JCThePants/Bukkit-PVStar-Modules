@@ -29,7 +29,7 @@ import com.jcwhatever.bukkit.generic.pathing.astar.AStar.LocationAdjustment;
 import com.jcwhatever.bukkit.generic.pathing.astar.AStarPathFinder;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
-import com.jcwhatever.bukkit.generic.utils.TextUtils;
+import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.bukkit.pvs.modules.mobs.paths.PathCache;

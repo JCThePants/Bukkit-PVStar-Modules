@@ -33,7 +33,7 @@ import com.jcwhatever.bukkit.pvs.modules.mobs.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinition;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
-import com.jcwhatever.bukkit.generic.utils.TextUtils.FormatTemplate;
+import com.jcwhatever.bukkit.generic.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;

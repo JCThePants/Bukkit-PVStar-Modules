@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards;
 import com.jcwhatever.bukkit.generic.utils.SignUtils;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
-import com.jcwhatever.bukkit.generic.utils.TextUtils;
+import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.stats.ArenaStats;
 import com.jcwhatever.bukkit.pvs.api.stats.StatTracking.StatTrackType;

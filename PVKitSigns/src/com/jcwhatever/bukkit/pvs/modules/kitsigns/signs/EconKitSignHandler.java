@@ -28,8 +28,8 @@ package com.jcwhatever.bukkit.pvs.modules.kitsigns.signs;
 import com.jcwhatever.bukkit.generic.utils.EconomyUtils;
 import com.jcwhatever.bukkit.generic.utils.EconomyUtils.CurrencyNoun;
 import com.jcwhatever.bukkit.generic.signs.SignContainer;
-import com.jcwhatever.bukkit.generic.utils.TextUtils;
-import com.jcwhatever.bukkit.generic.utils.TextUtils.TextColor;
+import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
+import com.jcwhatever.bukkit.generic.utils.text.TextColor;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 
