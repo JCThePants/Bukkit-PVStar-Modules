@@ -40,7 +40,7 @@ import org.bukkit.command.CommandSender;
         parent="chests",
         command="clearinv",
         usage="/{plugin-command} chests clearinv",
-        description="Clear inventory of all scanned chests in the selected arena. Does not change config.")
+        description="Clear chest of all scanned chests in the selected arena. Does not change config.")
 
 public class ClearInvSubCommand extends AbstractPVCommand {
 

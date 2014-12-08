@@ -280,12 +280,12 @@ public class ChestExtension extends ArenaExtension implements IGenericsEventList
     // fill chest that has no preset contents
     private void fillRandomGlobalItems(Chest chest, int maxSlots) {
 
-        // get the chests current inventory
+        // get the chests current chest
         Inventory inventory = chest.getBlockInventory();
 
         Set<ItemStack> itemsAdded = new HashSet<>(27);
 
-        // iterate inventory slots and add items
+        // iterate chest slots and add items
         for (int slot = 0; slot < 27; slot++) {
 
             // if already reached max items to add, clear slot and continue
@@ -306,7 +306,7 @@ public class ChestExtension extends ArenaExtension implements IGenericsEventList
                     continue;
                 }
 
-                // add item and set inventory slot
+                // add item and set chest slot
                 itemsAdded.add(item);
                 inventory.setItem(slot, item.clone());
             }

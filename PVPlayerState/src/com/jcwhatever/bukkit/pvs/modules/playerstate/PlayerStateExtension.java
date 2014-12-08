@@ -67,7 +67,7 @@ public class PlayerStateExtension extends ArenaExtension implements IGenericsEve
         }
 
         if (state != null) {
-            // clear players inventory and reset state
+            // clear players chest and reset state
             PlayerUtils.resetPlayer(event.getPlayer().getHandle());
         }
     }
