@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.graceperiod;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -38,15 +38,21 @@ import com.jcwhatever.bukkit.pvs.api.events.ArenaStartedEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.plugin.Plugin;
 
 @ArenaExtensionInfo(
         name="PVGracePeriod",
         description = "Add grace period to the beginning of an arena which prevents PVP.")
-public class GracePeriodExtension extends ArenaExtension implements IGenericsEventListener {
+public class GracePeriodExtension extends ArenaExtension implements IEventListener {
 
     private int _gracePeriodSeconds = 10;
 
     public boolean _isGracePeriod = false;
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     /**
      * Get grace period time in seconds.

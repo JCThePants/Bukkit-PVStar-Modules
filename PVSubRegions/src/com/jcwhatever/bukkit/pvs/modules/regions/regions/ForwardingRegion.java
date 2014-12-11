@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
@@ -48,7 +48,7 @@ import java.util.UUID;
 @RegionTypeInfo(
         name="forwarding",
         description="Forward players to another arena.")
-public class ForwardingRegion extends AbstractPVRegion implements IGenericsEventListener {
+public class ForwardingRegion extends AbstractPVRegion implements IEventListener {
 
     private static SettingDefinitions _possibleSettings = new SettingDefinitions();
 

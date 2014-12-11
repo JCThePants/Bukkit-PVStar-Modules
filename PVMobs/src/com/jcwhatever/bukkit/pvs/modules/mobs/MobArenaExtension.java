@@ -28,10 +28,11 @@ package com.jcwhatever.bukkit.pvs.modules.mobs;
 import com.jcwhatever.bukkit.generic.collections.EntryCounter;
 import com.jcwhatever.bukkit.generic.collections.EntryCounter.RemovalPolicy;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.EnumUtils;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
@@ -48,6 +49,7 @@ import com.jcwhatever.bukkit.pvs.modules.mobs.spawngroups.SpawnGroupGenerator;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.LivingEntity;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -60,7 +62,7 @@ import javax.annotation.Nullable;
 @ArenaExtensionInfo(
         name="PVMobs",
         description = "Adds mob spawning support to an arena.")
-public class MobArenaExtension extends ArenaExtension implements IGenericsEventListener {
+public class MobArenaExtension extends ArenaExtension implements IEventListener {
 
     public static final String NAME = "PVMobs";
 
@@ -74,6 +76,11 @@ public class MobArenaExtension extends ArenaExtension implements IGenericsEventL
 
     // count the number of entities of each type spawned
     private EntryCounter<EntityType> _mobCounter = new EntryCounter<EntityType>(RemovalPolicy.KEEP_COUNTING);
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     @Override
     protected void onEnable() {

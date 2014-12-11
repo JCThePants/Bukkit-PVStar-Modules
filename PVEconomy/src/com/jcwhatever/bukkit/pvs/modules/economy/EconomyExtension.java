@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.economy;
 
 import com.jcwhatever.bukkit.generic.utils.EconomyUtils;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -40,18 +40,24 @@ import com.jcwhatever.bukkit.pvs.api.events.players.PlayerLoseEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerWinEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.plugin.Plugin;
 
 @ArenaExtensionInfo(
         name="PVEconomy",
         description = "Adds economy earnings/rewards to an arena.")
 
-public class EconomyExtension extends ArenaExtension implements IGenericsEventListener {
+public class EconomyExtension extends ArenaExtension implements IEventListener {
 
     private double _kill = 0.0D;
     private double _death = 0.0D;
     private double _participant = 0.0D;
     private double _win = 0.0D;
     private double _lose = 0.0D;
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     @Override
     protected void onEnable() {

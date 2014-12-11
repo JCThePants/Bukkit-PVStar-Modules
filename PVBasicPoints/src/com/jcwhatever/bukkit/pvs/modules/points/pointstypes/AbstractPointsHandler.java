@@ -25,14 +25,17 @@
 
 package com.jcwhatever.bukkit.pvs.modules.points.pointstypes;
 
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.points.PointsHandler;
 import com.jcwhatever.bukkit.pvs.api.points.PointsType;
 
-public class AbstractPointsHandler implements PointsHandler, IGenericsEventListener {
+import org.bukkit.plugin.Plugin;
+
+public class AbstractPointsHandler implements PointsHandler, IEventListener {
 
     private final Arena _arena;
     private final PointsType _type;
@@ -48,6 +51,11 @@ public class AbstractPointsHandler implements PointsHandler, IGenericsEventListe
         _type = type;
         _dataNode = node;
         _points = _dataNode.getInteger("points", _points);
+    }
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
     }
 
     @Override

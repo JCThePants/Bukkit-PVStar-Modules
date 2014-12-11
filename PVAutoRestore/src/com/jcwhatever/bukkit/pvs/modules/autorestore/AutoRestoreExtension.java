@@ -26,12 +26,15 @@
 package com.jcwhatever.bukkit.pvs.modules.autorestore;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
+
+import org.bukkit.plugin.Plugin;
 
 import java.io.IOException;
 
@@ -40,7 +43,12 @@ import java.io.IOException;
         description = "Auto restores the arena region when the arena ends. " +
                 "Region must be already saved to disk."
 )
-public class AutoRestoreExtension extends ArenaExtension implements IGenericsEventListener {
+public class AutoRestoreExtension extends ArenaExtension implements IEventListener {
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     @Override
     protected void onEnable() {

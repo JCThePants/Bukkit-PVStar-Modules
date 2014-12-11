@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.borders;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -40,14 +40,20 @@ import com.jcwhatever.bukkit.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 
 import org.bukkit.Location;
+import org.bukkit.plugin.Plugin;
 
 @ArenaExtensionInfo(
         name="PVBorders",
         description="Add arena region entry and exit handling.")
-public class BordersExtension extends ArenaExtension implements IGenericsEventListener {
+public class BordersExtension extends ArenaExtension implements IEventListener {
 
     private OutOfBoundsAction _outOfBoundsAction = OutOfBoundsAction.NONE;
     private OutsidersAction _outsidersAction = OutsidersAction.NONE;
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     /*
      * Get action to take when player leaves the arena region.

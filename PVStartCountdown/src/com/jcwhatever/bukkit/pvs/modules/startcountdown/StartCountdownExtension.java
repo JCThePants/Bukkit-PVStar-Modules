@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.startcountdown;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.internal.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.scheduler.ScheduledTask;
@@ -43,13 +43,15 @@ import com.jcwhatever.bukkit.pvs.api.events.ArenaPreStartEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 
+import org.bukkit.plugin.Plugin;
+
 import java.util.List;
 import java.util.Set;
 
 @ArenaExtensionInfo(
         name="PVStartCountdown",
         description = "Adds a countdown timer before the game starts.")
-public class StartCountdownExtension extends ArenaExtension implements IGenericsEventListener {
+public class StartCountdownExtension extends ArenaExtension implements IEventListener {
 
     @Localizable static final String _AUTO_START_INFO =
             "{YELLOW}Countdown to start will begin once {0} or more players " +
@@ -64,6 +66,11 @@ public class StartCountdownExtension extends ArenaExtension implements IGenerics
 
     private ScheduledTask _countdownTask;
     private boolean _isStarting;
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     /*
      * Determine if the countdown till the next game is running.

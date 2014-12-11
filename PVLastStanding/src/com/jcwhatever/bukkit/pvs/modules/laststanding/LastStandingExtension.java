@@ -25,7 +25,8 @@
 package com.jcwhatever.bukkit.pvs.modules.laststanding;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaTeam;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -34,6 +35,8 @@ import com.jcwhatever.bukkit.pvs.api.arena.managers.GameManager;
 import com.jcwhatever.bukkit.pvs.api.arena.options.RemovePlayerReason;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerRemovedEvent;
 
+import org.bukkit.plugin.Plugin;
+
 import java.util.ArrayList;
 import java.util.List;
 import javax.annotation.Nullable;
@@ -41,7 +44,12 @@ import javax.annotation.Nullable;
 @ArenaExtensionInfo(
         name="PVLastStanding",
         description = "Declares the last player or team in an arena the winner.")
-public class LastStandingExtension extends ArenaExtension implements IGenericsEventListener {
+public class LastStandingExtension extends ArenaExtension implements IEventListener {
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     @Override
     protected void onEnable() {

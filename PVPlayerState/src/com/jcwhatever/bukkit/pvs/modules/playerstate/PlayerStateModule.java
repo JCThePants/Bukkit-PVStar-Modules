@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.playerstate;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.player.PlayerState;
 import com.jcwhatever.bukkit.generic.player.PlayerState.RestoreLocation;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -35,10 +35,16 @@ import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.InvalidConfigurationException;
+import org.bukkit.plugin.Plugin;
 
 import java.io.IOException;
 
-public class PlayerStateModule extends PVStarModule implements IGenericsEventListener {
+public class PlayerStateModule extends PVStarModule implements IEventListener {
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     @Override
     protected void onRegisterTypes() {

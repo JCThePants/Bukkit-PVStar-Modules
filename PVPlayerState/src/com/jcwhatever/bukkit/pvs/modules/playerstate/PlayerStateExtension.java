@@ -26,19 +26,26 @@
 package com.jcwhatever.bukkit.pvs.modules.playerstate;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
-import com.jcwhatever.bukkit.generic.utils.PlayerUtils;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.player.PlayerState;
+import com.jcwhatever.bukkit.generic.utils.PlayerUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.arena.options.AddPlayerReason;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
 
+import org.bukkit.plugin.Plugin;
+
 @ArenaExtensionInfo(
         name="PVPlayerState",
         description="Adds player state save and restore to an arena.")
-public class PlayerStateExtension extends ArenaExtension implements IGenericsEventListener {
+public class PlayerStateExtension extends ArenaExtension implements IEventListener {
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     @Override
     protected void onEnable() {

@@ -29,7 +29,7 @@ import com.jcwhatever.bukkit.generic.collections.EntryCounter;
 import com.jcwhatever.bukkit.generic.collections.EntryCounter.RemovalPolicy;
 import com.jcwhatever.bukkit.generic.converters.ValueConverters;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
@@ -44,7 +44,7 @@ import java.util.UUID;
 @RegionTypeInfo(
         name="tell",
         description="Tell a player who enters or leaves the region a message.")
-public class TellRegion extends AbstractPVRegion implements IGenericsEventListener {
+public class TellRegion extends AbstractPVRegion implements IEventListener {
 
     protected static SettingDefinitions _possibleSettings = new SettingDefinitions();
 

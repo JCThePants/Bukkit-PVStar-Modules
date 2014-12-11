@@ -26,32 +26,35 @@
 package com.jcwhatever.bukkit.pvs.modules.deathdrops;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.player.PlayerStateSnapshot;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Rand;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaRespawnEvent;
+
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
-import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+import javax.annotation.Nullable;
 
 @ArenaExtensionInfo(
         name="PVDeathDrops",
         description="Manage items dropped when players or mobs are killed in an arena.")
-public class DeathDropsExtension extends ArenaExtension implements IGenericsEventListener {
+public class DeathDropsExtension extends ArenaExtension implements IEventListener {
 
     private Map<EntityType, DropSettings> _entitySettings = new EnumMap<>(EntityType.class);
     private Map<UUID, PlayerStateSnapshot> _itemsToRestore = new HashMap<>(25);
@@ -61,6 +64,11 @@ public class DeathDropsExtension extends ArenaExtension implements IGenericsEven
     private DropSettings _mobSettings; // not a player entity but still a living entity
     private IDataNode _mobNode;
     private boolean _canKeepItemsOnDeath = false;
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     public boolean canKeepItemsOnDeath() {
         return _canKeepItemsOnDeath;

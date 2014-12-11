@@ -26,15 +26,23 @@
 package com.jcwhatever.bukkit.pvs.modules.infinitelives;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerLivesChangeEvent;
 
+import org.bukkit.plugin.Plugin;
+
 @ArenaExtensionInfo(
         name = "PVInfiniteLives",
         description = "Give players infinite lives in the arena.")
-public class InfiniteLivesExtension extends ArenaExtension implements IGenericsEventListener {
+public class InfiniteLivesExtension extends ArenaExtension implements IEventListener {
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     @Override
     protected void onEnable() {

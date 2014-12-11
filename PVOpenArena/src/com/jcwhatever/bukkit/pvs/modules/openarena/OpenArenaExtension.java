@@ -26,8 +26,8 @@
 package com.jcwhatever.bukkit.pvs.modules.openarena;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.player.collections.PlayerSet;
 import com.jcwhatever.bukkit.generic.regions.Region.LeaveRegionReason;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -51,6 +51,7 @@ import com.jcwhatever.bukkit.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import java.util.List;
 import java.util.Set;
@@ -58,7 +59,7 @@ import java.util.Set;
 @ArenaExtensionInfo(
         name = "PVOpenArena",
         description = "Allow players to join an arena at any time and the game starts immediately.")
-public class OpenArenaExtension extends ArenaExtension implements IGenericsEventListener {
+public class OpenArenaExtension extends ArenaExtension implements IEventListener {
 
     private static final String META_LEAVE = OpenArenaExtension.class.getName() + "META_LEAVE";
     private static final String META_ENTER = OpenArenaExtension.class.getName() + "META_ENTER";
@@ -66,6 +67,11 @@ public class OpenArenaExtension extends ArenaExtension implements IGenericsEvent
     // stores player-->arena so players entering an arena that is busy can be added
     // when it becomes idle.
     private static final Set<Player> _joinOnIdle = new PlayerSet(PVStarAPI.getPlugin(), 10);
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     @Override
     protected void onEnable() {

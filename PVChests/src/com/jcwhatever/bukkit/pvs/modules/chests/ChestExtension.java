@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.chests;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.generic.utils.Rand;
@@ -48,6 +48,7 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -58,7 +59,7 @@ import java.util.Set;
         name = "PVChests",
         description = "Add randomized chests and chest contents to an arena.")
 
-public class ChestExtension extends ArenaExtension implements IGenericsEventListener, Listener {
+public class ChestExtension extends ArenaExtension implements IEventListener, Listener {
 
     public enum ClearChestRestore {
         NONE,
@@ -69,6 +70,10 @@ public class ChestExtension extends ArenaExtension implements IGenericsEventList
     private ItemSettings _itemSettings;
     private Set<ChestInfo> _openedChests = new HashSet<>(35);
 
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     public ChestSettings getChestSettings() {
         return _chestSettings;

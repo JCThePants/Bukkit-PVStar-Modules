@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.revive;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.items.ItemStackComparer;
 import com.jcwhatever.bukkit.generic.scheduler.ScheduledTask;
 import com.jcwhatever.bukkit.generic.scheduler.TaskHandler;
@@ -44,13 +44,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 
 @ArenaExtensionInfo(
         name = "PVRevive",
         description = "Adds down and revive mechanics to an arena.")
-public class ReviveExtension extends ArenaExtension implements IGenericsEventListener {
+public class ReviveExtension extends ArenaExtension implements IEventListener {
 
     private static final String KEY_IS_DOWN = "com.jcwhatever.bukkit.pvs.modules.revive.ReviveExtension.KEY_IS_DOWN";
     private static final String KEY_KILLER = "com.jcwhatever.bukkit.pvs.modules.revive.ReviveExtension.KEY_KILLER";
@@ -59,6 +60,11 @@ public class ReviveExtension extends ArenaExtension implements IGenericsEventLis
     private int _timeToReviveSeconds = 20;
     private int _reviveHealth = 20;
     private ItemStack[] _revivalItems = new ItemStack[] { new ItemStack(Material.BLAZE_ROD) };
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     public int getTimeToReviveSeconds() {
         return _timeToReviveSeconds;

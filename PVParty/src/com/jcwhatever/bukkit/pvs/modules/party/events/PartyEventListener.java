@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.party.events;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -40,16 +40,22 @@ import com.jcwhatever.bukkit.pvs.modules.party.PartyManager;
 import com.jcwhatever.bukkit.pvs.modules.party.PartyModule;
 
 import org.bukkit.entity.Player;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import javax.annotation.Nullable;
 
-public class PartyEventListener implements IGenericsEventListener {
+public class PartyEventListener implements IEventListener {
 
     private static final String META_ALLOW_JOIN_ARENA =
             "com.jcwhatever.bukkit.pvs.modules.party.events.PartyEventListener.META_ALLOW_JOIN_ARENA";
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     @GenericsEventHandler
     private void onPlayerJoinQuery(PlayerJoinQueryEvent event) {

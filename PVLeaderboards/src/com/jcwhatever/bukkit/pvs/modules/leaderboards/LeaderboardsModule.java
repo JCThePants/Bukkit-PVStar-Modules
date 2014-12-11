@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.leaderboards;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueWorker;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
@@ -41,6 +41,7 @@ import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.UpdateTask;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -51,7 +52,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-public class LeaderboardsModule extends PVStarModule implements IGenericsEventListener {
+public class LeaderboardsModule extends PVStarModule implements IEventListener {
 
     private static LeaderboardsModule _module;
 
@@ -72,6 +73,11 @@ public class LeaderboardsModule extends PVStarModule implements IGenericsEventLi
         super();
 
         _module = this;
+    }
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
     }
 
     @Override

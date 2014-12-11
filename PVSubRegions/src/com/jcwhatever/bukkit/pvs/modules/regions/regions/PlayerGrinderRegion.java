@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.scheduler.ScheduledTask;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
@@ -54,7 +54,7 @@ import javax.annotation.Nullable;
 @RegionTypeInfo(
         name="playergrinder",
         description="Region with rotating explosions.")
-public class PlayerGrinderRegion extends AbstractPVRegion implements IGenericsEventListener {
+public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListener {
 
     private static SettingDefinitions _possibleSettings = new SettingDefinitions();
 

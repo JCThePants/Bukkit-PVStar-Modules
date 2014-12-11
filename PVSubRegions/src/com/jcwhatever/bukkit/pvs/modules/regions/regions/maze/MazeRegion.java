@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.regions.regions.maze;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueTask;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueWorker;
 import com.jcwhatever.bukkit.generic.performance.queued.TaskConcurrency;
@@ -43,7 +43,7 @@ import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
         name="maze",
         description="Randomly generated maze region."
 )
-public class MazeRegion extends AbstractPVRegion implements IGenericsEventListener {
+public class MazeRegion extends AbstractPVRegion implements IEventListener {
 
     private static SettingDefinitions _possibleSettings = new SettingDefinitions();
 

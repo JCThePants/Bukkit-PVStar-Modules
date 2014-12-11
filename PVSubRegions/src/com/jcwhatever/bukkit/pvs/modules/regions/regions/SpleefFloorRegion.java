@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
 import com.jcwhatever.bukkit.generic.items.ItemStackComparer;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.CancelHandler;
@@ -51,7 +51,7 @@ import java.io.IOException;
 @RegionTypeInfo(
         name="spleeffloor",
         description="Spleef floor region.")
-public class SpleefFloorRegion extends AbstractPVRegion implements IGenericsEventListener {
+public class SpleefFloorRegion extends AbstractPVRegion implements IEventListener {
 
     private static SettingDefinitions _possibleSettings = new SettingDefinitions();
 

@@ -26,7 +26,8 @@
 package com.jcwhatever.bukkit.pvs.modules.messages;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaTeam;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
@@ -37,11 +38,18 @@ import com.jcwhatever.bukkit.pvs.api.events.players.PlayerReadyEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerWinEvent;
 import com.jcwhatever.bukkit.pvs.api.events.team.TeamWinEvent;
 
+import org.bukkit.plugin.Plugin;
+
 @ArenaExtensionInfo(
         name = "PVMessages",
         description = "Adds basic status and event messages to an arena.")
 
-public class MessagesExtension extends ArenaExtension implements IGenericsEventListener {
+public class MessagesExtension extends ArenaExtension implements IEventListener {
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     @Override
     protected void onEnable() {

@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.stats;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.performance.TripleKeySingleCache;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -40,16 +40,18 @@ import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
 import com.jcwhatever.bukkit.pvs.api.stats.ArenaStats;
 import com.jcwhatever.bukkit.pvs.api.stats.StatTracking;
 import com.jcwhatever.bukkit.pvs.api.stats.StatType;
+
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.plugin.Plugin;
 
-import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import javax.annotation.Nullable;
 
-public class BasicStatsModule extends PVStarModule implements IGenericsEventListener {
+public class BasicStatsModule extends PVStarModule implements IEventListener {
 
     public static final StatType KILLS = new StatType("kills", "Kills", StatTracking.TOTAL_MIN_MAX);
     public static final StatType DEATHS = new StatType("deaths", "Deaths", StatTracking.TOTAL_MIN_MAX);
@@ -60,6 +62,11 @@ public class BasicStatsModule extends PVStarModule implements IGenericsEventList
     private final Map<Arena, Map<StatType, Map<ArenaPlayer, SessionStatTracker>>> _playerMatches = new HashMap<>(30);
 
     private final TripleKeySingleCache<Arena, StatType, ArenaPlayer, SessionStatTracker> _trackerCache = new TripleKeySingleCache<>();
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
 
     @Override
     protected void onRegisterTypes() {

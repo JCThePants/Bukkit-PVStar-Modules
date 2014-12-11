@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.gamblesigns;
 
 import com.jcwhatever.bukkit.generic.collections.HashSetMap;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.scripting.IEvaluatedScript;
 import com.jcwhatever.bukkit.generic.scripting.ScriptApiInfo;
 import com.jcwhatever.bukkit.generic.scripting.api.GenericsScriptApi;
@@ -58,16 +58,23 @@ public class GambleScriptApi extends GenericsScriptApi {
 
     @Override
     public IScriptApiObject getApiObject(IEvaluatedScript script) {
-        return new ApiObject();
+        return new ApiObject(getPlugin());
     }
 
-    public static class ApiObject implements IScriptApiObject, IGenericsEventListener {
+    public static class ApiObject implements IScriptApiObject, IEventListener {
 
+        private final Plugin _plugin;
         private HashSetMap<String, GambleHandler> _gambleHandlers = new HashSetMap<>(25);
         private boolean _isDisposed;
 
-        ApiObject() {
+        ApiObject(Plugin plugin) {
+            _plugin = plugin;
             PVStarAPI.getEventManager().register(this);
+        }
+
+        @Override
+        public Plugin getPlugin() {
+            return _plugin;
         }
 
         public void addWinHandler(String eventName, GambleHandler handler) {

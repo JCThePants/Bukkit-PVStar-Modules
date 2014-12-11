@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.doorsigns;
 
 import com.jcwhatever.bukkit.generic.collections.HashSetMap;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IGenericsEventListener;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.signs.SignContainer;
 import com.jcwhatever.bukkit.generic.signs.SignHandler;
 import com.jcwhatever.bukkit.generic.signs.SignManager;
@@ -41,6 +41,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -49,13 +50,18 @@ import java.util.Map;
 import java.util.Set;
 import javax.annotation.Nullable;
 
-public class DoorManager implements IGenericsEventListener {
+public class DoorManager implements IEventListener {
 
     private Map<String, DoorBlocks> _doorsBySign = new HashMap<>(20);
     private HashSetMap<Arena, DoorBlocks> _doorsByArena = new HashSetMap<Arena, DoorBlocks>();
 
     public DoorManager() {
         PVStarAPI.getEventManager().register(this);
+    }
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
     }
 
     public void addArenaDoorBlocks(Arena arena, DoorBlocks doorBlocks) {
