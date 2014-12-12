@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.gamblesigns;
 
-import com.jcwhatever.bukkit.generic.scripting.ScriptApiRepo;
+import com.jcwhatever.bukkit.generic.GenericsLib;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
 
@@ -46,7 +46,7 @@ public class GambleSignsModule extends PVStarModule {
     @Override
     protected void onRegisterTypes() {
 
-        ScriptApiRepo.registerApiType(PVStarAPI.getPlugin(), GambleScriptApi.class);
+        GenericsLib.getScriptApiRepo().registerApiType(PVStarAPI.getPlugin(), GambleScriptApi.class);
     }
 
     @Override
