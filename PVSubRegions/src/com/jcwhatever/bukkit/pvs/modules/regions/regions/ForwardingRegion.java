@@ -144,13 +144,13 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
     @Override
     protected void onEnable() {
         getArena().getEventManager().register(this);
-        setIsPlayerWatcher(true);
+        setEventListener(true);
     }
 
     @Override
     protected void onDisable() {
         getArena().getEventManager().unregister(this);
-        setIsPlayerWatcher(false);
+        setEventListener(false);
     }
 
     @Override

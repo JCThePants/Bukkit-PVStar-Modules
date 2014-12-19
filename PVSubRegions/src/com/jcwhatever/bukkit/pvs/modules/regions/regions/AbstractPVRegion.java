@@ -179,7 +179,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
         _onEnter.add(handler);
 
-        setIsPlayerWatcher(true);
+        setEventListener(true);
     }
 
     public void removeEnterEventHandler(RegionEventHandler handler) {
@@ -195,7 +195,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
         _onLeave.add(handler);
 
-        setIsPlayerWatcher(true);
+        setEventListener(true);
     }
 
     public void removeLeaveEventHandler(RegionEventHandler handler) {
@@ -276,8 +276,8 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     }
 
     @Override
-    protected final void setIsPlayerWatcher(boolean isWatcher) {
-        super.setIsPlayerWatcher(isWatcher ||
+    protected final void setEventListener(boolean isEventListener) {
+        super.setEventListener(isEventListener ||
                 (_onEnter != null && _onEnter.size() > 0) ||
                 (_onLeave != null && _onLeave.size() > 0));
     }

@@ -132,13 +132,13 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
 
     @Override
     protected void onEnable() {
-        setIsPlayerWatcher(true);
+        setEventListener(true);
         getArena().getEventManager().register(this);
     }
 
     @Override
     protected void onDisable() {
-        setIsPlayerWatcher(false);
+        setEventListener(false);
         getArena().getEventManager().unregister(this);
     }
 

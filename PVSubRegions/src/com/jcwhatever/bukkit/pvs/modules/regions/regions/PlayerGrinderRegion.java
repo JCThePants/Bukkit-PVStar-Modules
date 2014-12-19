@@ -119,13 +119,13 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
 
     @Override
     protected void onEnable() {
-        setIsPlayerWatcher(true);
+        setEventListener(true);
         getArena().getEventManager().register(this);
     }
 
     @Override
     protected void onDisable() {
-        setIsPlayerWatcher(false);
+        setEventListener(false);
         getArena().getEventManager().unregister(this);
     }
 

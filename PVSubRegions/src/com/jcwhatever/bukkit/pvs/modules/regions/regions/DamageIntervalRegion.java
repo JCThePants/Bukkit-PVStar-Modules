@@ -119,12 +119,12 @@ public class DamageIntervalRegion extends AbstractPVRegion {
 
     @Override
     protected void onEnable() {
-        setIsPlayerWatcher(true);
+        setEventListener(true);
     }
 
     @Override
     protected void onDisable() {
-        setIsPlayerWatcher(false);
+        setEventListener(false);
     }
 
     @Override
