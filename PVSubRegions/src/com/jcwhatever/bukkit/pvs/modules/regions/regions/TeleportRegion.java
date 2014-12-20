@@ -103,14 +103,14 @@ public class TeleportRegion extends AbstractPVRegion {
             }
         }
 
-        final Vector v = player.getHandle().getVelocity();
-        player.getHandle().teleport(tpLocation, TeleportCause.PLUGIN);
+        final Vector v = player.getPlayer().getVelocity();
+        player.getPlayer().teleport(tpLocation, TeleportCause.PLUGIN);
 
         ArenaScheduler.runTaskLater(getArena(), 1, new Runnable() {
 
             @Override
             public void run() {
-                player.getHandle().setVelocity(v);
+                player.getPlayer().setVelocity(v);
             }
 
         });

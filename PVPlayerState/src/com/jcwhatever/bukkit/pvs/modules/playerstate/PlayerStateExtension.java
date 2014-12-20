@@ -68,14 +68,14 @@ public class PlayerStateExtension extends ArenaExtension implements IEventListen
         }
 
         // store player state
-        PlayerState state = PlayerState.get(PVStarAPI.getPlugin(), event.getPlayer().getHandle());
+        PlayerState state = PlayerState.get(PVStarAPI.getPlugin(), event.getPlayer().getPlayer());
         if (state == null) {
-            state = PlayerState.store(PVStarAPI.getPlugin(), event.getPlayer().getHandle());
+            state = PlayerState.store(PVStarAPI.getPlugin(), event.getPlayer().getPlayer());
         }
 
         if (state != null) {
             // clear players chest and reset state
-            PlayerUtils.resetPlayer(event.getPlayer().getHandle());
+            PlayerUtils.resetPlayer(event.getPlayer().getPlayer());
         }
     }
 

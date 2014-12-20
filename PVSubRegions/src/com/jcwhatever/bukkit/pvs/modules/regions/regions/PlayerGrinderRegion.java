@@ -405,7 +405,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
                 }
 
                 // damage players
-                player.getHandle().damage(_region._damage);
+                player.getPlayer().damage(_region._damage);
             }
         }
 

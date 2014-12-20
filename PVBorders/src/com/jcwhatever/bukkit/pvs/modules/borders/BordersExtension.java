@@ -143,7 +143,7 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
                     case KICK:
                         Location kickLocation = getArena().getSettings().getRemoveLocation();
 
-                        player.getHandle().teleport(kickLocation);
+                        player.getPlayer().teleport(kickLocation);
                         Msg.tellError(player, "You're not allowed inside the arena during a match.");
                         break;
                 }

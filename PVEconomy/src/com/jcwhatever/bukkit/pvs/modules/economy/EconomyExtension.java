@@ -179,7 +179,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         if (!isEnabled() || Double.compare(amount, 0.0D) == 0 || !EconomyUtils.hasEconomy())
             return;
 
-        EconomyUtils.giveMoney(player.getHandle(), amount);
+        EconomyUtils.giveMoney(player.getPlayer(), amount);
     }
 
 }

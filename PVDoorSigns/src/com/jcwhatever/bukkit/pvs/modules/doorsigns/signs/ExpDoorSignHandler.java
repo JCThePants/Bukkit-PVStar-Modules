@@ -93,16 +93,16 @@ public class ExpDoorSignHandler extends AbstractNumberSignHandler {
 
     @Override
     protected double getPlayerBalance(ArenaPlayer player) {
-        return player.getHandle().getLevel();
+        return player.getPlayer().getLevel();
     }
 
     @Override
     protected void incrementPlayerBalance(ArenaPlayer player, double amount) {
 
-        int level = player.getHandle().getLevel();
+        int level = player.getPlayer().getLevel();
 
-        player.getHandle().setLevel(0);
-        player.getHandle().setLevel(level + (int)amount);
+        player.getPlayer().setLevel(0);
+        player.getPlayer().setLevel(level + (int)amount);
     }
 
     @Override

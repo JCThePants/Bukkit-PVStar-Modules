@@ -170,7 +170,7 @@ public class ProximitySpawner implements ISpawner {
                 continue;
             }
 
-            creature.setTarget(closest.getHandle());
+            creature.setTarget(closest.getPlayer());
 
             if (creature instanceof PigZombie) {
                 PigZombie pigZ = (PigZombie)creature;
@@ -287,7 +287,7 @@ public class ProximitySpawner implements ISpawner {
                         return;
                     }
 
-                    if (!mob.hasLineOfSight(closest.getHandle())) {
+                    if (!mob.hasLineOfSight(closest.getPlayer())) {
 
                         AStarPathFinder astar = new AStarPathFinder();
                         astar.setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT);

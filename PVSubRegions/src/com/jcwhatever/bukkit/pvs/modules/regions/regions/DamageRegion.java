@@ -55,7 +55,7 @@ public class DamageRegion extends AbstractPVRegion {
     @Override
     protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
 
-        Player p = player.getHandle();
+        Player p = player.getPlayer();
 
         if (_damage < 0) {
             double health = p.getHealth() + Math.abs(_damage);

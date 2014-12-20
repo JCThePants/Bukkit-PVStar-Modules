@@ -71,11 +71,11 @@ public class MusicRegion extends AbstractPVRegion {
     @Override
     protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
 
-        PlayerSoundQueue currentQueue = _playList.getSoundQueue(player.getHandle());
+        PlayerSoundQueue currentQueue = _playList.getSoundQueue(player.getPlayer());
         if (currentQueue != null)
             return;
 
-        _playList.addPlayer(player.getHandle());
+        _playList.addPlayer(player.getPlayer());
     }
 
     @Override
@@ -85,7 +85,7 @@ public class MusicRegion extends AbstractPVRegion {
 
     @Override
     protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
-        _playList.removePlayer(player.getHandle());
+        _playList.removePlayer(player.getPlayer());
     }
 
     @Override

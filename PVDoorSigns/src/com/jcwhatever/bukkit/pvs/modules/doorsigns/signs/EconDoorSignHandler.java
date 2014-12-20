@@ -88,12 +88,12 @@ public class EconDoorSignHandler extends AbstractNumberSignHandler {
 
     @Override
     protected double getPlayerBalance(ArenaPlayer player) {
-        return EconomyUtils.getBalance(player.getHandle());
+        return EconomyUtils.getBalance(player.getPlayer());
     }
 
     @Override
     protected void incrementPlayerBalance(ArenaPlayer player, double amount) {
-        EconomyUtils.giveMoney(player.getHandle(), amount);
+        EconomyUtils.giveMoney(player.getPlayer(), amount);
     }
 
     @Override

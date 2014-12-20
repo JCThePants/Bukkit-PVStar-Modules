@@ -92,7 +92,7 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
 
             @Override
             public void run() {
-                 event.getPlayer().getHandle().setVelocity(vector);
+                 event.getPlayer().getPlayer().setVelocity(vector);
             }
         });
 
@@ -114,7 +114,7 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
             Location destination = getRegionDestination(player);
             _forwardLocMap.put(player.getUniqueId(), destination);
 
-            Vector vector = player.getHandle().getVelocity();
+            Vector vector = player.getPlayer().getVelocity();
             _vectorMap.put(player.getUniqueId(), vector);
         }
 

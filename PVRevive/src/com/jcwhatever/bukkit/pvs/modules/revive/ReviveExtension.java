@@ -137,11 +137,11 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
             meta.set(KEY_KILLER, event.getEntity().getKiller());
 
             // cancel event
-            double health = player.getHandle().getHealth();
+            double health = player.getPlayer().getHealth();
             if (Double.compare(health, 0.0D) == 0 || health < 0.0D)
-                player.getHandle().setHealth(1.0D);
+                player.getPlayer().setHealth(1.0D);
 
-            player.getHandle().setHealth(_timeToReviveSeconds);
+            player.getPlayer().setHealth(_timeToReviveSeconds);
 
             player.setInvulnerable(true);
             player.setImmobilized(true);
@@ -179,7 +179,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
             return;
 
         // get the item in the damager/reviver's hand
-        ItemStack inHand = reviver.getHandle().getItemInHand();
+        ItemStack inHand = reviver.getPlayer().getItemInHand();
 
         // see if the item is a revival item
         for (ItemStack revivalItem : _revivalItems) {
@@ -189,7 +189,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
                 if (task != null) {
                     task.cancel();
                 }
-                player.getHandle().setHealth(_reviveHealth);
+                player.getPlayer().setHealth(_reviveHealth);
                 break;
             }
         }
@@ -203,8 +203,8 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
 
         public PlayerDownedTimer(ArenaPlayer player) {
             _player = player;
-            _health = player.getHandle().getHealth();
-            _player.getHandle().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 50000, 2));
+            _health = player.getPlayer().getHealth();
+            _player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 50000, 2));
         }
 
         @Override
@@ -220,10 +220,10 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
                 return;// finish
             }
             else if (Double.compare(_health, 4.0D) == 0) {
-                _player.getHandle().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 50000, 2));
+                _player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 50000, 2));
             }
 
-            _player.getHandle().setHealth(_health);
+            _player.getPlayer().setHealth(_health);
         }
 
         @Override
@@ -232,8 +232,8 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
             _player.getSessionMeta().set(KEY_KILLER, null);
             _player.getSessionMeta().set(KEY_TASK, null);
 
-            _player.getHandle().removePotionEffect(PotionEffectType.CONFUSION);
-            _player.getHandle().removePotionEffect(PotionEffectType.BLINDNESS);
+            _player.getPlayer().removePotionEffect(PotionEffectType.CONFUSION);
+            _player.getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
 
             _player.setInvulnerable(false);
             _player.setImmobilized(false);

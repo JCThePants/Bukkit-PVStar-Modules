@@ -101,7 +101,7 @@ public class PartyEventListener implements IEventListener {
     @GenericsEventHandler
     private void onPlayerAdded(PlayerAddedEvent event) {
 
-        Player p = event.getPlayer().getHandle();
+        Player p = event.getPlayer().getPlayer();
         Arena arena = event.getArena();
 
         PartyManager manager = PartyModule.getModule().getManager();
@@ -139,7 +139,7 @@ public class PartyEventListener implements IEventListener {
     @Nullable
     private ArenaPlayer getPartyLeader(ArenaPlayer player) {
 
-        Player p = player.getHandle();
+        Player p = player.getPlayer();
 
         PartyManager manager = PartyModule.getModule().getManager();
 
@@ -165,7 +165,7 @@ public class PartyEventListener implements IEventListener {
             return true;
         }
 
-        Player p = player.getHandle();
+        Player p = player.getPlayer();
 
         PartyManager manager = PartyModule.getModule().getManager();
 

@@ -140,7 +140,7 @@ public final class QueueManager {
 
         QueueManager manager = get(arena);
 
-		if (manager._queue.remove(player.getHandle())) {
+		if (manager._queue.remove(player.getPlayer())) {
 
             // remove player meta
             Set<ArenaPlayer> party = player.getSessionMeta().get(_META_PARTY_MEMBERS);
@@ -198,7 +198,7 @@ public final class QueueManager {
         if (!partyMembers.contains(player))
             return false;
 
-        if (!player.getHandle().isOnline())
+        if (!player.getPlayer().isOnline())
             return false;
 
         // make sure player is removed from current queue
@@ -211,7 +211,7 @@ public final class QueueManager {
             partyMember.getSessionMeta().set(_META_QUEUED_ARENA, _arena);
         }
 
-		return _queue.add(player.getHandle());
+		return _queue.add(player.getPlayer());
 	}
 
 }

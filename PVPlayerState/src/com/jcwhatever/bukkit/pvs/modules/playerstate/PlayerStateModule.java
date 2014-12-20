@@ -62,10 +62,10 @@ public class PlayerStateModule extends PVStarModule implements IEventListener {
     @GenericsEventHandler
     private void onPlayerLeave(PlayerLeaveEvent event) {
 
-        if (!event.isRestoring() || event.getPlayer().getHandle().isDead())
+        if (!event.isRestoring() || event.getPlayer().getPlayer().isDead())
             return;
 
-        PlayerState state = PlayerState.get(PVStarAPI.getPlugin(), event.getPlayer().getHandle());
+        PlayerState state = PlayerState.get(PVStarAPI.getPlugin(), event.getPlayer().getPlayer());
         if (state == null || !state.isSaved())
             return;
 

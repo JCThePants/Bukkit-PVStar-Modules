@@ -155,7 +155,7 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
     }
 
     protected void tellMessage(ArenaPlayer player, String message) {
-        Msg.tell(player.getHandle(), message);
+        Msg.tell(player.getPlayer(), message);
     }
 
     @GenericsEventHandler

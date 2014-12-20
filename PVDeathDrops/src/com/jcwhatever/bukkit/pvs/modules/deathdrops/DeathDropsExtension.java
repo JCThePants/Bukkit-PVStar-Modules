@@ -200,7 +200,7 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
         if (snapshot == null)
             return;
 
-        Player p = event.getPlayer().getHandle();
+        Player p = event.getPlayer().getPlayer();
         p.getInventory().setContents(snapshot.getItems());
         p.getInventory().setArmorContents(snapshot.getArmor());
     }

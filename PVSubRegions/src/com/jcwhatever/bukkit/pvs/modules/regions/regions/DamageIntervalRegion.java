@@ -70,7 +70,7 @@ public class DamageIntervalRegion extends AbstractPVRegion {
             @Override
             public void run() {
 
-                Player p = player.getHandle();
+                Player p = player.getPlayer();
 
                 if (p.isDead() || !p.isOnline()) {
                     cancelTask();

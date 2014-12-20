@@ -166,7 +166,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
         if (event.getPlayer().getArena() == null) {
 
             if (getArena().isBusy()) {
-                _joinOnIdle.add(event.getPlayer().getHandle());
+                _joinOnIdle.add(event.getPlayer().getPlayer());
             }
             else {
                 event.getPlayer().getMeta().set(META_ENTER, true);
@@ -187,8 +187,8 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
 
         if (getArena().equals(event.getPlayer().getArena())) {
 
-            if (_joinOnIdle.contains(event.getPlayer().getHandle())) {
-                _joinOnIdle.remove(event.getPlayer().getHandle());
+            if (_joinOnIdle.contains(event.getPlayer().getPlayer())) {
+                _joinOnIdle.remove(event.getPlayer().getPlayer());
             }
             else {
                 event.getPlayer().getMeta().set(META_LEAVE, true);

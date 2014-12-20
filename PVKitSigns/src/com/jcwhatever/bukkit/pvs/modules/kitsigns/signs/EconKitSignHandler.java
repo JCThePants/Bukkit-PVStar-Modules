@@ -87,12 +87,12 @@ public class EconKitSignHandler extends AbstractNumberSignHandler {
 
     @Override
     protected double getBalance(ArenaPlayer player) {
-        return EconomyUtils.getBalance(player.getHandle());
+        return EconomyUtils.getBalance(player.getPlayer());
     }
 
     @Override
     protected void incrementBalance(ArenaPlayer player, double amount) {
-        EconomyUtils.giveMoney(player.getHandle(), amount);
+        EconomyUtils.giveMoney(player.getPlayer(), amount);
     }
 
     @Override
