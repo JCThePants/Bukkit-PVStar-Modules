@@ -30,11 +30,12 @@ import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
-import com.jcwhatever.bukkit.generic.regions.selection.RegionSelection;
-import com.jcwhatever.bukkit.pvs.modules.regions.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
+import com.jcwhatever.bukkit.generic.regions.selection.IRegionSelection;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
+import com.jcwhatever.bukkit.pvs.modules.regions.Lang;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -43,7 +44,7 @@ import org.bukkit.entity.Player;
         command="redefine",
         staticParams={ "regionName" },
         usage="/{plugin-command} {command} redefine <regionName>",
-        description="Redefine the bounds of a sub region in the selected arena using your current area selection.")
+        description="Redefine the bounds of a sub region in the selected arena using your current region selection.")
 
 public class RedefineSubCommand extends AbstractRegionCommand {
 
@@ -63,7 +64,7 @@ public class RedefineSubCommand extends AbstractRegionCommand {
 
         Player p = (Player)sender;
 
-        RegionSelection sel = getWorldEditSelection(p);
+        IRegionSelection sel = getRegionSelection(p);
         if (sel == null)
             return; // finish
 

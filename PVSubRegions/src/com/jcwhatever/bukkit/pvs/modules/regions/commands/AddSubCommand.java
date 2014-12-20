@@ -30,14 +30,15 @@ import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
-import com.jcwhatever.bukkit.generic.regions.selection.RegionSelection;
-import com.jcwhatever.bukkit.pvs.modules.regions.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
+import com.jcwhatever.bukkit.generic.regions.selection.IRegionSelection;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
+import com.jcwhatever.bukkit.pvs.modules.regions.Lang;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionManager;
 import com.jcwhatever.bukkit.pvs.modules.regions.SubRegionsModule;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -48,7 +49,7 @@ import java.util.List;
         command="add",
         staticParams={ "regionName", "regionType" },
         usage="/{plugin-command} {command} add <regionName> <regionType>",
-        description="Adds a new sub region defined by your current area selection in the selected arena.")
+        description="Adds a new sub region to the currently selected arena using your current region selection.")
 
 public class AddSubCommand extends AbstractRegionCommand {
 
@@ -72,7 +73,7 @@ public class AddSubCommand extends AbstractRegionCommand {
 
         Player p = (Player)sender;
 
-        RegionSelection sel = getWorldEditSelection(p);
+        IRegionSelection sel = getRegionSelection(p);
         if (sel == null)
             return; // finish
 
