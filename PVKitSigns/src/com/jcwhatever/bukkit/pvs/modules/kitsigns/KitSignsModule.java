@@ -25,7 +25,6 @@
 
 package com.jcwhatever.bukkit.pvs.modules.kitsigns;
 
-import com.jcwhatever.bukkit.generic.utils.EconomyUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
 import com.jcwhatever.bukkit.pvs.modules.kitsigns.signs.EconKitSignHandler;
@@ -41,10 +40,7 @@ public class KitSignsModule extends PVStarModule {
         PVStarAPI.getSignManager().registerSignType(new ExpKitSignHandler());
         PVStarAPI.getSignManager().registerSignType(new ItemKitSignHandler());
         PVStarAPI.getSignManager().registerSignType(new PointsKitSignHandler());
-
-        if (EconomyUtils.hasEconomy()) {
-            PVStarAPI.getSignManager().registerSignType(new EconKitSignHandler());
-        }
+        PVStarAPI.getSignManager().registerSignType(new EconKitSignHandler());
     }
 
     @Override

@@ -176,10 +176,9 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
     private void giveMoney(ArenaPlayer player, double amount) {
         PreCon.notNull(player);
 
-        if (!isEnabled() || Double.compare(amount, 0.0D) == 0 || !EconomyUtils.hasEconomy())
+        if (!isEnabled())
             return;
 
-        EconomyUtils.giveMoney(player.getPlayer(), amount);
+        EconomyUtils.depositOrWithdraw(player.getUniqueId(), amount);
     }
-
 }

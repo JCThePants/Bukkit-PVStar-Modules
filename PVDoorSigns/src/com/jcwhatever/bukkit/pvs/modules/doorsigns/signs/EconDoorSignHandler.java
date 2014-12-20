@@ -25,11 +25,11 @@
 
 package com.jcwhatever.bukkit.pvs.modules.doorsigns.signs;
 
-import com.jcwhatever.bukkit.generic.utils.EconomyUtils;
-import com.jcwhatever.bukkit.generic.utils.EconomyUtils.CurrencyNoun;
+import com.jcwhatever.bukkit.generic.providers.economy.IEconomyProvider.CurrencyNoun;
 import com.jcwhatever.bukkit.generic.signs.SignContainer;
-import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
+import com.jcwhatever.bukkit.generic.utils.EconomyUtils;
 import com.jcwhatever.bukkit.generic.utils.text.TextColor;
+import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 
@@ -88,12 +88,12 @@ public class EconDoorSignHandler extends AbstractNumberSignHandler {
 
     @Override
     protected double getPlayerBalance(ArenaPlayer player) {
-        return EconomyUtils.getBalance(player.getPlayer());
+        return EconomyUtils.getBalance(player.getUniqueId());
     }
 
     @Override
     protected void incrementPlayerBalance(ArenaPlayer player, double amount) {
-        EconomyUtils.giveMoney(player.getPlayer(), amount);
+        EconomyUtils.depositOrWithdraw(player.getUniqueId(), amount);
     }
 
     @Override
