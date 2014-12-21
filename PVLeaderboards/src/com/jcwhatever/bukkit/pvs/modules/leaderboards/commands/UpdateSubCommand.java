@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
@@ -46,7 +46,7 @@ public class UpdateSubCommand extends AbstractLeaderboardCommand {
     static final String _SUCCESS = "Leaderboard '{0}' updated.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidValueException {
+    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
 
         String leaderboardName = args.getString("leaderboardName");
 

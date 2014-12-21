@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.mobs.commands.settings;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
 import com.jcwhatever.bukkit.pvs.modules.mobs.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
@@ -56,7 +56,7 @@ public class InfoSubCommand extends AbstractPVCommand {
     @Localizable static final String _PAGINATOR_TITLE = "Spawner Info";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidValueException {
+    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
 
         Arena arena = getSelectedArena(sender, ArenaReturned.ALWAYS);
         if (arena == null)

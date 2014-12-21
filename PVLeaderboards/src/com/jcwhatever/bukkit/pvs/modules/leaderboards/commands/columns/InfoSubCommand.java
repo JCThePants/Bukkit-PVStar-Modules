@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands.columns;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
@@ -52,7 +52,7 @@ public class InfoSubCommand extends AbstractLeaderboardCommand {
     @Localizable static final String _PAGINATOR_TITLE = "Columns for leaderboard '{0}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidValueException {
+    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
 
         String leaderboardName = args.getName("leaderboardName");
         int page = args.getInteger("page");

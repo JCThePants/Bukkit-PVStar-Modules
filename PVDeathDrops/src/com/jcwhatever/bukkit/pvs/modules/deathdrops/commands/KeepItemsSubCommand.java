@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.deathdrops.commands;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -49,7 +49,7 @@ public class KeepItemsSubCommand extends AbstractDropsCommand {
     @Localizable static final String _SET_NOT_KEEP = "Players will now lose their items when they die in arena '{0}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidValueException {
+    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
 
         Arena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "on|off|info"));
         if (arena == null)

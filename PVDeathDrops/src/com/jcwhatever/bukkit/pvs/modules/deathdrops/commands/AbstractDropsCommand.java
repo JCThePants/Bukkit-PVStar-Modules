@@ -25,7 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.deathdrops.commands;
 
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.bukkit.generic.commands.parameters.ParameterDescription;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
@@ -62,12 +63,13 @@ public class AbstractDropsCommand extends AbstractPVCommand {
     }
 
     protected DropSettings getDropSettings(String specificity, DeathDropsExtension extension)
-                                                                throws InvalidValueException {
+                                                                throws InvalidArgumentException {
 
         specificity = specificity.toLowerCase();
 
         if (!_settingTypes.contains(specificity)) {
-            throw new InvalidValueException("specificity", Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", ")));
+            throw new InvalidArgumentException(new ParameterDescription("specificity",
+                            Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", "))));
         }
 
         switch (specificity) {
@@ -95,7 +97,8 @@ public class AbstractDropsCommand extends AbstractPVCommand {
                 break;
         }
 
-        throw new InvalidValueException("specificity", Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", ")));
+        throw new InvalidArgumentException(new ParameterDescription("specificity",
+                        Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", "))));
     }
 
 }

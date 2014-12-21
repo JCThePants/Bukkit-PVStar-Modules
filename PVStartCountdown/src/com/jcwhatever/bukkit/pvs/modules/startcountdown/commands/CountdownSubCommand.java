@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.startcountdown.commands;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidValueException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
@@ -50,7 +50,7 @@ public class CountdownSubCommand extends AbstractPVCommand {
     @Localizable static final String _COUNTDOWN_SET = "Game start countdown seconds in arena '{0}' changed to {1}.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidValueException {
+    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
 
         Arena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "seconds"));
         if (arena == null)
