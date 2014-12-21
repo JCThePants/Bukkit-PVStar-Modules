@@ -38,6 +38,6 @@ public class PathsCommand extends AbstractPVCommand {
     public PathsCommand() {
         super();
 
-        registerSubCommand(CacheSubCommand.class);
+        registerCommand(CacheSubCommand.class);
     }
 }

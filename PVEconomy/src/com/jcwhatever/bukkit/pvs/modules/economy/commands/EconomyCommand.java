@@ -37,9 +37,9 @@ public class EconomyCommand extends AbstractPVCommand {
     public EconomyCommand() {
         super();
 
-        registerSubCommand(DeathSubCommand.class);
-        registerSubCommand(KillSubCommand.class);
-        registerSubCommand(LoseSubCommand.class);
-        registerSubCommand(ParticipantSubCommand.class);
+        registerCommand(DeathSubCommand.class);
+        registerCommand(KillSubCommand.class);
+        registerCommand(LoseSubCommand.class);
+        registerCommand(ParticipantSubCommand.class);
     }
 }

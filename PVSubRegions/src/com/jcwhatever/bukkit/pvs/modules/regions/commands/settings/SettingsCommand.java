@@ -38,8 +38,8 @@ public class SettingsCommand extends AbstractPVCommand {
     public SettingsCommand() {
         super();
 
-        registerSubCommand(ClearSubCommand.class);
-        registerSubCommand(InfoSubCommand.class);
-        registerSubCommand(SetSubCommand.class);
+        registerCommand(ClearSubCommand.class);
+        registerCommand(InfoSubCommand.class);
+        registerCommand(SetSubCommand.class);
     }
 }

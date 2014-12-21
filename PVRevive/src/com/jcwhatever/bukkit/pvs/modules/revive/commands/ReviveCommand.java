@@ -37,8 +37,8 @@ public class ReviveCommand extends AbstractPVCommand {
     public ReviveCommand() {
         super();
 
-        registerSubCommand(HealthSubCommand.class);
-        registerSubCommand(ItemSubCommand.class);
-        registerSubCommand(TimeSubCommand.class);
+        registerCommand(HealthSubCommand.class);
+        registerCommand(ItemSubCommand.class);
+        registerCommand(TimeSubCommand.class);
     }
 }

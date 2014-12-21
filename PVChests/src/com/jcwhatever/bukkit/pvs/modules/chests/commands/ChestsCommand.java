@@ -38,12 +38,12 @@ public class ChestsCommand extends AbstractPVCommand {
     public ChestsCommand() {
         super();
 
-        registerSubCommand(ItemsCommand.class);
+        registerCommand(ItemsCommand.class);
 
-        registerSubCommand(ClearInvSubCommand.class);
-        registerSubCommand(MaxSubCommand.class);
-        registerSubCommand(ScanSubCommand.class);
-        registerSubCommand(RandomSubCommand.class);
+        registerCommand(ClearInvSubCommand.class);
+        registerCommand(MaxSubCommand.class);
+        registerCommand(ScanSubCommand.class);
+        registerCommand(RandomSubCommand.class);
 
     }
 }

@@ -39,9 +39,9 @@ public class DropsCommand extends AbstractPVCommand {
     public DropsCommand() {
         super();
 
-        registerSubCommand(ItemsCommand.class);
-        registerSubCommand(ExpCommand.class);
-        registerSubCommand(KeepItemsSubCommand.class);
-        registerSubCommand(SpecTypesSubCommand.class);
+        registerCommand(ItemsCommand.class);
+        registerCommand(ExpCommand.class);
+        registerCommand(KeepItemsSubCommand.class);
+        registerCommand(SpecTypesSubCommand.class);
     }
 }

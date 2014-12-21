@@ -41,9 +41,9 @@ public class MobsCommand extends AbstractPVCommand {
     public MobsCommand() {
         super();
 
-        registerSubCommand(LimitCommand.class);
-        registerSubCommand(PathsCommand.class);
-        registerSubCommand(SettingsCommand.class);
-        registerSubCommand(SpawnerCommand.class);
+        registerCommand(LimitCommand.class);
+        registerCommand(PathsCommand.class);
+        registerCommand(SettingsCommand.class);
+        registerCommand(SpawnerCommand.class);
     }
 }

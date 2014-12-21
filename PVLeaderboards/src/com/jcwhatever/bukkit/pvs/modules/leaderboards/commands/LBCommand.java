@@ -38,16 +38,16 @@ public class LBCommand extends AbstractPVCommand {
     public LBCommand() {
         super();
 
-        registerSubCommand(ColumnsCommand.class);
+        registerCommand(ColumnsCommand.class);
 
-        registerSubCommand(AddSubCommand.class);
-        registerSubCommand(DelSubCommand.class);
-        registerSubCommand(DisableSubCommand.class);
-        registerSubCommand(EnableSubCommand.class);
-        registerSubCommand(FormatSubCommand.class);
-        registerSubCommand(ListSubCommand.class);
-        registerSubCommand(SetAnchorSubCommand.class);
-        registerSubCommand(SetArenasSubCommand.class);
-        registerSubCommand(UpdateSubCommand.class);
+        registerCommand(AddSubCommand.class);
+        registerCommand(DelSubCommand.class);
+        registerCommand(DisableSubCommand.class);
+        registerCommand(EnableSubCommand.class);
+        registerCommand(FormatSubCommand.class);
+        registerCommand(ListSubCommand.class);
+        registerCommand(SetAnchorSubCommand.class);
+        registerCommand(SetArenasSubCommand.class);
+        registerCommand(UpdateSubCommand.class);
     }
 }

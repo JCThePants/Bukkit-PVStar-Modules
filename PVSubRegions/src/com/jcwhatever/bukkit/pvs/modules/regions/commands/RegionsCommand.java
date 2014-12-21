@@ -38,13 +38,13 @@ public class RegionsCommand extends AbstractPVCommand {
     public RegionsCommand() {
         super();
 
-        registerSubCommand(SettingsCommand.class);
-        registerSubCommand(AddSubCommand.class);
-        registerSubCommand(DelSubCommand.class);
-        registerSubCommand(ListSubCommand.class);
-        registerSubCommand(RedefineSubCommand.class);
-        registerSubCommand(TriggerSubCommand.class);
-        registerSubCommand(TypesSubCommand.class);
-        registerSubCommand(UntriggerSubCommand.class);
+        registerCommand(SettingsCommand.class);
+        registerCommand(AddSubCommand.class);
+        registerCommand(DelSubCommand.class);
+        registerCommand(ListSubCommand.class);
+        registerCommand(RedefineSubCommand.class);
+        registerCommand(TriggerSubCommand.class);
+        registerCommand(TypesSubCommand.class);
+        registerCommand(UntriggerSubCommand.class);
     }
 }

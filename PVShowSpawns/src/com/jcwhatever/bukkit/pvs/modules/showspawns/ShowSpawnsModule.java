@@ -84,8 +84,8 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
 
         AbstractCommand spawnsCommand = PVStarAPI.getCommandHandler().getCommand("spawns");
         if (spawnsCommand != null) {
-            spawnsCommand.registerSubCommand(ShowCommand.class);
-            spawnsCommand.registerSubCommand(HideCommand.class);
+            spawnsCommand.registerCommand(ShowCommand.class);
+            spawnsCommand.registerCommand(HideCommand.class);
         }
     }
 

@@ -59,7 +59,7 @@ public class StartCountdownModule extends PVStarModule {
                     "because 'game' command could not be found.");
         }
         else {
-            command.registerSubCommand(CountdownSubCommand.class);
+            command.registerCommand(CountdownSubCommand.class);
         }
 
     }

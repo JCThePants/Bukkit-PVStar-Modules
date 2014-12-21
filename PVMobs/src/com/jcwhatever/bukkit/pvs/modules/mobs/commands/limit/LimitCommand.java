@@ -37,8 +37,8 @@ public class LimitCommand extends AbstractPVCommand {
     public LimitCommand() {
         super();
 
-        registerSubCommand(InfoSubCommand.class);
-        registerSubCommand(ResetSubCommand.class);
-        registerSubCommand(SetSubCommand.class);
+        registerCommand(InfoSubCommand.class);
+        registerCommand(ResetSubCommand.class);
+        registerCommand(SetSubCommand.class);
     }
 }

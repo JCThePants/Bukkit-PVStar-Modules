@@ -61,10 +61,10 @@ public class PartyCommand extends AbstractCommand {
 	public PartyCommand() {
 		super();
 		
-		registerSubCommand(InviteSubCommand.class);
-		registerSubCommand(JoinSubCommand.class);
-		registerSubCommand(KickSubCommand.class);
-		registerSubCommand(NewSubCommand.class);
+		registerCommand(InviteSubCommand.class);
+		registerCommand(JoinSubCommand.class);
+		registerCommand(KickSubCommand.class);
+		registerCommand(NewSubCommand.class);
 	}
 
 	@Override

@@ -38,7 +38,7 @@ public class SpawnerCommand extends AbstractPVCommand {
     public SpawnerCommand() {
         super();
 
-        registerSubCommand(SetSubCommand.class);
-        registerSubCommand(TypesSubCommand.class);
+        registerCommand(SetSubCommand.class);
+        registerCommand(TypesSubCommand.class);
     }
 }

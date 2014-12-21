@@ -63,7 +63,7 @@ public class QueueCommand extends AbstractPVCommand {
     public QueueCommand() {
         super();
 
-        registerSubCommand(LeaveSubCommand.class);
+        registerCommand(LeaveSubCommand.class);
     }
 
     @Override

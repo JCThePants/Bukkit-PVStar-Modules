@@ -54,9 +54,9 @@ public class ItemsCommand extends AbstractDropsCommand {
     public ItemsCommand() {
         super();
 
-        registerSubCommand(DropRateSubCommand.class);
-        registerSubCommand(RandomSubCommand.class);
-        registerSubCommand(TransferSubCommand.class);
+        registerCommand(DropRateSubCommand.class);
+        registerCommand(RandomSubCommand.class);
+        registerCommand(TransferSubCommand.class);
     }
 
     @Override

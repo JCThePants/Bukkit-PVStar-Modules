@@ -38,10 +38,10 @@ public class ItemsCommand extends AbstractPVCommand {
     public ItemsCommand() {
         super();
 
-        registerSubCommand(AddDefaultSubCommand.class);
-        registerSubCommand(ClearSubCommand.class);
-        registerSubCommand(ListSubCommand.class);
-        registerSubCommand(MaxSubCommand.class);
-        registerSubCommand(RandomPresetSubCommand.class);
+        registerCommand(AddDefaultSubCommand.class);
+        registerCommand(ClearSubCommand.class);
+        registerCommand(ListSubCommand.class);
+        registerCommand(MaxSubCommand.class);
+        registerCommand(RandomPresetSubCommand.class);
     }
 }

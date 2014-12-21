@@ -56,8 +56,8 @@ public class BordersModule extends PVStarModule{
 
         AbstractCommand command = PVStarAPI.getCommandHandler().getCommand("arena");
         if (command != null) {
-            command.registerSubCommand(OutOfBoundsSubCommand.class);
-            command.registerSubCommand(OutsidersSubCommand.class);
+            command.registerCommand(OutOfBoundsSubCommand.class);
+            command.registerCommand(OutsidersSubCommand.class);
         }
     }
 }

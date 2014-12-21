@@ -38,8 +38,8 @@ public class ColumnsCommand extends AbstractPVCommand {
     public ColumnsCommand() {
         super();
 
-        registerSubCommand(InfoSubCommand.class);
-        registerSubCommand(SignSubCommand.class);
+        registerCommand(InfoSubCommand.class);
+        registerCommand(SignSubCommand.class);
 
     }
 }

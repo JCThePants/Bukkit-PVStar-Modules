@@ -54,9 +54,9 @@ public class ExpCommand extends AbstractDropsCommand {
     public ExpCommand() {
         super();
 
-        registerSubCommand(AmountSubCommand.class);
-        registerSubCommand(DropRateSubCommand.class);
-        registerSubCommand(TransferSubCommand.class);
+        registerCommand(AmountSubCommand.class);
+        registerCommand(DropRateSubCommand.class);
+        registerCommand(TransferSubCommand.class);
     }
 
     @Override

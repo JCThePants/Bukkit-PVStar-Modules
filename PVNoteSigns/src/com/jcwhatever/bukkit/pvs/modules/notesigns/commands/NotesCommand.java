@@ -37,9 +37,9 @@ public class NotesCommand extends AbstractPVCommand {
     public NotesCommand() {
         super();
 
-        registerSubCommand(ClearSubCommand.class);
-        registerSubCommand(HideSubCommand.class);
-        registerSubCommand(HideAllSubCommand.class);
-        registerSubCommand(ShowSubCommand.class);
+        registerCommand(ClearSubCommand.class);
+        registerCommand(HideSubCommand.class);
+        registerCommand(HideAllSubCommand.class);
+        registerCommand(ShowSubCommand.class);
     }
 }

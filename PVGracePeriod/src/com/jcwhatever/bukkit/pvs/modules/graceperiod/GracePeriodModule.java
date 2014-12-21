@@ -55,7 +55,7 @@ public class GracePeriodModule extends PVStarModule {
 
         AbstractCommand command = PVStarAPI.getCommandHandler().getCommand("game");
         if (command != null) {
-            command.registerSubCommand(GraceCommand.class);
+            command.registerCommand(GraceCommand.class);
         }
         else {
             PVStarAPI.getCommandHandler().registerCommand(GraceCommand.class);
