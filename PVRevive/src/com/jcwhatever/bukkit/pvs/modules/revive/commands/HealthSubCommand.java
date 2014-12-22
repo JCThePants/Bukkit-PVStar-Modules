@@ -39,8 +39,11 @@ import org.bukkit.command.CommandSender;
         parent="revive",
         command="health",
         staticParams={"amount=info"},
-        usage="/{plugin-command} revive health [amount]",
-        description="Set or view the amount of health a player has after being revived in the selected arena. Value range is from 0 to 20.")
+        description="Set or view the amount of health a player has after being revived " +
+                "in the selected arena. Value range is from 0 to 20.",
+
+        paramDescriptions = {
+                "amount= The amount in the range of 0 to 20. Leave blank to see current setting."})
 
 public class HealthSubCommand extends AbstractPVCommand {
 

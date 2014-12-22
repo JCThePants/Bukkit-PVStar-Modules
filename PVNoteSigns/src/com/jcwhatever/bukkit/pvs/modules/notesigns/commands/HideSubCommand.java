@@ -44,7 +44,6 @@ import java.util.UUID;
 @CommandInfo(
         parent="notes",
         command="hide",
-        usage="/{plugin-command} {command} hide",
         description="Hide notes in the selected arena.")
 
 public class HideSubCommand extends AbstractPVCommand {

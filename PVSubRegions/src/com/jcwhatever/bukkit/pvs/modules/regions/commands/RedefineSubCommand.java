@@ -43,8 +43,11 @@ import org.bukkit.entity.Player;
         parent="regions",
         command="redefine",
         staticParams={ "regionName" },
-        usage="/{plugin-command} {command} redefine <regionName>",
-        description="Redefine the bounds of a sub region in the selected arena using your current region selection.")
+        description="Redefine the bounds of a sub region in the selected arena " +
+                "using your current region selection.",
+
+        paramDescriptions = {
+                "regionName= The name of the sub region."})
 
 public class RedefineSubCommand extends AbstractRegionCommand {
 

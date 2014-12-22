@@ -43,7 +43,6 @@ import java.util.UUID;
 @CommandInfo(
         parent="notes",
         command="show",
-        usage="/{plugin-command} {command} show",
         description="Show notes in the selected arena.")
 
 public class ShowSubCommand extends AbstractPVCommand {

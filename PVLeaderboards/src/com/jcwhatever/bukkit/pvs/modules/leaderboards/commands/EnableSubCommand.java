@@ -37,8 +37,10 @@ import org.bukkit.command.CommandSender;
         parent="lb",
         command="enable",
         staticParams={ "leaderboardName" },
-        usage="/{plugin-command} {command} enable <leaderboardName>",
-        description="Enables the specified leader board.")
+        description="Enables the specified leader board.",
+
+        paramDescriptions = {
+                "leaderboardName= The name of the leaderboard."})
 
 public class EnableSubCommand extends AbstractLeaderboardCommand {
 

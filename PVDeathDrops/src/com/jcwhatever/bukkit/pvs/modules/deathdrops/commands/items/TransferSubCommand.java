@@ -40,9 +40,17 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="items",
         command="transfer",
-        staticParams = { "specificity", "transferType=info"},
-        usage="/{plugin-command} {command} items transfer <specificity> [transferType|clear]",
-        description="View or set how dropped items are transferred to a player in the selected arena.")
+        staticParams = { "specificity", "drop|direct|clear|info=info"},
+        description="View or set how dropped items are transferred to a player in the selected arena.",
+
+        paramDescriptions = {
+                "specificity= Specify what scope the setting applies to. " +
+                        "Use 'global' for all, 'player' for players, 'mobs' for all mobs, " +
+                        "or specify the mob EntityType name. More specific settings " +
+                        "override general settings.",
+                "drop|direct|clear|info= Use 'drop' to drop the items on the ground, 'direct' to " +
+                        "transfer to the players inventory, 'clear' to remove the setting, " +
+                        "'info' or leave blank to see current setting."})
 
 public class TransferSubCommand extends AbstractDropsCommand {
 
@@ -55,7 +63,7 @@ public class TransferSubCommand extends AbstractDropsCommand {
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
 
-        Arena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "transferType"));
+        Arena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "drop|direct|clear|info"));
         if (arena == null)
             return; // finished
 
@@ -67,7 +75,7 @@ public class TransferSubCommand extends AbstractDropsCommand {
 
         DropSettings settings = getDropSettings(specificity, extension);
 
-        if (args.getString("transferType").equals("info")) {
+        if (args.getString("drop|direct|clear|info").equals("info")) {
 
             boolean isDirect = settings.isDirectItemTransfer();
 
@@ -76,14 +84,14 @@ public class TransferSubCommand extends AbstractDropsCommand {
             else
                 tell(sender, Lang.get(_INFO_DROP, arena.getName()));
         }
-        else if (args.getString("transferType").equalsIgnoreCase("clear")) {
+        else if (args.getString("drop|direct|clear|info").equalsIgnoreCase("clear")) {
 
             settings.clearDirectItemTransfer();
             tellSuccess(sender, Lang.get(_CLEAR, specificity, arena.getName()));
         }
         else {
 
-            TransferType type = args.getEnum("transferType", TransferType.class);
+            TransferType type = args.getEnum("drop|direct|clear|info", TransferType.class);
 
             settings.setDirectItemTransfer(type == TransferType.DIRECT);
 

@@ -41,7 +41,6 @@ import org.bukkit.permissions.PermissionDefault;
 @CommandInfo(
 		parent="party", 
 		command="new",
-		usage="/pv party new", 
 		description="Create a new party.",
 		permissionDefault=PermissionDefault.TRUE)
 

@@ -49,12 +49,12 @@ import java.util.List;
 
 @CommandInfo(
 		command={"party", "p"},
-		staticParams={
-		        "page=1"
-		},
-		usage="/{plugin-command} party",
+		staticParams={ "page=1" },
 		description="Party management.",
-		permissionDefault=PermissionDefault.TRUE)
+		permissionDefault=PermissionDefault.TRUE,
+
+		paramDescriptions = {
+				"page= {PAGE}"})
 
 public class PartyCommand extends AbstractCommand {
 	

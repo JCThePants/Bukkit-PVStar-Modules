@@ -40,7 +40,6 @@ import org.bukkit.command.CommandSender;
         parent="arena",
         command="outofbounds",
         staticParams={"none|kick|win|lose|respawn|info=info"},
-        usage="/{plugin-command} {command} outsiders [none|kick|win|lose|respawn]",
         description="Set or view the action taken when a player in an arena exits the arena region.")
 
 public class OutOfBoundsSubCommand extends AbstractPVCommand {

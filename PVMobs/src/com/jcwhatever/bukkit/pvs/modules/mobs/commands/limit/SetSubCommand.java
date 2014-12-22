@@ -41,8 +41,11 @@ import org.bukkit.command.CommandSender;
         parent="limit",
         command="set",
         staticParams = { "entityType", "limit" },
-        usage="/{plugin-command} {command} limit set <entityType> <limit>",
-        description="Set the max number of an entity type that can exist in the selected arena.")
+        description="Set the max number of an entity type that can be spawned in the selected arena.",
+
+        paramDescriptions = {
+                "entityType= The EntityType name.",
+                "limit= The max number that can be spawned."})
 
 public class SetSubCommand extends AbstractPVCommand {
 

@@ -41,8 +41,10 @@ import org.bukkit.command.CommandSender;
         parent="regions",
         command="del",
         staticParams={ "regionName" },
-        usage="/{plugin-command} {command} del <regionName>",
-        description="Removes a sub region from the selected arena.")
+        description="Removes a sub region from the selected arena.",
+
+        paramDescriptions = {
+                "regionName= The name of the sub region."})
 
 public class DelSubCommand extends AbstractRegionCommand {
 

@@ -44,8 +44,10 @@ import java.util.List;
         parent="regions",
         command="types",
         staticParams={ "page=1" },
-        usage="/{plugin-command} {command} types [page]",
-        description="List available sub region types.")
+        description="List available sub region types.",
+
+        paramDescriptions = {
+                "page= {PAGE}"})
 
 public class TypesSubCommand extends AbstractRegionCommand {
 

@@ -28,6 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands;
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
@@ -38,8 +39,13 @@ import org.bukkit.command.CommandSender;
         parent="lb",
         command="format",
         staticParams={"leaderboardName", "lineNumber", "lineColor="},
-        usage="/{plugin-command} {command} format <leaderboardName> <lineNumber> [lineColor]",
-        description="Set line colors on leaderboard signs. Line number must be between 1 and 4.")
+        description="Set line colors on leaderboard signs. Line number must be between 1 and 4.",
+
+        paramDescriptions = {
+                "leaderboardName= The name of the leaderboard.",
+                "lineNumber= The index number of the line to edit. The first line is 1. " +
+                        "There are 4 lines in a sign.",
+                "lineColor=The name of the color or the color code prefix with '&'."})
 
 public class FormatSubCommand extends AbstractLeaderboardCommand {
 
@@ -55,6 +61,8 @@ public class FormatSubCommand extends AbstractLeaderboardCommand {
 
         String color = ChatColor.getLastColors(
                 ChatColor.translateAlternateColorCodes('&', rawColor));
+
+        color = TextUtils.format(color);
 
         if (lineNumber < 1 || lineNumber > 4) {
             tellError(sender, Lang.get(_INVALID_LINE_NUMBER));

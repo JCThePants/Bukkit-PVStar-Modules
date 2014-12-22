@@ -40,8 +40,12 @@ import org.bukkit.command.CommandSender;
         parent="economy",
         command="death",
         staticParams={"amount=info"},
-        usage="/{plugin-command} economy death [amount]",
-        description="Set or view the currency amount rewarded/deducted from players when they die in the selected arena.")
+        description="Set or view the currency amount rewarded/deducted from players " +
+                "when they die in the selected arena.",
+
+        paramDescriptions = {
+                "amount= The currency amount. Negative numbers to deduct. " +
+                        "Leave blank to see current setting."})
 
 public class DeathSubCommand extends AbstractPVCommand {
 

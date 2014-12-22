@@ -38,8 +38,10 @@ import org.bukkit.command.CommandSender;
         parent="regions",
         command="trigger",
         staticParams={ "regionName" },
-        usage="/{plugin-command} {command} trigger <regionName>",
-        description="Trigger a sub regions implementation action from the selected arena.")
+        description="Trigger a sub regions implementation action from the selected arena.",
+
+        paramDescriptions = {
+                "regionName= The name of the sub region."})
 
 public class TriggerSubCommand extends AbstractRegionCommand {
 

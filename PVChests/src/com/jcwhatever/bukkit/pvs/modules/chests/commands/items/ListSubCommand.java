@@ -47,8 +47,10 @@ import org.bukkit.inventory.ItemStack;
         parent="items",
         command="list",
         staticParams={"page=1"},
-        usage="/{plugin-command} chests items list [page]",
-        description="List items available in the selected arenas chests.")
+        description="List items available in the selected arenas chests.",
+
+        paramDescriptions = {
+                "page= {PAGE}"})
 
 public class ListSubCommand extends AbstractPVCommand {
 

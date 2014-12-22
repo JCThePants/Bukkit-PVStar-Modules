@@ -44,7 +44,11 @@ import org.bukkit.inventory.ItemStack;
         command="item",
         staticParams={"itemStack=info"},
         usage="/{plugin-command} revive item [itemStack]",
-        description="Set or view the item or items that can be used to revive a downed player in the selected arena.")
+        description="Set or view the item or items that can be used to revive a downed " +
+                "player in the selected arena.",
+
+        paramDescriptions = {
+                "itemStack= The item or items. {ITEM_STACK}"})
 
 public class ItemSubCommand extends AbstractPVCommand {
 

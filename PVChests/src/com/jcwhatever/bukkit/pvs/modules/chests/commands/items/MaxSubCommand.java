@@ -39,8 +39,10 @@ import org.bukkit.command.CommandSender;
         parent="items",
         command="max",
         staticParams={"number=info"},
-        usage="/{plugin-command} chests items max [number]",
-        description="Set or view max number of random items placed in chests in the selected arena.")
+        description="Set or view max number of random items placed in chests in the selected arena.",
+
+        paramDescriptions = {
+                "number= The maximum number of items. Leave blank to see current setting."})
 
 public class MaxSubCommand extends AbstractPVCommand {
 

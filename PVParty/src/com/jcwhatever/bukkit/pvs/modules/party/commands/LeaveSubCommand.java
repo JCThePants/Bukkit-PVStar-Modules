@@ -41,7 +41,6 @@ import org.bukkit.permissions.PermissionDefault;
 @CommandInfo(
 		parent="party",
 		command="leave",
-		usage="/pv party leave", 
 		description="Leave the party you're in.",
 		permissionDefault=PermissionDefault.TRUE)
 

@@ -41,8 +41,10 @@ import org.bukkit.command.CommandSender;
         parent="spawner",
         command="set",
         staticParams = { "spawnerName" },
-        usage="/{plugin-command} spawner set <spawnerName>",
-        description="Set the mob spawner to use in the selected arena.")
+        description="Set the mob spawner to use in the selected arena.",
+
+        paramDescriptions = {
+                "spawnerName= The name of the spawner type."})
 
 public class SetSubCommand extends AbstractPVCommand {
 

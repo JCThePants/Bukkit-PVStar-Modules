@@ -40,8 +40,12 @@ import org.bukkit.command.CommandSender;
         parent="economy",
         command="lose",
         staticParams={"amount=info"},
-        usage="/{plugin-command} economy lose [amount]",
-        description="Set or view the currency amount rewarded/deducted from players when they lose in the selected arena.")
+        description="Set or view the currency amount rewarded/deducted from players " +
+                "when they lose in the selected arena.",
+
+        paramDescriptions = {
+                "amount= The currency amount. Negative numbers to deduct. " +
+                        "Leave blank to see current setting."})
 
 public class LoseSubCommand extends AbstractPVCommand {
 

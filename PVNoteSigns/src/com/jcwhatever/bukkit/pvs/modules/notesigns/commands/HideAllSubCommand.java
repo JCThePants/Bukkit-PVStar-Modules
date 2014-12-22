@@ -43,7 +43,6 @@ import java.util.List;
 @CommandInfo(
         parent="notes",
         command="hideall",
-        usage="/{plugin-command} {command} hideall",
         description="Hide all notes in all arenas.")
 
 public class HideAllSubCommand extends AbstractPVCommand {

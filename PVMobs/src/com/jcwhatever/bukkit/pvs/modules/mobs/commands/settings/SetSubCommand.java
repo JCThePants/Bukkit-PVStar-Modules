@@ -42,8 +42,11 @@ import org.bukkit.command.CommandSender;
         parent="settings",
         command="set",
         staticParams={ "property", "value"},
-        usage="/{plugin-command} mobs settings set <property> <value>",
-        description="Change setting in the mob spawner in the currently selected arena.")
+        description="Change setting in the mob spawner in the currently selected arena.",
+
+        paramDescriptions = {
+                "property= The name of the setting property.",
+                "value= The value to set. Value type depends on the property being set."})
 
 public class SetSubCommand extends AbstractPVCommand {
 

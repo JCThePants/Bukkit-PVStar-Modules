@@ -48,8 +48,12 @@ import java.util.List;
         parent="regions",
         command="add",
         staticParams={ "regionName", "regionType" },
-        usage="/{plugin-command} {command} add <regionName> <regionType>",
-        description="Adds a new sub region to the currently selected arena using your current region selection.")
+        description="Adds a new sub region to the currently selected arena using " +
+                "your current region selection.",
+
+        paramDescriptions = {
+                "regionName= The name of the sub region. {NAME16}",
+                "regionType= The name of the sub region type the region will be."})
 
 public class AddSubCommand extends AbstractRegionCommand {
 

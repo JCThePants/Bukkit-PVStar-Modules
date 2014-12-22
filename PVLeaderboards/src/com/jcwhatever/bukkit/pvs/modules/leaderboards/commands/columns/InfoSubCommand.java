@@ -44,8 +44,11 @@ import java.util.List;
         parent="columns",
         command="info",
         staticParams={"leaderboardName", "page=1"},
-        usage="/{plugin-command} {command} columns info <leaderboardName> [page]",
-        description="Display column info for the specified leaderboard name.")
+        description="Display column info for the specified leaderboard name.",
+
+        paramDescriptions = {
+                "leaderboardName= The name of the leaderboard",
+                "page= {PAGE}"})
 
 public class InfoSubCommand extends AbstractLeaderboardCommand {
 

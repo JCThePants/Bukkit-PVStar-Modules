@@ -37,8 +37,10 @@ import org.bukkit.command.CommandSender;
         parent="lb",
         command="disable",
         staticParams={ "leaderboardName" },
-        usage="/{plugin-command} {command} disable <leaderboardName>",
-        description="Disables the specified leader board.")
+        description="Disables the specified leader board.",
+
+        paramDescriptions = {
+                "leaderboardName= The name of the leaderboard."})
 
 public class DisableSubCommand extends AbstractLeaderboardCommand {
 

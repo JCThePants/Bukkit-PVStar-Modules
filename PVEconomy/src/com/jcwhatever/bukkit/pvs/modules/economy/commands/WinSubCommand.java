@@ -41,7 +41,12 @@ import org.bukkit.command.CommandSender;
         command="win",
         staticParams={"amount=info"},
         usage="/{plugin-command} economy win [amount]",
-        description="Set or view the currency amount rewarded/deducted from players when they win in the selected arena.")
+        description="Set or view the currency amount rewarded/deducted from players " +
+                "when they win in the selected arena.",
+
+        paramDescriptions = {
+                "amount= The currency amount. Negative numbers to deduct. " +
+                        "Leave blank to see current setting."})
 
 public class WinSubCommand extends AbstractPVCommand {
 

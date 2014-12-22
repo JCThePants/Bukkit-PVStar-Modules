@@ -38,7 +38,6 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="items",
         command="adddefault",
-        usage="/{plugin-command} chests items adddefault",
         description="Make default items available in chests in the selected arena.")
 
 public class AddDefaultSubCommand extends AbstractPVCommand {

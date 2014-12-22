@@ -42,8 +42,10 @@ import org.bukkit.command.CommandSender;
         parent="settings",
         command="reset",
         staticParams={ "property" },
-        usage="/{plugin-command} mobs settings reset <property>",
-        description="Reset setting in the mob spawner in the currently selected arena to default.")
+        description="Reset setting in the mob spawner in the currently selected arena to default.",
+
+        paramDescriptions = {
+                "property= The name of the setting property to reset."})
 
 public class ResetSubCommand extends AbstractPVCommand {
 

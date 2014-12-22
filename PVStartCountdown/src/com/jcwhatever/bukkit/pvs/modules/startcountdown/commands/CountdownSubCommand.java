@@ -39,8 +39,11 @@ import org.bukkit.command.CommandSender;
         parent="game",
         command="countdown",
         staticParams={"seconds=info"},
-        usage="/{plugin-command} {command} countdown [seconds]",
-        description="Set or view game start countdown seconds in the currently selected arena.")
+        description="Set or view game start countdown seconds in the currently selected arena.",
+
+        paramDescriptions = {
+                "seconds= The number of seconds to countdown from. Leave blank " +
+                        "to see the current setting."})
 
 public class CountdownSubCommand extends AbstractPVCommand {
 

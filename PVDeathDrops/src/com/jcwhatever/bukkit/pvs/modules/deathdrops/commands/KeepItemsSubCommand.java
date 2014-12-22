@@ -38,8 +38,11 @@ import org.bukkit.command.CommandSender;
         parent="drops",
         command="keepitems",
         staticParams = { "on|off|info=info"},
-        usage="/{plugin-command} {command} keepitems [on|off]",
-        description="View or set if players keep their items when they are killed in the selected arena.")
+        description="View or set if players keep their items when they are killed in the selected arena.",
+
+        paramDescriptions = {
+                "on|off|info= Use 'on' to turn on, 'off' to turn off, " +
+                        "'info' or leave blank to see current setting."})
 
 public class KeepItemsSubCommand extends AbstractDropsCommand {
 

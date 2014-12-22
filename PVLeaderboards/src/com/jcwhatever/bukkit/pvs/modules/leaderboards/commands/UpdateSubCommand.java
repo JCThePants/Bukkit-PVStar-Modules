@@ -37,8 +37,10 @@ import org.bukkit.command.CommandSender;
         parent="lb",
         command="update",
         staticParams={ "leaderboardName" },
-        usage="/{plugin-command} {command} udpate <leaderboardName>",
-        description="Update the specified leaderboard.")
+        description="Update the specified leaderboard.",
+
+        paramDescriptions = {
+                "leaderboardName= The name of the leaderboard."})
 
 public class UpdateSubCommand extends AbstractLeaderboardCommand {
 

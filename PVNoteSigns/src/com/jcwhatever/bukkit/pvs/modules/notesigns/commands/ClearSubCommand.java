@@ -44,7 +44,6 @@ import java.util.UUID;
 @CommandInfo(
         parent="notes",
         command="clear",
-        usage="/{plugin-command} {command} clear",
         description="Remove all notes in the selected arena.")
 
 public class ClearSubCommand extends AbstractPVCommand {

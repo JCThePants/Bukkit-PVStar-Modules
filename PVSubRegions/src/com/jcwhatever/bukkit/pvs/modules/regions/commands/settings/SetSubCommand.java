@@ -39,8 +39,12 @@ import org.bukkit.command.CommandSender;
         parent="settings",
         command="set",
         staticParams={ "regionName", "property", "value"},
-        usage="/{plugin-command} {command} settings set <regionName> <property> <value>",
-        description="Change setting of the specified special region in the selected arena.")
+        description="Change setting of the specified special region in the selected arena.",
+
+        paramDescriptions = {
+                "regionName= The name of the sub region.",
+                "property= The name of the setting property.",
+                "value= The value to set. Value type depends on the property being set."})
 
 public class SetSubCommand extends AbstractRegionCommand {
 

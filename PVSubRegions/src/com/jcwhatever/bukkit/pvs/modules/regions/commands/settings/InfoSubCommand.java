@@ -46,8 +46,11 @@ import org.bukkit.command.CommandSender;
         parent="settings",
         command="info",
         staticParams={ "regionName", "page=1" },
-        usage="/{plugin-command} {command} settings info <regionName> [page]",
-        description="Displays settings of the specified sub region in the currently selected arena.")
+        description="Displays settings of the specified sub region in the currently selected arena.",
+
+        paramDescriptions = {
+                "regionName= The name of the sub region.",
+                "page= {PAGE}"})
 
 public class InfoSubCommand extends AbstractRegionCommand {
 

@@ -39,8 +39,11 @@ import org.bukkit.command.CommandSender;
         parent="items",
         command="randompreset",
         staticParams={"on|off|info=info"},
-        usage="/{plugin-command} chests items randompreset <on|off>",
-        description="Turn randomizing of preset chest contents on or off in the selected arena.")
+        description="Turn randomizing of preset chest contents on or off in the selected arena.",
+
+        paramDescriptions = {
+                "on|off|info= Use 'on' to turn on, 'off' to turn off, " +
+                        "'info' or leave blank to see current setting."})
 
 public class RandomPresetSubCommand extends AbstractPVCommand {
 

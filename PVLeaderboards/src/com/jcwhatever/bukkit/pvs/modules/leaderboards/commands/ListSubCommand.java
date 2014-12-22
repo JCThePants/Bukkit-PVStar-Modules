@@ -50,8 +50,10 @@ import java.util.UUID;
         parent="lb",
         command="list",
         staticParams={"page=1"},
-        usage="/{plugin-command} {command} list [page]",
-        description="List all leaderboards.")
+        description="List all leaderboards.",
+
+        paramDescriptions = {
+                "page= {PAGE}"})
 
 public class ListSubCommand extends AbstractCommand {
 

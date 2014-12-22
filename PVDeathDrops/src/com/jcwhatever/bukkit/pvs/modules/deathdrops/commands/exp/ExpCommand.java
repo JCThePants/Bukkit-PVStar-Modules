@@ -40,8 +40,16 @@ import org.bukkit.command.CommandSender;
         parent="drops",
         command="exp",
         staticParams = { "specificity", "on|off|clear|info=info"},
-        usage="/{plugin-command} {command} exp <specificity> [on|off|clear]",
-        description="Enable or disable exp drops.")
+        description="Enable or disable exp drops.",
+
+        paramDescriptions = {
+                "specificity= Specify what scope the setting applies to. " +
+                        "Use 'global' for all, 'player' for players, 'mobs' for all mobs, " +
+                        "or specify the mob EntityType name. More specific settings " +
+                        "override general settings.",
+                "on|off|clear|info= Use 'on' to turn on, 'off' to turn off, " +
+                        "'clear' to remove the setting, 'info' or leave blank " +
+                        "to see current setting."})
 
 public class ExpCommand extends AbstractDropsCommand {
 

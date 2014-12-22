@@ -39,8 +39,11 @@ import org.bukkit.command.CommandSender;
         parent="settings",
         command="clear",
         staticParams={ "regionName", "property" },
-        usage="/{plugin-command} {command} settings clear <regionName> <property> <value>",
-        description="Clear a sub region property to default value in the selected arena.")
+        description="Clear a sub region property to default value in the selected arena.",
+
+        paramDescriptions = {
+                "regionName= The name of the sub region.",
+                "property= The name of the setting property to clear."})
 
 public class ClearSubCommand extends AbstractRegionCommand {
 

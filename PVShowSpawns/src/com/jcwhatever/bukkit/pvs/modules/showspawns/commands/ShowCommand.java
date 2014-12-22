@@ -37,7 +37,6 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="spawns",
         command="show",
-        usage="/{plugin-command} {command} show",
         description="Show arena spawns as blocks.")
 
 public class ShowCommand extends AbstractPVCommand {

@@ -45,8 +45,10 @@ import org.bukkit.event.block.Action;
         parent="lb",
         command="setanchor",
         staticParams={"leaderboardName"},
-        usage="/{plugin-command} {command} setanchor <leaderboardName>",
-        description="Sets the leaderboards anchor sign (top left) to the sign the player clicks on.")
+        description="Sets the leaderboards anchor sign (top left) to the sign the player clicks on.",
+
+        paramDescriptions = {
+                "leaderboardName= The name of the leaderboard."})
 
 public class SetAnchorSubCommand extends AbstractLeaderboardCommand {
 

@@ -43,9 +43,11 @@ import org.bukkit.permissions.PermissionDefault;
 		parent="party",
 		command="kick",
 		staticParams={"playerName"},
-		usage="/pv party kick <playerName>", 
 		description="Kick a player from your party.",
-		permissionDefault=PermissionDefault.TRUE)
+		permissionDefault=PermissionDefault.TRUE,
+
+		paramDescriptions = {
+				"playerName= The name of the player to kick."})
 
 public class KickSubCommand extends AbstractCommand {
 	

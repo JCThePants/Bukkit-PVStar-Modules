@@ -43,7 +43,6 @@ import org.bukkit.permissions.PermissionDefault;
 @CommandInfo(
         parent="queue",
         command={"leave"},
-        usage="/{plugin-command} queue leave",
         description="Leave the queue.",
         permissionDefault= PermissionDefault.TRUE)
 

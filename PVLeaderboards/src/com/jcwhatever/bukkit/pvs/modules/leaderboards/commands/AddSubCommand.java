@@ -41,8 +41,11 @@ import java.util.UUID;
         parent="lb",
         command="add",
         staticParams={"leaderboardName", "arenaNames"},
-        usage="/{plugin-command} {command} add <leaderboardName> <arenaName1,arenaName2,arenaName3...>",
-        description="Creates a new leaderboard that tracks the specified arenas.")
+        description="Creates a new leaderboard that tracks the specified arenas.",
+
+        paramDescriptions = {
+                "leaderboardName= The name of the leaderboard. {NAME16}",
+                "arenaNames= A comma delimited list of arena names. No spaces."})
 
 public class AddSubCommand extends AbstractLeaderboardCommand {
 

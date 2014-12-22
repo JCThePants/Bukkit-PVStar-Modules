@@ -41,8 +41,10 @@ import java.util.List;
         parent="drops",
         command="spectypes",
         staticParams = { "page=1"},
-        usage="/{plugin-command} {command} spectypes [page]",
-        description="Lists all available specificity types.")
+        description="Lists all available specificity types.",
+
+        paramDescriptions = {
+                "page= {PAGE}"})
 
 public class SpecTypesSubCommand extends AbstractDropsCommand {
 

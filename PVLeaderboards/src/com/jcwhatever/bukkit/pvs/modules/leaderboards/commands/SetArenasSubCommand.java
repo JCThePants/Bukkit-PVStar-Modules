@@ -40,8 +40,11 @@ import java.util.UUID;
         parent="lb",
         command="setarenas",
         staticParams={"leaderboardName", "arenaNames"},
-        usage="/{plugin-command} {command} setarenas <leaderboardName> <arenaName1,arenaName2,arenaName3...>",
-        description="Change arenas the leaderboard will compile from.")
+        description="Change arenas the leaderboard will compile from.",
+
+        paramDescriptions = {
+                "leaderboardName= The name of the leaderboard.",
+                "arenaNames= A comma delimited list of arena names. No spaces."})
 
 public class SetArenasSubCommand extends AbstractLeaderboardCommand {
 

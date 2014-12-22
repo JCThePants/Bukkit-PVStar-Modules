@@ -46,8 +46,10 @@ import java.util.List;
         parent="limit",
         command="info",
         staticParams = { "page=1" },
-        usage="/{plugin-command} {command} limit info [page]",
-        description="Get entity spawn limit info for the selected arena.")
+        description="Get entity spawn limit info for the selected arena.",
+
+        paramDescriptions = {
+                "page= {PAGE}"})
 
 public class InfoSubCommand extends AbstractPVCommand {
 

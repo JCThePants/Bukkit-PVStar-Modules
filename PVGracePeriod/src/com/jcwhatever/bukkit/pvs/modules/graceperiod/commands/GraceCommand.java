@@ -38,8 +38,11 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         command={ "grace" },
         staticParams={"seconds=info"},
-        usage="/{plugin-command} {command} [seconds]",
-        description="Set or view the pvp grace period time in seconds for the selected arena.")
+        description="Set or view the pvp grace period time in seconds for the selected arena.",
+
+        paramDescriptions = {
+                "seconds= The number of seconds the grace period lasts. " +
+                        "Leave blank to see current setting."})
 
 public class GraceCommand extends AbstractPVCommand {
 

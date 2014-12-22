@@ -38,7 +38,6 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="chests",
         command="scan",
-        usage="/{plugin-command} chests scan",
         description="Scan for chests in the selected arena.")
 
 public class ScanSubCommand extends AbstractPVCommand {

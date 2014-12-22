@@ -45,9 +45,12 @@ import org.bukkit.permissions.PermissionDefault;
 @CommandInfo(
         command={"q", "queue"},
         staticParams={"arenaName=$info"},
-        usage="/{plugin-command} q [arenaName]",
-        description="Queue to join the specified arena as soon as it's available or get your current queue status.",
-        permissionDefault= PermissionDefault.TRUE)
+        description="Queue to join the specified arena as soon as it's available " +
+                "or get your current queue status.",
+        permissionDefault= PermissionDefault.TRUE,
+
+        paramDescriptions = {
+                "arenaName= The name of the arena."})
 
 public class QueueCommand extends AbstractPVCommand {
 

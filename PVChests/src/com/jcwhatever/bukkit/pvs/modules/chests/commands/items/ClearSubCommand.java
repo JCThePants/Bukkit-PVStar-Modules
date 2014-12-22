@@ -38,7 +38,6 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="items",
         command="clear",
-        usage="/{plugin-command} chests items clear",
         description="Clear available chest items for the selected arena.")
 
 public class ClearSubCommand extends AbstractPVCommand {

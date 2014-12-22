@@ -39,8 +39,11 @@ import org.bukkit.command.CommandSender;
         parent="revive",
         command="time",
         staticParams={"seconds=info"},
-        usage="/{plugin-command} revive time [seconds]",
-        description="Set or view the amount of time in seconds a player is downed before dying in the selected arena.")
+        description="Set or view the amount of time in seconds a player is " +
+                "downed before dying in the selected arena.",
+
+        paramDescriptions = {
+                "seconds= The number of seconds. Leave blank to see current setting."})
 
 public class TimeSubCommand extends AbstractPVCommand {
 

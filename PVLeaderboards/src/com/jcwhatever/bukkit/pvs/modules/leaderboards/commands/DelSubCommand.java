@@ -38,8 +38,10 @@ import org.bukkit.command.CommandSender;
         parent="lb",
         command="del",
         staticParams={ "leaderboardName" },
-        usage="/{plugin-command} {command} add <leaderboardName>",
-        description="Removes the specified leader board.")
+        description="Removes the specified leader board.",
+
+        paramDescriptions = {
+                "leaderboardName= The name of the leaderboard."})
 
 public class DelSubCommand extends AbstractLeaderboardCommand {
 

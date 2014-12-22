@@ -47,9 +47,12 @@ import java.util.List;
 		parent="party",
 		command="join",
 		staticParams={"playerName=$default"},
-		usage="/pv party join <playerName>", 
 		description="Join a party you've been invited to.",
-		permissionDefault=PermissionDefault.TRUE)
+		permissionDefault=PermissionDefault.TRUE,
+
+		paramDescriptions = {
+				"playerName= The name of the player who owns the party to join. Only required if " +
+						"invited to more than 1 party."})
 
 public class JoinSubCommand extends AbstractCommand {
 

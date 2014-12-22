@@ -46,8 +46,10 @@ import java.util.List;
         parent="spawner",
         command="types",
         staticParams = { "page=1" },
-        usage="/{plugin-command} spawner types [page]",
-        description="List available mob spawners.")
+        description="List available mob spawners.",
+
+        paramDescriptions = {
+                "page= {PAGE}"})
 
 public class TypesSubCommand extends AbstractPVCommand {
 

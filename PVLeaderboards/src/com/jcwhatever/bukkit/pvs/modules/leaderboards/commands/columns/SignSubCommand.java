@@ -44,8 +44,16 @@ import java.util.List;
         parent="columns",
         command="sign",
         staticParams={ "leaderboardName", "signIndex", "lineNumber", "text"},
-        usage="/{plugin-command} {command} columns sign <leaderboardName> <signIndex> <lineNumber> <text>",
-        description="Edit a leaderboard header sign.")
+        description="Edit a leaderboard header sign.",
+
+        paramDescriptions = {
+                "leaderboardName= The name of the leaderboard",
+                "signIndex= The index location of the sign starting from the anchor sign" +
+                        "and ending with the sign furthest to the right. The anchor sign is sign" +
+                        "1, the one to its right is sign 2 and so on.",
+                "lineNumber= The index number of the line to edit. The first line is 1. " +
+                        "There are 4 lines in a sign.",
+                "text= The text to put."})
 
 public class SignSubCommand extends AbstractLeaderboardCommand {
 

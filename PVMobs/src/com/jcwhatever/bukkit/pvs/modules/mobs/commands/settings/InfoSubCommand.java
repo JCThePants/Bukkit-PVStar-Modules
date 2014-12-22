@@ -46,8 +46,10 @@ import org.bukkit.command.CommandSender;
         parent="settings",
         command="info",
         staticParams={ "page=1"},
-        usage="/{plugin-command} mobs settings info [page]",
-        description="Get info about the settings of the mob spawner in the currently selected arena.")
+        description="Get info about the settings of the mob spawner in the currently selected arena.",
+
+        paramDescriptions = {
+                "page= {PAGE}"})
 
 public class InfoSubCommand extends AbstractPVCommand {
 

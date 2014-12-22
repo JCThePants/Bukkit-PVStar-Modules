@@ -40,8 +40,15 @@ import org.bukkit.command.CommandSender;
         parent="items",
         command="droprate",
         staticParams = { "specificity", "percent=info"},
-        usage="/{plugin-command} {command} items droprate <specificity> [percent|clear]",
-        description="Set or view item drop rates in the selected arena.")
+        description="Set or view item drop rates in the selected arena.",
+
+        paramDescriptions = {
+                "specificity= Specify what scope the setting applies to. " +
+                        "Use 'global' for all, 'player' for players, 'mobs' for all mobs, " +
+                        "or specify the mob EntityType name. More specific settings " +
+                        "override general settings.",
+                "percent= The droprate as a percent. (ie 99%). Use 'clear' to remove the setting. " +
+                        "Leave blank to see current setting."})
 
 public class DropRateSubCommand extends AbstractDropsCommand {
 

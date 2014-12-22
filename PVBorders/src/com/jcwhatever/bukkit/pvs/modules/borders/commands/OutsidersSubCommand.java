@@ -39,7 +39,6 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="arena",
         command="outsiders",
-        staticParams={"none|join|kick|info=info"},
         usage="/{plugin-command} {command} outsiders [none|join|kick]",
         description="Set or view the action taken when a non-arena player enters the selected arenas region.")
 

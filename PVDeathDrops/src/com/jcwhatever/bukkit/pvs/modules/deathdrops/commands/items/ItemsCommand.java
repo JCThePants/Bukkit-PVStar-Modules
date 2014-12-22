@@ -40,8 +40,15 @@ import org.bukkit.command.CommandSender;
         parent="drops",
         command="items",
         staticParams = { "specificity", "on|off|clear|info=info"},
-        usage="/{plugin-command} {command} items <specificity> [on|off|clear]",
-        description="Enable or disable item drops.")
+        description="Enable or disable item drops.",
+
+        paramDescriptions = {
+                "specificity= Specify what scope the setting applies to. " +
+                        "Use 'global' for all, 'player' for players, 'mobs' for all mobs, " +
+                        "or specify the mob EntityType name. More specific settings " +
+                        "override general settings.",
+                "on|off|clear|info= Use 'on' to turn on, 'off' to turn off, 'clear' to " +
+                        "remove the setting, 'info' or leave blank to see current setting."})
 
 public class ItemsCommand extends AbstractDropsCommand {
 

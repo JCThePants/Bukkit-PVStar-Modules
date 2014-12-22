@@ -40,7 +40,6 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="paths",
         command="cache",
-        usage="/{plugin-command} {command} cache",
         description="Cache mob paths in the currently selected arena.")
 
 public class CacheSubCommand extends AbstractPVCommand {

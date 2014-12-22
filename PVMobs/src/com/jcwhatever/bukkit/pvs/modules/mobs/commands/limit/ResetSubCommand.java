@@ -41,8 +41,11 @@ import org.bukkit.command.CommandSender;
         parent="limit",
         command="reset",
         staticParams = { "entityType" },
-        usage="/{plugin-command} {command} limit reset <entityType> <limit>",
-        description="Set the max number of an entity type that can exist in the selected arena to unlimited.")
+        description="Remove the limit on the number of mobs of an entity type that can be " +
+                "spawned in the selected arena.",
+
+        paramDescriptions = {
+                "entityType= The EntityType name."})
 
 public class ResetSubCommand extends AbstractPVCommand {
 

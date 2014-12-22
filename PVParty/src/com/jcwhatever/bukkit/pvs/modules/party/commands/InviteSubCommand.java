@@ -43,9 +43,11 @@ import org.bukkit.permissions.PermissionDefault;
 		parent="party",
 		command="invite",
 		staticParams={"playerName"},
-		usage="/pv party invite <playerName>", 
 		description="Invite a player to your party.",
-		permissionDefault=PermissionDefault.TRUE)
+		permissionDefault=PermissionDefault.TRUE,
+
+		paramDescriptions = {
+				"playerName= The name of the player to invite."})
 
 public class InviteSubCommand extends AbstractCommand {
 	

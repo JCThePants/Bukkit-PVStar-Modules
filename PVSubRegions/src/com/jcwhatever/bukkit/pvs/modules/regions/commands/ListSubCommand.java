@@ -45,8 +45,10 @@ import java.util.List;
         parent="regions",
         command="list",
         staticParams={ "page=1" },
-        usage="/{plugin-command} {command} list [page]",
-        description="List all sub regions in the currently selected arena.")
+        description="List all sub regions in the currently selected arena.",
+
+        paramDescriptions = {
+                "page= {PAGE}"})
 
 public class ListSubCommand extends AbstractRegionCommand {
 
