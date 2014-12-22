@@ -1,5 +1,6 @@
 name: PVGracePeriod
 authors: JCThePants
+module: com.jcwhatever.bukkit.pvs.modules.graceperiod.GracePeriodModule
 logical-version: 0
 display-version: v1.0
 description: Add grace periods to arenas.

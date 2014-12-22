@@ -1,5 +1,6 @@
 name: PVEconomy
 authors: JCThePants
+module: com.jcwhatever.bukkit.pvs.modules.economy.EconomyModule
 logical-version: 0
 display-version: v1.0
 description: Provides extension for adding economy rewards for performing certain actions in an arena.

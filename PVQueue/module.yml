@@ -1,5 +1,6 @@
 name: PVQueue
 authors: JCThePants
+module: com.jcwhatever.bukkit.pvs.modules.queue.QueueModule
 logical-version: 0
 display-version: v1.0
 description: Provides arena queue support.
