@@ -68,7 +68,7 @@ public class AbstractDropsCommand extends AbstractPVCommand {
         specificity = specificity.toLowerCase();
 
         if (!_settingTypes.contains(specificity)) {
-            throw new InvalidArgumentException(new ParameterDescription(getPlugin(), "specificity",
+            throw new InvalidArgumentException(new ParameterDescription(this, "specificity",
                             Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", "))));
         }
 
@@ -97,7 +97,7 @@ public class AbstractDropsCommand extends AbstractPVCommand {
                 break;
         }
 
-        throw new InvalidArgumentException(new ParameterDescription(getPlugin(), "specificity",
+        throw new InvalidArgumentException(new ParameterDescription(this, "specificity",
                         Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", "))));
     }
 
