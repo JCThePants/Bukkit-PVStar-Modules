@@ -27,13 +27,14 @@ package com.jcwhatever.bukkit.pvs.modules.borders.commands;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.borders.BordersExtension;
 import com.jcwhatever.bukkit.pvs.modules.borders.Lang;
 import com.jcwhatever.bukkit.pvs.modules.borders.OutOfBoundsAction;
+
 import org.bukkit.command.CommandSender;
 
 @CommandInfo(
@@ -49,7 +50,7 @@ public class OutOfBoundsSubCommand extends AbstractPVCommand {
     @Localizable static final String _SET_OUTOFBOUNDS = "Action taken when outsiders enter region for arena '{0}' changed to {1}.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         Arena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "none|join|kick|info"));
         if (arena == null)

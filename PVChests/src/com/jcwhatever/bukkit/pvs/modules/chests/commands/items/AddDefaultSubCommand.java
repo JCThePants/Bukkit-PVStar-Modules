@@ -27,12 +27,13 @@ package com.jcwhatever.bukkit.pvs.modules.chests.commands.items;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.bukkit.pvs.modules.chests.Lang;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.chests.ChestExtension;
+import com.jcwhatever.bukkit.pvs.modules.chests.Lang;
+
 import org.bukkit.command.CommandSender;
 
 @CommandInfo(
@@ -45,7 +46,7 @@ public class AddDefaultSubCommand extends AbstractPVCommand {
     @Localizable static final String _SUCCESS = "Default chest items added to arena '{0}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         Arena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
         if (arena == null)

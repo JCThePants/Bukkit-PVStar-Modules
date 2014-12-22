@@ -27,14 +27,15 @@ package com.jcwhatever.bukkit.pvs.modules.mobs.commands.spawner;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.bukkit.pvs.modules.mobs.Lang;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
+import com.jcwhatever.bukkit.pvs.modules.mobs.Lang;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.SpawnerManager;
+
 import org.bukkit.command.CommandSender;
 
 @CommandInfo(
@@ -53,7 +54,7 @@ public class SetSubCommand extends AbstractPVCommand {
     @Localizable static final String _SUCCESS = "Spawner in arena '{0}' set to '{1}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         String spawnerName = args.getString("spawnerName");
 

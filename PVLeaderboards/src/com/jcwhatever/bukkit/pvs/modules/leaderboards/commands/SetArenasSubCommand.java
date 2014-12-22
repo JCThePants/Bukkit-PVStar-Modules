@@ -27,10 +27,11 @@ package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
+import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
+
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -51,7 +52,7 @@ public class SetArenasSubCommand extends AbstractLeaderboardCommand {
     @Localizable static final String _SUCCESS = "Leaderboard '{0}' arenas changed to '{1}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         String arenaNames = args.getString("arenaNames");
         String leaderboardName = args.getString("leaderboardName");

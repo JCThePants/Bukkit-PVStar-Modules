@@ -27,15 +27,15 @@ package com.jcwhatever.bukkit.pvs.modules.mobs.commands.settings;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.bukkit.pvs.modules.mobs.Lang;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.storage.settings.ISettingsManager;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
+import com.jcwhatever.bukkit.pvs.modules.mobs.Lang;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawner;
+
 import org.bukkit.command.CommandSender;
 
 @CommandInfo(
@@ -54,8 +54,7 @@ public class SetSubCommand extends AbstractPVCommand {
     @Localizable static final String _SPAWNER_NOT_FOUND = "Arena '{0}' does not have a mob spawner.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args)
-            throws InvalidArgumentException, InvalidCommandSenderException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         Arena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
         if (arena == null)

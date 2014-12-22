@@ -28,13 +28,12 @@ package com.jcwhatever.bukkit.pvs.modules.party.commands;
 import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.utils.PlayerUtils;
 import com.jcwhatever.bukkit.pvs.modules.party.Party;
 import com.jcwhatever.bukkit.pvs.modules.party.PartyManager;
 import com.jcwhatever.bukkit.pvs.modules.party.PartyModule;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
@@ -52,10 +51,9 @@ import org.bukkit.permissions.PermissionDefault;
 public class KickSubCommand extends AbstractCommand {
 	
 	@Override
-    public void execute(CommandSender sender, CommandArguments args)
-            throws InvalidArgumentException, InvalidCommandSenderException {
-        
-	    InvalidCommandSenderException.check(sender, CommandSenderType.PLAYER);
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+
+		CommandException.assertNotConsole(this, sender);
 		
 		Player p = (Player)sender;
 

@@ -27,13 +27,14 @@ package com.jcwhatever.bukkit.pvs.modules.economy.commands;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.bukkit.generic.utils.EconomyUtils;
-import com.jcwhatever.bukkit.pvs.modules.economy.Lang;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
+import com.jcwhatever.bukkit.generic.utils.EconomyUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.economy.EconomyExtension;
+import com.jcwhatever.bukkit.pvs.modules.economy.Lang;
+
 import org.bukkit.command.CommandSender;
 
 @CommandInfo(
@@ -58,7 +59,7 @@ public class KillSubCommand extends AbstractPVCommand {
     @Localizable static final String _SET_PENALTY = "Set player economy penalty for killing in arena '{0}' to {1}.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         Arena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "amount"));
         if (arena == null)

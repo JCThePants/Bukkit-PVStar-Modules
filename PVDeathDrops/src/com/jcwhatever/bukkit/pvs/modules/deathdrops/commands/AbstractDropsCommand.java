@@ -25,6 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.deathdrops.commands;
 
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
 import com.jcwhatever.bukkit.generic.commands.parameters.ParameterDescription;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.Lang;
@@ -68,7 +69,7 @@ public class AbstractDropsCommand extends AbstractPVCommand {
         specificity = specificity.toLowerCase();
 
         if (!_settingTypes.contains(specificity)) {
-            throw new InvalidArgumentException(new ParameterDescription(this, "specificity",
+            CommandException.invalidArgument(this, new ParameterDescription(this, "specificity",
                             Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", "))));
         }
 
@@ -97,8 +98,11 @@ public class AbstractDropsCommand extends AbstractPVCommand {
                 break;
         }
 
-        throw new InvalidArgumentException(new ParameterDescription(this, "specificity",
+        CommandException.invalidArgument(this,
+                new ParameterDescription(this, "specificity",
                         Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", "))));
+
+        return null;
     }
 
 }

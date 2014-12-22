@@ -26,7 +26,7 @@ package com.jcwhatever.bukkit.pvs.modules.mobs.commands.limit;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.extended.EntityTypeExt;
 import com.jcwhatever.bukkit.generic.extended.EntityTypeExt.EntityProperty;
 import com.jcwhatever.bukkit.generic.language.Localizable;
@@ -53,7 +53,7 @@ public class ResetSubCommand extends AbstractPVCommand {
     @Localizable static final String _SUCCESS = "Limit removed for entity type '{0}' in arena '{1}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         Arena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
         if (arena == null)

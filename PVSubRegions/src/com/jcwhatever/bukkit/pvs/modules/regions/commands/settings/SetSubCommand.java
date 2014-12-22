@@ -27,12 +27,12 @@ package com.jcwhatever.bukkit.pvs.modules.regions.commands.settings;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.storage.settings.ISettingsManager;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.modules.regions.commands.AbstractRegionCommand;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
+
 import org.bukkit.command.CommandSender;
 
 @CommandInfo(
@@ -49,8 +49,7 @@ import org.bukkit.command.CommandSender;
 public class SetSubCommand extends AbstractRegionCommand {
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args)
-            throws InvalidArgumentException, InvalidCommandSenderException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         Arena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
         if (arena == null)

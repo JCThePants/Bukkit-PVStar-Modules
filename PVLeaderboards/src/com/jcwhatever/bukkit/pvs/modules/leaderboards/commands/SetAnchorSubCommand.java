@@ -27,14 +27,13 @@ package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
+import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.player.PlayerBlockSelect;
 import com.jcwhatever.bukkit.generic.player.PlayerBlockSelect.PlayerBlockSelectHandler;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
-import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
+
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
@@ -57,10 +56,9 @@ public class SetAnchorSubCommand extends AbstractLeaderboardCommand {
     @Localizable static final String _ANCHOR_SET = "Leaderboard '{0}' anchor set.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args)
-            throws InvalidArgumentException, InvalidCommandSenderException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
-        InvalidCommandSenderException.check(sender, CommandSenderType.PLAYER, "Console cannot set location.");
+        CommandException.assertNotConsole(this, sender);
 
         String leaderboardName = args.getString("leaderboardName");
 

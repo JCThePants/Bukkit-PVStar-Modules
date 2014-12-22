@@ -27,8 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.queue.commands;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -36,6 +35,7 @@ import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.queue.Lang;
 import com.jcwhatever.bukkit.pvs.modules.queue.QueueManager;
+
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
@@ -52,9 +52,9 @@ public class LeaveSubCommand extends AbstractPVCommand {
     @Localizable static final String _FAILED = "You're not in a queue.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidCommandSenderException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
-        InvalidCommandSenderException.check(sender, CommandSenderType.PLAYER);
+        CommandException.assertNotConsole(this, sender);
 
         Player p = (Player)sender;
         ArenaPlayer player = PVStarAPI.getArenaPlayer(p);

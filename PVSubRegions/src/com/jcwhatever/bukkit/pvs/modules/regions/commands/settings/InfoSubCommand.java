@@ -27,18 +27,19 @@ package com.jcwhatever.bukkit.pvs.modules.regions.commands.settings;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
-import com.jcwhatever.bukkit.pvs.modules.regions.Lang;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
+import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinition;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
+import com.jcwhatever.bukkit.pvs.modules.regions.Lang;
 import com.jcwhatever.bukkit.pvs.modules.regions.commands.AbstractRegionCommand;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
+
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
@@ -60,7 +61,7 @@ public class InfoSubCommand extends AbstractRegionCommand {
     @Localizable static final String _LABEL_DEFINED = "DEFINED";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         Arena arena = getSelectedArena(sender, ArenaReturned.ALWAYS);
         if (arena == null)

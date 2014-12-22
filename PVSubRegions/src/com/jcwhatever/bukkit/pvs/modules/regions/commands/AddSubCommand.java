@@ -27,9 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.regions.commands;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.regions.selection.IRegionSelection;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
@@ -63,10 +61,9 @@ public class AddSubCommand extends AbstractRegionCommand {
     @Localizable static final String _SUCCESS = "Sub region named '{0}' of type '{1}' was added to arena '{2}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args)
-            throws InvalidArgumentException, InvalidCommandSenderException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException{
 
-        InvalidCommandSenderException.check(sender, CommandSenderType.PLAYER, "Console cannot select region.");
+        CommandException.assertNotConsole(this, sender);
 
         Arena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
         if (arena == null)

@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.mobs.commands.paths;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
@@ -35,6 +35,7 @@ import com.jcwhatever.bukkit.pvs.modules.mobs.Lang;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.bukkit.pvs.modules.mobs.paths.PathCache;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawngroups.SpawnGroupGenerator;
+
 import org.bukkit.command.CommandSender;
 
 @CommandInfo(
@@ -48,7 +49,7 @@ public class CacheSubCommand extends AbstractPVCommand {
     @Localizable static final String _SUCCESS = "Mob paths in arena '{0}' cached.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         Arena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
         if (arena == null)

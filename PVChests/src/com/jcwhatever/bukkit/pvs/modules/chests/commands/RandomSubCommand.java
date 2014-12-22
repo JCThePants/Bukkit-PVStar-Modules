@@ -27,12 +27,13 @@ package com.jcwhatever.bukkit.pvs.modules.chests.commands;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.bukkit.pvs.modules.chests.Lang;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.chests.ChestExtension;
+import com.jcwhatever.bukkit.pvs.modules.chests.Lang;
+
 import org.bukkit.command.CommandSender;
 
 @CommandInfo(
@@ -53,7 +54,7 @@ public class RandomSubCommand extends AbstractPVCommand {
     @Localizable static final String _SET_DISABLED = "Chest randomizing in arena '{0}' has been changed to Disabled.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         Arena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "on|off|info"));
         if (arena == null)

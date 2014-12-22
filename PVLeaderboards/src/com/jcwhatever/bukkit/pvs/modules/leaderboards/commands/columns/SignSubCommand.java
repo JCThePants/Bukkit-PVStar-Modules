@@ -27,14 +27,15 @@ package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands.columns;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
+import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.commands.AbstractLeaderboardCommand;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.columns.AbstractColumn;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.columns.AnchorColumn;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.columns.StatisticsColumn;
+
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 
@@ -62,7 +63,7 @@ public class SignSubCommand extends AbstractLeaderboardCommand {
     @Localizable static final String _SUCCESS = "Leaderboard sign edited.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         String leaderboardName = args.getName("leaderboardName");
         int signIndex = args.getInteger("signIndex");

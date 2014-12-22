@@ -27,9 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.queue.commands;
 
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidCommandSenderException.CommandSenderType;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -70,9 +68,9 @@ public class QueueCommand extends AbstractPVCommand {
     }
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException, InvalidCommandSenderException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
-        InvalidCommandSenderException.check(sender, CommandSenderType.PLAYER);
+        CommandException.assertNotConsole(this, sender);
 
         Player p = (Player)sender;
         ArenaPlayer player = PVStarAPI.getArenaPlayer(p);

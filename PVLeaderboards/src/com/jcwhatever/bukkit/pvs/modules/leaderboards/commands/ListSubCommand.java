@@ -28,18 +28,19 @@ package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands;
 import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
-import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
+import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
+import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
+import com.jcwhatever.bukkit.generic.utils.text.TextColor;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils.FormatTemplate;
-import com.jcwhatever.bukkit.generic.utils.text.TextColor;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
+import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.LeaderboardsModule;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
+
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -61,7 +62,7 @@ public class ListSubCommand extends AbstractCommand {
     @Localizable static final String _LABEL_ANCHOR_NOT_SET = "(anchor not set)";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws InvalidArgumentException {
+    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         int page = args.getInteger("page");
 
