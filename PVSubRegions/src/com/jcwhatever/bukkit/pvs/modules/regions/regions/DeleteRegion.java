@@ -30,13 +30,13 @@ import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.FailHandler;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.Future;
 import com.jcwhatever.bukkit.generic.regions.BuildChunkSnapshot;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
+import com.jcwhatever.bukkit.generic.regions.data.ChunkInfo;
 import com.jcwhatever.bukkit.generic.regions.data.RegionChunkSection;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 
-import org.bukkit.Chunk;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
@@ -75,10 +75,10 @@ public class DeleteRegion extends AbstractPVRegion {
         _isTriggered = true;
 
         ItemStack[][][] regionData = this.getBuildArray();
-        List<Chunk> chunks = this.getChunks();
+        List<ChunkInfo> chunks = this.getChunks();
         List<BuildChunkSnapshot> snapshots = new ArrayList<>(chunks.size());
 
-        for (Chunk chunk : chunks) {
+        for (ChunkInfo chunk : chunks) {
             RegionChunkSection section = new RegionChunkSection(this, chunk);
             BuildChunkSnapshot snapshot = new BuildChunkSnapshot(regionData, section);
             snapshots.add(snapshot);

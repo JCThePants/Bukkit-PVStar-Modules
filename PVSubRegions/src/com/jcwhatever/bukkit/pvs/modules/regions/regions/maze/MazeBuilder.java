@@ -25,15 +25,16 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions.maze;
 
-import com.jcwhatever.bukkit.generic.utils.ItemStackUtils;
 import com.jcwhatever.bukkit.generic.regions.BuildChunkSnapshot;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
 import com.jcwhatever.bukkit.generic.regions.BuildableRegion;
+import com.jcwhatever.bukkit.generic.regions.data.ChunkInfo;
 import com.jcwhatever.bukkit.generic.regions.data.RegionChunkSection;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
+import com.jcwhatever.bukkit.generic.utils.ItemStackUtils;
 import com.jcwhatever.bukkit.generic.utils.Rand;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.maze.MazeGenerator.Orientation;
-import org.bukkit.Chunk;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
@@ -107,9 +108,9 @@ public class MazeBuilder {
             }
         }
 
-        List<Chunk> chunks = _region.getChunks();
+        List<ChunkInfo> chunks = _region.getChunks();
         List<BuildChunkSnapshot> snapshots = new ArrayList<BuildChunkSnapshot>(chunks.size());
-        for (Chunk chunk : chunks) {
+        for (ChunkInfo chunk : chunks) {
             RegionChunkSection section = new RegionChunkSection(_region, chunk);
             BuildChunkSnapshot mazeSnap = new BuildChunkSnapshot(_map, section);
             snapshots.add(mazeSnap);
