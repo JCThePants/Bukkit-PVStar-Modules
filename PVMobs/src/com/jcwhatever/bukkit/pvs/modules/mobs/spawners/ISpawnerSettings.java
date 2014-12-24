@@ -26,11 +26,13 @@
 package com.jcwhatever.bukkit.pvs.modules.mobs.spawners;
 
 import com.jcwhatever.bukkit.generic.storage.settings.ISettingsManager;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+
+import java.util.Map;
 
 public interface ISpawnerSettings {
 
-    public SettingDefinitions getDefinitions();
+    public Map<String, PropertyDefinition> getDefinitions();
 
     public ISettingsManager getManager();
 

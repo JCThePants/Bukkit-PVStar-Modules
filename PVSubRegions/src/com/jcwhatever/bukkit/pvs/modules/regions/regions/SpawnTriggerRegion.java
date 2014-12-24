@@ -28,17 +28,21 @@ package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
-import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="spawntrigger",
@@ -46,13 +50,19 @@ import java.util.List;
 
 public class SpawnTriggerRegion extends AbstractPVRegion implements IEventListener {
 
-    private static SettingDefinitions _possibleSettings = new SettingDefinitions();
+    private static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
-        _possibleSettings
-            .set("spawn-count", 1, ValueType.INTEGER, "Set the number of entities each spawn will created when the region is triggered.")
-            .set("spawns", ValueType.STRING, "Set the spawns that are triggered using a comma delimited list of spawn names.")
-            .set("max-triggers", 1, ValueType.INTEGER, "Set the maximum times the region can be triggered.")
+        _possibleSettings = new SettingsBuilder()
+            .set("spawn-count", PropertyValueType.INTEGER, 1,
+                    "Set the number of entities each spawn will created when the region is triggered.")
+
+            .set("spawns", PropertyValueType.STRING,
+                    "Set the spawns that are triggered using a comma delimited list of spawn names.")
+
+            .set("max-triggers", PropertyValueType.INTEGER, 1,
+                    "Set the maximum times the region can be triggered.")
+            .buildDefinitions()
         ;
     }
 
@@ -134,8 +144,9 @@ public class SpawnTriggerRegion extends AbstractPVRegion implements IEventListen
         }
     }
 
+    @Nullable
     @Override
-    protected SettingDefinitions getSettingDefinitions() {
+    protected Map<String, PropertyDefinition> getDefinitions() {
         return _possibleSettings;
     }
 

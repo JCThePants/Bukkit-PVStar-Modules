@@ -27,24 +27,36 @@ package com.jcwhatever.bukkit.pvs.modules.mobs.spawners.proximity;
 
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
 import com.jcwhatever.bukkit.generic.storage.settings.ISettingsManager;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingsManager;
-import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawnerSettings;
+
+import java.util.Map;
 
 public class ProximitySettings implements ISpawnerSettings {
 
-    private static SettingDefinitions _settings;
+    private static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
-        _settings = new SettingDefinitions();
+        _possibleSettings = new SettingsBuilder()
+                .set("max-mobs", PropertyValueType.INTEGER, 20,
+                        "Maximum mobs spawned.")
 
-        _settings
-                .set("max-mobs", 20, ValueType.INTEGER, "Maximum mobs spawned.")
-                .set("max-per-spawn", 2, ValueType.INTEGER, "Maximum mobs alive per spawnpoint.")
-                .set("max-mobs-per-player", 4, ValueType.INTEGER, "Maximum mobs spawned per player.")
-                .set("max-path-distance", 18, ValueType.INTEGER, "Maximum mob path distance when detecting proximity.")
-                .set("max-distance", 24, ValueType.INTEGER, "Maximum distance when detecting proximity.")
+                .set("max-per-spawn", PropertyValueType.INTEGER, 2,
+                        "Maximum mobs alive per spawnpoint.")
+
+                .set("max-mobs-per-player", PropertyValueType.INTEGER, 4,
+                        "Maximum mobs spawned per player.")
+
+                .set("max-path-distance", PropertyValueType.INTEGER, 18,
+                        "Maximum mob path distance when detecting proximity.")
+
+                .set("max-distance", PropertyValueType.INTEGER, 24,
+                        "Maximum distance when detecting proximity.")
+
+                .buildDefinitions()
         ;
     }
 
@@ -60,9 +72,9 @@ public class ProximitySettings implements ISpawnerSettings {
 
     ProximitySettings(ProximitySpawner spawner) {
         _dataNode = spawner.getManager().getDataNode().getNode("spawners.proximity");
-        _settingsManager = new SettingsManager(_dataNode, _settings);
+        _settingsManager = new SettingsManager(_dataNode, _possibleSettings);
 
-        _settingsManager.addOnSettingsChanged(new Runnable() {
+        Runnable onSettingsChanged = new Runnable() {
             @Override
             public void run() {
 
@@ -73,12 +85,15 @@ public class ProximitySettings implements ISpawnerSettings {
                 _maxMobDistance = _dataNode.getInteger("max-distance", _maxMobDistance);
                 _maxMobDistanceSquared = _maxMobDistance * _maxMobDistance;
             }
-        }, true);
+        };
+
+        _settingsManager.onSettingsChanged(onSettingsChanged);
+        onSettingsChanged.run();
     }
 
     @Override
-    public SettingDefinitions getDefinitions() {
-        return _settings;
+    public Map<String, PropertyDefinition> getDefinitions() {
+        return _possibleSettings;
     }
 
     @Override

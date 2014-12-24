@@ -31,13 +31,16 @@ import com.jcwhatever.bukkit.generic.performance.queued.QueueTask;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueWorker;
 import com.jcwhatever.bukkit.generic.performance.queued.TaskConcurrency;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
-import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
+
+import java.util.Map;
 
 @RegionTypeInfo(
         name="maze",
@@ -45,13 +48,20 @@ import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
 )
 public class MazeRegion extends AbstractPVRegion implements IEventListener {
 
-    private static SettingDefinitions _possibleSettings = new SettingDefinitions();
+    private static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
-        _possibleSettings
-                .set("wall-materials", ValueType.ITEMSTACK, "Set the materials used to construct the maze walls.")
-                .set("block-size", ValueType.INTEGER, "Set the size of the maze blocks. Determines size of passageways.")
-                .set("run-on-arena-end", true, ValueType.BOOLEAN, "Set true to rebuild maze when the owning arena ends.")
+        _possibleSettings = new SettingsBuilder()
+                .set("wall-materials", PropertyValueType.ITEM_STACK_ARRAY,
+                        "Set the materials used to construct the maze walls.")
+
+                .set("block-size", PropertyValueType.INTEGER,
+                        "Set the size of the maze blocks. Determines size of passageways.")
+
+                .set("run-on-arena-end", PropertyValueType.BOOLEAN, true,
+                        "Set true to rebuild maze when the owning arena ends.")
+
+                .buildDefinitions()
         ;
     }
 
@@ -121,7 +131,7 @@ public class MazeRegion extends AbstractPVRegion implements IEventListener {
     }
 
     @Override
-    protected SettingDefinitions getSettingDefinitions() {
+    protected Map<String, PropertyDefinition> getDefinitions() {
         return _possibleSettings;
     }
 }

@@ -30,7 +30,7 @@ import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.Future;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
 import com.jcwhatever.bukkit.generic.regions.MultiSnapshotRegion;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
 import com.jcwhatever.bukkit.generic.storage.settings.SettingsManager;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -44,7 +44,9 @@ import org.bukkit.entity.Player;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 
 public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
@@ -87,8 +89,9 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         _extraNode = dataNode.getNode("extra");
 
         //noinspection ConstantConditions
-        _settingsManager = new SettingsManager(_extraNode, getSettingDefinitions());
-        _settingsManager.addOnSettingsChanged(new Runnable() {
+        _settingsManager = new SettingsManager(_extraNode, getDefinitions());
+
+        Runnable onSettingsChanged = new Runnable() {
             @Override
             public void run() {
 
@@ -101,7 +104,10 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
                 if (_isEnabled && !prevEnabled)
                     onEnable();
             }
-        }, true);
+        };
+
+        _settingsManager.onSettingsChanged(onSettingsChanged);
+        onSettingsChanged.run();
 
         onInit();
     }
@@ -299,8 +305,9 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     protected abstract void onEnable();
     protected abstract void onDisable();
     protected abstract void onLoadSettings(IDataNode dataNode);
-    protected abstract SettingDefinitions getSettingDefinitions();
 
+    @Nullable
+    protected abstract Map<String, PropertyDefinition> getDefinitions();
 
     public static interface RegionEventHandler {
 

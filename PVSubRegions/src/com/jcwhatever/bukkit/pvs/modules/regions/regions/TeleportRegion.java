@@ -26,15 +26,17 @@
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
-import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
-import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
 import com.jcwhatever.bukkit.generic.utils.Rand;
+import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.api.utils.SpawnFilter;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
@@ -42,20 +44,30 @@ import org.bukkit.util.Vector;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="teleport",
         description="Teleport players that enter the region.")
 public class TeleportRegion extends AbstractPVRegion {
 
-    private static SettingDefinitions _possibleSettings = new SettingDefinitions();
+    private static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
-        _possibleSettings
-                .set("teleport-to", ValueType.LOCATION, "Set destination location to teleport player to.")
-                .set("teleport-to-spawn", ValueType.STRING, "Set destination spawnpoints to teleport player to.")
-                .set("teleport-to-region", ValueType.STRING, "Set destination region.")
-                .set("yaw-adjust", 0.0D, ValueType.DOUBLE, "Used by 'teleport-region' setting. Adjust the players yaw position when teleported.")
+        _possibleSettings = new SettingsBuilder()
+                .set("teleport-to", PropertyValueType.LOCATION,
+                        "Set destination location to teleport player to.")
+
+                .set("teleport-to-spawn", PropertyValueType.STRING,
+                        "Set destination spawnpoints to teleport player to.")
+
+                .set("teleport-to-region", PropertyValueType.STRING,
+                        "Set destination region.")
+
+                .set("yaw-adjust", PropertyValueType.DOUBLE, 0.0D,
+                        "Used by 'teleport-region' setting. Adjust the players yaw position when teleported.")
+                .buildDefinitions()
         ;
     }
 
@@ -184,8 +196,9 @@ public class TeleportRegion extends AbstractPVRegion {
             _available++;
     }
 
+    @Nullable
     @Override
-    protected SettingDefinitions getSettingDefinitions() {
+    protected Map<String, PropertyDefinition> getDefinitions() {
         return _possibleSettings;
     }
 

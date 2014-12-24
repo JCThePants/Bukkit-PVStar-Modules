@@ -30,8 +30,7 @@ import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinition;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -42,6 +41,8 @@ import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
 
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
+
+import java.util.Map;
 
 @CommandInfo(
         parent="settings",
@@ -88,14 +89,14 @@ public class InfoSubCommand extends AbstractRegionCommand {
             pagin.add("P2", TextUtils.formatLocation(p2, true));
         }
 
-        SettingDefinitions defs = region.getSettingsManager().getPossibleSettings();
+        Map<String, PropertyDefinition> definitionMap = region.getSettingsManager().getDefinitions();
 
-        if (defs.size() > 0) {
+        if (definitionMap.size() > 0) {
 
-            for (SettingDefinition def : defs.values()) {
-                Object value = region.getSettingsManager().get(def.getSettingName(), true);
+            for (PropertyDefinition def : definitionMap.values()) {
+                Object value = region.getSettingsManager().getUnconverted(def.getName());
 
-                pagin.add(def.getSettingName(), value);
+                pagin.add(def.getName(), value);
             }
         }
 

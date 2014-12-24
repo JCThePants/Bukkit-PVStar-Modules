@@ -28,8 +28,9 @@ package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.scheduler.ScheduledTask;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
-import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
 import com.jcwhatever.bukkit.generic.utils.LocationUtils;
 import com.jcwhatever.bukkit.generic.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -56,16 +57,30 @@ import javax.annotation.Nullable;
         description="Region with rotating explosions.")
 public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListener {
 
-    private static SettingDefinitions _possibleSettings = new SettingDefinitions();
+    private static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
-        _possibleSettings
-                .set("blade-count", 2, ValueType.INTEGER, "Set the number rotating blades.")
-                .set("blade-speed", 10, ValueType.INTEGER, "Set degrees per delay time that the blades move.")
-                .set("blade-delay", 10, ValueType.INTEGER, "Set delay in ticks before the blade moves.")
-                .set("blade-height", 4, ValueType.INTEGER, "Set height of blade.")
-                .set("blade-radius", -1, ValueType.INTEGER, "Set the radius of the blade. -1 to fill the region. Blade will never go outside of region.")
-                .set("damage", 20.0D, ValueType.DOUBLE, "Set amount of damage done to players.")
+        _possibleSettings = new SettingsBuilder()
+                .set("blade-count", PropertyValueType.INTEGER, 2,
+                        "Set the number rotating blades.")
+
+                .set("blade-speed", PropertyValueType.INTEGER, 10,
+                        "Set degrees per delay time that the blades move.")
+
+                .set("blade-delay", PropertyValueType.INTEGER, 10,
+                        "Set delay in ticks before the blade moves.")
+
+                .set("blade-height", PropertyValueType.INTEGER, 4,
+                        "Set height of blade.")
+
+                .set("blade-radius", PropertyValueType.INTEGER, -1,
+                        "Set the radius of the blade. -1 to fill the region. " +
+                                "Blade will never go outside of region.")
+
+                .set("damage", PropertyValueType.DOUBLE, 20.0D,
+                        "Set amount of damage done to players.")
+
+                .buildDefinitions()
         ;
     }
 
@@ -142,7 +157,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
     }
 
     @Override
-    protected SettingDefinitions getSettingDefinitions() {
+    protected Map<String, PropertyDefinition> getDefinitions() {
         return _possibleSettings;
     }
 

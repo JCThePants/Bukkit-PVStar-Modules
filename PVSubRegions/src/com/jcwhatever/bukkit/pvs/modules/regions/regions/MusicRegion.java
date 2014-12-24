@@ -30,29 +30,36 @@ import com.jcwhatever.bukkit.generic.sounds.PlayList.PlayerSoundQueue;
 import com.jcwhatever.bukkit.generic.sounds.ResourceSound;
 import com.jcwhatever.bukkit.generic.sounds.SoundManager;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
-import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @RegionTypeInfo(
         name="music",
         description="Trigger music for players entering the region.")
 public class MusicRegion extends AbstractPVRegion {
 
-    private static SettingDefinitions _possibleSettings = new SettingDefinitions();
+    private static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
-        _possibleSettings
-                .set("resource-sound", ValueType.STRING, "Set the sound that is played.")
-                .set("loop", ValueType.BOOLEAN, "Set play sounds on a loop.")
+        _possibleSettings = new SettingsBuilder()
+                .set("resource-sound", PropertyValueType.STRING,
+                        "Set the sound that is played.")
+
+                .set("loop", PropertyValueType.BOOLEAN,
+                        "Set play sounds on a loop.")
+                .buildDefinitions()
         ;
     }
 
@@ -136,7 +143,7 @@ public class MusicRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected SettingDefinitions getSettingDefinitions() {
+    protected Map<String, PropertyDefinition> getDefinitions() {
         return _possibleSettings;
     }
 }

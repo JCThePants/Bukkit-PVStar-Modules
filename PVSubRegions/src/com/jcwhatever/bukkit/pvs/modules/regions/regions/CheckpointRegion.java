@@ -28,14 +28,16 @@ package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
-import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
 import com.jcwhatever.bukkit.generic.utils.Rand;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerArenaRespawnEvent;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+
 import org.bukkit.entity.Player;
 
 import java.util.HashMap;
@@ -48,11 +50,13 @@ import java.util.UUID;
         description="Changes a players respawn point.")
 public class CheckpointRegion extends AbstractPVRegion implements IEventListener {
 
-    private static SettingDefinitions _possibleSettings = new SettingDefinitions();
+    private static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
-        _possibleSettings
-                .set("spawns", ValueType.STRING, "The name of the spawnpoint to set the players respawn point to.")
+        _possibleSettings = new SettingsBuilder()
+                .set("spawns", PropertyValueType.STRING,
+                        "The name of the spawnpoint to set the players respawn point to.")
+                .buildDefinitions()
         ;
     }
 
@@ -84,7 +88,7 @@ public class CheckpointRegion extends AbstractPVRegion implements IEventListener
     }
 
     @Override
-    protected SettingDefinitions getSettingDefinitions() {
+    protected Map<String, PropertyDefinition> getDefinitions() {
         return _possibleSettings;
     }
 
@@ -126,7 +130,7 @@ public class CheckpointRegion extends AbstractPVRegion implements IEventListener
     }
 
     @GenericsEventHandler
-    private void onArenaEnd(ArenaEndedEvent event) {
+    private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
         _checkpointMap.clear();
     }
 }

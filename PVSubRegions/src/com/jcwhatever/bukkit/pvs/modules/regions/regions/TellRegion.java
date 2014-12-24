@@ -31,30 +31,42 @@ import com.jcwhatever.bukkit.generic.converters.ValueConverters;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
-import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+
 import org.bukkit.entity.Player;
 
+import java.util.Map;
 import java.util.UUID;
+import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="tell",
         description="Tell a player who enters or leaves the region a message.")
 public class TellRegion extends AbstractPVRegion implements IEventListener {
 
-    protected static SettingDefinitions _possibleSettings = new SettingDefinitions();
+    protected static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
-        _possibleSettings
-            .set("max-triggers-per-player", 1, ValueType.INTEGER, "Set the max number of times the message will be displayed per player. -1 for unlimited.")
-            .set("enter-message", ValueType.STRING, "The message to display to the player who enters the region.")
-            .set("leave-message", ValueType.STRING, "The message to display to the player who enters the region.")
+        _possibleSettings = new SettingsBuilder()
+            .set("max-triggers-per-player", PropertyValueType.INTEGER, 1,
+                    "Set the max number of times the message will be displayed per player. -1 for unlimited.")
+
+            .set("enter-message", PropertyValueType.STRING,
+                    "The message to display to the player who enters the region.")
+
+            .set("leave-message", PropertyValueType.STRING,
+                    "The message to display to the player who enters the region.")
+
             .setValueConverter("enter-message", ValueConverters.ALT_CHAT_COLOR)
             .setValueConverter("leave-message", ValueConverters.ALT_CHAT_COLOR)
+
+            .buildDefinitions()
         ;
     }
 
@@ -149,9 +161,10 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
         _leaveMessage = dataNode.getString("leave-message");
     }
 
+    @Nullable
     @Override
-    protected SettingDefinitions getSettingDefinitions() {
-        return _possibleSettings;
+    protected Map<String, PropertyDefinition> getDefinitions() {
+        return null;
     }
 
     protected void tellMessage(ArenaPlayer player, String message) {

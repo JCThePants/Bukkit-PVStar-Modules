@@ -26,10 +26,11 @@
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
-import javax.annotation.Nullable;
+
+import java.util.Map;
 
 @RegionTypeInfo(
         name="basic",
@@ -77,8 +78,7 @@ public class BasicRegion extends AbstractPVRegion {
     }
 
     @Override
-    @Nullable
-    protected SettingDefinitions getSettingDefinitions() {
+    protected Map<String, PropertyDefinition> getDefinitions() {
         return null;
     }
 }

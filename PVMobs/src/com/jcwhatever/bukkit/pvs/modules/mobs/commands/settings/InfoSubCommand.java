@@ -30,8 +30,7 @@ import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
 import com.jcwhatever.bukkit.generic.language.Localizable;
 import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinition;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
 import com.jcwhatever.bukkit.generic.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
@@ -42,6 +41,8 @@ import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.SpawnerInfo;
 
 import org.bukkit.command.CommandSender;
+
+import java.util.Map;
 
 @CommandInfo(
         parent="settings",
@@ -85,15 +86,11 @@ public class InfoSubCommand extends AbstractPVCommand {
         pagin.add("ARENA", arena.getName());
         pagin.add("SPAWNER", spawner.getClass().getAnnotation(SpawnerInfo.class).name());
 
-        SettingDefinitions defs = spawner.getSettings().getDefinitions();
+        Map<String, PropertyDefinition> defs = spawner.getSettings().getDefinitions();
 
-        if (defs.size() > 0) {
-
-            for (SettingDefinition def : defs.values()) {
-                Object value = spawner.getSettings().getManager().get(def.getSettingName(), true);
-
-                pagin.add(def.getSettingName(), value);
-            }
+        for (PropertyDefinition def : defs.values()) {
+            Object value = spawner.getSettings().getManager().getUnconverted(def.getName());
+            pagin.add(def.getName(), value);
         }
 
         pagin.show(sender, page, FormatTemplate.CONSTANT_DEFINITION);

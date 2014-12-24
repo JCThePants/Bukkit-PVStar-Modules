@@ -26,15 +26,16 @@
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.CancelHandler;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.FailHandler;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.Future;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
-import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
 import com.jcwhatever.bukkit.generic.utils.BlockUtils;
 import com.jcwhatever.bukkit.generic.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -42,6 +43,7 @@ import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -50,6 +52,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 @RegionTypeInfo(
@@ -57,14 +60,16 @@ import java.util.Set;
         description="A region of blocks that are removed moments after being walked on by players.")
 public class CrumbleFloorRegion extends AbstractPVRegion implements IEventListener {
 
-    private static SettingDefinitions _possibleSettings = new SettingDefinitions();
+    private static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
-        _possibleSettings
-                .set("affected-blocks", ValueType.ITEMSTACK,
+        _possibleSettings = new SettingsBuilder()
+                .set("affected-blocks", PropertyValueType.ITEM_STACK_ARRAY,
                         "Set the blocks affected by the region. Null or air affects all blocks.")
-                .set("crumble-delay-ticks", 0, ValueType.INTEGER,
+
+                .set("crumble-delay-ticks", PropertyValueType.INTEGER, 0,
                         "The delay time in ticks that a block crumbles after being stepped on.")
+                .buildDefinitions()
         ;
     }
 
@@ -138,7 +143,7 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements IEventListen
     }
 
     @Override
-    protected SettingDefinitions getSettingDefinitions() {
+    protected Map<String, PropertyDefinition> getDefinitions() {
         return _possibleSettings;
     }
 
@@ -156,7 +161,7 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements IEventListen
     }
 
     @GenericsEventHandler(priority = GenericsEventPriority.LAST)
-    private void onArenaEnd(ArenaEndedEvent event) {
+    private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
 
         if (!isEnabled())
             return;

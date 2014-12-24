@@ -28,8 +28,9 @@ package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 import com.jcwhatever.bukkit.generic.scheduler.ScheduledTask;
 import com.jcwhatever.bukkit.generic.scheduler.TaskHandler;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
-import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
@@ -45,12 +46,17 @@ import java.util.UUID;
         description="Players are damaged at intervals while inside region.")
 public class DamageIntervalRegion extends AbstractPVRegion {
 
-    private static SettingDefinitions _possibleSettings = new SettingDefinitions();
+    private static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
-        _possibleSettings
-                .set("damage", 1.0D, ValueType.DOUBLE, "The amount of damage inflicted on a player at interval.")
-                .set("interval", 1, ValueType.INTEGER, "The interval in seconds that damage is inflicted.")
+        _possibleSettings = new SettingsBuilder()
+                .set("damage", PropertyValueType.DOUBLE, 1.0D,
+                        "The amount of damage inflicted on a player at interval.")
+
+                .set("interval", PropertyValueType.INTEGER, 1,
+                        "The interval in seconds that damage is inflicted.")
+
+                .buildDefinitions()
         ;
     }
 
@@ -134,7 +140,7 @@ public class DamageIntervalRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected SettingDefinitions getSettingDefinitions() {
+    protected Map<String, PropertyDefinition> getDefinitions() {
         return _possibleSettings;
     }
 }

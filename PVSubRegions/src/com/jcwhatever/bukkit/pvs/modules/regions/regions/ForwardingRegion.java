@@ -28,8 +28,9 @@ package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
-import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -37,6 +38,7 @@ import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.api.utils.Converters;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
@@ -50,16 +52,27 @@ import java.util.UUID;
         description="Forward players to another arena.")
 public class ForwardingRegion extends AbstractPVRegion implements IEventListener {
 
-    private static SettingDefinitions _possibleSettings = new SettingDefinitions();
-
+    private static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
-        _possibleSettings
-                .set("forward-to-arena", ValueType.UUID, "Set the arena to forward to.")
-                .set("do-teleport", true, ValueType.BOOLEAN, "Set flag for teleporting to the arena.")
-                .set("teleport-region", ValueType.STRING, "Set destination special region to teleport player to. Overrides arenas teleport if set. Region must be in the arena specified in 'forward-to-arena' setting.")
-                .set("yaw-adjust", 0.0D, ValueType.DOUBLE, "Used by 'teleport-region' setting. Adjust the players yaw position when teleported.")
+        _possibleSettings = new SettingsBuilder()
+                .set("forward-to-arena", PropertyValueType.UNIQUE_ID,
+                        "Set the arena to forward to.")
+
+                .set("do-teleport", PropertyValueType.BOOLEAN, true,
+                        "Set flag for teleporting to the arena.")
+
+                .set("teleport-region", PropertyValueType.STRING,
+                        "Set destination special region to teleport player to. Overrides arenas " +
+                                "teleport if set. Region must be in the arena specified in " +
+                                "'forward-to-arena' setting.")
+
+                .set("yaw-adjust", PropertyValueType.DOUBLE, 0.0D,
+                        "Used by 'teleport-region' setting. Adjust the players yaw position when teleported.")
+
                 .setValueConverter("forward-to-arena", Converters.ARENA_NAME_ID)
+
+                .buildDefinitions()
         ;
     }
 
@@ -184,7 +197,7 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
     }
 
     @Override
-    protected SettingDefinitions getSettingDefinitions() {
+    protected Map<String, PropertyDefinition> getDefinitions() {
         return _possibleSettings;
     }
 

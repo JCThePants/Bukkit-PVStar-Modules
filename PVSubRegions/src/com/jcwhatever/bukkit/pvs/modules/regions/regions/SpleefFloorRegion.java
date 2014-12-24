@@ -26,20 +26,22 @@
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
+import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.items.ItemStackComparer;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.CancelHandler;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.FailHandler;
 import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.Future;
 import com.jcwhatever.bukkit.generic.regions.BuildMethod;
 import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingDefinitions;
-import com.jcwhatever.bukkit.generic.storage.settings.ValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
+import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
 import com.jcwhatever.bukkit.generic.utils.BlockUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -47,17 +49,21 @@ import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.IOException;
+import java.util.Map;
+import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="spleeffloor",
         description="Spleef floor region.")
 public class SpleefFloorRegion extends AbstractPVRegion implements IEventListener {
 
-    private static SettingDefinitions _possibleSettings = new SettingDefinitions();
+    private static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
-        _possibleSettings
-                .set("affected-blocks", ValueType.ITEMSTACK, "Set the blocks affected by the region. Null or air affects all blocks.")
+        _possibleSettings = new SettingsBuilder()
+                .set("affected-blocks", PropertyValueType.ITEM_STACK_ARRAY,
+                        "Set the blocks affected by the region. Null or air affects all blocks.")
+                .buildDefinitions()
         ;
     }
 
@@ -128,8 +134,9 @@ public class SpleefFloorRegion extends AbstractPVRegion implements IEventListene
         _affectedBlocks = dataNode.getItemStacks("affected-blocks");
     }
 
+    @Nullable
     @Override
-    protected SettingDefinitions getSettingDefinitions() {
+    protected Map<String, PropertyDefinition> getDefinitions() {
         return _possibleSettings;
     }
 
