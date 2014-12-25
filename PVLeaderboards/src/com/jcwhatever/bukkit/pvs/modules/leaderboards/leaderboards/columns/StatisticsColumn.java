@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.columns;
 
-import com.jcwhatever.bukkit.generic.collections.TimedHashMap;
+import com.jcwhatever.bukkit.generic.collections.timed.TimedHashMap;
 import com.jcwhatever.bukkit.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.stats.ArenaStats;
 import com.jcwhatever.bukkit.pvs.api.stats.StatType;
