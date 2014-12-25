@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.autorestore;
 
-import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
-import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
-import com.jcwhatever.bukkit.generic.regions.BuildMethod;
+import com.jcwhatever.generic.events.manager.GenericsEventHandler;
+import com.jcwhatever.generic.events.manager.IEventListener;
+import com.jcwhatever.generic.events.manager.GenericsEventPriority;
+import com.jcwhatever.generic.regions.BuildMethod;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;

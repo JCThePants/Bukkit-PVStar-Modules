@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
-import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
+import com.jcwhatever.generic.storage.IDataNode;
+import com.jcwhatever.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.generic.storage.settings.PropertyValueType;
+import com.jcwhatever.generic.storage.settings.SettingsBuilder;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 

@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.party;
 
-import com.jcwhatever.bukkit.generic.player.collections.PlayerMap;
-import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.generic.collections.players.PlayerMap;
+import com.jcwhatever.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 
 import org.bukkit.entity.Player;

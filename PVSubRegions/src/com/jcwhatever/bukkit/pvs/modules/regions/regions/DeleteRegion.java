@@ -25,15 +25,15 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.CancelHandler;
-import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.FailHandler;
-import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.Future;
-import com.jcwhatever.bukkit.generic.regions.BuildChunkSnapshot;
-import com.jcwhatever.bukkit.generic.regions.BuildMethod;
-import com.jcwhatever.bukkit.generic.regions.data.ChunkInfo;
-import com.jcwhatever.bukkit.generic.regions.data.RegionChunkSection;
-import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.generic.utils.performance.queued.QueueResult.CancelHandler;
+import com.jcwhatever.generic.utils.performance.queued.QueueResult.FailHandler;
+import com.jcwhatever.generic.utils.performance.queued.QueueResult.Future;
+import com.jcwhatever.generic.regions.BuildChunkSnapshot;
+import com.jcwhatever.generic.regions.BuildMethod;
+import com.jcwhatever.generic.regions.data.ChunkInfo;
+import com.jcwhatever.generic.regions.data.RegionChunkSection;
+import com.jcwhatever.generic.storage.IDataNode;
+import com.jcwhatever.generic.storage.settings.PropertyDefinition;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 

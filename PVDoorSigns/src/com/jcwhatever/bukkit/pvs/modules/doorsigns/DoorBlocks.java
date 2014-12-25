@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.doorsigns;
 
-import com.jcwhatever.bukkit.generic.signs.SignContainer;
-import com.jcwhatever.bukkit.generic.signs.SignHandler;
-import com.jcwhatever.bukkit.generic.signs.SignManager;
-import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.generic.signs.SignContainer;
+import com.jcwhatever.generic.signs.SignHandler;
+import com.jcwhatever.generic.signs.SignManager;
+import com.jcwhatever.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import org.bukkit.Material;
 import org.bukkit.Sound;

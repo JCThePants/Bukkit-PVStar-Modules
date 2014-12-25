@@ -25,12 +25,12 @@
 
 package com.jcwhatever.bukkit.pvs.modules.showspawns;
 
-import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
-import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
-import com.jcwhatever.bukkit.generic.utils.ItemStackUtils;
-import com.jcwhatever.bukkit.generic.utils.LocationUtils;
-import com.jcwhatever.bukkit.generic.utils.SignUtils;
+import com.jcwhatever.generic.commands.AbstractCommand;
+import com.jcwhatever.generic.events.manager.GenericsEventHandler;
+import com.jcwhatever.generic.events.manager.IEventListener;
+import com.jcwhatever.generic.utils.items.ItemStackUtils;
+import com.jcwhatever.generic.utils.LocationUtils;
+import com.jcwhatever.generic.utils.SignUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerPreAddEvent;

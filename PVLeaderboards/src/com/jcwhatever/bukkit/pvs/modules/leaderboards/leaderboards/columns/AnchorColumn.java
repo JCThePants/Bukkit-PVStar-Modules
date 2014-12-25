@@ -25,9 +25,9 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.columns;
 
-import com.jcwhatever.bukkit.generic.utils.PlayerUtils;
-import com.jcwhatever.bukkit.generic.utils.PreCon;
-import com.jcwhatever.bukkit.generic.utils.Utils;
+import com.jcwhatever.generic.utils.player.PlayerUtils;
+import com.jcwhatever.generic.utils.PreCon;
+import com.jcwhatever.generic.utils.Utils;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
 import org.bukkit.block.Sign;
 

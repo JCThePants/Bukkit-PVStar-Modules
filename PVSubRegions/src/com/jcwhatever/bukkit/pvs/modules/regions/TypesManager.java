@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions;
 
-import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.exceptions.MissingTypeInfoException;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.BasicRegion;

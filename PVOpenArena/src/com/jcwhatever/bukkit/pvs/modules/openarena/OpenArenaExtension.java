@@ -25,11 +25,11 @@
 
 package com.jcwhatever.bukkit.pvs.modules.openarena;
 
-import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
-import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
-import com.jcwhatever.bukkit.generic.player.collections.PlayerSet;
-import com.jcwhatever.bukkit.generic.regions.Region.LeaveRegionReason;
+import com.jcwhatever.generic.events.manager.GenericsEventHandler;
+import com.jcwhatever.generic.events.manager.GenericsEventPriority;
+import com.jcwhatever.generic.events.manager.IEventListener;
+import com.jcwhatever.generic.collections.players.PlayerSet;
+import com.jcwhatever.generic.regions.Region.LeaveRegionReason;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.PlayerMeta;

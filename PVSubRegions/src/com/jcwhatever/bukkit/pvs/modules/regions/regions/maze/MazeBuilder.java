@@ -25,14 +25,14 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions.maze;
 
-import com.jcwhatever.bukkit.generic.regions.BuildChunkSnapshot;
-import com.jcwhatever.bukkit.generic.regions.BuildMethod;
-import com.jcwhatever.bukkit.generic.regions.BuildableRegion;
-import com.jcwhatever.bukkit.generic.regions.data.ChunkInfo;
-import com.jcwhatever.bukkit.generic.regions.data.RegionChunkSection;
-import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.utils.ItemStackUtils;
-import com.jcwhatever.bukkit.generic.utils.Rand;
+import com.jcwhatever.generic.regions.BuildChunkSnapshot;
+import com.jcwhatever.generic.regions.BuildMethod;
+import com.jcwhatever.generic.regions.BuildableRegion;
+import com.jcwhatever.generic.regions.data.ChunkInfo;
+import com.jcwhatever.generic.regions.data.RegionChunkSection;
+import com.jcwhatever.generic.storage.IDataNode;
+import com.jcwhatever.generic.utils.items.ItemStackUtils;
+import com.jcwhatever.generic.utils.Rand;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.maze.MazeGenerator.Orientation;
 
 import org.bukkit.Material;

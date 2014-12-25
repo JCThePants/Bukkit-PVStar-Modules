@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.spawntypes.hostile;
 
-import com.jcwhatever.bukkit.generic.extended.EntityTypeExt;
-import com.jcwhatever.bukkit.generic.utils.Rand;
+import com.jcwhatever.generic.extended.EntityTypeExt;
+import com.jcwhatever.generic.utils.Rand;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.spawns.SpawnType;
 import org.bukkit.Location;

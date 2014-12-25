@@ -26,19 +26,19 @@
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
 
-import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
-import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
-import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.CancelHandler;
-import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.FailHandler;
-import com.jcwhatever.bukkit.generic.performance.queued.QueueResult.Future;
-import com.jcwhatever.bukkit.generic.regions.BuildMethod;
-import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
-import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
-import com.jcwhatever.bukkit.generic.utils.BlockUtils;
-import com.jcwhatever.bukkit.generic.utils.Scheduler;
+import com.jcwhatever.generic.events.manager.GenericsEventHandler;
+import com.jcwhatever.generic.events.manager.GenericsEventPriority;
+import com.jcwhatever.generic.events.manager.IEventListener;
+import com.jcwhatever.generic.utils.performance.queued.QueueResult.CancelHandler;
+import com.jcwhatever.generic.utils.performance.queued.QueueResult.FailHandler;
+import com.jcwhatever.generic.utils.performance.queued.QueueResult.Future;
+import com.jcwhatever.generic.regions.BuildMethod;
+import com.jcwhatever.generic.storage.IDataNode;
+import com.jcwhatever.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.generic.storage.settings.PropertyValueType;
+import com.jcwhatever.generic.storage.settings.SettingsBuilder;
+import com.jcwhatever.generic.utils.BlockUtils;
+import com.jcwhatever.generic.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;

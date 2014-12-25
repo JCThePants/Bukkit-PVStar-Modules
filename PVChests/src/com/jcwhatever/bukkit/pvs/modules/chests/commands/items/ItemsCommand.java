@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.chests.commands.items;
 
-import com.jcwhatever.bukkit.generic.commands.CommandInfo;
+import com.jcwhatever.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 
 @CommandInfo(

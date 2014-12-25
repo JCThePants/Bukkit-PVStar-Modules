@@ -27,11 +27,11 @@ package com.jcwhatever.bukkit.pvs.modules.regions.scripting;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.jcwhatever.bukkit.generic.scripting.IEvaluatedScript;
-import com.jcwhatever.bukkit.generic.scripting.ScriptApiInfo;
-import com.jcwhatever.bukkit.generic.scripting.api.GenericsScriptApi;
-import com.jcwhatever.bukkit.generic.scripting.api.IScriptApiObject;
-import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.generic.scripting.IEvaluatedScript;
+import com.jcwhatever.generic.scripting.ScriptApiInfo;
+import com.jcwhatever.generic.scripting.api.GenericsScriptApi;
+import com.jcwhatever.generic.scripting.api.IScriptApiObject;
+import com.jcwhatever.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionManager;

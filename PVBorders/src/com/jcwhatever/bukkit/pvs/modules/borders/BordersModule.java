@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.borders;
 
-import com.jcwhatever.bukkit.generic.commands.AbstractCommand;
+import com.jcwhatever.generic.commands.AbstractCommand;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
 import com.jcwhatever.bukkit.pvs.modules.borders.commands.OutOfBoundsSubCommand;

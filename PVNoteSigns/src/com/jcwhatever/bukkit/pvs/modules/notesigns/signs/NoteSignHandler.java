@@ -25,9 +25,9 @@
 
 package com.jcwhatever.bukkit.pvs.modules.notesigns.signs;
 
-import com.jcwhatever.bukkit.generic.signs.SignContainer;
-import com.jcwhatever.bukkit.generic.signs.SignHandler;
-import com.jcwhatever.bukkit.generic.utils.text.TextColor;
+import com.jcwhatever.generic.signs.SignContainer;
+import com.jcwhatever.generic.signs.SignHandler;
+import com.jcwhatever.generic.utils.text.TextColor;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;

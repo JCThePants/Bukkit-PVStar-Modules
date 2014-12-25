@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.playerstate;
 
-import com.jcwhatever.bukkit.generic.player.PlayerState;
-import com.jcwhatever.bukkit.generic.player.PlayerState.RestoreLocation;
+import com.jcwhatever.generic.utils.player.PlayerState;
+import com.jcwhatever.generic.utils.player.PlayerState.RestoreLocation;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;

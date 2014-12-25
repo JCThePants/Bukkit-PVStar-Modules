@@ -25,13 +25,13 @@
 
 package com.jcwhatever.bukkit.pvs.modules.revive;
 
-import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.bukkit.generic.events.manager.GenericsEventPriority;
-import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
-import com.jcwhatever.bukkit.generic.items.ItemStackComparer;
-import com.jcwhatever.bukkit.generic.scheduler.ScheduledTask;
-import com.jcwhatever.bukkit.generic.scheduler.TaskHandler;
-import com.jcwhatever.bukkit.generic.utils.Scheduler;
+import com.jcwhatever.generic.events.manager.GenericsEventHandler;
+import com.jcwhatever.generic.events.manager.GenericsEventPriority;
+import com.jcwhatever.generic.events.manager.IEventListener;
+import com.jcwhatever.generic.utils.items.ItemStackComparer;
+import com.jcwhatever.generic.scheduler.ScheduledTask;
+import com.jcwhatever.generic.scheduler.TaskHandler;
+import com.jcwhatever.generic.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.PlayerMeta;

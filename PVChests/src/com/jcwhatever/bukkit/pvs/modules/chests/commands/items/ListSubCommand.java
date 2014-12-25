@@ -25,15 +25,15 @@
 
 package com.jcwhatever.bukkit.pvs.modules.chests.commands.items;
 
-import com.jcwhatever.bukkit.generic.collections.WeightedArrayList.WeightedIterator;
-import com.jcwhatever.bukkit.generic.commands.CommandInfo;
-import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
-import com.jcwhatever.bukkit.generic.items.serializer.ItemStackSerializer.SerializerOutputType;
-import com.jcwhatever.bukkit.generic.language.Localizable;
-import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
-import com.jcwhatever.bukkit.generic.utils.ItemStackUtils;
-import com.jcwhatever.bukkit.generic.utils.text.TextUtils.FormatTemplate;
+import com.jcwhatever.generic.collections.WeightedArrayList.WeightedIterator;
+import com.jcwhatever.generic.commands.CommandInfo;
+import com.jcwhatever.generic.commands.arguments.CommandArguments;
+import com.jcwhatever.generic.commands.exceptions.CommandException;
+import com.jcwhatever.generic.utils.items.serializer.ItemStackSerializer.SerializerOutputType;
+import com.jcwhatever.generic.language.Localizable;
+import com.jcwhatever.generic.messaging.ChatPaginator;
+import com.jcwhatever.generic.utils.items.ItemStackUtils;
+import com.jcwhatever.generic.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;

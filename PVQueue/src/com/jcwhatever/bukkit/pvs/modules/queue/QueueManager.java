@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.queue;
 
-import com.jcwhatever.bukkit.generic.player.collections.PlayerQueue;
-import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.generic.collections.players.PlayerQueue;
+import com.jcwhatever.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;

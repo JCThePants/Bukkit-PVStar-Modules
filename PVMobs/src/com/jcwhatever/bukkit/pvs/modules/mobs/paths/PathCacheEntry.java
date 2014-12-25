@@ -25,14 +25,14 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.paths;
 
-import com.jcwhatever.bukkit.generic.file.GenericsByteReader;
-import com.jcwhatever.bukkit.generic.file.GenericsByteWriter;
-import com.jcwhatever.bukkit.generic.pathing.PathAreaFinder;
-import com.jcwhatever.bukkit.generic.pathing.PathAreaFinder.PathAreaResults;
-import com.jcwhatever.bukkit.generic.pathing.astar.AStarPathFinder;
-import com.jcwhatever.bukkit.generic.pathing.astar.AStarPathNode;
-import com.jcwhatever.bukkit.generic.utils.LocationUtils;
-import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.generic.utils.file.GenericsByteReader;
+import com.jcwhatever.generic.utils.file.GenericsByteWriter;
+import com.jcwhatever.generic.utils.pathing.PathAreaFinder;
+import com.jcwhatever.generic.utils.pathing.PathAreaFinder.PathAreaResults;
+import com.jcwhatever.generic.utils.pathing.astar.AStarPathFinder;
+import com.jcwhatever.generic.utils.pathing.astar.AStarPathNode;
+import com.jcwhatever.generic.utils.LocationUtils;
+import com.jcwhatever.generic.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;

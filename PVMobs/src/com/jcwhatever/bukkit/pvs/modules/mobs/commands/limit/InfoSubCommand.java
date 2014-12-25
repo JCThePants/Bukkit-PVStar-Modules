@@ -24,14 +24,14 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.commands.limit;
 
-import com.jcwhatever.bukkit.generic.commands.CommandInfo;
-import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
-import com.jcwhatever.bukkit.generic.extended.EntityTypeExt;
-import com.jcwhatever.bukkit.generic.extended.EntityTypeExt.EntityProperty;
-import com.jcwhatever.bukkit.generic.language.Localizable;
-import com.jcwhatever.bukkit.generic.messaging.ChatPaginator;
-import com.jcwhatever.bukkit.generic.utils.text.TextUtils.FormatTemplate;
+import com.jcwhatever.generic.commands.CommandInfo;
+import com.jcwhatever.generic.commands.arguments.CommandArguments;
+import com.jcwhatever.generic.commands.exceptions.CommandException;
+import com.jcwhatever.generic.extended.EntityTypeExt;
+import com.jcwhatever.generic.extended.EntityTypeExt.EntityProperty;
+import com.jcwhatever.generic.language.Localizable;
+import com.jcwhatever.generic.messaging.ChatPaginator;
+import com.jcwhatever.generic.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;

@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.borders;
 
-import com.jcwhatever.bukkit.generic.language.Localized;
+import com.jcwhatever.generic.language.Localized;
 
 public class Lang {
 

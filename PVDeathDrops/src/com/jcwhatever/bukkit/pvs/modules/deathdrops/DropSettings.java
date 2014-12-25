@@ -25,9 +25,9 @@
 
 package com.jcwhatever.bukkit.pvs.modules.deathdrops;
 
-import com.jcwhatever.bukkit.generic.storage.DataType;
-import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.utils.PreCon;
+import com.jcwhatever.generic.storage.DataType;
+import com.jcwhatever.generic.storage.IDataNode;
+import com.jcwhatever.generic.utils.PreCon;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

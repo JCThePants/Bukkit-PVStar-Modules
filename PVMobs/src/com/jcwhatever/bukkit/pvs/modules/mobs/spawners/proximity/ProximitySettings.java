@@ -25,12 +25,12 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.spawners.proximity;
 
-import com.jcwhatever.bukkit.generic.storage.IDataNode;
-import com.jcwhatever.bukkit.generic.storage.settings.ISettingsManager;
-import com.jcwhatever.bukkit.generic.storage.settings.PropertyDefinition;
-import com.jcwhatever.bukkit.generic.storage.settings.PropertyValueType;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingsBuilder;
-import com.jcwhatever.bukkit.generic.storage.settings.SettingsManager;
+import com.jcwhatever.generic.storage.IDataNode;
+import com.jcwhatever.generic.storage.settings.ISettingsManager;
+import com.jcwhatever.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.generic.storage.settings.PropertyValueType;
+import com.jcwhatever.generic.storage.settings.SettingsBuilder;
+import com.jcwhatever.generic.storage.settings.SettingsManager;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawnerSettings;
 
 import java.util.Map;

@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.regions.commands;
 
 import com.jcwhatever.bukkit.pvs.modules.regions.Lang;
-import com.jcwhatever.bukkit.generic.language.Localizable;
+import com.jcwhatever.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionManager;

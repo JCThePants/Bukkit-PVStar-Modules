@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands;
 
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
-import com.jcwhatever.bukkit.generic.language.Localizable;
+import com.jcwhatever.generic.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.LeaderboardsModule;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
