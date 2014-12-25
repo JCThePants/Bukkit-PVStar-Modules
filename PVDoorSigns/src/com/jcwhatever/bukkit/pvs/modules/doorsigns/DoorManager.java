@@ -25,7 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.doorsigns;
 
-import com.jcwhatever.bukkit.generic.collections.HashSetMap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.signs.SignContainer;
@@ -44,16 +45,17 @@ import org.bukkit.block.Sign;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.annotation.Nullable;
 
 public class DoorManager implements IEventListener {
 
     private Map<String, DoorBlocks> _doorsBySign = new HashMap<>(20);
-    private HashSetMap<Arena, DoorBlocks> _doorsByArena = new HashSetMap<Arena, DoorBlocks>();
+    private Multimap<Arena, DoorBlocks> _doorsByArena =
+            MultimapBuilder.hashKeys(35).hashSetValues(10).build();
 
     public DoorManager() {
         PVStarAPI.getEventManager().register(this);
@@ -76,7 +78,7 @@ public class DoorManager implements IEventListener {
 
         doorBlocks.setOpen(false);
 
-        _doorsByArena.removeValue(doorBlocks);
+        _doorsByArena.remove(doorBlocks.getArena(), doorBlocks);
     }
 
     @Nullable
@@ -85,6 +87,7 @@ public class DoorManager implements IEventListener {
         PreCon.notNull(signContainer);
 
         Sign sign = signContainer.getSign();
+        assert sign != null;
 
         Arena arena = PVStarAPI.getArenaManager().getArena(sign.getLocation());
         if (arena == null)
@@ -139,7 +142,7 @@ public class DoorManager implements IEventListener {
 
     private void closeDoors(Arena arena) {
 
-        Set<DoorBlocks> doorBlocks = _doorsByArena.removeAll(arena);
+        Collection<DoorBlocks> doorBlocks = _doorsByArena.removeAll(arena);
         if (doorBlocks == null)
             return;
 

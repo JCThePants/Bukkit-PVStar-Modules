@@ -25,7 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.gamblesigns;
 
-import com.jcwhatever.bukkit.generic.collections.HashSetMap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.jcwhatever.bukkit.generic.events.manager.GenericsEventHandler;
 import com.jcwhatever.bukkit.generic.events.manager.IEventListener;
 import com.jcwhatever.bukkit.generic.scripting.IEvaluatedScript;
@@ -40,7 +41,7 @@ import com.jcwhatever.bukkit.pvs.modules.gamblesigns.events.GambleTriggeredEvent
 
 import org.bukkit.plugin.Plugin;
 
-import java.util.Set;
+import java.util.Collection;
 
 @ScriptApiInfo(
         variableName = "pvGamble",
@@ -64,7 +65,10 @@ public class GambleScriptApi extends GenericsScriptApi {
     public static class ApiObject implements IScriptApiObject, IEventListener {
 
         private final Plugin _plugin;
-        private HashSetMap<String, GambleHandler> _gambleHandlers = new HashSetMap<>(25);
+
+        private Multimap<String, GambleHandler> _gambleHandlers =
+                MultimapBuilder.hashKeys(25).hashSetValues(10).build();
+
         private boolean _isDisposed;
 
         ApiObject(Plugin plugin) {
@@ -82,7 +86,7 @@ public class GambleScriptApi extends GenericsScriptApi {
         }
 
         public void removeWinHandler(String eventName, GambleHandler handler) {
-            _gambleHandlers.removeValue(eventName, handler);
+            _gambleHandlers.remove(eventName, handler);
         }
 
         @Override
@@ -101,7 +105,7 @@ public class GambleScriptApi extends GenericsScriptApi {
         private void onGambleTriggered(GambleTriggeredEvent event) {
             String eventName = event.getEventName();
 
-            Set<GambleHandler> handlers = _gambleHandlers.getAll(eventName);
+            Collection<GambleHandler> handlers = _gambleHandlers.get(eventName);
             if (handlers == null)
                 return;
 

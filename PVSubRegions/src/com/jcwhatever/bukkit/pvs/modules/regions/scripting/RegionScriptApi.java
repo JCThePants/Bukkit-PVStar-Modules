@@ -25,7 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.scripting;
 
-import com.jcwhatever.bukkit.generic.collections.HashSetMap;
+import com.google.common.collect.Multimap;
+import com.google.common.collect.MultimapBuilder;
 import com.jcwhatever.bukkit.generic.scripting.IEvaluatedScript;
 import com.jcwhatever.bukkit.generic.scripting.ScriptApiInfo;
 import com.jcwhatever.bukkit.generic.scripting.api.GenericsScriptApi;
@@ -40,6 +41,7 @@ import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion.Region
 
 import org.bukkit.plugin.Plugin;
 
+import java.util.Collection;
 import java.util.Set;
 import javax.annotation.Nullable;
 
@@ -64,8 +66,13 @@ public class RegionScriptApi extends GenericsScriptApi {
     public static class ApiObject implements IScriptApiObject {
 
         private final SubRegionsModule _module;
-        private final HashSetMap<AbstractPVRegion, RegionEventHandler> _enterHandlers = new HashSetMap<>(20);
-        private final HashSetMap<AbstractPVRegion, RegionEventHandler> _leaveHandlers = new HashSetMap<>(20);
+
+        private final Multimap<AbstractPVRegion, RegionEventHandler> _enterHandlers =
+                MultimapBuilder.hashKeys(20).hashSetValues(15).build();
+
+        private final Multimap<AbstractPVRegion, RegionEventHandler> _leaveHandlers =
+                MultimapBuilder.hashKeys(20).hashSetValues(15).build();
+
         private boolean _isDisposed;
 
         ApiObject (SubRegionsModule module) {
@@ -84,7 +91,7 @@ public class RegionScriptApi extends GenericsScriptApi {
             Set<AbstractPVRegion> enterRegions = _enterHandlers.keySet();
             for (AbstractPVRegion region : enterRegions) {
 
-                Set<RegionEventHandler> handlers = _enterHandlers.getAll(region);
+                Collection<RegionEventHandler> handlers = _enterHandlers.get(region);
                 if (handlers == null)
                     continue;
 
@@ -97,7 +104,7 @@ public class RegionScriptApi extends GenericsScriptApi {
             Set<AbstractPVRegion> leaveRegions = _leaveHandlers.keySet();
             for (AbstractPVRegion region : leaveRegions) {
 
-                Set<RegionEventHandler> handlers = _leaveHandlers.getAll(region);
+                Collection<RegionEventHandler> handlers = _leaveHandlers.get(region);
                 if (handlers == null)
                     continue;
 
