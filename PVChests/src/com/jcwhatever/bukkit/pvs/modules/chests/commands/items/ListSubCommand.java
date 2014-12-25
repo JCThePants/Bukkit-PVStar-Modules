@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.chests.commands.items;
 
-import com.jcwhatever.bukkit.generic.collections.WeightedArrayList.WeightedIterator;
+import com.jcwhatever.bukkit.generic.collections.wrappers.WeightedArrayList.WeightedIterator;
 import com.jcwhatever.bukkit.generic.commands.CommandInfo;
 import com.jcwhatever.bukkit.generic.commands.arguments.CommandArguments;
 import com.jcwhatever.bukkit.generic.commands.exceptions.CommandException;
