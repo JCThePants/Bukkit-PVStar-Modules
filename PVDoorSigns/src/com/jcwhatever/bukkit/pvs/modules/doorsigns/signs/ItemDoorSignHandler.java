@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.doorsigns.signs;
 
-import com.jcwhatever.generic.inventory.Kit;
+import com.jcwhatever.generic.kits.Kit;
 import com.jcwhatever.generic.signs.SignContainer;
 import com.jcwhatever.generic.signs.SignHandler;
 import com.jcwhatever.generic.signs.SignManager;
