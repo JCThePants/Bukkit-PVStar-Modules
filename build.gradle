@@ -7,9 +7,9 @@ defaultTasks 'clean', 'build'
 sourceCompatibility = 1.7
 targetCompatibility = 1.7
 
-
 // evaluate settings from module projects first
 project.evaluationDependsOnChildren()
+
 
 
 if (hasProperty("teamcity"))
@@ -73,13 +73,6 @@ subprojects {
             compileClasspath += configurations.provided
             runtimeClasspath += configurations.provided
         }
-    }
-
-    buildscript {
-        repositories {
-            mavenCentral()
-        }
-        dependencies { classpath 'org.ajoberstar:gradle-git:0.2.3' }
     }
 
     repositories {
