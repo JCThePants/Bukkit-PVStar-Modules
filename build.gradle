@@ -52,15 +52,6 @@ subprojects {
         buildBy = System.properties['user.name']
     }
 
-    repositories {
-        mavenCentral()
-
-        flatDir {
-            name "fileRepo"
-            dirs "repo"
-        }
-    }
-
     // Add provided configuration to prevent dependencies
     // from being included in the jar
     configurations {
@@ -84,15 +75,40 @@ subprojects {
         }
     }
 
+    buildscript {
+        repositories {
+            mavenCentral()
+        }
+        dependencies { classpath 'org.ajoberstar:gradle-git:0.2.3' }
+    }
+
+    repositories {
+        mavenCentral()
+
+        for (repo in mavenRepositories) {
+            maven {
+                url repo
+            }
+        }
+    }
+
     // Add dependencies
     dependencies {
 
+        if (compileDependsFiles) {
+            compile files(compileDependsFiles)
+        }
+
+        if (providedDependsFiles) {
+            provided files(providedDependsFiles)
+        }
+
         if (compileDepends) {
-            compile files(compileDepends)
+            compile compileDepends
         }
 
         if (providedDepends) {
-            provided files(providedDepends)
+            provided providedDepends
         }
     }
 

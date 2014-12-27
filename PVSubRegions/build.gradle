@@ -1,13 +1,19 @@
 ext.projectName = 'PVSubRegions'
 ext.majorVersion = '0'
+ext.minorVersion = '0'
 ext.buildBy = null
-ext.providedDepends = [
-        'C:/JavaRepo/bukkit/spigot-api-1.8-R0.1-SNAPSHOT.jar',
-        'C:/JavaRepo/jsr305-1.3.9.jar',
-        '../PV-StarAPI.jar',
-        '../NucleusFramework.jar'
+ext.mavenRepositories = [
+        'https://github.com/JCThePants/mvn-repo/raw/master',
+        'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
 ]
-
+ext.providedDependsFiles = null
+ext.providedDepends = [
+        'org.spigotmc:unmapped-spigot:1.8-R0.1-SNAPSHOT',
+        'com.google.code.findbugs:jsr305:3.0.0',
+        'com.jcwhatever.bukkit:PVStar-API:0.0.SNAPSHOT',
+        'com.jcwhatever.bukkit:NucleusFramework:0.0.SNAPSHOT'
+]
+ext.compileDependsFiles = null
 ext.compileDepends = null
 ext.includeFiles = [ 'module.yml', 'LICENSE.txt' ]
 
