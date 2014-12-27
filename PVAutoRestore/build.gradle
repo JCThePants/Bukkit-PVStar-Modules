@@ -13,6 +13,7 @@ ext.providedDepends = [
         'com.jcwhatever.bukkit:PVStar-API:0.0.SNAPSHOT',
         'com.jcwhatever.bukkit:NucleusFramework:0.0.SNAPSHOT'
 ]
+ext.compileDependsFiles = null
 ext.compileDepends = null
 ext.includeFiles = [ 'module.yml', 'LICENSE.txt' ]
 
