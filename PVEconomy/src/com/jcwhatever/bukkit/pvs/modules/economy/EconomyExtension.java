@@ -25,11 +25,11 @@
 
 package com.jcwhatever.bukkit.pvs.modules.economy;
 
-import com.jcwhatever.generic.utils.EconomyUtils;
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.utils.PreCon;
+import com.jcwhatever.nucleus.utils.EconomyUtils;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -79,7 +79,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         getArena().getEventManager().unregister(this);
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerDeath(PlayerDeathEvent event) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
@@ -91,7 +91,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         giveMoney(player, getDeathAmount());
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerKill(EntityDeathEvent event) {
 
         if (event.getEntity().getKiller() == null)
@@ -106,19 +106,19 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         giveMoney(killer, getKillAmount());
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onAddPlayer(PlayerAddedEvent event) {
         if (event.getPlayer().getArenaRelation() == ArenaPlayerRelation.GAME) {
             giveMoney(event.getPlayer(), getParticipantAmount());
         }
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerWin(PlayerWinEvent event) {
         giveMoney(event.getPlayer(), getWinAmount());
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerLose(PlayerLoseEvent event) {
         giveMoney(event.getPlayer(), getLoseAmount());
     }

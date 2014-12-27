@@ -25,14 +25,14 @@
 
 package com.jcwhatever.bukkit.pvs.modules.startcountdown;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.GenericsEventPriority;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.internal.Lang;
-import com.jcwhatever.generic.language.Localizable;
-import com.jcwhatever.generic.scheduler.ScheduledTask;
-import com.jcwhatever.generic.scheduler.TaskHandler;
-import com.jcwhatever.generic.utils.Scheduler;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.NucleusEventPriority;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.internal.Lang;
+import com.jcwhatever.nucleus.language.Localizable;
+import com.jcwhatever.nucleus.scheduler.ScheduledTask;
+import com.jcwhatever.nucleus.scheduler.TaskHandler;
+import com.jcwhatever.nucleus.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -121,14 +121,14 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
         getArena().getEventManager().unregister(this);
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onAddPlayer(PlayerAddedEvent event) {
 
         Msg.tell(event.getPlayer(), Lang.get(_AUTO_START_INFO,
                 getArena().getLobbyManager().getSettings().getMinAutoStartPlayers()));
     }
 
-    @GenericsEventHandler(priority = GenericsEventPriority.FIRST)
+    @NucleusEventHandler(priority = NucleusEventPriority.FIRST)
     private void onArenaPreStart(ArenaPreStartEvent event) {
 
         // prevent start during countdown

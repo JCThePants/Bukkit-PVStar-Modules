@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.chests;
 
-import com.jcwhatever.generic.utils.items.WeightedItems;
-import com.jcwhatever.generic.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.items.WeightedItems;
+import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 
 import org.bukkit.Material;

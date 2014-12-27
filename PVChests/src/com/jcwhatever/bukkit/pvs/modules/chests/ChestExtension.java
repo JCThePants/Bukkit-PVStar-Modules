@@ -25,12 +25,12 @@
 
 package com.jcwhatever.bukkit.pvs.modules.chests;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.events.manager.GenericsEventPriority;
-import com.jcwhatever.generic.utils.PreCon;
-import com.jcwhatever.generic.utils.Rand;
-import com.jcwhatever.generic.utils.Scheduler;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.events.manager.NucleusEventPriority;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.Rand;
+import com.jcwhatever.nucleus.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -409,14 +409,14 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
 
 
 
-    @GenericsEventHandler(priority = GenericsEventPriority.LAST)
+    @NucleusEventHandler(priority = NucleusEventPriority.LAST)
     private void onArenaPreStart(ArenaPreStartEvent event) {
 
         if (_chestSettings.isChestsRandomized())
             randomHideChests();
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onArenaEnd(ArenaEndedEvent event) {
 
         if (_chestSettings.isChestsRandomized())
@@ -427,7 +427,7 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         // TODO clear items ?
     }
 
-    @GenericsEventHandler(ignoreCancelled=true)
+    @NucleusEventHandler(ignoreCancelled=true)
     private void onChestInteractPrevented(PlayerInteractEvent event) {
 
         if (!event.hasBlock())
@@ -446,7 +446,7 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         }
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onChestInteract(PlayerInteractEvent event) {
 
         if (!event.hasBlock())

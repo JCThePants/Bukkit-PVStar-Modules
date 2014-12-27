@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.autorestore;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.events.manager.GenericsEventPriority;
-import com.jcwhatever.generic.regions.BuildMethod;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.events.manager.NucleusEventPriority;
+import com.jcwhatever.nucleus.regions.BuildMethod;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
@@ -62,7 +62,7 @@ public class AutoRestoreExtension extends ArenaExtension implements IEventListen
         getArena().getEventManager().unregister(this);
     }
 
-    @GenericsEventHandler(priority = GenericsEventPriority.FIRST)
+    @NucleusEventHandler(priority = NucleusEventPriority.FIRST)
     private void onArenaEnd(ArenaEndedEvent event) {
 
         try {

@@ -25,15 +25,15 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions.maze;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.utils.performance.queued.QueueTask;
-import com.jcwhatever.generic.utils.performance.queued.QueueWorker;
-import com.jcwhatever.generic.utils.performance.queued.TaskConcurrency;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.storage.settings.SettingsBuilder;
-import com.jcwhatever.generic.storage.settings.PropertyDefinition;
-import com.jcwhatever.generic.storage.settings.PropertyValueType;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueTask;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueWorker;
+import com.jcwhatever.nucleus.utils.performance.queued.TaskConcurrency;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
+import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
@@ -72,7 +72,7 @@ public class MazeRegion extends AbstractPVRegion implements IEventListener {
         super(name);
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
 
         if (!_runOnArenaEnd || !isEnabled())

@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.graceperiod;
 
-import com.jcwhatever.generic.language.Localized;
+import com.jcwhatever.nucleus.language.Localized;
 
 public class Lang {
 

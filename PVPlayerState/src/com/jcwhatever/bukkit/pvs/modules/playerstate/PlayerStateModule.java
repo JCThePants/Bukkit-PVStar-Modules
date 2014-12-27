@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.playerstate;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.utils.player.PlayerState;
-import com.jcwhatever.generic.utils.player.PlayerState.RestoreLocation;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.player.PlayerState;
+import com.jcwhatever.nucleus.utils.player.PlayerState.RestoreLocation;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerLeaveEvent;
 import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
@@ -59,7 +59,7 @@ public class PlayerStateModule extends PVStarModule implements IEventListener {
         Bukkit.getPluginManager().registerEvents(new BukkitEventListener(), PVStarAPI.getPlugin());
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerLeave(PlayerLeaveEvent event) {
 
         if (!event.isRestoring() || event.getPlayer().getPlayer().isDead())

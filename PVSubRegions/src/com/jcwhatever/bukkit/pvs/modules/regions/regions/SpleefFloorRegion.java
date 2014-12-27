@@ -25,19 +25,19 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.GenericsEventPriority;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.utils.items.ItemStackComparer;
-import com.jcwhatever.generic.utils.performance.queued.QueueResult.CancelHandler;
-import com.jcwhatever.generic.utils.performance.queued.QueueResult.FailHandler;
-import com.jcwhatever.generic.utils.performance.queued.QueueResult.Future;
-import com.jcwhatever.generic.regions.BuildMethod;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.storage.settings.PropertyDefinition;
-import com.jcwhatever.generic.storage.settings.PropertyValueType;
-import com.jcwhatever.generic.storage.settings.SettingsBuilder;
-import com.jcwhatever.generic.utils.BlockUtils;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.NucleusEventPriority;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.items.ItemStackComparer;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.CancelHandler;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.FailHandler;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.Future;
+import com.jcwhatever.nucleus.regions.BuildMethod;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
+import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
+import com.jcwhatever.nucleus.utils.BlockUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
@@ -153,7 +153,7 @@ public class SpleefFloorRegion extends AbstractPVRegion implements IEventListene
         }
     }
 
-    @GenericsEventHandler(priority = GenericsEventPriority.LAST)
+    @NucleusEventHandler(priority = NucleusEventPriority.LAST)
     private void onArenaEnded(@SuppressWarnings("unused") ArenaEndedEvent event) {
 
         try {
@@ -163,7 +163,7 @@ public class SpleefFloorRegion extends AbstractPVRegion implements IEventListene
         }
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onArenaPlayerInteract(PlayerInteractEvent event) {
         if (!event.hasBlock())
             return;

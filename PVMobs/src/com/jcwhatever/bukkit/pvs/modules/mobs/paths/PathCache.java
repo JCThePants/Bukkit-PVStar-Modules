@@ -25,9 +25,9 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.paths;
 
-import com.jcwhatever.generic.scheduler.TaskHandler;
-import com.jcwhatever.generic.utils.PreCon;
-import com.jcwhatever.generic.utils.Scheduler;
+import com.jcwhatever.nucleus.scheduler.TaskHandler;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;

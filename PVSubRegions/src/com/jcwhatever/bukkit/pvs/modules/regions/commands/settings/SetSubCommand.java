@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.commands.settings;
 
-import com.jcwhatever.generic.commands.CommandInfo;
-import com.jcwhatever.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.generic.commands.exceptions.CommandException;
-import com.jcwhatever.generic.storage.settings.ISettingsManager;
+import com.jcwhatever.nucleus.commands.CommandInfo;
+import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
+import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.storage.settings.ISettingsManager;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.modules.regions.commands.AbstractRegionCommand;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;

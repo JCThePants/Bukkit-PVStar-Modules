@@ -25,15 +25,15 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.generic.collections.EntryCounter;
-import com.jcwhatever.generic.collections.EntryCounter.RemovalPolicy;
-import com.jcwhatever.generic.utils.converters.ValueConverters;
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.storage.settings.PropertyDefinition;
-import com.jcwhatever.generic.storage.settings.PropertyValueType;
-import com.jcwhatever.generic.storage.settings.SettingsBuilder;
+import com.jcwhatever.nucleus.collections.EntryCounter;
+import com.jcwhatever.nucleus.collections.EntryCounter.RemovalPolicy;
+import com.jcwhatever.nucleus.utils.converters.ValueConverters;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
+import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
@@ -171,7 +171,7 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
         Msg.tell(player.getPlayer(), message);
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onArenaEnd(ArenaEndedEvent event) {
         _enterCount.reset();
         _leaveCount.reset();

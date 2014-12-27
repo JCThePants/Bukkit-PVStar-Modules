@@ -24,11 +24,11 @@
 
 package com.jcwhatever.bukkit.pvs.modules.gamblesigns.signs;
 
-import com.jcwhatever.generic.signs.SignContainer;
-import com.jcwhatever.generic.signs.SignHandler;
-import com.jcwhatever.generic.utils.text.TextUtils;
-import com.jcwhatever.generic.utils.text.TextColor;
-import com.jcwhatever.generic.utils.Rand;
+import com.jcwhatever.nucleus.signs.SignContainer;
+import com.jcwhatever.nucleus.signs.SignHandler;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
+import com.jcwhatever.nucleus.utils.text.TextColor;
+import com.jcwhatever.nucleus.utils.Rand;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;

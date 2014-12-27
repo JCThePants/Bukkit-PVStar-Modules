@@ -25,11 +25,11 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.spawngroups;
 
-import com.jcwhatever.generic.utils.pathing.astar.AStar.LocationAdjustment;
-import com.jcwhatever.generic.utils.pathing.astar.AStarPathFinder;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.utils.PreCon;
-import com.jcwhatever.generic.utils.text.TextUtils;
+import com.jcwhatever.nucleus.utils.pathing.astar.AStar.LocationAdjustment;
+import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathFinder;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.bukkit.pvs.modules.mobs.paths.PathCache;

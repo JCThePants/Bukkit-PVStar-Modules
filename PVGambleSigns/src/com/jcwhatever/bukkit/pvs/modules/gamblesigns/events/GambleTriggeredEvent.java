@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.gamblesigns.events;
 
-import com.jcwhatever.generic.signs.SignContainer;
-import com.jcwhatever.generic.utils.PreCon;
+import com.jcwhatever.nucleus.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.players.AbstractPlayerEvent;

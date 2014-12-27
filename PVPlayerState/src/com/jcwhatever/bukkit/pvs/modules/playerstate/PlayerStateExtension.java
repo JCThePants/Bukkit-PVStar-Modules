@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.playerstate;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.utils.player.PlayerState;
-import com.jcwhatever.generic.utils.player.PlayerUtils;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.player.PlayerState;
+import com.jcwhatever.nucleus.utils.player.PlayerUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
@@ -59,7 +59,7 @@ public class PlayerStateExtension extends ArenaExtension implements IEventListen
         getArena().getEventManager().unregister(this);
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerAdded(PlayerAddedEvent event) {
 
         if (event.getReason() == AddPlayerReason.ARENA_RELATION_CHANGE ||

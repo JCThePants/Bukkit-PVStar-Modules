@@ -25,12 +25,12 @@
 
 package com.jcwhatever.bukkit.pvs.modules.showspawns;
 
-import com.jcwhatever.generic.commands.AbstractCommand;
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.utils.items.ItemStackUtils;
-import com.jcwhatever.generic.utils.LocationUtils;
-import com.jcwhatever.generic.utils.SignUtils;
+import com.jcwhatever.nucleus.commands.AbstractCommand;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.items.ItemStackUtils;
+import com.jcwhatever.nucleus.utils.LocationUtils;
+import com.jcwhatever.nucleus.utils.SignUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerPreAddEvent;
@@ -144,7 +144,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
         }
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onArenaPlayerAdd(PlayerPreAddEvent event) {
         hideSigns(event.getArena());
     }

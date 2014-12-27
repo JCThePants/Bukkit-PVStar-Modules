@@ -25,9 +25,9 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions;
 
-import com.jcwhatever.generic.GenericsLib;
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
+import com.jcwhatever.nucleus.Nucleus;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaDisposeEvent;
@@ -66,7 +66,7 @@ public class SubRegionsModule extends PVStarModule implements IEventListener {
     @Override
     protected void onRegisterTypes() {
 
-        GenericsLib.getScriptApiRepo().registerApiType(PVStarAPI.getPlugin(), RegionScriptApi.class);
+        Nucleus.getScriptApiRepo().registerApiType(PVStarAPI.getPlugin(), RegionScriptApi.class);
     }
 
     public TypesManager getTypesManager() {
@@ -90,14 +90,14 @@ public class SubRegionsModule extends PVStarModule implements IEventListener {
 
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onArenaLoaded(ArenaLoadedEvent event) {
 
         // initialize arena manager
         getManager(event.getArena());
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onArenaDispose(ArenaDisposeEvent event) {
 
         Arena arena = event.getArena();

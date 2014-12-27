@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions.maze;
 
-import com.jcwhatever.generic.utils.Rand;
+import com.jcwhatever.nucleus.utils.Rand;
 
 public class MazeGenerator {
 

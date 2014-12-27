@@ -25,11 +25,11 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.commands;
 
-import com.jcwhatever.generic.commands.CommandInfo;
-import com.jcwhatever.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.generic.commands.exceptions.CommandException;
-import com.jcwhatever.generic.language.Localizable;
-import com.jcwhatever.generic.utils.text.TextUtils;
+import com.jcwhatever.nucleus.commands.CommandInfo;
+import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
+import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.language.Localizable;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
 

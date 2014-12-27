@@ -25,14 +25,14 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.scheduler.ScheduledTask;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.storage.settings.PropertyDefinition;
-import com.jcwhatever.generic.storage.settings.SettingsBuilder;
-import com.jcwhatever.generic.storage.settings.PropertyValueType;
-import com.jcwhatever.generic.utils.LocationUtils;
-import com.jcwhatever.generic.utils.Scheduler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.scheduler.ScheduledTask;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
+import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
+import com.jcwhatever.nucleus.utils.LocationUtils;
+import com.jcwhatever.nucleus.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;

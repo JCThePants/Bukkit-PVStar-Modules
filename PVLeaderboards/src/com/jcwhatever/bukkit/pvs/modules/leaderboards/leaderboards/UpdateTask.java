@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards;
 
-import com.jcwhatever.generic.utils.performance.queued.QueueTask;
-import com.jcwhatever.generic.utils.performance.queued.TaskConcurrency;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueTask;
+import com.jcwhatever.nucleus.utils.performance.queued.TaskConcurrency;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 
 public class UpdateTask extends QueueTask {

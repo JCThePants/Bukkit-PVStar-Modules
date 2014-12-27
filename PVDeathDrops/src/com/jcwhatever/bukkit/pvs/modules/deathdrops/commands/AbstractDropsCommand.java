@@ -25,12 +25,12 @@
 
 package com.jcwhatever.bukkit.pvs.modules.deathdrops.commands;
 
-import com.jcwhatever.generic.commands.exceptions.CommandException;
-import com.jcwhatever.generic.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.generic.commands.parameters.ParameterDescription;
+import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.nucleus.commands.parameters.ParameterDescription;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.Lang;
-import com.jcwhatever.generic.language.Localizable;
-import com.jcwhatever.generic.utils.text.TextUtils;
+import com.jcwhatever.nucleus.language.Localizable;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.DeathDropsExtension;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.DropSettings;

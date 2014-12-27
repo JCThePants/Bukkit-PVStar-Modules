@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards;
 
-import com.jcwhatever.generic.utils.SignUtils;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.utils.PreCon;
-import com.jcwhatever.generic.utils.text.TextUtils;
+import com.jcwhatever.nucleus.utils.SignUtils;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.stats.ArenaStats;
 import com.jcwhatever.bukkit.pvs.api.stats.StatTracking.StatTrackType;

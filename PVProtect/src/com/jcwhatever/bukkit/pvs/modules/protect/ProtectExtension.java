@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.protect;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
@@ -66,7 +66,7 @@ public class ProtectExtension extends ArenaExtension implements IEventListener {
         getArena().getEventManager().unregister(this);
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerBlockInteract(PlayerInteractEvent event) {
 
         if (!event.hasBlock())
@@ -82,7 +82,7 @@ public class ProtectExtension extends ArenaExtension implements IEventListener {
     /*
      * Prevent placing blocks
      */
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onBlockPlace(BlockPlaceEvent event) {
         event.setCancelled(true);
     }
@@ -90,7 +90,7 @@ public class ProtectExtension extends ArenaExtension implements IEventListener {
     /*
      * Prevent placing blocks
      */
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onBlockMultiPlace(BlockMultiPlaceEvent event) {
         event.setCancelled(true);
     }
@@ -98,7 +98,7 @@ public class ProtectExtension extends ArenaExtension implements IEventListener {
     /*
      * Prevent entities such as endermen from changing arena blocks.
      */
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onEntityChangeBlock(EntityChangeBlockEvent event) {
 
         event.setCancelled(true);
@@ -107,7 +107,7 @@ public class ProtectExtension extends ArenaExtension implements IEventListener {
     /*
       Handle arena damage (Item Frames and Paintings)
      */
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onItemFrameDamage(EntityDamageEvent event) {
 
         if (event.getEntityType() != EntityType.ITEM_FRAME && event.getEntityType() != EntityType.PAINTING)
@@ -120,7 +120,7 @@ public class ProtectExtension extends ArenaExtension implements IEventListener {
     /*
       Handle arena damage (Item Frames and Paintings)
      */
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onItemFrameBreak(HangingBreakEvent event) {
 
         // do not prevent physics break
@@ -133,7 +133,7 @@ public class ProtectExtension extends ArenaExtension implements IEventListener {
     /*
       Handle arena damage (Item Frames and Paintings)
      */
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerInteractItemFrame(PlayerInteractEntityEvent event) {
 
         if (event.getRightClicked().getType() != EntityType.ITEM_FRAME)

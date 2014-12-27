@@ -27,13 +27,13 @@ package com.jcwhatever.bukkit.pvs.modules.gamblesigns;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.scripting.IEvaluatedScript;
-import com.jcwhatever.generic.scripting.ScriptApiInfo;
-import com.jcwhatever.generic.scripting.api.GenericsScriptApi;
-import com.jcwhatever.generic.scripting.api.IScriptApiObject;
-import com.jcwhatever.generic.signs.SignContainer;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.scripting.IEvaluatedScript;
+import com.jcwhatever.nucleus.scripting.ScriptApiInfo;
+import com.jcwhatever.nucleus.scripting.api.NucleusScriptApi;
+import com.jcwhatever.nucleus.scripting.api.IScriptApiObject;
+import com.jcwhatever.nucleus.signs.SignContainer;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -46,7 +46,7 @@ import java.util.Collection;
 @ScriptApiInfo(
         variableName = "pvGamble",
         description = "Provide scripts with api access to PV-Star PVGambleSigns module.")
-public class GambleScriptApi extends GenericsScriptApi {
+public class GambleScriptApi extends NucleusScriptApi {
 
     /**
      * Constructor.
@@ -101,7 +101,7 @@ public class GambleScriptApi extends GenericsScriptApi {
             _isDisposed = true;
         }
 
-        @GenericsEventHandler
+        @NucleusEventHandler
         private void onGambleTriggered(GambleTriggeredEvent event) {
             String eventName = event.getEventName();
 

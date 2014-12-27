@@ -25,9 +25,9 @@
 
 package com.jcwhatever.bukkit.pvs.modules.points.pointstypes;
 
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.utils.PreCon;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.points.PointsHandler;

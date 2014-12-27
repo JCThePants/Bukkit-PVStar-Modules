@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.party.events;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -57,7 +57,7 @@ public class PartyEventListener implements IEventListener {
         return PVStarAPI.getPlugin();
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerJoinQuery(PlayerJoinQueryEvent event) {
 
         Set<ArenaPlayer> playersJoining = event.getPlayers();
@@ -84,7 +84,7 @@ public class PartyEventListener implements IEventListener {
 
 
     // Check to see if player can be added
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerPreAdd(PlayerPreAddEvent event) {
 
         if (event.getReason() != AddPlayerReason.PLAYER_JOIN)
@@ -98,7 +98,7 @@ public class PartyEventListener implements IEventListener {
 
     // player has already been allowed to join, add party members if applicable.
     // handled separately in case another module cancels the PlayerPreAddEvent
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerAdded(PlayerAddedEvent event) {
 
         Player p = event.getPlayer().getPlayer();

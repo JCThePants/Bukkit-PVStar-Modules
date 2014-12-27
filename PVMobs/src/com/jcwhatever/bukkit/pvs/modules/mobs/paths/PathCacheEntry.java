@@ -25,14 +25,14 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.paths;
 
-import com.jcwhatever.generic.utils.file.GenericsByteReader;
-import com.jcwhatever.generic.utils.file.GenericsByteWriter;
-import com.jcwhatever.generic.utils.pathing.PathAreaFinder;
-import com.jcwhatever.generic.utils.pathing.PathAreaFinder.PathAreaResults;
-import com.jcwhatever.generic.utils.pathing.astar.AStarPathFinder;
-import com.jcwhatever.generic.utils.pathing.astar.AStarPathNode;
-import com.jcwhatever.generic.utils.LocationUtils;
-import com.jcwhatever.generic.utils.PreCon;
+import com.jcwhatever.nucleus.utils.file.NucleusByteReader;
+import com.jcwhatever.nucleus.utils.file.NucleusByteWriter;
+import com.jcwhatever.nucleus.utils.pathing.PathAreaFinder;
+import com.jcwhatever.nucleus.utils.pathing.PathAreaFinder.PathAreaResults;
+import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathFinder;
+import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathNode;
+import com.jcwhatever.nucleus.utils.LocationUtils;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
@@ -154,7 +154,7 @@ public class PathCacheEntry {
         if (!file.exists())
             return false;
 
-        GenericsByteReader reader = new GenericsByteReader(new FileInputStream(file));
+        NucleusByteReader reader = new NucleusByteReader(new FileInputStream(file));
 
         int version = reader.getInteger();
         if (version != CACHE_FILE_VERSION) {
@@ -219,7 +219,7 @@ public class PathCacheEntry {
         if (file == null)
             return false;
 
-        GenericsByteWriter writer = new GenericsByteWriter(new FileOutputStream(file));
+        NucleusByteWriter writer = new NucleusByteWriter(new FileOutputStream(file));
 
         LinkedList<Location> locations = new LinkedList<Location>(_cachedPaths);
 

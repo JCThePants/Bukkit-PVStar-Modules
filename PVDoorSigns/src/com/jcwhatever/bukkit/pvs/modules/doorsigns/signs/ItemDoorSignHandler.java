@@ -25,12 +25,12 @@
 
 package com.jcwhatever.bukkit.pvs.modules.doorsigns.signs;
 
-import com.jcwhatever.generic.kits.Kit;
-import com.jcwhatever.generic.signs.SignContainer;
-import com.jcwhatever.generic.signs.SignHandler;
-import com.jcwhatever.generic.signs.SignManager;
-import com.jcwhatever.generic.utils.text.TextUtils;
-import com.jcwhatever.generic.utils.text.TextColor;
+import com.jcwhatever.nucleus.kits.Kit;
+import com.jcwhatever.nucleus.signs.SignContainer;
+import com.jcwhatever.nucleus.signs.SignHandler;
+import com.jcwhatever.nucleus.signs.SignManager;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
+import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;

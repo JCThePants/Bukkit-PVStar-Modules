@@ -25,13 +25,13 @@
 
 package com.jcwhatever.bukkit.pvs.modules.revive;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.GenericsEventPriority;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.utils.items.ItemStackComparer;
-import com.jcwhatever.generic.scheduler.ScheduledTask;
-import com.jcwhatever.generic.scheduler.TaskHandler;
-import com.jcwhatever.generic.utils.Scheduler;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.NucleusEventPriority;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.items.ItemStackComparer;
+import com.jcwhatever.nucleus.scheduler.ScheduledTask;
+import com.jcwhatever.nucleus.scheduler.TaskHandler;
+import com.jcwhatever.nucleus.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.PlayerMeta;
@@ -117,7 +117,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         _revivalItems = getDataNode().getItemStacks("revival-items", _revivalItems);
     }
 
-    @GenericsEventHandler(priority = GenericsEventPriority.FIRST)
+    @NucleusEventHandler(priority = NucleusEventPriority.FIRST)
     private void onPlayerDeath(PlayerDeathEvent event) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
@@ -153,7 +153,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         }
     }
 
-    @GenericsEventHandler(priority = GenericsEventPriority.WATCHER)
+    @NucleusEventHandler(priority = NucleusEventPriority.WATCHER)
     private void onPlayerRevive(EntityDamageByEntityEvent event) {
 
         if (!(event.getEntity() instanceof Player))

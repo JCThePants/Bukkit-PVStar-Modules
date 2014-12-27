@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.infinitelives;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
@@ -54,7 +54,7 @@ public class InfiniteLivesExtension extends ArenaExtension implements IEventList
         getArena().getEventManager().unregister(this);
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onLivesChange(PlayerLivesChangeEvent event) {
 
         if (event.getPreviousLives() == 0)

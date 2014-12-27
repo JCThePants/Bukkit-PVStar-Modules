@@ -25,15 +25,15 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.generic.sounds.PlayList;
-import com.jcwhatever.generic.sounds.PlayList.PlayerSoundQueue;
-import com.jcwhatever.generic.sounds.ResourceSound;
-import com.jcwhatever.generic.sounds.SoundManager;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.storage.settings.PropertyDefinition;
-import com.jcwhatever.generic.storage.settings.PropertyValueType;
-import com.jcwhatever.generic.storage.settings.SettingsBuilder;
-import com.jcwhatever.generic.utils.text.TextUtils;
+import com.jcwhatever.nucleus.sounds.PlayList;
+import com.jcwhatever.nucleus.sounds.PlayList.PlayerSoundQueue;
+import com.jcwhatever.nucleus.sounds.ResourceSound;
+import com.jcwhatever.nucleus.sounds.SoundManager;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
+import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;

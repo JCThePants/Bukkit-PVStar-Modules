@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.commands;
 
-import com.jcwhatever.generic.commands.CommandInfo;
+import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.mobs.commands.limit.LimitCommand;
 import com.jcwhatever.bukkit.pvs.modules.mobs.commands.paths.PathsCommand;

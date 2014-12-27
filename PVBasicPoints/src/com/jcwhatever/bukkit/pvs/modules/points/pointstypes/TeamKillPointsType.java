@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.points.pointstypes;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.storage.IDataNode;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -59,7 +59,7 @@ public class TeamKillPointsType extends AbstractPointsType<TeamKillPointsHandler
             super(arena, type, node);
         }
 
-        @GenericsEventHandler
+        @NucleusEventHandler
         private void onPlayerKill(EntityDeathEvent event) {
 
             if (!(event.getEntity() instanceof Player))

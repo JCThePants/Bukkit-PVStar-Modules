@@ -25,10 +25,10 @@
 
 package com.jcwhatever.bukkit.pvs.modules.borders;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.utils.PreCon;
-import com.jcwhatever.generic.utils.Scheduler;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -107,7 +107,7 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
         getArena().getEventManager().unregister(this);
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerEnterRegion(PlayerEnterArenaRegionEvent event) {
 
         if (getOutsidersAction() == OutsidersAction.NONE)
@@ -151,7 +151,7 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
         });
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerLeaveRegion(PlayerLeaveArenaRegionEvent event) {
 
         if (getOutOfBoundsAction() == OutOfBoundsAction.NONE)

@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.points.pointstypes;
 
-import com.jcwhatever.generic.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.points.PointsHandler;
 import com.jcwhatever.bukkit.pvs.api.points.PointsType;

@@ -24,12 +24,12 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.commands.limit;
 
-import com.jcwhatever.generic.commands.CommandInfo;
-import com.jcwhatever.generic.commands.arguments.CommandArguments;
-import com.jcwhatever.generic.commands.exceptions.CommandException;
-import com.jcwhatever.generic.extended.EntityTypeExt;
-import com.jcwhatever.generic.extended.EntityTypeExt.EntityProperty;
-import com.jcwhatever.generic.language.Localizable;
+import com.jcwhatever.nucleus.commands.CommandInfo;
+import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
+import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.extended.EntityTypeExt;
+import com.jcwhatever.nucleus.extended.EntityTypeExt.EntityProperty;
+import com.jcwhatever.nucleus.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.mobs.Lang;

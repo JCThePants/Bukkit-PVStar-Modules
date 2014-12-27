@@ -25,13 +25,13 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs;
 
-import com.jcwhatever.generic.collections.EntryCounter;
-import com.jcwhatever.generic.collections.EntryCounter.RemovalPolicy;
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.utils.EnumUtils;
-import com.jcwhatever.generic.utils.PreCon;
+import com.jcwhatever.nucleus.collections.EntryCounter;
+import com.jcwhatever.nucleus.collections.EntryCounter.RemovalPolicy;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.EnumUtils;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
@@ -99,7 +99,7 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
         getArena().getEventManager().unregister(this);
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onArenaStart(@SuppressWarnings("UnusedParameters") ArenaStartedEvent event) {
 
         // make sure there are spawns
@@ -110,17 +110,17 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
         _spawner.run();
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onArenaEnd(@SuppressWarnings("UnusedParameters") ArenaEndedEvent event) {
         reset(DespawnMethod.REMOVE);
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onAddSpawn(@SuppressWarnings("UnusedParameters") SpawnAddedEvent event) {
         loadSettings();
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onRemoveSpawn(@SuppressWarnings("UnusedParameters") SpawnRemovedEvent event) {
         loadSettings();
     }

@@ -25,9 +25,9 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.utils;
 
-import com.jcwhatever.generic.utils.pathing.astar.AStar.LocationAdjustment;
-import com.jcwhatever.generic.utils.pathing.astar.AStarPathFinder;
-import com.jcwhatever.generic.utils.PreCon;
+import com.jcwhatever.nucleus.utils.pathing.astar.AStar.LocationAdjustment;
+import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathFinder;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;

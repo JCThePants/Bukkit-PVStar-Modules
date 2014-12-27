@@ -25,9 +25,9 @@
 
 package com.jcwhatever.bukkit.pvs.modules.kitsigns.signs;
 
-import com.jcwhatever.generic.kits.Kit;
-import com.jcwhatever.generic.signs.SignContainer;
-import com.jcwhatever.generic.signs.SignHandler;
+import com.jcwhatever.nucleus.kits.Kit;
+import com.jcwhatever.nucleus.signs.SignContainer;
+import com.jcwhatever.nucleus.signs.SignHandler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;

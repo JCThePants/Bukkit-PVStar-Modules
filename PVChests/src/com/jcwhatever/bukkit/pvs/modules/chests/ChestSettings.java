@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.chests;
 
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.utils.PreCon;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 
 import org.bukkit.Location;

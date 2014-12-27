@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.party;
 
-import com.jcwhatever.generic.collections.timed.TimedArrayList;
-import com.jcwhatever.generic.collections.players.PlayerSet;
+import com.jcwhatever.nucleus.collections.timed.TimedArrayList;
+import com.jcwhatever.nucleus.collections.players.PlayerSet;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 

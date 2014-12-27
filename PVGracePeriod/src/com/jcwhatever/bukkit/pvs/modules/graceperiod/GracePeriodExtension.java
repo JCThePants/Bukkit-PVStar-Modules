@@ -25,9 +25,9 @@
 
 package com.jcwhatever.bukkit.pvs.modules.graceperiod;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.events.manager.GenericsEventPriority;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.events.manager.NucleusEventPriority;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -86,7 +86,7 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
         getArena().getEventManager().unregister(this);
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onArenaStart(ArenaStartedEvent event) {
 
         GameManager gameManager = getArena().getGameManager();
@@ -101,7 +101,7 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
         }
     }
 
-    @GenericsEventHandler(priority = GenericsEventPriority.FIRST)
+    @NucleusEventHandler(priority = NucleusEventPriority.FIRST)
     private void onPvp(EntityDamageByEntityEvent event) {
 
         if (!_isGracePeriod)

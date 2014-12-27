@@ -25,12 +25,12 @@
 
 package com.jcwhatever.bukkit.pvs.modules.deathdrops;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.utils.player.PlayerStateSnapshot;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.utils.PreCon;
-import com.jcwhatever.generic.utils.Rand;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.player.PlayerStateSnapshot;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.Rand;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
@@ -135,7 +135,7 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
     /*
      *  Player kills entity (possibly another player)
      */
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerKill(EntityDeathEvent event) {
 
         if (event.getEntity().getKiller() == null)
@@ -175,7 +175,7 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
     /*
      *  Player dies.
      */
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerDeath(PlayerDeathEvent event) {
 
         if (!_canKeepItemsOnDeath)
@@ -191,7 +191,7 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
     /*
      * Player respawn.
      */
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerRespawn(PlayerArenaRespawnEvent event) {
         if (!_canKeepItemsOnDeath)
             return;
@@ -205,7 +205,7 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
         p.getInventory().setArmorContents(snapshot.getArmor());
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void  onArenaEnd(ArenaEndedEvent event) {
         _itemsToRestore.clear();
     }

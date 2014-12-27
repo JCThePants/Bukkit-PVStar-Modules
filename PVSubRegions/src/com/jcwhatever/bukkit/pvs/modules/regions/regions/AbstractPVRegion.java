@@ -25,14 +25,14 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.generic.utils.performance.queued.QueueProject;
-import com.jcwhatever.generic.utils.performance.queued.QueueResult.Future;
-import com.jcwhatever.generic.regions.BuildMethod;
-import com.jcwhatever.generic.regions.MultiSnapshotRegion;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.storage.settings.PropertyDefinition;
-import com.jcwhatever.generic.storage.settings.SettingsManager;
-import com.jcwhatever.generic.utils.PreCon;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueProject;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.Future;
+import com.jcwhatever.nucleus.regions.BuildMethod;
+import com.jcwhatever.nucleus.regions.MultiSnapshotRegion;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.storage.settings.SettingsManager;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;

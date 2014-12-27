@@ -25,12 +25,12 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
-import com.jcwhatever.generic.utils.performance.queued.QueueWorker;
-import com.jcwhatever.generic.storage.IDataNode;
-import com.jcwhatever.generic.utils.PreCon;
-import com.jcwhatever.generic.utils.Utils;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueWorker;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.Utils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
@@ -96,7 +96,7 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
         Bukkit.getPluginManager().registerEvents(_bukkitListener, PVStarAPI.getPlugin());
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onArenaEnded(ArenaEndedEvent event) {
 
         Set<Leaderboard> leaderboards = _scopedLeaderboards.get(event.getArena().getId());

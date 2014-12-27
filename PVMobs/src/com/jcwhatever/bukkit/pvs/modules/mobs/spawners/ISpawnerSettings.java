@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.spawners;
 
-import com.jcwhatever.generic.storage.settings.ISettingsManager;
-import com.jcwhatever.generic.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.storage.settings.ISettingsManager;
+import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 
 import java.util.Map;
 

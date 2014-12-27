@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.spawners;
 
-import com.jcwhatever.generic.mixins.IDisposable;
+import com.jcwhatever.nucleus.mixins.IDisposable;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 
 public interface ISpawner extends IDisposable {

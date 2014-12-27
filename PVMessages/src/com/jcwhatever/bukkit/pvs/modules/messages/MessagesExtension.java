@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.messages;
 
-import com.jcwhatever.generic.events.manager.GenericsEventHandler;
-import com.jcwhatever.generic.events.manager.IEventListener;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaTeam;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -61,7 +61,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
         getArena().getEventManager().unregister(this);
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerAdded(PlayerAddedEvent event) {
         if (event.getReason() == AddPlayerReason.ARENA_RELATION_CHANGE)
             return;
@@ -72,7 +72,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
         event.setMessage(event.getPlayer().getName() + " joined.");
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerWin(PlayerWinEvent event) {
         if (event.getWinMessage() == null ||
                 event.getPlayer().getTeam() != ArenaTeam.NONE) {
@@ -82,7 +82,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
         event.setWinMessage(event.getPlayer().getName() + " wins!");
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onTeamWin(TeamWinEvent event) {
 
         if (event.getWinMessage() != null)
@@ -93,7 +93,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
         event.setWinMessage(team.getTextColor() + team.getDisplay() + " wins!");
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerReady(PlayerReadyEvent event) {
         if (event.getMessage() != null)
             return;
@@ -103,7 +103,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
                         event.getPlayer().getName() + "{WHITE} is ready to start.");
     }
 
-    @GenericsEventHandler
+    @NucleusEventHandler
     private void onPlayerLose(PlayerLoseEvent event) {
         if (event.getLoseMessage() != null)
             return;
