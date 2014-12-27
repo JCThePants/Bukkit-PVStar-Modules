@@ -25,12 +25,6 @@
 
 package com.jcwhatever.bukkit.pvs.modules.doorsigns.signs;
 
-import com.jcwhatever.nucleus.kits.Kit;
-import com.jcwhatever.nucleus.signs.SignContainer;
-import com.jcwhatever.nucleus.signs.SignHandler;
-import com.jcwhatever.nucleus.signs.SignManager;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
-import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
@@ -38,11 +32,18 @@ import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.doorsigns.DoorBlocks;
 import com.jcwhatever.bukkit.pvs.modules.doorsigns.DoorManager;
 import com.jcwhatever.bukkit.pvs.modules.doorsigns.DoorSignsModule;
+import com.jcwhatever.nucleus.kits.IKit;
+import com.jcwhatever.nucleus.signs.SignContainer;
+import com.jcwhatever.nucleus.signs.SignHandler;
+import com.jcwhatever.nucleus.signs.SignManager;
+import com.jcwhatever.nucleus.utils.text.TextColor;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
+
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import javax.annotation.Nullable;
 import java.util.regex.Matcher;
+import javax.annotation.Nullable;
 
 public class ItemDoorSignHandler extends SignHandler {
 
@@ -89,7 +90,7 @@ public class ItemDoorSignHandler extends SignHandler {
             return false;
         }
 
-        Kit kit = getKit(sign);
+        IKit kit = getKit(sign);
         if (kit == null) {
             return false;
         }
@@ -114,7 +115,7 @@ public class ItemDoorSignHandler extends SignHandler {
         if (cost == -1)
             return false;
 
-        Kit kit = getKit(sign);
+        IKit kit = getKit(sign);
         if (kit == null)
             return false;
 
@@ -167,7 +168,7 @@ public class ItemDoorSignHandler extends SignHandler {
     }
 
     @Nullable
-    private Kit getKit(SignContainer sign) {
+    private IKit getKit(SignContainer sign) {
 
         String rawKitName = sign.getRawLine(2);
 
@@ -175,7 +176,7 @@ public class ItemDoorSignHandler extends SignHandler {
 
         String kitName = matcher.replaceFirst("").trim();
 
-        Kit kit = PVStarAPI.getKitManager().getKitByName(kitName);
+        IKit kit = PVStarAPI.getKitManager().getKit(kitName);
         if (kit == null)
             Msg.warning("Failed to find kit named '{0}' from line 3 of Item Door sign.", kitName);
 

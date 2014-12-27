@@ -25,13 +25,14 @@
 
 package com.jcwhatever.bukkit.pvs.modules.kitsigns.signs;
 
-import com.jcwhatever.nucleus.kits.Kit;
-import com.jcwhatever.nucleus.signs.SignContainer;
-import com.jcwhatever.nucleus.signs.SignHandler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
+import com.jcwhatever.nucleus.kits.IKit;
+import com.jcwhatever.nucleus.signs.SignContainer;
+import com.jcwhatever.nucleus.signs.SignHandler;
+
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -56,7 +57,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
             return false;
         }
 
-        Kit kit = getKit(sign);
+        IKit kit = getKit(sign);
         if (kit == null) {
             Msg.tell(p, "Failed to add sign because the kit named could not be found.");
             return false;
@@ -83,7 +84,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
             return false;
         }
 
-        Kit kit = getKit(sign);
+        IKit kit = getKit(sign);
         if (kit == null)
             return false;
 
@@ -108,12 +109,10 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     protected abstract String getCurrencyName();
 
 
-
-
-    private Kit getKit(SignContainer sign) {
+    private IKit getKit(SignContainer sign) {
         String kitName = sign.getRawLine(1);
 
-        Kit kit = PVStarAPI.getKitManager().getKitByName(kitName);
+        IKit kit = PVStarAPI.getKitManager().getKit(kitName);
         if (kit == null)
             Msg.warning("Failed to find kit named '{0}' from line 2 of {1} sign.", kitName, getDisplayName());
 

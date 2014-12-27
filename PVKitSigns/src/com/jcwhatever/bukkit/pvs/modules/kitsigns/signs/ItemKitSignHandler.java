@@ -25,20 +25,21 @@
 
 package com.jcwhatever.bukkit.pvs.modules.kitsigns.signs;
 
-import com.jcwhatever.nucleus.kits.Kit;
-import com.jcwhatever.nucleus.signs.SignContainer;
-import com.jcwhatever.nucleus.signs.SignHandler;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
-import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
+import com.jcwhatever.nucleus.kits.IKit;
+import com.jcwhatever.nucleus.signs.SignContainer;
+import com.jcwhatever.nucleus.signs.SignHandler;
+import com.jcwhatever.nucleus.utils.text.TextColor;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
+
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
-import javax.annotation.Nullable;
 import java.util.regex.Matcher;
+import javax.annotation.Nullable;
 
 public class ItemKitSignHandler extends SignHandler {
 
@@ -80,7 +81,7 @@ public class ItemKitSignHandler extends SignHandler {
     @Override
     protected boolean onSignChange(Player p, SignContainer sign) {
 
-        Kit purchaseKit = getPurchaseKit(sign);
+        IKit purchaseKit = getPurchaseKit(sign);
         if (purchaseKit == null) {
             Msg.tellError(p, "Purchase kit on line 1 was not found.");
             return false;
@@ -92,7 +93,7 @@ public class ItemKitSignHandler extends SignHandler {
             return false;
         }
 
-        Kit currencyKit = getCurrencyKit(sign);
+        IKit currencyKit = getCurrencyKit(sign);
         if (currencyKit == null) {
             Msg.tellError(p, "Currency kit on line 2 was not found.");
             return false;
@@ -112,11 +113,11 @@ public class ItemKitSignHandler extends SignHandler {
         if (cost == -1)
             return false;
 
-        Kit purchaseKit = getPurchaseKit(sign);
+        IKit purchaseKit = getPurchaseKit(sign);
         if (purchaseKit == null)
             return false;
 
-        Kit currencyKit = getCurrencyKit(sign);
+        IKit currencyKit = getCurrencyKit(sign);
         if (currencyKit == null)
             return false;
 
@@ -159,11 +160,11 @@ public class ItemKitSignHandler extends SignHandler {
     }
 
     @Nullable
-    private Kit getPurchaseKit(SignContainer sign) {
+    private IKit getPurchaseKit(SignContainer sign) {
 
         String kitName = sign.getRawLine(1);
 
-        Kit kit = PVStarAPI.getKitManager().getKitByName(kitName);
+        IKit kit = PVStarAPI.getKitManager().getKit(kitName);
         if (kit == null)
             Msg.warning("Failed to find purchase kit named '{0}' from line 2 of Item Kit sign.", kitName);
 
@@ -171,7 +172,7 @@ public class ItemKitSignHandler extends SignHandler {
     }
 
     @Nullable
-    private Kit getCurrencyKit(SignContainer sign) {
+    private IKit getCurrencyKit(SignContainer sign) {
 
         String rawKitName = sign.getRawLine(2);
 
@@ -180,7 +181,7 @@ public class ItemKitSignHandler extends SignHandler {
 
         String kitName = matcher.replaceFirst("").trim();
 
-        Kit kit = PVStarAPI.getKitManager().getKitByName(kitName);
+        IKit kit = PVStarAPI.getKitManager().getKit(kitName);
         if (kit == null)
             Msg.warning("Failed to find kit named '{0}' from line 3 of Item Door sign.", kitName);
 
