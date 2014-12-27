@@ -54,7 +54,7 @@ public class RedefineSubCommand extends AbstractRegionCommand {
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException{
 
-        CommandException.assertNotConsole(this, sender);
+        CommandException.checkNotConsole(this, sender);
 
         Arena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
         if (arena == null)
