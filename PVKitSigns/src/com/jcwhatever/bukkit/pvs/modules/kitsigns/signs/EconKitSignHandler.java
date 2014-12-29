@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.kitsigns.signs;
 
 import com.jcwhatever.nucleus.providers.economy.IEconomyProvider.CurrencyNoun;
 import com.jcwhatever.nucleus.signs.SignContainer;
-import com.jcwhatever.nucleus.utils.EconomyUtils;
+import com.jcwhatever.nucleus.utils.Economy;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -87,17 +87,17 @@ public class EconKitSignHandler extends AbstractNumberSignHandler {
 
     @Override
     protected double getBalance(ArenaPlayer player) {
-        return EconomyUtils.getBalance(player.getPlayer().getUniqueId());
+        return Economy.getBalance(player.getPlayer().getUniqueId());
     }
 
     @Override
     protected void incrementBalance(ArenaPlayer player, double amount) {
-        EconomyUtils.depositOrWithdraw(player.getUniqueId(), amount);
+        Economy.depositOrWithdraw(player.getUniqueId(), amount);
     }
 
     @Override
     protected String getCurrencyName() {
-        return EconomyUtils.getCurrencyName(CurrencyNoun.PLURAL);
+        return Economy.getCurrencyName(CurrencyNoun.PLURAL);
     }
 
 }

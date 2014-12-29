@@ -29,7 +29,7 @@ import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.language.Localizable;
-import com.jcwhatever.nucleus.utils.EconomyUtils;
+import com.jcwhatever.nucleus.utils.Economy;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.economy.EconomyExtension;
@@ -80,10 +80,10 @@ public class ParticipantSubCommand extends AbstractPVCommand {
                 tell(sender, Lang.get(_INFO_NO_REWARD, arena.getName()));
             }
             else if (amount > 0.0D) {
-                tell(sender, Lang.get(_INFO_REWARD, EconomyUtils.formatAmount(amount), arena.getName()));
+                tell(sender, Lang.get(_INFO_REWARD, Economy.formatAmount(amount), arena.getName()));
             }
             else {
-                tell(sender, Lang.get(_INFO_PENALTY, EconomyUtils.formatAmount(amount), arena.getName()));
+                tell(sender, Lang.get(_INFO_PENALTY, Economy.formatAmount(amount), arena.getName()));
             }
         }
         else {
@@ -96,10 +96,10 @@ public class ParticipantSubCommand extends AbstractPVCommand {
                 tellSuccess(sender, Lang.get(_SET_NO_REWARD, arena.getName()));
             }
             else if (amount > 0.0D) {
-                tellSuccess(sender, Lang.get(_SET_REWARD, arena.getName(), EconomyUtils.formatAmount(amount)));
+                tellSuccess(sender, Lang.get(_SET_REWARD, arena.getName(), Economy.formatAmount(amount)));
             }
             else {
-                tellSuccess(sender, Lang.get(_SET_PENALTY, arena.getName(), EconomyUtils.formatAmount(Math.abs(amount))));
+                tellSuccess(sender, Lang.get(_SET_PENALTY, arena.getName(), Economy.formatAmount(Math.abs(amount))));
             }
         }
     }

@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.economy;
 
-import com.jcwhatever.nucleus.utils.EconomyUtils;
+import com.jcwhatever.nucleus.utils.Economy;
 import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;
@@ -179,6 +179,6 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         if (!isEnabled())
             return;
 
-        EconomyUtils.depositOrWithdraw(player.getUniqueId(), amount);
+        Economy.depositOrWithdraw(player.getUniqueId(), amount);
     }
 }
