@@ -176,7 +176,7 @@ public class ItemDoorSignHandler extends SignHandler {
 
         String kitName = matcher.replaceFirst("").trim();
 
-        IKit kit = PVStarAPI.getKitManager().getKit(kitName);
+        IKit kit = PVStarAPI.getKitManager().get(kitName);
         if (kit == null)
             Msg.warning("Failed to find kit named '{0}' from line 3 of Item Door sign.", kitName);
 

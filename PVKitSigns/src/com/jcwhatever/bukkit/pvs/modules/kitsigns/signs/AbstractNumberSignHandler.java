@@ -112,7 +112,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     private IKit getKit(SignContainer sign) {
         String kitName = sign.getRawLine(1);
 
-        IKit kit = PVStarAPI.getKitManager().getKit(kitName);
+        IKit kit = PVStarAPI.getKitManager().get(kitName);
         if (kit == null)
             Msg.warning("Failed to find kit named '{0}' from line 2 of {1} sign.", kitName, getDisplayName());
 
