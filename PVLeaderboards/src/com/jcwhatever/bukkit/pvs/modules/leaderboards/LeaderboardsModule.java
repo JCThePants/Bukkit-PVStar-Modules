@@ -25,12 +25,6 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
-import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.performance.queued.QueueWorker;
-import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.Utils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.modules.PVStarModule;
@@ -38,6 +32,13 @@ import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.commands.LBCommand;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.UpdateTask;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueWorker;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
+
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -266,7 +267,7 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
                 continue;
             }
 
-            Leaderboard leaderboard = instantiateLeaderboard(name, Utils.getIds(scope));
+            Leaderboard leaderboard = instantiateLeaderboard(name, TextUtils.parseUUID(scope.split(",")));
             if (leaderboard == null) {
                 Msg.warning("Failed to add leaderboard '{0}'.", name);
                 continue;

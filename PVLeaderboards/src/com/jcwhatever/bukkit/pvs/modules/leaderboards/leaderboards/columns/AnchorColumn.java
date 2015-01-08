@@ -25,10 +25,11 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.columns;
 
-import com.jcwhatever.nucleus.utils.player.PlayerUtils;
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.Utils;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.player.PlayerUtils;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
+
 import org.bukkit.block.Sign;
 
 import java.util.UUID;
@@ -64,7 +65,7 @@ public class AnchorColumn extends AbstractColumn {
         PreCon.notNullOrEmpty(playerId);
 
         UUID playerUniqueId;
-        PreCon.isValid((playerUniqueId = Utils.getId(playerId)) != null);
+        PreCon.isValid((playerUniqueId = TextUtils.parseUUID(playerId)) != null);
 
         String format = _lineFormats[signLine];
 
