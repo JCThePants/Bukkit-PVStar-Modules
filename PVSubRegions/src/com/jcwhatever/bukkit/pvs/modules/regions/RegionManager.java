@@ -25,20 +25,20 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions;
 
-import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.modules.regions.regions.AbstractPVRegion;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
+
 import org.bukkit.Location;
 
-import javax.annotation.Nullable;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
+import javax.annotation.Nullable;
 
 public class RegionManager {
 
@@ -116,17 +116,13 @@ public class RegionManager {
 
     private void loadRegions() {
 
-        Set<String> regionNames = _dataNode.getSubNodeNames();
-
-        for (String regionName : regionNames) {
-
-            IDataNode node = _dataNode.getNode(regionName);
+        for (IDataNode node : _dataNode) {
 
             String type = node.getString("type");
             if (type == null)
                 continue;
 
-            AbstractPVRegion region = loadRegion(regionName, type, node);
+            AbstractPVRegion region = loadRegion(node.getName(), type, node);
             if (region == null)
                 continue;
 

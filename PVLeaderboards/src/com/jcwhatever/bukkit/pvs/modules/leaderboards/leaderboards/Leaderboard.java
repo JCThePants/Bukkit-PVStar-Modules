@@ -25,10 +25,6 @@
 
 package com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards;
 
-import com.jcwhatever.nucleus.utils.SignUtils;
-import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.stats.ArenaStats;
 import com.jcwhatever.bukkit.pvs.api.stats.StatTracking.StatTrackType;
@@ -38,6 +34,11 @@ import com.jcwhatever.bukkit.pvs.modules.leaderboards.LeaderboardsModule;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.columns.AnchorColumn;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.columns.ColumnSetting;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.columns.StatisticsColumn;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.SignUtils;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
+
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -45,7 +46,6 @@ import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -56,6 +56,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
+import javax.annotation.Nullable;
 
 public class Leaderboard {
 
@@ -313,10 +314,11 @@ public class Leaderboard {
         _anchorLocation = _dataNode.getLocation("anchor");
 
         // setup column stats list
-        Set<String> statNames = _columnsNode.getSubNodeNames();
-        _columnStatTypes = new ArrayList<>(statNames.size());
+        _columnStatTypes = new ArrayList<>(_columnsNode.size());
 
-        for (String statName : statNames) {
+        for (IDataNode statNode : _columnsNode) {
+
+            String statName = statNode.getName();
             StatType type = PVStarAPI.getStatsManager().getType(statName);
             if (type == null) {
                 Msg.warning("Failed to load statistic type '{0}' while loading leaderboard '{1}'.", statName, getName());
@@ -331,6 +333,7 @@ public class Leaderboard {
 
         // make sure stats are in the correct order
         Collections.sort(_columnStatTypes, new Comparator<StatType>() {
+            @Override
             public int compare(StatType s1, StatType s2) {
                 int s1order = _columnsNode.getInteger(s1 + ".order");
                 int s2order = _columnsNode.getInteger(s2 + ".order");

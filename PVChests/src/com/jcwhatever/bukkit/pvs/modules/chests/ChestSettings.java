@@ -25,9 +25,9 @@
 
 package com.jcwhatever.bukkit.pvs.modules.chests;
 
+import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -40,7 +40,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.annotation.Nullable;
 
 public class ChestSettings {
@@ -157,24 +156,17 @@ public class ChestSettings {
         _maxChests = _dataNode.getInteger("max-chests", _maxChests);
         _hasRandomizedChests = _dataNode.getBoolean("randomize-chests", _hasRandomizedChests);
 
-        Set<String> chestNames = _chestNode.getSubNodeNames();
-        if (chestNames != null && !chestNames.isEmpty()) {
+        _chests = new HashMap<>(_chestNode.size());
 
-            _chests = new HashMap<>(chestNames.size());
+        for (IDataNode chestNode : _chestNode) {
 
-            for (String chestName : chestNames) {
+            Location location = chestNode.getLocation("location");
+            if (location == null)
+                continue;
 
-                Location location = _chestNode.getLocation(chestName + ".location");
-                if (location == null)
-                    continue;
+            ItemStack[] contents = chestNode.getItemStacks("contents", (ItemStack[])null);
 
-                ItemStack[] contents = _chestNode.getItemStacks(chestName + ".contents", (ItemStack[])null);
-
-                _chests.put(location, new ChestInfo(location, contents));
-            }
-        }
-        else {
-            _chests = new HashMap<>(10);
+            _chests.put(location, new ChestInfo(location, contents));
         }
     }
 }

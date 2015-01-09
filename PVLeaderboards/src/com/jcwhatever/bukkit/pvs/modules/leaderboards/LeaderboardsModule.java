@@ -244,32 +244,30 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
 
     private void loadLeaderboards() {
 
-        Set<String> leaderboardNames = getDataNode().getSubNodeNames();
+        for (IDataNode node : getDataNode()) {
 
-        for (String name : leaderboardNames) {
-
-            IDataNode node = getDataNode().getNode(name);
             String scope = node.getString("scope");
             String worldName = node.getString("world");
 
             if (scope == null) {
-                Msg.warning("Failed to add leaderboard '{0}' because no scope was specified in config.", name);
+                Msg.warning("Failed to add leaderboard '{0}' because no scope was specified in config.", node.getName());
                 continue;
             }
 
             if (worldName == null) {
-                Msg.warning("Failed to add leaderboard '{0}' because no world was specified in config.", name);
+                Msg.warning("Failed to add leaderboard '{0}' because no world was specified in config.", node.getName());
                 continue;
             }
 
             if (Bukkit.getServer().getWorld(worldName) == null) {
-                Msg.warning("Failed to add leaderboard '{0}' because the world it's in doesn't exist or isn't loaded. ({1})", name, worldName);
+                Msg.warning("Failed to add leaderboard '{0}' because the world it's in " +
+                        "doesn't exist or isn't loaded. ({1})", node.getName(), worldName);
                 continue;
             }
 
-            Leaderboard leaderboard = instantiateLeaderboard(name, TextUtils.parseUUID(scope.split(",")));
+            Leaderboard leaderboard = instantiateLeaderboard(node.getName(), TextUtils.parseUUID(scope.split(",")));
             if (leaderboard == null) {
-                Msg.warning("Failed to add leaderboard '{0}'.", name);
+                Msg.warning("Failed to add leaderboard '{0}'.", node.getName());
                 continue;
             }
 

@@ -132,17 +132,18 @@ public class SpawnGroupGenerator {
             generateGroups();
         }
 
-        Set<String> groupNames = _groupsNode.getSubNodeNames();
-        if (groupNames == null || groupNames.isEmpty()) {
+        int groupSize = _groupsNode.size();
+
+        if (groupSize == 0) {
             _pathCache = new PathCache(_manager, new ArrayList<Spawnpoint>(0));
             return false;
         }
 
-        List<Spawnpoint> groups = new ArrayList<>(groupNames.size());
+        List<Spawnpoint> groups = new ArrayList<>(groupSize);
 
-        for (String groupName : groupNames) {
+        for (IDataNode node : _groupsNode) {
 
-            String rawNames = _groupsNode.getString(groupName);
+            String rawNames = node.getString("");
             if (rawNames == null)
                 continue;
 
@@ -158,7 +159,7 @@ public class SpawnGroupGenerator {
                 if (spawn == null)
                     continue;
 
-                if (spawnName.equalsIgnoreCase(groupName)) {
+                if (spawnName.equalsIgnoreCase(node.getName())) {
                     group = new SpawnGroup(_manager, spawn);
                 }
 
