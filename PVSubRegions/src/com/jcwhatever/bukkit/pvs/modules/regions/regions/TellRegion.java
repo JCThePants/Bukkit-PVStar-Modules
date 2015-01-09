@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.collections.EntryCounter;
-import com.jcwhatever.nucleus.collections.EntryCounter.RemovalPolicy;
+import com.jcwhatever.nucleus.collections.ElementCounter;
+import com.jcwhatever.nucleus.collections.ElementCounter.RemovalPolicy;
 import com.jcwhatever.nucleus.utils.converters.ValueConverters;
 import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
@@ -70,8 +70,8 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
         ;
     }
 
-    private EntryCounter<UUID> _enterCount = new EntryCounter<UUID>(RemovalPolicy.BOTTOM_OUT);
-    private EntryCounter<UUID> _leaveCount = new EntryCounter<UUID>(RemovalPolicy.BOTTOM_OUT);
+    private ElementCounter<UUID> _enterCount = new ElementCounter<UUID>(RemovalPolicy.BOTTOM_OUT);
+    private ElementCounter<UUID> _leaveCount = new ElementCounter<UUID>(RemovalPolicy.BOTTOM_OUT);
 
     private int _maxTriggersPerPlayer = 1;
     private String _enterMessage;

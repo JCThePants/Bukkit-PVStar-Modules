@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs;
 
-import com.jcwhatever.nucleus.collections.EntryCounter;
-import com.jcwhatever.nucleus.collections.EntryCounter.RemovalPolicy;
+import com.jcwhatever.nucleus.collections.ElementCounter;
+import com.jcwhatever.nucleus.collections.ElementCounter.RemovalPolicy;
 import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;
@@ -75,7 +75,7 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
     private Map<EntityType, Integer> _mobLimits = new EnumMap<>(EntityType.class);
 
     // count the number of entities of each type spawned
-    private EntryCounter<EntityType> _mobCounter = new EntryCounter<EntityType>(RemovalPolicy.KEEP_COUNTING);
+    private ElementCounter<EntityType> _mobCounter = new ElementCounter<EntityType>(RemovalPolicy.KEEP_COUNTING);
 
     @Override
     public Plugin getPlugin() {
