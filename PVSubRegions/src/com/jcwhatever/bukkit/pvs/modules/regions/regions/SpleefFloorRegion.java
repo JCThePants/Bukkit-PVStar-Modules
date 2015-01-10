@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
 import com.jcwhatever.nucleus.events.manager.NucleusEventPriority;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.items.ItemStackComparer;
+import com.jcwhatever.nucleus.utils.items.ItemStackMatcher;
 import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.CancelHandler;
 import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.FailHandler;
 import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.Future;
@@ -185,7 +185,7 @@ public class SpleefFloorRegion extends AbstractPVRegion implements IEventListene
 
             for (ItemStack item : _affectedBlocks) {
 
-                if (ItemStackComparer.getDefault().isSame(item, blockStack)) {
+                if (ItemStackMatcher.getDefault().isMatch(item, blockStack)) {
                     isAffected = true;
                     break;
                 }

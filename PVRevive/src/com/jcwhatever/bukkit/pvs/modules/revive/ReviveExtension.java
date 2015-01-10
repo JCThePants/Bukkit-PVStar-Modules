@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.revive;
 import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
 import com.jcwhatever.nucleus.events.manager.NucleusEventPriority;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.items.ItemStackComparer;
+import com.jcwhatever.nucleus.utils.items.ItemStackMatcher;
 import com.jcwhatever.nucleus.scheduler.ScheduledTask;
 import com.jcwhatever.nucleus.scheduler.TaskHandler;
 import com.jcwhatever.nucleus.utils.Scheduler;
@@ -183,7 +183,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
 
         // see if the item is a revival item
         for (ItemStack revivalItem : _revivalItems) {
-            if (ItemStackComparer.getDefault().isSame(inHand, revivalItem)) {
+            if (ItemStackMatcher.getDefault().isMatch(inHand, revivalItem)) {
 
                 ScheduledTask task = player.getSessionMeta().get(KEY_TASK);
                 if (task != null) {
