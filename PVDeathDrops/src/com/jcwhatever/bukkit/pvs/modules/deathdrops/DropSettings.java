@@ -25,15 +25,15 @@
 
 package com.jcwhatever.bukkit.pvs.modules.deathdrops;
 
-import com.jcwhatever.nucleus.storage.DataType;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
+
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 public class DropSettings {
 
@@ -193,9 +193,6 @@ public class DropSettings {
 
         while (true) {
 
-            if (settings == null) // to satisfy code checks
-                break;
-
             if (settings._setSettings.contains(settingName))
                 break;
 
@@ -210,14 +207,54 @@ public class DropSettings {
 
     @SuppressWarnings("unchecked")
     private <T> T getValue(String valueName, DataType type, T defaultValue) {
-        Object value = _dataNode.get(valueName, type);
+
+        Object value;
+
+        switch (type) {
+            case INTEGER:
+                value = _dataNode.getInteger(valueName);
+                break;
+            case LONG:
+                value = _dataNode.getLong(valueName);
+                break;
+            case DOUBLE:
+                value = _dataNode.getDouble(valueName);
+                break;
+            case BOOLEAN:
+                value = _dataNode.getBoolean(valueName);
+                break;
+            case STRING:
+                value = _dataNode.getString(valueName);
+                break;
+            case UUID:
+                value = _dataNode.getUUID(valueName);
+                break;
+            case LOCATION:
+                value = _dataNode.getLocation(valueName);
+                break;
+            case ITEMSTACKS:
+                value = _dataNode.getItemStacks(valueName);
+                break;
+            default:
+                throw new AssertionError();
+        }
+
         if (value == null)
             return defaultValue;
 
         _setSettings.add(valueName);
         return (T)value;
     }
-
+    public enum DataType {
+        INTEGER,
+        LONG,
+        DOUBLE,
+        BOOLEAN,
+        STRING,
+        UUID,
+        LOCATION,
+        ITEMSTACKS
+    }
     private void save(String dataName, Object value) {
         _setSettings.add(dataName);
 
@@ -244,7 +281,6 @@ public class DropSettings {
         _expDropRate = getValue("exp-drop-rate", DataType.DOUBLE, _expDropRate);
         _expDropAmount = getValue("exp-drop-amount", DataType.INTEGER, _expDropAmount);
     }
-
 
 
 }
