@@ -63,6 +63,10 @@ public class CacheSubCommand extends AbstractPVCommand {
 
         SpawnGroupGenerator generator = extension.getGroupGenerator();
 
+        generator.clearGroups();
+
+        generator.reloadSpawnGroups();
+
         PathCache pathCache = generator.getPathCache();
 
         pathCache.cachePaths(16, 18);

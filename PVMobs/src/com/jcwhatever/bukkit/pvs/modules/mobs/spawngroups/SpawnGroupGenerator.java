@@ -69,17 +69,23 @@ public class SpawnGroupGenerator {
             _mobSpawns.put(spawn.getSearchName(), spawn);
         }
 
-        loadSpawnGroups();
+        loadSpawnGroups(false);
     }
 
     public PathCache getPathCache() {
         return _pathCache;
     }
 
+    public void reloadSpawnGroups() {
+        if (!loadSpawnGroups(true)) {
+            new CreateSpawnGroups().run();
+        }
+    }
+
     public List<Spawnpoint> getSpawnGroups() {
         if (_spawnGroups == null) {
 
-            if (!_groupsLoaded && !loadSpawnGroups()) {
+            if (!_groupsLoaded && !loadSpawnGroups(false)) {
                 new CreateSpawnGroups().run();
             }
             else {
@@ -126,9 +132,9 @@ public class SpawnGroupGenerator {
     }
 
 
-    private boolean loadSpawnGroups() {
+    private boolean loadSpawnGroups(boolean force) {
 
-        if (isSpawnsChanged()) {
+        if (force || isSpawnsChanged()) {
             generateGroups();
         }
 
