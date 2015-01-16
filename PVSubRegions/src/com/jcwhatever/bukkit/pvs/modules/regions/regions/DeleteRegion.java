@@ -25,17 +25,18 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.CancelHandler;
-import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.FailHandler;
-import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.Future;
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.regions.BuildChunkSnapshot;
 import com.jcwhatever.nucleus.regions.BuildMethod;
 import com.jcwhatever.nucleus.regions.data.ChunkInfo;
 import com.jcwhatever.nucleus.regions.data.RegionChunkSection;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
-import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+import com.jcwhatever.nucleus.utils.observer.result.FutureResultAgent.Future;
+import com.jcwhatever.nucleus.utils.observer.result.FutureSubscriber;
+import com.jcwhatever.nucleus.utils.observer.result.Result;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueTask;
 
 import org.bukkit.inventory.ItemStack;
 
@@ -93,10 +94,9 @@ public class DeleteRegion extends AbstractPVRegion {
     protected boolean onUntrigger() {
         try {
 
-            restoreData(BuildMethod.FAST).onComplete(new Runnable() {
-
+            restoreData(BuildMethod.FAST).onSuccess(new FutureSubscriber<QueueTask>() {
                 @Override
-                public void run() {
+                public void on(Result<QueueTask> argument) {
                     _isTriggered = false;
                 }
             });
@@ -114,7 +114,7 @@ public class DeleteRegion extends AbstractPVRegion {
 
         if (!canRestore()) {
 
-            Future result;
+            Future<QueueTask> result;
 
             try {
                 result = this.saveData();
@@ -123,15 +123,14 @@ public class DeleteRegion extends AbstractPVRegion {
                 return;
             }
 
-            result.onCancel(new CancelHandler() {
+            result.onCancel(new FutureSubscriber<QueueTask>() {
                 @Override
-                public void run(String reason) {
+                public void on(Result<QueueTask> argument) {
                     setEnabled(false);
-
                 }
-            }).onFail(new FailHandler() {
+            }).onError(new FutureSubscriber<QueueTask>() {
                 @Override
-                public void run(String reason) {
+                public void on(Result<QueueTask> argument) {
                     setEnabled(false);
                 }
             });

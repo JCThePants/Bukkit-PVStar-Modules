@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.stats;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.utils.performance.TripleKeySingleCache;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -83,7 +83,7 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
         PVStarAPI.getEventManager().register(this);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaStart(ArenaStartedEvent event) {
         List<ArenaPlayer> players = event.getArena().getGameManager().getPlayers();
 
@@ -96,7 +96,7 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
         }
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerKill(EntityDeathEvent event) {
 
         if (event.getEntity().getKiller() == null)
@@ -111,7 +111,7 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
         tracker.increment(1);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerDeath(PlayerDeathEvent event) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
@@ -123,14 +123,14 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
         tracker.increment(1);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerWin(PlayerWinEvent event) {
         ArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(event.getArena().getId());
 
         stats.addScore(WINS, event.getPlayer().getUniqueId(), 1);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerLose(PlayerLoseEvent event) {
         ArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(event.getArena().getId());
 
@@ -147,7 +147,7 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
         tracker.increment(event.getPlayer().getTotalPoints());
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaEnd(ArenaEndedEvent event) {
 
         ArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(event.getArena().getId());

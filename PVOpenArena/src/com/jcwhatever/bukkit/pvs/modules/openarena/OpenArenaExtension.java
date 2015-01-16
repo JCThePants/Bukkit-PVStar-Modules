@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.openarena;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
-import com.jcwhatever.nucleus.events.manager.NucleusEventPriority;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
+import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.collections.players.PlayerSet;
 import com.jcwhatever.nucleus.regions.Region.LeaveRegionReason;
@@ -85,7 +85,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
         getArena().getEventManager().unregister(this);
     }
 
-    @NucleusEventHandler(priority = NucleusEventPriority.HIGH, ignoreCancelled = true)
+    @EventMethod(priority = EventSubscriberPriority.HIGH, ignoreCancelled = true)
     private void onPlayerJoin(PlayerPreJoinEvent event) {
 
         // override default behavior of rejecting players
@@ -98,7 +98,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     /*
      *  Make sure game is started
      */
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerPreAdd(PlayerPreAddEvent event) {
 
         if (event.getReason() != AddPlayerReason.PLAYER_JOIN &&
@@ -119,7 +119,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     /*
      *  Make sure players added to lobby are automatically moved to the game.
      */
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerAdded(PlayerAddedEvent event) {
 
         if (event.getReason() != AddPlayerReason.PLAYER_JOIN &&
@@ -150,7 +150,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     /*
      *  Make sure ALL players in the lobby are added to the game
      */
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaPreStart(ArenaPreStartEvent event) {
         List<ArenaPlayer> players = getArena().getLobbyManager().getPlayers();
 
@@ -160,7 +160,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     /*
      *  Add players entering region to arena.
      */
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerEnterArena(PlayerEnterArenaRegionEvent event) {
 
         if (event.getPlayer().getArena() == null) {
@@ -178,7 +178,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     /*
      *  Remove players who leave arena region.
      */
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerLeaveArena(PlayerLeaveArenaRegionEvent event) {
 
         // prevent removing player if they are simply dead
@@ -200,7 +200,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     /*
      * Prevent location restore if the player is leaving the arena on foot.
      */
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerRemove(PlayerLeaveEvent event) {
 
         PlayerMeta meta = event.getPlayer().getMeta();
@@ -214,7 +214,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     /*
      * Add players that were unable to join because the arena was busy.
      */
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaIdle(@SuppressWarnings("unused") ArenaIdleEvent event) {
         for (Player p : _joinOnIdle) {
 

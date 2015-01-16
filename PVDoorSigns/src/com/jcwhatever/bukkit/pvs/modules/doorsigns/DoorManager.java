@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.doorsigns;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.signs.SignContainer;
 import com.jcwhatever.nucleus.signs.SignHandler;
@@ -155,12 +155,12 @@ public class DoorManager implements IEventListener {
         }
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaStarted(ArenaStartedEvent event) {
         closeDoors(event.getArena());
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaEnded(ArenaEndedEvent event) {
         closeDoors(event.getArena());
     }

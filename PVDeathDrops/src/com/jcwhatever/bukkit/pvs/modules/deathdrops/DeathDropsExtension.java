@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.deathdrops;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.utils.player.PlayerStateSnapshot;
 import com.jcwhatever.nucleus.storage.IDataNode;
@@ -135,7 +135,7 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
     /*
      *  Player kills entity (possibly another player)
      */
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerKill(EntityDeathEvent event) {
 
         if (event.getEntity().getKiller() == null)
@@ -175,7 +175,7 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
     /*
      *  Player dies.
      */
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerDeath(PlayerDeathEvent event) {
 
         if (!_canKeepItemsOnDeath)
@@ -191,7 +191,7 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
     /*
      * Player respawn.
      */
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerRespawn(PlayerArenaRespawnEvent event) {
         if (!_canKeepItemsOnDeath)
             return;
@@ -205,7 +205,7 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
         p.getInventory().setArmorContents(snapshot.getArmor());
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void  onArenaEnd(ArenaEndedEvent event) {
         _itemsToRestore.clear();
     }

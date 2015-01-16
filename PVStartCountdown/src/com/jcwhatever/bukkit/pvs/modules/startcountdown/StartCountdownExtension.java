@@ -25,8 +25,8 @@
 
 package com.jcwhatever.bukkit.pvs.modules.startcountdown;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
-import com.jcwhatever.nucleus.events.manager.NucleusEventPriority;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
+import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.language.Localizable;
 import com.jcwhatever.nucleus.scheduler.ScheduledTask;
@@ -120,14 +120,14 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
         getArena().getEventManager().unregister(this);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onAddPlayer(PlayerAddedEvent event) {
 
         Msg.tell(event.getPlayer(), Lang.get(_AUTO_START_INFO,
                 getArena().getLobbyManager().getSettings().getMinAutoStartPlayers()));
     }
 
-    @NucleusEventHandler(priority = NucleusEventPriority.FIRST)
+    @EventMethod(priority = EventSubscriberPriority.FIRST)
     private void onArenaPreStart(ArenaPreStartEvent event) {
 
         // prevent start during countdown

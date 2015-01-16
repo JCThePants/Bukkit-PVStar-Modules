@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
@@ -88,7 +88,7 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
         super(name);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerAdded(final PlayerAddedEvent event) {
 
         Location location = _forwardLocMap.remove(event.getPlayer().getUniqueId());

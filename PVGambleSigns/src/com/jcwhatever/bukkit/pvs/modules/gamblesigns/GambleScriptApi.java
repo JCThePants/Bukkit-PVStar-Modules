@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.gamblesigns;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.scripting.IEvaluatedScript;
 import com.jcwhatever.nucleus.scripting.ScriptApiInfo;
@@ -101,7 +101,7 @@ public class GambleScriptApi extends NucleusScriptApi {
             _isDisposed = true;
         }
 
-        @NucleusEventHandler
+        @EventMethod
         private void onGambleTriggered(GambleTriggeredEvent event) {
             String eventName = event.getEventName();
 

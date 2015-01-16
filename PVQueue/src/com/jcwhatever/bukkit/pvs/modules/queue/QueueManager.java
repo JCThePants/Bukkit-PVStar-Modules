@@ -95,7 +95,7 @@ public final class QueueManager {
 			}
 
             // make sure other modules agree to the player joining the arena
-            Set<ArenaPlayer> partyMembers = _arena.getEventManager().call(new PlayerJoinQueryEvent(_arena, player)).getPlayers();
+            Set<ArenaPlayer> partyMembers = _arena.getEventManager().call(this, new PlayerJoinQueryEvent(_arena, player)).getPlayers();
 
             if (partyMembers.contains(player)) {
 
@@ -193,7 +193,7 @@ public final class QueueManager {
 
         // make sure other modules agree to the player joining the arena
         Set<ArenaPlayer> partyMembers = _arena.getEventManager()
-                .call(new PlayerJoinQueryEvent(_arena, player)).getPlayers();
+                .call(this, new PlayerJoinQueryEvent(_arena, player)).getPlayers();
 
         if (!partyMembers.contains(player))
             return false;

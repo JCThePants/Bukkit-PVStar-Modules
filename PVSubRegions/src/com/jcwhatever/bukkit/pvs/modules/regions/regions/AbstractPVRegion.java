@@ -25,19 +25,20 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.utils.performance.queued.QueueProject;
-import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.Future;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
+import com.jcwhatever.bukkit.pvs.api.arena.Arena;
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+import com.jcwhatever.bukkit.pvs.modules.regions.SubRegionsModule;
 import com.jcwhatever.nucleus.regions.BuildMethod;
 import com.jcwhatever.nucleus.regions.MultiSnapshotRegion;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.SettingsManager;
 import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
-import com.jcwhatever.bukkit.pvs.api.arena.Arena;
-import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
-import com.jcwhatever.bukkit.pvs.modules.regions.SubRegionsModule;
+import com.jcwhatever.nucleus.utils.observer.result.FutureResultAgent.Future;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueProject;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueTask;
 
 import org.bukkit.entity.Player;
 
@@ -158,7 +159,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         return _settingsManager;
     }
 
-    public final Future restoreData(BuildMethod buildMethod, boolean forceRestore) throws IOException {
+    public final Future<QueueTask> restoreData(BuildMethod buildMethod, boolean forceRestore) throws IOException {
 
         if (!forceRestore &&
                 _arena.getRegion().isRestoring()) {

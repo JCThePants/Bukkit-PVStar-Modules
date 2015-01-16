@@ -41,7 +41,7 @@ import javax.annotation.Nullable;
 public class Party {
 
 	Set<Player> _players = new PlayerSet(PVStarAPI.getPlugin());
-	TimedArrayList<Player> _invitations = new TimedArrayList<Player>();
+	TimedArrayList<Player> _invitations = new TimedArrayList<Player>(PVStarAPI.getPlugin());
     WeakReference<Player> _leader;
 
 	private String _partyName;

@@ -27,7 +27,7 @@ package com.jcwhatever.bukkit.pvs.modules.mobs;
 
 import com.jcwhatever.nucleus.collections.ElementCounter;
 import com.jcwhatever.nucleus.collections.ElementCounter.RemovalPolicy;
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.EnumUtils;
@@ -99,7 +99,7 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
         getArena().getEventManager().unregister(this);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaStart(@SuppressWarnings("UnusedParameters") ArenaStartedEvent event) {
 
         // make sure there are spawns
@@ -110,17 +110,17 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
         _spawner.run();
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaEnd(@SuppressWarnings("UnusedParameters") ArenaEndedEvent event) {
         reset(DespawnMethod.REMOVE);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onAddSpawn(@SuppressWarnings("UnusedParameters") SpawnAddedEvent event) {
         loadSettings();
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onRemoveSpawn(@SuppressWarnings("UnusedParameters") SpawnRemovedEvent event) {
         loadSettings();
     }
@@ -205,7 +205,7 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
                 return false;
             }
 
-            int count = _mobCounter.getCount(entityType);
+            int count = _mobCounter.count(entityType);
 
             if (count >= limit) {
                 return false;

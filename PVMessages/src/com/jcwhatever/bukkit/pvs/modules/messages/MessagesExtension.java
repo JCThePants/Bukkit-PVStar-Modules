@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.messages;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaTeam;
@@ -61,7 +61,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
         getArena().getEventManager().unregister(this);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerAdded(PlayerAddedEvent event) {
         if (event.getReason() == AddPlayerReason.ARENA_RELATION_CHANGE)
             return;
@@ -72,7 +72,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
         event.setMessage(event.getPlayer().getName() + " joined.");
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerWin(PlayerWinEvent event) {
         if (event.getWinMessage() == null ||
                 event.getPlayer().getTeam() != ArenaTeam.NONE) {
@@ -82,7 +82,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
         event.setWinMessage(event.getPlayer().getName() + " wins!");
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onTeamWin(TeamWinEvent event) {
 
         if (event.getWinMessage() != null)
@@ -93,7 +93,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
         event.setWinMessage(team.getTextColor() + team.getDisplay() + " wins!");
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerReady(PlayerReadyEvent event) {
         if (event.getMessage() != null)
             return;
@@ -103,7 +103,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
                         event.getPlayer().getName() + "{WHITE} is ready to start.");
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerLose(PlayerLoseEvent event) {
         if (event.getLoseMessage() != null)
             return;

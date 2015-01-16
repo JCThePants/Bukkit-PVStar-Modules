@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
@@ -150,7 +150,7 @@ public class SpawnTriggerRegion extends AbstractPVRegion implements IEventListen
         return _possibleSettings;
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
         _triggerCount = 0;
     }

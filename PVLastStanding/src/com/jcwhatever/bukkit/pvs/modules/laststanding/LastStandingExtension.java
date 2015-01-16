@@ -24,7 +24,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.laststanding;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -64,7 +64,7 @@ public class LastStandingExtension extends ArenaExtension implements IEventListe
     /*
      * Check for a winner when a player is removed.
      */
-    @NucleusEventHandler
+    @EventMethod
     private void onCheckForWinner(PlayerRemovedEvent event) {
 
         if (event.getReason() == RemovePlayerReason.ARENA_RELATION_CHANGE ||

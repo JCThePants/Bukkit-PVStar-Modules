@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.points.pointstypes;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
@@ -59,7 +59,7 @@ public class PlayerDeathPointsType extends AbstractPointsType<PlayerDeathPointsH
             super(arena, type, node);
         }
 
-        @NucleusEventHandler
+        @EventMethod
         private void onPlayerDeath(PlayerDeathEvent event) {
 
             ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());

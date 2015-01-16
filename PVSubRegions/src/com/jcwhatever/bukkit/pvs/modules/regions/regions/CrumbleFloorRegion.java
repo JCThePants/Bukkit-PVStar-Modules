@@ -25,24 +25,25 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
-import com.jcwhatever.nucleus.events.manager.NucleusEventPriority;
-import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.CancelHandler;
-import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.FailHandler;
-import com.jcwhatever.nucleus.utils.performance.queued.QueueResult.Future;
-import com.jcwhatever.nucleus.regions.BuildMethod;
-import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
-import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
-import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
-import com.jcwhatever.nucleus.utils.BlockUtils;
-import com.jcwhatever.nucleus.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.regions.BuildMethod;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
+import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
+import com.jcwhatever.nucleus.utils.BlockUtils;
+import com.jcwhatever.nucleus.utils.Scheduler;
+import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
+import com.jcwhatever.nucleus.utils.observer.result.FutureResultAgent.Future;
+import com.jcwhatever.nucleus.utils.observer.result.FutureSubscriber;
+import com.jcwhatever.nucleus.utils.observer.result.Result;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueTask;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -107,7 +108,7 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements IEventListen
 
         if (!canRestore()) {
 
-            Future result;
+            Future<QueueTask> result;
             try {
                 result = this.saveData();
             } catch (IOException e) {
@@ -115,15 +116,14 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements IEventListen
                 return;
             }
 
-            result.onCancel(new CancelHandler() {
+            result.onCancel(new FutureSubscriber<QueueTask>() {
                 @Override
-                public void run(String reason) {
+                public void on(Result<QueueTask> argument) {
                     setEnabled(false);
-
                 }
-            }).onFail(new FailHandler() {
+            }).onError(new FutureSubscriber<QueueTask>() {
                 @Override
-                public void run(String reason) {
+                public void on(Result<QueueTask> argument) {
                     setEnabled(false);
                 }
             });
@@ -160,7 +160,7 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements IEventListen
         }
     }
 
-    @NucleusEventHandler(priority = NucleusEventPriority.LAST)
+    @EventMethod(priority = EventSubscriberPriority.LAST)
     private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
 
         if (!isEnabled())
@@ -174,7 +174,7 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements IEventListen
         _dropped.clear();
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerMove(PlayerMoveEvent event) {
 
         if (!isEnabled())

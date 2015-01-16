@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 import com.jcwhatever.nucleus.collections.ElementCounter;
 import com.jcwhatever.nucleus.collections.ElementCounter.RemovalPolicy;
 import com.jcwhatever.nucleus.utils.converters.ValueConverters;
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
@@ -89,7 +89,7 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
 
         if (_maxTriggersPerPlayer > -1) {
 
-            int tellCount = _enterCount.getCount(p.getUniqueId());
+            int tellCount = _enterCount.count(p.getUniqueId());
 
             if (tellCount >= _maxTriggersPerPlayer)
                 return false;
@@ -115,7 +115,7 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
 
         if (_maxTriggersPerPlayer > -1) {
 
-            int tellCount = _leaveCount.getCount(p.getUniqueId());
+            int tellCount = _leaveCount.count(p.getUniqueId());
 
             if (tellCount >= _maxTriggersPerPlayer)
                 return false;
@@ -171,7 +171,7 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
         Msg.tell(player.getPlayer(), message);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaEnd(ArenaEndedEvent event) {
         _enterCount.reset();
         _leaveCount.reset();

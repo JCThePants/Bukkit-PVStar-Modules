@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.regions;
 
 import com.jcwhatever.nucleus.Nucleus;
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
@@ -90,14 +90,14 @@ public class SubRegionsModule extends PVStarModule implements IEventListener {
 
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaLoaded(ArenaLoadedEvent event) {
 
         // initialize arena manager
         getManager(event.getArena());
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaDispose(ArenaDisposeEvent event) {
 
         Arena arena = event.getArena();

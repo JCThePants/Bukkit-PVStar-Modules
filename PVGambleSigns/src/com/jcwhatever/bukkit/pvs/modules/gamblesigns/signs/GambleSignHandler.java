@@ -115,7 +115,7 @@ public class GambleSignHandler extends SignHandler {
             return false;
 
         GambleTriggeredEvent event = new GambleTriggeredEvent(player.getArena(), player, eventName, sign);
-        player.getArena().getEventManager().call(event);
+        player.getArena().getEventManager().call(this, event);
 
         return true;
     }

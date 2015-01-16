@@ -25,9 +25,9 @@
 
 package com.jcwhatever.bukkit.pvs.modules.chests;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.events.manager.NucleusEventPriority;
+import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.Rand;
 import com.jcwhatever.nucleus.utils.Scheduler;
@@ -409,14 +409,14 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
 
 
 
-    @NucleusEventHandler(priority = NucleusEventPriority.LAST)
+    @EventMethod(priority = EventSubscriberPriority.LAST)
     private void onArenaPreStart(ArenaPreStartEvent event) {
 
         if (_chestSettings.isChestsRandomized())
             randomHideChests();
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaEnd(ArenaEndedEvent event) {
 
         if (_chestSettings.isChestsRandomized())
@@ -427,7 +427,7 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         // TODO clear items ?
     }
 
-    @NucleusEventHandler(ignoreCancelled=true)
+    @EventMethod(ignoreCancelled=true)
     private void onChestInteractPrevented(PlayerInteractEvent event) {
 
         if (!event.hasBlock())
@@ -446,7 +446,7 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         }
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onChestInteract(PlayerInteractEvent event) {
 
         if (!event.hasBlock())

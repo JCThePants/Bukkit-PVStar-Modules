@@ -26,7 +26,7 @@
 package com.jcwhatever.bukkit.pvs.modules.economy;
 
 import com.jcwhatever.nucleus.utils.Economy;
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
@@ -79,7 +79,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         getArena().getEventManager().unregister(this);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerDeath(PlayerDeathEvent event) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
@@ -91,7 +91,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         giveMoney(player, getDeathAmount());
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerKill(EntityDeathEvent event) {
 
         if (event.getEntity().getKiller() == null)
@@ -106,19 +106,19 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         giveMoney(killer, getKillAmount());
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onAddPlayer(PlayerAddedEvent event) {
         if (event.getPlayer().getArenaRelation() == ArenaPlayerRelation.GAME) {
             giveMoney(event.getPlayer(), getParticipantAmount());
         }
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerWin(PlayerWinEvent event) {
         giveMoney(event.getPlayer(), getWinAmount());
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerLose(PlayerLoseEvent event) {
         giveMoney(event.getPlayer(), getLoseAmount());
     }

@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.borders;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.Scheduler;
@@ -107,7 +107,7 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
         getArena().getEventManager().unregister(this);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerEnterRegion(PlayerEnterArenaRegionEvent event) {
 
         if (getOutsidersAction() == OutsidersAction.NONE)
@@ -151,7 +151,7 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
         });
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onPlayerLeaveRegion(PlayerLeaveArenaRegionEvent event) {
 
         if (getOutOfBoundsAction() == OutOfBoundsAction.NONE)

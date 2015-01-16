@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions.maze;
 
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.utils.performance.queued.QueueTask;
 import com.jcwhatever.nucleus.utils.performance.queued.QueueWorker;
@@ -72,7 +72,7 @@ public class MazeRegion extends AbstractPVRegion implements IEventListener {
         super(name);
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
 
         if (!_runOnArenaEnd || !isEnabled())

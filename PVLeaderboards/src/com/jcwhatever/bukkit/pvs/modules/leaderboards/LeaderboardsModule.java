@@ -33,7 +33,7 @@ import com.jcwhatever.bukkit.pvs.modules.leaderboards.commands.LBCommand;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.UpdateTask;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.events.manager.NucleusEventHandler;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.performance.queued.QueueWorker;
@@ -97,7 +97,7 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
         Bukkit.getPluginManager().registerEvents(_bukkitListener, PVStarAPI.getPlugin());
     }
 
-    @NucleusEventHandler
+    @EventMethod
     private void onArenaEnded(ArenaEndedEvent event) {
 
         Set<Leaderboard> leaderboards = _scopedLeaderboards.get(event.getArena().getId());
