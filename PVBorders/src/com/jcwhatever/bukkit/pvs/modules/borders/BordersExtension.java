@@ -71,7 +71,7 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
         _outOfBoundsAction = action;
 
         getDataNode().set("out-of-bounds", action);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     /*
@@ -90,7 +90,7 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
         PreCon.notNull(action);
 
         getDataNode().set("outsiders-action", action);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     @Override

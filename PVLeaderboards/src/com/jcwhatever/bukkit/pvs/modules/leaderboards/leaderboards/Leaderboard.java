@@ -165,7 +165,7 @@ public class Leaderboard {
         _lineFormats[index] = lineFormat;
 
         _dataNode.set("format-line-" + (index + 1), lineFormat);
-        _dataNode.saveAsync(null);
+        _dataNode.save();
 
         update();
     }
@@ -231,7 +231,7 @@ public class Leaderboard {
         loadArenaStats();
 
         _dataNode.set("arenas", TextUtils.concat(_arenaIds, ", "));
-        _dataNode.saveAsync(null);
+        _dataNode.save();
 
         // reload leader board with new scope
         _isLoaded = load();
@@ -299,7 +299,7 @@ public class Leaderboard {
         }
 
         _sorter = new PlayerSorter(this);
-        _columnsNode.saveAsync(null);
+        _columnsNode.save();
         _isLoaded = true;
 
         LeaderboardsModule.getModule().addBlockLocations(this);

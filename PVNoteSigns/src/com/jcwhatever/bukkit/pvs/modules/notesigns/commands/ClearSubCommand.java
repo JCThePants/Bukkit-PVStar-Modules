@@ -83,7 +83,7 @@ public class ClearSubCommand extends AbstractPVCommand {
             }
         }
 
-        PVStarAPI.getSignManager().getDataNode().saveAsync(null);
+        PVStarAPI.getSignManager().getDataNode().save();
 
         tellSuccess(sender, Lang.get(_SUCCESS, hideCount, arena.getName()));
     }

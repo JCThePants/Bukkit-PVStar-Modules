@@ -71,7 +71,7 @@ public class ColumnSetting {
         _sortOrder = sortOrder;
 
         _dataNode.set("sort-order", sortOrder);
-        _dataNode.saveAsync(null);
+        _dataNode.save();
     }
 
     @Nullable
@@ -89,7 +89,7 @@ public class ColumnSetting {
         _displayLines[index] = line;
 
         _dataNode.set("sign-line-" + (index + 1), line);
-        _dataNode.saveAsync(null);
+        _dataNode.save();
     }
 
     public void setDisplayLines(String[] lines) {
@@ -101,7 +101,7 @@ public class ColumnSetting {
 
             _dataNode.set("sign-line-" + (i + 1), lines[i]);
         }
-        _dataNode.saveAsync(null);
+        _dataNode.save();
     }
 
     public String getLineFormat(int index) {

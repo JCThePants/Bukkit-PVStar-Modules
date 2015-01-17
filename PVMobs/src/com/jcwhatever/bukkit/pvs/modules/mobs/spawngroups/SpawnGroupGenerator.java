@@ -98,7 +98,7 @@ public class SpawnGroupGenerator {
 
     public void clearGroupCache() {
         _groupsNode.clear();
-        _groupsNode.saveAsync(null);
+        _groupsNode.save();
     }
 
     public void clearGroups() {
@@ -212,7 +212,7 @@ public class SpawnGroupGenerator {
         List<String> currentSpawnList = new ArrayList<>(_mobSpawns.keySet());
         _pathCache = new PathCache(_manager, groups);
         _dataNode.set("spawns", currentSpawnList);
-        _dataNode.saveAsync(null);
+        _dataNode.save();
     }
 
     /**

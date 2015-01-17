@@ -70,7 +70,7 @@ public class ChestSettings {
     public void setMaxChests(int max) {
         _maxChests = max;
         _dataNode.set("max-chests", max);
-        _dataNode.saveAsync(null);
+        _dataNode.save();
     }
 
     public final boolean isChestsRandomized() {
@@ -80,7 +80,7 @@ public class ChestSettings {
     public void setIsChestsRandomized(boolean isRandom) {
         _hasRandomizedChests = isRandom;
         _dataNode.set("randomize-chests", isRandom);
-        _dataNode.saveAsync(null);
+        _dataNode.save();
     }
 
 
@@ -147,7 +147,7 @@ public class ChestSettings {
             chestInfo.put(loc, info);
         }
         _chests = chestInfo;
-        _chestNode.saveAsync(null);
+        _chestNode.save();
     }
 
 

@@ -68,7 +68,7 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
         _gracePeriodSeconds = seconds;
 
         getDataNode().set("seconds", seconds);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
 

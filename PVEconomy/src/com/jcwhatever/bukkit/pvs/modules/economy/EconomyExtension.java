@@ -146,31 +146,31 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
     public void setWinAmount(double amount) {
         _win = amount;
         getDataNode().set("win", amount);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     public void setLoseAmount(double amount) {
         _lose = amount;
         getDataNode().set("lose", amount);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     public void setKillAmount(double amount) {
         _kill = amount;
         getDataNode().set("kill", amount);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     public void setDeathAmount(double amount) {
         _death = amount;
         getDataNode().set("death", amount);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     public void setParticipantAmount(double amount) {
         _participant = amount;
         getDataNode().set("participant", amount);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     private void giveMoney(ArenaPlayer player, double amount) {

@@ -152,7 +152,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
         //noinspection ConstantConditions
         getDataNode().set("enabled", isEnabled);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     public final SettingsManager getSettingsManager() {

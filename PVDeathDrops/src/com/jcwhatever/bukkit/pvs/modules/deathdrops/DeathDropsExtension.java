@@ -78,7 +78,7 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
         _canKeepItemsOnDeath = canKeep;
 
         getDataNode().set("keep-items", canKeep);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     public DropSettings getGlobalSettings() {

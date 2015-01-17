@@ -65,7 +65,7 @@ public class ItemSettings {
     public void setMaxRandomItems(int max) {
         _maxRandomItems = max;
         _dataNode.set("max-random-items", max);
-        _dataNode.saveAsync(null);
+        _dataNode.save();
     }
 
     public boolean isPresetContentsRandomized() {
@@ -75,7 +75,7 @@ public class ItemSettings {
     public void setPresetContentsRandomized(boolean isRandomContents) {
         _isPresetContentsRandomized = isRandomContents;
         _dataNode.set("random-contents", isRandomContents);
-        _dataNode.saveAsync(null);
+        _dataNode.save();
     }
 
     public WeightedItems getItems() {
@@ -144,7 +144,7 @@ public class ItemSettings {
     private void saveChestItems() {
         ItemStack[] items = _chestItems.toArray(new ItemStack[_chestItems.size()]);
         _itemsNode.set("items", items);
-        _itemsNode.saveAsync(null);
+        _itemsNode.save();
     }
 
     private class DefaultItemHelper {

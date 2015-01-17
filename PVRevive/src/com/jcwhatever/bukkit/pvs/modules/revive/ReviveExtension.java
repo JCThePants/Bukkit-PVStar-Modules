@@ -74,7 +74,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         _timeToReviveSeconds = seconds;
 
         getDataNode().set("time-to-revive", seconds);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     public int getReviveHealth() {
@@ -85,7 +85,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         _reviveHealth = reviveHealth;
 
         getDataNode().set("revive-health", reviveHealth);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     public ItemStack[] getRevivalItems() {
@@ -96,7 +96,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         _revivalItems = items;
 
         getDataNode().set("revival-items", items);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     @Override

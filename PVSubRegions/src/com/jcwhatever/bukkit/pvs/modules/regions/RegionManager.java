@@ -98,7 +98,7 @@ public class RegionManager {
 
         IDataNode dataNode = _dataNode.getNode(region.getName());
         dataNode.remove();
-        dataNode.saveAsync(null);
+        dataNode.save();
 
         return true;
     }
@@ -111,7 +111,7 @@ public class RegionManager {
             dataNode.remove();
         }
 
-        _dataNode.saveAsync(null);
+        _dataNode.save();
     }
 
     private void loadRegions() {

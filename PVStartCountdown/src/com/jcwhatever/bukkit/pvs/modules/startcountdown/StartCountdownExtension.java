@@ -104,7 +104,7 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
         _startCountdown = seconds;
 
         getDataNode().set("start-countdown", seconds);
-        getDataNode().saveAsync(null);
+        getDataNode().save();
     }
 
     @Override

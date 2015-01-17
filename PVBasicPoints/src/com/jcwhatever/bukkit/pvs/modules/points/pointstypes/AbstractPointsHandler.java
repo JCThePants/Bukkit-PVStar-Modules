@@ -78,6 +78,6 @@ public class AbstractPointsHandler implements PointsHandler, IEventListener {
         _points = points;
 
         _dataNode.set("points", points);
-        _dataNode.saveAsync(null);
+        _dataNode.save();
     }
 }

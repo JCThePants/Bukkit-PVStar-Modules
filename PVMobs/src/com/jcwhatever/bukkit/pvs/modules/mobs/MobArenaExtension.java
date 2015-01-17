@@ -165,7 +165,7 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
         }
 
         getDataNode().set("spawner", spawnerName.toLowerCase());
-        getDataNode().saveAsync(null);
+        getDataNode().save();
 
         setSpawner(spawnerClass);
     }
@@ -244,7 +244,7 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
         else
             settings.remove("limits." + type.name());
 
-        settings.saveAsync(null);
+        settings.save();
     }
 
     /**
@@ -258,7 +258,7 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
         if (_mobLimits.remove(type) != null) {
             IDataNode settings = getDataNode();
             settings.remove("limits." + type.name());
-            settings.saveAsync(null);
+            settings.save();
         }
     }
 

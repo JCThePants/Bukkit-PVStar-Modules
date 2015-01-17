@@ -259,13 +259,13 @@ public class DropSettings {
         _setSettings.add(dataName);
 
         _dataNode.set(dataName, value);
-        _dataNode.saveAsync(null);
+        _dataNode.save();
     }
 
     private void clear(String dataName) {
         _setSettings.remove(dataName);
         _dataNode.set(dataName, null);
-        _dataNode.saveAsync(null);
+        _dataNode.save();
     }
 
     private void loadSettings() {

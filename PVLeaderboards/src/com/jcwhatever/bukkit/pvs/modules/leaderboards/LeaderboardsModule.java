@@ -175,7 +175,7 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
 
         Leaderboard leaderboard = instantiateLeaderboard(name, arenaIds);
 
-        getDataNode().saveAsync(null);
+        getDataNode().save();
 
         return leaderboard;
     }
@@ -207,7 +207,7 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
         }
 
         leaderboard.getDataNode().clear();
-        leaderboard.getDataNode().saveAsync(null);
+        leaderboard.getDataNode().save();
 
         removeBlockLocations(leaderboard);
 
