@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.deathdrops.commands.items;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.language.Localizable;
+import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.DeathDropsExtension;
 import com.jcwhatever.bukkit.pvs.modules.deathdrops.DropSettings;

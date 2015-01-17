@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.startcountdown;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.language.Localizable;
+import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.scheduler.ScheduledTask;
 import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
 import com.jcwhatever.nucleus.utils.Scheduler;

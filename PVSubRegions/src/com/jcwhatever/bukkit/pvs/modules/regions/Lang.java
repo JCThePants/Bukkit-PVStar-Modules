@@ -25,7 +25,7 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions;
 
-import com.jcwhatever.nucleus.language.Localized;
+import com.jcwhatever.nucleus.utils.language.Localized;
 
 public class Lang {
 
