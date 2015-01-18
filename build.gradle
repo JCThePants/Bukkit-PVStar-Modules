@@ -18,6 +18,13 @@ if (hasProperty("teamcity"))
 // module project script
 subprojects {
 
+
+    // always download the latest version:
+    def snapshotDepends = [
+            'com.jcwhatever.bukkit:NucleusFramework:0.0-SNAPSHOT',
+            'com.jcwhatever.bukkit:PV-StarAPI:0.0-SNAPSHOT',
+    ]
+
     apply plugin: 'java'
 
     defaultTasks 'clean', 'build'
@@ -56,6 +63,10 @@ subprojects {
     // from being included in the jar
     configurations {
         provided
+        all {
+            // check for updates every build
+            resolutionStrategy.cacheChangingModulesFor 30, 'seconds'
+        }
     }
 
     sourceSets {
@@ -97,11 +108,19 @@ subprojects {
         }
 
         if (compileDepends) {
-            compile compileDepends
+            for (depend in compileDepends) {
+                provided(depend) {
+                    changing = snapshotDepends && snapshotDepends.contains(depend)
+                }
+            }
         }
 
         if (providedDepends) {
-            provided providedDepends
+            for (depend in providedDepends) {
+                provided(depend) {
+                    changing = snapshotDepends && snapshotDepends.contains(depend)
+                }
+            }
         }
     }
 
