@@ -109,8 +109,8 @@ subprojects {
 
         if (compileDepends) {
             for (depend in compileDepends) {
-                provided(depend) {
-                    changing = snapshotDepends && snapshotDepends.contains(depend)
+                compile(depend) {
+                    changing = changing || (snapshotDepends && snapshotDepends.contains(depend))
                 }
             }
         }
@@ -118,7 +118,7 @@ subprojects {
         if (providedDepends) {
             for (depend in providedDepends) {
                 provided(depend) {
-                    changing = snapshotDepends && snapshotDepends.contains(depend)
+                    changing = changing || (snapshotDepends && snapshotDepends.contains(depend))
                 }
             }
         }
