@@ -25,11 +25,6 @@
 
 package com.jcwhatever.bukkit.pvs.modules.openarena;
 
-import com.jcwhatever.nucleus.events.manager.EventMethod;
-import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
-import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.collections.players.PlayerSet;
-import com.jcwhatever.nucleus.regions.Region.LeaveRegionReason;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.PlayerMeta;
@@ -49,12 +44,16 @@ import com.jcwhatever.bukkit.pvs.api.events.players.PlayerPreJoinEvent;
 import com.jcwhatever.bukkit.pvs.api.events.region.PlayerEnterArenaRegionEvent;
 import com.jcwhatever.bukkit.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
+import com.jcwhatever.nucleus.collections.players.PlayerSet;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.regions.Region.LeaveRegionReason;
+import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
 import java.util.List;
-import java.util.Set;
 
 @ArenaExtensionInfo(
         name = "PVOpenArena",
@@ -66,7 +65,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
 
     // stores player-->arena so players entering an arena that is busy can be added
     // when it becomes idle.
-    private static final Set<Player> _joinOnIdle = new PlayerSet(PVStarAPI.getPlugin(), 10);
+    private static final PlayerSet _joinOnIdle = new PlayerSet(PVStarAPI.getPlugin(), 10);
 
     @Override
     public Plugin getPlugin() {
@@ -216,18 +215,22 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
      */
     @EventMethod
     private void onArenaIdle(@SuppressWarnings("unused") ArenaIdleEvent event) {
-        for (Player p : _joinOnIdle) {
 
-            ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
+        synchronized (_joinOnIdle) {
 
-            if (player.getArena() != null)
-                continue;
+            for (Player p : _joinOnIdle) {
 
-            if (!getArena().getRegion().contains(p.getLocation()))
-                continue;
+                ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
 
-            player.getMeta().set(META_ENTER, true);
-            getArena().join(player);
+                if (player.getArena() != null)
+                    continue;
+
+                if (!getArena().getRegion().contains(p.getLocation()))
+                    continue;
+
+                player.getMeta().set(META_ENTER, true);
+                getArena().join(player);
+            }
         }
 
         _joinOnIdle.clear();

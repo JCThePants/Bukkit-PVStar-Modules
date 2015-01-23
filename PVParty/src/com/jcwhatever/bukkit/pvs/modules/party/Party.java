@@ -40,9 +40,9 @@ import javax.annotation.Nullable;
 
 public class Party {
 
-	Set<Player> _players = new PlayerSet(PVStarAPI.getPlugin());
-	TimedArrayList<Player> _invitations = new TimedArrayList<Player>(PVStarAPI.getPlugin());
-    WeakReference<Player> _leader;
+	private final Set<Player> _players = new PlayerSet(PVStarAPI.getPlugin());
+	private final TimedArrayList<Player> _invitations = new TimedArrayList<Player>(PVStarAPI.getPlugin());
+    private WeakReference<Player> _leader;
 
 	private String _partyName;
 
@@ -80,7 +80,9 @@ public class Party {
 	}
 	
 	public List<Player> getInvitations() {
-		return new ArrayList<Player>(_invitations);
+		synchronized (_invitations) {
+			return new ArrayList<Player>(_invitations);
+		}
 	}
 		
 	public String getPartyName() {
