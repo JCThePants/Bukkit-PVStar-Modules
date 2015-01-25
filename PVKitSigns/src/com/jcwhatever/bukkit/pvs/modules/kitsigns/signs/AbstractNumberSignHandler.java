@@ -34,13 +34,16 @@ import com.jcwhatever.nucleus.signs.SignContainer;
 import com.jcwhatever.nucleus.signs.SignHandler;
 
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 public abstract class AbstractNumberSignHandler extends SignHandler {
 
-    @Override
-    public Plugin getPlugin() {
-        return PVStarAPI.getPlugin();
+    /**
+     * Constructor.
+     *
+     * @param name   The name of the sign (Used in the sign header)
+     */
+    public AbstractNumberSignHandler(String name) {
+        super(PVStarAPI.getPlugin(), name);
     }
 
     @Override
@@ -49,55 +52,55 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     }
 
     @Override
-    protected boolean onSignChange(Player p, SignContainer sign) {
+    protected SignChangeResult onSignChange(Player p, SignContainer sign) {
 
         double cost = getCost(sign);
         if (cost == -1) {
             Msg.tell(p, "Failed to add sign because the cost could not be parsed.");
-            return false;
+            return SignChangeResult.INVALID;
         }
 
         IKit kit = getKit(sign);
         if (kit == null) {
             Msg.tell(p, "Failed to add sign because the kit named could not be found.");
-            return false;
+            return SignChangeResult.INVALID;
         }
 
-        return true;
+        return SignChangeResult.VALID;
     }
 
     @Override
-    protected boolean onSignClick(Player p, SignContainer sign) {
+    protected SignClickResult onSignClick(Player p, SignContainer sign) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
         if (player.getArena() == null || player.getArenaRelation() == ArenaPlayerRelation.SPECTATOR)
-            return false;
+            return SignClickResult.IGNORED;
 
         double cost = getCost(sign);
         if (cost == -1)
-            return false;
+            return SignClickResult.IGNORED;
 
         double balance = getBalance(player);
 
         if (balance < cost) {
             Msg.tell(player, "You don't have enough {0} to afford this.", getCurrencyName());
-            return false;
+            return SignClickResult.IGNORED;
         }
 
         IKit kit = getKit(sign);
         if (kit == null)
-            return false;
+            return SignClickResult.IGNORED;
 
         incrementBalance(player, -cost);
 
         kit.give(p);
 
-        return true;
+        return SignClickResult.HANDLED;
     }
 
     @Override
-    protected boolean onSignBreak(Player p, SignContainer sign) {
-        return true;
+    protected SignBreakResult onSignBreak(Player p, SignContainer sign) {
+        return SignBreakResult.ALLOW;
     }
 
     protected abstract double getCost(SignContainer sign);

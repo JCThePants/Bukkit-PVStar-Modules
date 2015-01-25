@@ -35,9 +35,11 @@ import java.util.regex.Matcher;
 
 public class ExpKitSignHandler extends AbstractNumberSignHandler {
 
-    @Override
-    public String getName() {
-        return "Exp_Kit";
+    /**
+     * Constructor.
+     */
+    public ExpKitSignHandler() {
+        super("Exp_Kit");
     }
 
     @Override

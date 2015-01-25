@@ -24,31 +24,28 @@
 
 package com.jcwhatever.bukkit.pvs.modules.gamblesigns.signs;
 
-import com.jcwhatever.nucleus.signs.SignContainer;
-import com.jcwhatever.nucleus.signs.SignHandler;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
-import com.jcwhatever.nucleus.utils.text.TextColor;
-import com.jcwhatever.nucleus.utils.Rand;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.gamblesigns.events.GambleTriggeredEvent;
+import com.jcwhatever.nucleus.signs.SignContainer;
+import com.jcwhatever.nucleus.signs.SignHandler;
+import com.jcwhatever.nucleus.utils.Rand;
+import com.jcwhatever.nucleus.utils.text.TextColor;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
+
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.regex.Matcher;
 
 public class GambleSignHandler extends SignHandler {
 
-    @Override
-    public Plugin getPlugin() {
-        return PVStarAPI.getPlugin();
-    }
-
-    @Override
-    public String getName() {
-        return "Gamble";
+    /**
+     * Constructor.
+     */
+    public GambleSignHandler() {
+        super(PVStarAPI.getPlugin(), "Gamble");
     }
 
     @Override
@@ -77,54 +74,51 @@ public class GambleSignHandler extends SignHandler {
     }
 
     @Override
-    protected boolean onSignChange(Player p, SignContainer sign) {
+    protected SignChangeResult onSignChange(Player p, SignContainer sign) {
 
         String eventName = sign.getRawLine(1);
         if (eventName.trim().isEmpty()) {
             Msg.tellError(p, "No event name specified on line 2.");
-            return false;
+            return SignChangeResult.INVALID;
         }
 
         double chance = getChance(sign);
         if (Double.compare(chance, 0.0D) == 0) {
             Msg.tellError(p, "Failed to parse chance on line 3.");
-            return false;
+            return SignChangeResult.INVALID;
         }
 
-        return true;
+        return SignChangeResult.VALID;
     }
 
     @Override
-    protected boolean onSignClick(Player p, SignContainer sign) {
+    protected SignClickResult onSignClick(Player p, SignContainer sign) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
         if (player.getArena() == null || player.getArenaRelation() == ArenaPlayerRelation.SPECTATOR)
-            return false;
+            return SignClickResult.IGNORED;
 
         String eventName = sign.getRawLine(1);
         if (eventName.isEmpty())
-            return false;
+            return SignClickResult.IGNORED;
 
         double chance = getChance(sign);
         if (Double.compare(chance, 0.0D) == 0)
-            return false;
-
+            return SignClickResult.IGNORED;
 
         boolean isWin = Rand.chance((int)chance);
         if (!isWin)
-            return false;
+            return SignClickResult.IGNORED;
 
         GambleTriggeredEvent event = new GambleTriggeredEvent(player.getArena(), player, eventName, sign);
         player.getArena().getEventManager().call(this, event);
 
-        return true;
+        return SignClickResult.HANDLED;
     }
 
     @Override
-    protected boolean onSignBreak(Player p, SignContainer sign) {
-
-        // allow
-        return true;
+    protected SignBreakResult onSignBreak(Player p, SignContainer sign) {
+        return SignBreakResult.ALLOW;
     }
 
     private double getChance(SignContainer sign) {

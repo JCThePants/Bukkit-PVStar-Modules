@@ -37,9 +37,11 @@ import java.util.regex.Matcher;
 
 public class EconDoorSignHandler extends AbstractNumberSignHandler {
 
-    @Override
-    public String getName() {
-        return "Econ_Door";
+    /**
+     * Constructor.
+     */
+    public EconDoorSignHandler() {
+        super("Econ_Door");
     }
 
     @Override

@@ -36,21 +36,17 @@ import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.regex.Matcher;
 import javax.annotation.Nullable;
 
 public class ItemKitSignHandler extends SignHandler {
 
-    @Override
-    public Plugin getPlugin() {
-        return PVStarAPI.getPlugin();
-    }
-
-    @Override
-    public String getName() {
-        return "Item_Kit";
+    /**
+     * Constructor.
+     */
+    public ItemKitSignHandler() {
+        super(PVStarAPI.getPlugin(), "Item_Kit");
     }
 
     @Override
@@ -79,62 +75,61 @@ public class ItemKitSignHandler extends SignHandler {
     }
 
     @Override
-    protected boolean onSignChange(Player p, SignContainer sign) {
+    protected SignChangeResult onSignChange(Player p, SignContainer sign) {
 
         IKit purchaseKit = getPurchaseKit(sign);
         if (purchaseKit == null) {
             Msg.tellError(p, "Purchase kit on line 1 was not found.");
-            return false;
+            return SignChangeResult.INVALID;
         }
 
         int cost = getCost(sign);
         if (cost == -1) {
             Msg.tellError(p, "Could not find cost on line 2.");
-            return false;
+            return SignChangeResult.INVALID;
         }
 
         IKit currencyKit = getCurrencyKit(sign);
         if (currencyKit == null) {
             Msg.tellError(p, "Currency kit on line 2 was not found.");
-            return false;
+            return SignChangeResult.INVALID;
         }
 
-        return true;
+        return SignChangeResult.VALID;
     }
 
     @Override
-    protected boolean onSignClick(Player p, SignContainer sign) {
+    protected SignClickResult onSignClick(Player p, SignContainer sign) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
         if (player.getArena() == null || player.getArenaRelation() == ArenaPlayerRelation.SPECTATOR)
-            return false;
+            return SignClickResult.IGNORED;
 
         int cost = getCost(sign);
         if (cost == -1)
-            return false;
+            return SignClickResult.IGNORED;
 
         IKit purchaseKit = getPurchaseKit(sign);
         if (purchaseKit == null)
-            return false;
+            return SignClickResult.IGNORED;
 
         IKit currencyKit = getCurrencyKit(sign);
         if (currencyKit == null)
-            return false;
+            return SignClickResult.IGNORED;
 
         if (!currencyKit.take(p, cost)) {
             Msg.tell(p, "You don't have enough to afford this kit.");
-            return false;
+            return SignClickResult.IGNORED;
         }
 
         purchaseKit.give(p);
 
-        return true;
+        return SignClickResult.HANDLED;
     }
 
     @Override
-    protected boolean onSignBreak(Player p, SignContainer sign) {
-        // allow
-        return true;
+    protected SignBreakResult onSignBreak(Player p, SignContainer sign) {
+        return SignBreakResult.ALLOW;
     }
 
     private int getCost(SignContainer sign) {
@@ -187,5 +182,4 @@ public class ItemKitSignHandler extends SignHandler {
 
         return kit;
     }
-
 }

@@ -25,26 +25,21 @@
 
 package com.jcwhatever.bukkit.pvs.modules.doorsigns.signs;
 
-import com.jcwhatever.nucleus.signs.SignContainer;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
-import com.jcwhatever.nucleus.utils.text.TextColor;
-import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
-import org.bukkit.plugin.Plugin;
+import com.jcwhatever.nucleus.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.text.TextColor;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 
 import java.util.regex.Matcher;
 
 public class PointsDoorSignHandler extends AbstractNumberSignHandler {
 
-    @Override
-    public Plugin getPlugin() {
-        return PVStarAPI.getPlugin();
-    }
-
-    @Override
-    public String getName() {
-        return "Points_Door";
+    /**
+     * Constructor.
+     */
+    public PointsDoorSignHandler() {
+        super("Points_Door");
     }
 
     @Override

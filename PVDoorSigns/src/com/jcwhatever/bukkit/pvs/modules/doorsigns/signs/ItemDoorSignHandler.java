@@ -40,21 +40,17 @@ import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.util.regex.Matcher;
 import javax.annotation.Nullable;
 
 public class ItemDoorSignHandler extends SignHandler {
 
-    @Override
-    public Plugin getPlugin() {
-        return PVStarAPI.getPlugin();
-    }
-
-    @Override
-    public String getName() {
-        return "Item_Door";
+    /**
+     * Constructor.
+     */
+    public ItemDoorSignHandler() {
+        super(PVStarAPI.getPlugin(), "Item_Door");
     }
 
     @Override
@@ -83,66 +79,65 @@ public class ItemDoorSignHandler extends SignHandler {
     }
 
     @Override
-    protected boolean onSignChange(Player p, SignContainer sign) {
+    protected SignChangeResult onSignChange(Player p, SignContainer sign) {
 
         int cost = getCost(sign);
         if (cost == -1) {
-            return false;
+            return SignChangeResult.INVALID;
         }
 
         IKit kit = getKit(sign);
         if (kit == null) {
-            return false;
+            return SignChangeResult.INVALID;
         }
 
         DoorManager manager = DoorSignsModule.getInstance().getDoorManager();
 
         DoorBlocks doorBlocks = manager.findDoors(this, sign);
         if (doorBlocks == null)
-            return false;
+            return SignChangeResult.INVALID;
 
-        return true;
+        return SignChangeResult.VALID;
     }
 
     @Override
-    protected boolean onSignClick(Player p, SignContainer sign) {
+    protected SignClickResult onSignClick(Player p, SignContainer sign) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
         if (player.getArena() == null || player.getArenaRelation() == ArenaPlayerRelation.SPECTATOR)
-            return false;
+            return SignClickResult.IGNORED;
 
         int cost = getCost(sign);
         if (cost == -1)
-            return false;
+            return SignClickResult.IGNORED;
 
         IKit kit = getKit(sign);
         if (kit == null)
-            return false;
+            return SignClickResult.IGNORED;
 
         DoorManager manager = DoorSignsModule.getInstance().getDoorManager();
 
         DoorBlocks doorBlocks = manager.findDoors(this, sign);
         if (doorBlocks == null)
-            return false;
+            return SignClickResult.IGNORED;
 
         if (!kit.take(p, cost)) {
             Msg.tell(p, "You don't have enough to afford this door.");
-            return false;
+            return SignClickResult.IGNORED;
         }
 
         doorBlocks.setOpen(true);
 
-        return false;
+        return SignClickResult.HANDLED;
     }
 
     @Override
-    protected boolean onSignBreak(Player p, SignContainer sign) {
+    protected SignBreakResult onSignBreak(Player p, SignContainer sign) {
 
         String doorBlocksId = SignManager.getSignNodeName(sign.getLocation());
         DoorSignsModule.getInstance().getDoorManager().removeArenaDoorBlocks(doorBlocksId);
 
-        // allow
-        return true;
+        return SignBreakResult.ALLOW;
     }
 
     private int getCost(SignContainer sign) {

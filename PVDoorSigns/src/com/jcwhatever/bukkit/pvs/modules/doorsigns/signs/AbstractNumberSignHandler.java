@@ -25,10 +25,6 @@
 
 package com.jcwhatever.bukkit.pvs.modules.doorsigns.signs;
 
-import com.jcwhatever.nucleus.signs.SignContainer;
-import com.jcwhatever.nucleus.signs.SignHandler;
-import com.jcwhatever.nucleus.signs.SignManager;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
@@ -36,8 +32,12 @@ import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.doorsigns.DoorBlocks;
 import com.jcwhatever.bukkit.pvs.modules.doorsigns.DoorManager;
 import com.jcwhatever.bukkit.pvs.modules.doorsigns.DoorSignsModule;
+import com.jcwhatever.nucleus.signs.SignContainer;
+import com.jcwhatever.nucleus.signs.SignHandler;
+import com.jcwhatever.nucleus.signs.SignManager;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
+
 import org.bukkit.entity.Player;
-import org.bukkit.plugin.Plugin;
 
 import java.text.DecimalFormat;
 import java.util.regex.Matcher;
@@ -48,9 +48,11 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("##.00");
     private static final Pattern PATTERN_EMPTY_COINS = Pattern.compile("\\.00");
 
-    @Override
-    public Plugin getPlugin() {
-        return PVStarAPI.getPlugin();
+    /**
+     * Constructor.
+     */
+    public AbstractNumberSignHandler(String name) {
+        super(PVStarAPI.getPlugin(), name);
     }
 
     @Override
@@ -59,53 +61,53 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     }
 
     @Override
-    protected boolean onSignChange(Player p, SignContainer sign) {
+    protected SignChangeResult onSignChange(Player p, SignContainer sign) {
 
         double cost = getCost(sign);
         if (cost == -1)
-            return false;
+            return SignChangeResult.INVALID;
 
         DoorManager manager = DoorSignsModule.getInstance().getDoorManager();
 
         DoorBlocks doorBlocks = manager.findDoors(this, sign);
         if (doorBlocks == null) {
             Msg.debug("Door blocks not found.");
-            return false; // finished
+            return SignChangeResult.INVALID;
         }
 
         doorBlocks.setOpen(true);
-        return true;
+        return SignChangeResult.VALID;
     }
 
     @Override
-    protected boolean onSignClick(Player p, SignContainer sign) {
+    protected SignClickResult onSignClick(Player p, SignContainer sign) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
         if (player.getArena() == null || player.getArenaRelation() == ArenaPlayerRelation.SPECTATOR)
-            return false; // finished
+            return SignClickResult.IGNORED;
 
         double cost = getCost(sign);
         if (Double.compare(cost, -1) == 0)
-            return false; // finished
+            return SignClickResult.IGNORED;
 
         DoorManager manager = DoorSignsModule.getInstance().getDoorManager();
 
         DoorBlocks doorBlocks = manager.findDoors(this, sign);
         if (doorBlocks == null) {
             Msg.debug("Door blocks not found.");
-            return false; // finished
+            return SignClickResult.IGNORED;
         }
 
         if (doorBlocks.isOpen()) {
             Msg.tell(player, "Door is already open.");
-            return false; // finished
+            return SignClickResult.IGNORED;
         }
 
         double balance = getPlayerBalance(player);
 
         if (balance <= 0) {
             Msg.tell(player, "You don't have enough {0} to open the door.", getCurrencyNamePlural());
-            return false; // finished
+            return SignClickResult.IGNORED;
         }
 
         if (balance < cost) {
@@ -124,7 +126,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
             sign.setLine(2, newLine);
             sign.update();
 
-            return false; // finished
+            return SignClickResult.IGNORED;
         }
         else {
             incrementPlayerBalance(player, -cost);
@@ -133,7 +135,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
         // open door
         if (!doorBlocks.setOpen(true)) {
             Msg.debug("Failed to open {0}.", getDisplayName());
-            return false; // finished
+            return SignClickResult.IGNORED;
         }
 
         Msg.tell(player, "Opened the door using {0} {1}.", format(cost), getCurrencyNamePlural());
@@ -142,17 +144,16 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
         // restore sign
         PVStarAPI.getSignManager().restoreSign(getName(), sign.getLocation());
 
-        return true;
+        return SignClickResult.HANDLED;
     }
 
     @Override
-    protected boolean onSignBreak(Player p, SignContainer sign) {
+    protected SignBreakResult onSignBreak(Player p, SignContainer sign) {
 
         String doorBlocksId = SignManager.getSignNodeName(sign.getLocation());
         DoorSignsModule.getInstance().getDoorManager().removeArenaDoorBlocks(doorBlocksId);
 
-        // allow
-        return true;
+        return SignBreakResult.ALLOW;
     }
 
 

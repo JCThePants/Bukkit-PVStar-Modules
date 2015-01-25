@@ -35,9 +35,11 @@ import java.util.regex.Matcher;
 
 public class PointsKitSignHandler extends AbstractNumberSignHandler {
 
-    @Override
-    public String getName() {
-        return "Points_Kit";
+    /**
+     * Constructor.
+     */
+    public PointsKitSignHandler() {
+        super("Points_Kit");
     }
 
     @Override

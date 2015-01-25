@@ -60,23 +60,19 @@ public class HideSubCommand extends AbstractPVCommand {
 
         int hideCount = 0;
         List<SignContainer> signs = PVStarAPI.getSignManager().getSigns("Note");
-        if (signs != null) {
 
+        for (SignContainer sign : signs) {
 
+            IDataNode signNode = sign.getDataNode();
+            if (signNode == null)
+                continue;
 
-            for (SignContainer sign : signs) {
+            UUID arenaId = signNode.getUUID("arena-id");
+            if (!arena.getId().equals(arenaId))
+                continue;
 
-                IDataNode signNode = sign.getDataNode();
-                if (signNode == null)
-                    continue;
-
-                UUID arenaId = signNode.getUUID("arena-id");
-                if (!arena.getId().equals(arenaId))
-                    continue;
-
-                sign.getSign().getBlock().setType(Material.AIR);
-                hideCount++;
-            }
+            sign.getSign().getBlock().setType(Material.AIR);
+            hideCount++;
         }
 
         tellSuccess(sender, Lang.get(_SUCCESS, hideCount, arena.getName()));

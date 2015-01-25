@@ -37,9 +37,11 @@ import java.util.regex.Matcher;
 
 public class EconKitSignHandler extends AbstractNumberSignHandler {
 
-    @Override
-    public String getName() {
-        return "Econ_Kit";
+    /**
+     * Constructor.
+     */
+    public EconKitSignHandler() {
+        super("Econ_Kit");
     }
 
     @Override

@@ -60,27 +60,25 @@ public class ClearSubCommand extends AbstractPVCommand {
 
         int hideCount = 0;
         List<SignContainer> signs = PVStarAPI.getSignManager().getSigns("Note");
-        if (signs != null && !signs.isEmpty()) {
 
-            for (SignContainer sign : signs) {
+        for (SignContainer sign : signs) {
 
-                IDataNode signNode = sign.getDataNode();
-                if (signNode == null)
-                    continue;
+            IDataNode signNode = sign.getDataNode();
+            if (signNode == null)
+                continue;
 
-                UUID arenaId = signNode.getUUID("arena-id");
-                if (!arena.getId().equals(arenaId))
-                    continue;
+            UUID arenaId = signNode.getUUID("arena-id");
+            if (!arena.getId().equals(arenaId))
+                continue;
 
-                if (sign.getSign() != null)
-                    sign.getSign().getBlock().setType(Material.AIR);
+            if (sign.getSign() != null)
+                sign.getSign().getBlock().setType(Material.AIR);
 
-                if (sign.getDataNode() != null) {
-                    sign.getDataNode().remove();
-                }
-
-                hideCount++;
+            if (sign.getDataNode() != null) {
+                sign.getDataNode().remove();
             }
+
+            hideCount++;
         }
 
         PVStarAPI.getSignManager().getDataNode().save();
