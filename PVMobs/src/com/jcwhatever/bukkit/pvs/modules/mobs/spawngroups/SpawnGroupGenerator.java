@@ -25,15 +25,16 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.spawngroups;
 
-import com.jcwhatever.nucleus.utils.pathing.astar.AStar.LocationAdjustment;
-import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathFinder;
-import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
+import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.bukkit.pvs.modules.mobs.paths.PathCache;
 import com.jcwhatever.bukkit.pvs.modules.mobs.utils.DistanceUtils;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.pathing.astar.AStar.LocationAdjustment;
+import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathFinder;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -70,6 +71,14 @@ public class SpawnGroupGenerator {
         }
 
         loadSpawnGroups(false);
+
+        assert _spawnGroups != null;
+
+        if (_spawnGroups.size() == 0 && spawnpoints.size() > 0) {
+            Msg.warning("PVMobs extension spawn group error. Groups are empty. " +
+                            "Cache might be corrupted in arena '{0}'.",
+                    manager.getArena().getName());
+        }
     }
 
     public PathCache getPathCache() {
