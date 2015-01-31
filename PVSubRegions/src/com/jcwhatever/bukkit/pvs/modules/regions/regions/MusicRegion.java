@@ -29,6 +29,7 @@ import com.jcwhatever.nucleus.sounds.PlayList;
 import com.jcwhatever.nucleus.sounds.PlayList.PlayerSoundQueue;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.sounds.SoundManager;
+import com.jcwhatever.nucleus.sounds.SoundSettings;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
@@ -82,7 +83,7 @@ public class MusicRegion extends AbstractPVRegion {
         if (currentQueue != null)
             return;
 
-        _playList.addPlayer(player.getPlayer());
+        _playList.addPlayer(player.getPlayer(), new SoundSettings().addLocations(getCenter()));
     }
 
     @Override
