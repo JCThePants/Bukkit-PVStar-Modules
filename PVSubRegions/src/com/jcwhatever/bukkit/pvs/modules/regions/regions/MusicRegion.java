@@ -25,20 +25,20 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.sounds.PlayList;
-import com.jcwhatever.nucleus.sounds.PlayList.PlayerSoundQueue;
+import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.bukkit.pvs.api.utils.Msg;
+import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.sounds.SoundManager;
 import com.jcwhatever.nucleus.sounds.SoundSettings;
+import com.jcwhatever.nucleus.sounds.playlist.PlayList.PlayerSoundQueue;
+import com.jcwhatever.nucleus.sounds.playlist.SimplePlayList;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
-import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
-import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.api.utils.Msg;
-import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 
 import org.bukkit.entity.Player;
 
@@ -64,7 +64,7 @@ public class MusicRegion extends AbstractPVRegion {
         ;
     }
 
-    private PlayList _playList;
+    private SimplePlayList _playList;
     private boolean _isLoop;
 
     public MusicRegion(String name) {
@@ -140,7 +140,7 @@ public class MusicRegion extends AbstractPVRegion {
             sounds.add(sound);
         }
 
-        _playList = new PlayList(PVStarAPI.getPlugin(), sounds);
+        _playList = new SimplePlayList(PVStarAPI.getPlugin(), sounds);
     }
 
     @Override
