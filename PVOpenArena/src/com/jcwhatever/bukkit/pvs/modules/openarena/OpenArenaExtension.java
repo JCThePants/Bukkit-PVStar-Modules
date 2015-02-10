@@ -127,7 +127,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
 
         // prevent spawn teleport if player enters arena on foot
         PlayerMeta meta = event.getPlayer().getMeta();
-        if (meta.get(META_ENTER) == true) {
+        if (meta.get(META_ENTER) == Boolean.TRUE) {
             event.setSpawnLocation(null);
             meta.set(META_ENTER, null);
         }
@@ -204,7 +204,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
 
         PlayerMeta meta = event.getPlayer().getMeta();
 
-        if (meta.get(META_LEAVE) == true) {
+        if (meta.get(META_LEAVE) == Boolean.TRUE) {
             event.setRestoreLocation(null);
             meta.set(META_LEAVE, null);
         }
