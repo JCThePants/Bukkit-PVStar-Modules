@@ -51,6 +51,8 @@ import java.util.Set;
 
 public class PathCacheEntry {
 
+    private static Location DESTINATION_LOCATION = new Location(null, 0, 0, 0);
+
     private static int CACHE_FILE_VERSION = 1;
 
     private final MobArenaExtension _manager;
@@ -84,14 +86,16 @@ public class PathCacheEntry {
      * @param destination  The destination to check.
      */
     public boolean isValidDesination(Location destination) {
-        destination = LocationUtils.findSurfaceBelow(destination);
+
+        if (LocationUtils.findSurfaceBelow(destination, DESTINATION_LOCATION) == null)
+            return false;
 
         if (_cachedPaths == null)
             throw new IllegalStateException("Cannot check destination because there is no path cache.");
 
         return _isValidCachedPaths
-                ? _cachedPaths.contains(destination)
-                : !_cachedPaths.contains(destination);
+                ? _cachedPaths.contains(DESTINATION_LOCATION)
+                : !_cachedPaths.contains(DESTINATION_LOCATION);
     }
 
     /**

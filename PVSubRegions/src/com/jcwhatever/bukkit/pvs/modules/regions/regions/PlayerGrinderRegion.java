@@ -202,6 +202,9 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
      * Contains locations where explosions occur for a single blade.
      */
     private static class Blade {
+
+        private static final Location CONTAINS_LOCATION = new Location(null, 0, 0, 0);
+
         private float _yaw;
         private float _pitch;
         private List<Location> _locations;
@@ -237,7 +240,8 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
         }
 
         boolean contains(Location location) {
-            return _deathLocations.contains(LocationUtils.getBlockLocation(location));
+            return _deathLocations.contains(
+                    LocationUtils.getBlockLocation(location, CONTAINS_LOCATION));
         }
     }
 
