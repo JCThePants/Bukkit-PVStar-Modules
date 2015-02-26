@@ -30,6 +30,7 @@ import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.player.PlayerBlockSelect;
+import com.jcwhatever.nucleus.utils.player.PlayerBlockSelect.BlockSelectResult;
 import com.jcwhatever.nucleus.utils.player.PlayerBlockSelect.PlayerBlockSelectHandler;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.bukkit.pvs.modules.leaderboards.leaderboards.Leaderboard;
@@ -70,24 +71,22 @@ public class SetAnchorSubCommand extends AbstractLeaderboardCommand {
 
         PlayerBlockSelect.query(p, new PlayerBlockSelectHandler() {
             @Override
-            public boolean onBlockSelect(Player p, Block selectedBlock, Action clickAction) {
+            public BlockSelectResult onBlockSelect(Player player, Block selectedBlock, Action clickAction) {
 
-
-                if (!(selectedBlock.getState() instanceof Sign)) {
-
-                    tellError(p, Lang.get(_NOT_A_SIGN));
-                } else {
+                if (selectedBlock.getState() instanceof Sign) {
 
                     Sign sign = (Sign) selectedBlock.getState();
 
                     leaderboard.setAnchor(sign);
 
-                    tellSuccess(p, Lang.get(_ANCHOR_SET, leaderboard.getName()));
+                    tellSuccess(player, Lang.get(_ANCHOR_SET, leaderboard.getName()));
+                } else {
+
+                    tellError(player, Lang.get(_NOT_A_SIGN));
                 }
-                return true;
+                return BlockSelectResult.FINISHED;
             }
         });
-
 
         tell(sender, Lang.get(_SELECT_SIGN));
     }
