@@ -146,7 +146,7 @@ public abstract class AbstractColumn {
 
         if (getHeaderSign() != null) {
             blocks.add(getHeaderSign().getBlock());
-            blocks.add(SignUtils.getSignAttachedBlock(getHeaderSign()));
+            blocks.add(SignUtils.getAttachedBlock(getHeaderSign()));
         }
 
         for (Sign archive : _signs) {
@@ -156,7 +156,7 @@ public abstract class AbstractColumn {
                 continue;
 
             blocks.add(sign.getBlock());
-            Block attached = SignUtils.getSignAttachedBlock(sign);
+            Block attached = SignUtils.getAttachedBlock(sign);
             if (attached != null)
                 blocks.add(attached);
         }
@@ -168,7 +168,7 @@ public abstract class AbstractColumn {
 
     // get signs below the column header sign
     protected void addColumnSigns(Sign headerSign) {
-        for (Sign sign : SignUtils.getAdjacentSigns(headerSign.getBlock(), BlockFace.DOWN)) {
+        for (Sign sign : SignUtils.getAllAdjacent(headerSign.getBlock(), BlockFace.DOWN)) {
             _signs.add(sign);
         }
     }

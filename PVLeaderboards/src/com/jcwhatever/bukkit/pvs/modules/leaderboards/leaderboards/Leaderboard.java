@@ -255,7 +255,7 @@ public class Leaderboard {
 
         // get column headers to the right of the anchor
         BlockFace direction = getSignSearchDirection(anchorSign);
-        List<Sign> headers = SignUtils.getAdjacentSigns(anchorSign.getBlock(), direction);
+        List<Sign> headers = SignUtils.getAllAdjacent(anchorSign.getBlock(), direction);
 
         _columnStatTypes.clear();
         _columnsNode.clear();
@@ -374,7 +374,7 @@ public class Leaderboard {
     }
 
     private boolean loadColumns(List<StatType> statTypes) {
-        List<Sign> headers = SignUtils.getAdjacentSigns(_anchorSign.getBlock(), getSignSearchDirection(_anchorSign));
+        List<Sign> headers = SignUtils.getAllAdjacent(_anchorSign.getBlock(), getSignSearchDirection(_anchorSign));
 
         if (headers.size() < statTypes.size()) {
             Msg.warning("Failed to load columns for leaderboard '{0}' because there were not enough column signs.", getName());
@@ -458,7 +458,7 @@ public class Leaderboard {
     }
 
     private BlockFace getSignSearchDirection(Sign anchorSign) {
-        switch (SignUtils.getSignFacing(anchorSign)) {
+        switch (SignUtils.getFacing(anchorSign)) {
             case NORTH:
                 return BlockFace.WEST;
 
