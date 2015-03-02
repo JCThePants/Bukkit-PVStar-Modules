@@ -25,17 +25,18 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.spawntypes.hostile;
 
-import com.jcwhatever.nucleus.utils.extended.EntityTypeExt;
-import com.jcwhatever.nucleus.utils.Rand;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.spawns.SpawnType;
+import com.jcwhatever.nucleus.utils.Rand;
+import com.jcwhatever.nucleus.utils.entity.EntityTypes;
+
 import org.bukkit.Location;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
+import javax.annotation.Nullable;
 
 public class HostileMobSpawn extends SpawnType {
 
@@ -104,11 +105,10 @@ public class HostileMobSpawn extends SpawnType {
             return false;
 
         EntityType[] types = spawnType.getEntityTypes();
+        assert types != null;
 
         for (EntityType type : types) {
-            EntityTypeExt typeExt = EntityTypeExt.from(type);
-
-            if (!typeExt.isHostile())
+            if (!EntityTypes.isHostile(type))
                 return false;
         }
 

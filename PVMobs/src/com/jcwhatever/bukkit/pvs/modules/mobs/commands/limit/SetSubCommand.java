@@ -24,18 +24,19 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.commands.limit;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.utils.extended.EntityTypeExt;
-import com.jcwhatever.nucleus.utils.extended.EntityTypeExt.EntityProperty;
-import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.modules.mobs.Lang;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
+import com.jcwhatever.nucleus.commands.CommandInfo;
+import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
+import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.utils.entity.EntityTypeProperty;
+import com.jcwhatever.nucleus.utils.entity.EntityTypes;
+import com.jcwhatever.nucleus.utils.language.Localizable;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 
 @CommandInfo(
         parent="limit",
@@ -65,12 +66,12 @@ public class SetSubCommand extends AbstractPVCommand {
             return; // finish
         }
 
-        EntityTypeExt type = args.getEnum("entityType",
-                EntityTypeExt.class, EntityTypeExt.getMatching(EntityProperty.ALIVE));
+        EntityType type = args.getEnum("entityType",
+                EntityType.class, EntityTypes.get(EntityTypeProperty.ALIVE));
 
         int limit = args.getInteger("limit");
 
-        extension.setMobLimit(type.getType(), limit);
+        extension.setMobLimit(type, limit);
 
         tellSuccess(sender, Lang.get(_SUCCESS, type.name(), limit, arena.getName()));
     }

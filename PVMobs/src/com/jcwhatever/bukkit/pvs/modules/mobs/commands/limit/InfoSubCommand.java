@@ -24,23 +24,24 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.commands.limit;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.utils.extended.EntityTypeExt;
-import com.jcwhatever.nucleus.utils.extended.EntityTypeExt.EntityProperty;
-import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.messaging.ChatPaginator;
-import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.mobs.Lang;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
+import com.jcwhatever.nucleus.commands.CommandInfo;
+import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
+import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.messaging.ChatPaginator;
+import com.jcwhatever.nucleus.utils.entity.EntityTypeProperty;
+import com.jcwhatever.nucleus.utils.entity.EntityTypes;
+import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.EntityType;
 
-import java.util.List;
+import java.util.Set;
 
 @CommandInfo(
         parent="limit",
@@ -74,13 +75,13 @@ public class InfoSubCommand extends AbstractPVCommand {
 
         ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE, arena.getName()));
 
-        List<EntityTypeExt> mobTypes = EntityTypeExt.getMatching(EntityProperty.ALIVE);
+        Set<EntityType> mobTypes = EntityTypes.get(EntityTypeProperty.ALIVE);
 
         String noneLabel = Lang.get(_LABEL_NONE);
 
-        for (EntityTypeExt type : mobTypes) {
+        for (EntityType type : mobTypes) {
 
-            int limit = extension.getMobLimit(type.getType());
+            int limit = extension.getMobLimit(type);
 
             pagin.add(type.name(), limit >= 0 ? limit : noneLabel);
         }
