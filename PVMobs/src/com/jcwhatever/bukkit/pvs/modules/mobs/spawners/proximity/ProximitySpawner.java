@@ -25,12 +25,6 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.spawners.proximity;
 
-import com.jcwhatever.nucleus.utils.pathing.astar.AStar.LocationAdjustment;
-import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathFinder;
-import com.jcwhatever.nucleus.utils.scheduler.ScheduledTask;
-import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.Rand;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
@@ -41,6 +35,12 @@ import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.ISpawnerSettings;
 import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.SpawnerInfo;
 import com.jcwhatever.bukkit.pvs.modules.mobs.utils.DistanceUtils;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.Rand;
+import com.jcwhatever.nucleus.utils.pathing.astar.AStar.LocationAdjustment;
+import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathFinder;
+import com.jcwhatever.nucleus.utils.scheduler.IScheduledTask;
+import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
 
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
@@ -70,8 +70,8 @@ public class ProximitySpawner implements ISpawner {
     private boolean _isPaused;
     private int _maxMobs;
 
-    private ScheduledTask _spawnMobsTask;
-    private ScheduledTask _despawnMobsTask;
+    private IScheduledTask _spawnMobsTask;
+    private IScheduledTask _despawnMobsTask;
 
     private boolean _isDisposed;
 

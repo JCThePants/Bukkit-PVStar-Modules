@@ -25,19 +25,19 @@
 
 package com.jcwhatever.bukkit.pvs.modules.revive;
 
-import com.jcwhatever.nucleus.events.manager.EventMethod;
-import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
-import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.items.ItemStackMatcher;
-import com.jcwhatever.nucleus.utils.scheduler.ScheduledTask;
-import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
-import com.jcwhatever.nucleus.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.PlayerMeta;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaPlayerRelation;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.Scheduler;
+import com.jcwhatever.nucleus.utils.items.ItemStackMatcher;
+import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
+import com.jcwhatever.nucleus.utils.scheduler.IScheduledTask;
+import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -146,7 +146,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
             player.setInvulnerable(true);
             player.setImmobilized(true);
 
-            ScheduledTask task = Scheduler.runTaskRepeat(PVStarAPI.getPlugin(), 20, 20,
+            IScheduledTask task = Scheduler.runTaskRepeat(PVStarAPI.getPlugin(), 20, 20,
                     new PlayerDownedTimer(player));
 
             meta.set(KEY_TASK, task);
@@ -185,7 +185,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         for (ItemStack revivalItem : _revivalItems) {
             if (ItemStackMatcher.getDefault().isMatch(inHand, revivalItem)) {
 
-                ScheduledTask task = player.getSessionMeta().get(KEY_TASK);
+                IScheduledTask task = player.getSessionMeta().get(KEY_TASK);
                 if (task != null) {
                     task.cancel();
                 }

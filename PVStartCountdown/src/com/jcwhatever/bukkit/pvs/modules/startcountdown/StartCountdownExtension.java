@@ -25,13 +25,6 @@
 
 package com.jcwhatever.bukkit.pvs.modules.startcountdown;
 
-import com.jcwhatever.nucleus.events.manager.EventMethod;
-import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
-import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.utils.scheduler.ScheduledTask;
-import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
-import com.jcwhatever.nucleus.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -41,6 +34,13 @@ import com.jcwhatever.bukkit.pvs.api.arena.options.ArenaStartReason;
 import com.jcwhatever.bukkit.pvs.api.events.ArenaPreStartEvent;
 import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.Scheduler;
+import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
+import com.jcwhatever.nucleus.utils.scheduler.IScheduledTask;
+import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
 
 import org.bukkit.plugin.Plugin;
 
@@ -63,7 +63,7 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
 
     private int _startCountdown = 10; // setting
 
-    private ScheduledTask _countdownTask;
+    private IScheduledTask _countdownTask;
     private boolean _isStarting;
 
     @Override

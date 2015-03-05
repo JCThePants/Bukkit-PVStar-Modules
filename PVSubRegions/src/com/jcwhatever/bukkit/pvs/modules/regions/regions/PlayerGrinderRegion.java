@@ -25,18 +25,18 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.scheduler.ScheduledTask;
-import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
-import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
-import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
-import com.jcwhatever.nucleus.utils.LocationUtils;
-import com.jcwhatever.nucleus.utils.Scheduler;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
+import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
+import com.jcwhatever.nucleus.utils.LocationUtils;
+import com.jcwhatever.nucleus.utils.Scheduler;
+import com.jcwhatever.nucleus.utils.scheduler.IScheduledTask;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -92,7 +92,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
     private int _bladeRadius = -1;
     private double _damage = 20;
     private final Object _sync = new Object();
-    private ScheduledTask _bladeTask;
+    private IScheduledTask _bladeTask;
     private BladeRotator _bladeRotator;
 
     private Set<ArenaPlayer> _playersInRegion = new HashSet<>(25);

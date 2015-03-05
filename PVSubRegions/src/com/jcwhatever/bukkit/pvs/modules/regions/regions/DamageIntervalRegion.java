@@ -25,15 +25,15 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.utils.scheduler.ScheduledTask;
-import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
+import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
-import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
-import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+import com.jcwhatever.nucleus.utils.scheduler.IScheduledTask;
+import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
 
 import org.bukkit.entity.Player;
 
@@ -62,7 +62,7 @@ public class DamageIntervalRegion extends AbstractPVRegion {
 
     private double _damage = 1.0D;
     private int _interval = 1;
-    private Map<UUID, ScheduledTask> _tasks = new HashMap<>(25);
+    private Map<UUID, IScheduledTask> _tasks = new HashMap<>(25);
 
     public DamageIntervalRegion(String name) {
         super(name);
@@ -71,7 +71,7 @@ public class DamageIntervalRegion extends AbstractPVRegion {
     @Override
     protected void onPlayerEnter(final ArenaPlayer player, EnterRegionReason reason) {
 
-        ScheduledTask task = ArenaScheduler.runTaskRepeat(getArena(), 1, _interval * 20, new TaskHandler() {
+        IScheduledTask task = ArenaScheduler.runTaskRepeat(getArena(), 1, _interval * 20, new TaskHandler() {
 
             @Override
             public void run() {
@@ -106,7 +106,7 @@ public class DamageIntervalRegion extends AbstractPVRegion {
     @Override
     protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
 
-        ScheduledTask task = _tasks.remove(player.getUniqueId());
+        IScheduledTask task = _tasks.remove(player.getUniqueId());
 
         if (task != null) {
             task.cancel();
