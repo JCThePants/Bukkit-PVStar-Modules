@@ -25,12 +25,14 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
+import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
+import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
-import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 
 import org.bukkit.entity.Player;
 

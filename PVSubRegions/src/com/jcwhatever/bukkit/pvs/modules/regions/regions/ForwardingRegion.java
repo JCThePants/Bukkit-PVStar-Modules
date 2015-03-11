@@ -25,12 +25,6 @@
 
 package com.jcwhatever.bukkit.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.events.manager.EventMethod;
-import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
-import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
-import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -38,6 +32,14 @@ import com.jcwhatever.bukkit.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.bukkit.pvs.api.utils.Converters;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
+import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
+import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 
 import org.bukkit.Location;
 import org.bukkit.entity.Player;

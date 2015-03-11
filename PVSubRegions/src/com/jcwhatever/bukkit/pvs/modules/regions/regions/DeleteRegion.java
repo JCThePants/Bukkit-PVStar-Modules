@@ -31,6 +31,8 @@ import com.jcwhatever.nucleus.regions.BuildChunkSnapshot;
 import com.jcwhatever.nucleus.regions.BuildMethod;
 import com.jcwhatever.nucleus.regions.data.ChunkInfo;
 import com.jcwhatever.nucleus.regions.data.RegionChunkSection;
+import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
+import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.utils.observer.result.FutureResultAgent.Future;

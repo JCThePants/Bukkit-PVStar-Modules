@@ -32,6 +32,8 @@ import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.bukkit.pvs.modules.regions.SubRegionsModule;
 import com.jcwhatever.nucleus.regions.BuildMethod;
 import com.jcwhatever.nucleus.regions.MultiSnapshotRegion;
+import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
+import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.SettingsManager;

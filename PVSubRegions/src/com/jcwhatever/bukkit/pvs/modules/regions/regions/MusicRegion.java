@@ -29,6 +29,8 @@ import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.regions.RegionTypeInfo;
+import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
+import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.sounds.ResourceSound;
 import com.jcwhatever.nucleus.sounds.SoundManager;
 import com.jcwhatever.nucleus.sounds.SoundSettings;

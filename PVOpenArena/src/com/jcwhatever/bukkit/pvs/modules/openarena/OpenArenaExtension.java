@@ -47,7 +47,7 @@ import com.jcwhatever.bukkit.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.nucleus.collections.players.PlayerSet;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.regions.Region.LeaveRegionReason;
+import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 
 import org.bukkit.entity.Player;
