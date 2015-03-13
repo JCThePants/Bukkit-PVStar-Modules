@@ -1,6 +1,6 @@
 ext.projectName = 'PVDoorSigns'
 ext.majorVersion = '0'
-ext.minorVersion = '0'
+ext.minorVersion = '1'
 ext.buildBy = null
 ext.mavenRepositories = [
         'https://github.com/JCThePants/mvn-repo/raw/master',
@@ -9,10 +9,10 @@ ext.mavenRepositories = [
 ]
 ext.providedDependsFiles = null
 ext.providedDepends = [
-        'org.spigotmc:spigot-api:1.8-R0.1-SNAPSHOT',
+        'org.spigotmc:spigot-api:1.8.3-R0.1-SNAPSHOT',
         'com.google.code.findbugs:jsr305:3.0.0',
-        'com.jcwhatever.bukkit:PV-StarAPI:0.0-SNAPSHOT',
-        'com.jcwhatever.bukkit:NucleusFramework:0.0-SNAPSHOT'
+        'com.jcwhatever.bukkit:PV-StarAPI:+',
+        'com.jcwhatever.bukkit:NucleusFramework:+'
 ]
 ext.compileDependsFiles = null
 ext.compileDepends = null
