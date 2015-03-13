@@ -120,7 +120,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
             sign.setLine(1, spawn.getName());
             sign.setLine(2, spawn.getSpawnType().getName());
 
-            BlockFace facing = LocationUtils.getBlockFacingYaw(spawn);
+            BlockFace facing = LocationUtils.getYawBlockFace(spawn);
 
             org.bukkit.material.Sign matSign = new org.bukkit.material.Sign(Material.SIGN_POST);
             matSign.setFacingDirection(facing);
