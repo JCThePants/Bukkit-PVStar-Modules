@@ -37,8 +37,8 @@ import com.jcwhatever.bukkit.pvs.modules.mobs.spawners.SpawnerInfo;
 import com.jcwhatever.bukkit.pvs.modules.mobs.utils.DistanceUtils;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.Rand;
-import com.jcwhatever.nucleus.utils.pathing.astar.AStar.LocationAdjustment;
-import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathFinder;
+import com.jcwhatever.nucleus.utils.astar.AStar;
+import com.jcwhatever.nucleus.utils.astar.AStarUtils;
 import com.jcwhatever.nucleus.utils.scheduler.IScheduledTask;
 import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
 
@@ -289,12 +289,13 @@ public class ProximitySpawner implements ISpawner {
 
                     if (!mob.hasLineOfSight(closest.getPlayer())) {
 
-                        AStarPathFinder astar = new AStarPathFinder();
+                        AStar astar = AStarUtils.getAStar(mob.getWorld());
                         astar.setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT);
-                        astar.setMaxRange(_settings.getMaxDistance());
+                        astar.setRange(_settings.getMaxDistance());
 
-                        int distance = astar.getPathDistance(
-                                mob.getLocation(), closest.getLocation(), LocationAdjustment.FIND_SURFACE);
+                        int distance = AStarUtils.searchSurface(
+                                astar, mob.getLocation(), closest.getLocation())
+                                    .getPathDistance();
 
                         if (distance == -1 || distance > _settings.getMaxPathDistance())
                             _manager.removeMob(mob, DespawnMethod.REMOVE);

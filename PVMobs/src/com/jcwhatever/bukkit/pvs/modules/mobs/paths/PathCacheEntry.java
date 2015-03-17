@@ -25,19 +25,20 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.paths;
 
-import com.jcwhatever.nucleus.utils.file.NucleusByteReader;
-import com.jcwhatever.nucleus.utils.file.NucleusByteWriter;
-import com.jcwhatever.nucleus.utils.pathing.PathAreaFinder;
-import com.jcwhatever.nucleus.utils.pathing.PathAreaFinder.PathAreaResults;
-import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathFinder;
-import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathNode;
-import com.jcwhatever.nucleus.utils.LocationUtils;
-import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.bukkit.pvs.modules.mobs.utils.DistanceUtils;
+import com.jcwhatever.nucleus.utils.LocationUtils;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.astar.AStar;
+import com.jcwhatever.nucleus.utils.astar.AStarUtils;
+import com.jcwhatever.nucleus.utils.astar.PathAreaFinder;
+import com.jcwhatever.nucleus.utils.astar.PathAreaFinder.PathAreaResults;
+import com.jcwhatever.nucleus.utils.file.NucleusByteReader;
+import com.jcwhatever.nucleus.utils.file.NucleusByteWriter;
+
 import org.bukkit.Location;
 import org.bukkit.World;
 
@@ -110,14 +111,13 @@ public class PathCacheEntry {
         PreCon.greaterThanZero(searchRadius);
         PreCon.greaterThanZero(maxPathDistance);
 
-        AStarPathFinder astar = new AStarPathFinder();
+        AStar astar = AStarUtils.getAStar(_spawnpoint.getWorld());
         astar.setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT);
-        astar.setMaxRange(searchRadius);
-        astar.setMaxTravelDistance(maxPathDistance);
+        astar.setRange(searchRadius);
+        //astar.setMaxTravelDistance(maxPathDistance);
 
-        PathAreaFinder finder = new PathAreaFinder<AStarPathNode>(astar);
-
-        PathAreaResults result = finder.search(_spawnpoint);
+        PathAreaFinder finder = new PathAreaFinder();
+        PathAreaResults result = finder.search(astar, _spawnpoint);
 
         if (result.getValid().size() > result.getInvalid().size()) {
             _isValidCachedPaths = false;

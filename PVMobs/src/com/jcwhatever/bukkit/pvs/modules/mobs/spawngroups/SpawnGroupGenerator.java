@@ -32,8 +32,8 @@ import com.jcwhatever.bukkit.pvs.modules.mobs.paths.PathCache;
 import com.jcwhatever.bukkit.pvs.modules.mobs.utils.DistanceUtils;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.pathing.astar.AStar.LocationAdjustment;
-import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathFinder;
+import com.jcwhatever.nucleus.utils.astar.AStar;
+import com.jcwhatever.nucleus.utils.astar.AStarUtils;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 
 import java.io.IOException;
@@ -234,11 +234,6 @@ public class SpawnGroupGenerator {
 
             List<Spawnpoint> groups = new ArrayList<>(_mobSpawns.size());
 
-            AStarPathFinder pathChecker = new AStarPathFinder();
-            pathChecker.setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT);
-            pathChecker.setMaxIterations(DistanceUtils.MAX_ITERATIONS);
-            pathChecker.setMaxRange(DistanceUtils.SEARCH_RADIUS);
-
             LinkedList<Spawnpoint> spawnPool = new LinkedList<>(_mobSpawns.values());
             int searchRadiusSquared = DistanceUtils.SEARCH_RADIUS * DistanceUtils.SEARCH_RADIUS;
 
@@ -247,6 +242,11 @@ public class SpawnGroupGenerator {
                 // get a spawn and make it the primary of a new spawn group
                 Spawnpoint primary = spawnPool.remove();
                 SpawnGroup group = new SpawnGroup(_manager, primary);
+
+                AStar astar = AStarUtils.getAStar(primary.getWorld());
+                astar.setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT);
+                astar.setMaxIterations(DistanceUtils.MAX_ITERATIONS);
+                astar.setRange(DistanceUtils.SEARCH_RADIUS);
 
                 // find candidates to add to the group
                 LinkedList<Spawnpoint> groupCandidates = new LinkedList<>(spawnPool);
@@ -258,7 +258,9 @@ public class SpawnGroupGenerator {
                     double distance = primary.distanceSquared(candidate);
 
                     if (distance <= searchRadiusSquared) {
-                        int pathDistance = pathChecker.getPathDistance(primary, candidate, LocationAdjustment.FIND_SURFACE);
+
+                        int pathDistance = AStarUtils.searchSurface(astar, primary, candidate)
+                                .getPathDistance();
 
                         if (pathDistance > -1 && pathDistance <= DistanceUtils.SEARCH_RADIUS) {
                             group.addSpawn(candidate);

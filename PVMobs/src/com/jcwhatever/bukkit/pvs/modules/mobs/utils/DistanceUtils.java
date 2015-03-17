@@ -25,9 +25,6 @@
 
 package com.jcwhatever.bukkit.pvs.modules.mobs.utils;
 
-import com.jcwhatever.nucleus.utils.pathing.astar.AStar.LocationAdjustment;
-import com.jcwhatever.nucleus.utils.pathing.astar.AStarPathFinder;
-import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.arena.extensions.ArenaExtension;
@@ -35,14 +32,21 @@ import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.bukkit.pvs.modules.mobs.paths.PathCache;
 import com.jcwhatever.bukkit.pvs.modules.mobs.paths.PathCacheEntry;
+import com.jcwhatever.nucleus.utils.Coords3D;
+import com.jcwhatever.nucleus.utils.LocationUtils;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.astar.AStar;
+import com.jcwhatever.nucleus.utils.astar.basic.AStarNodeContainer;
+import com.jcwhatever.nucleus.utils.astar.basic.AStarWorldExaminer;
+
 import org.bukkit.Location;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import javax.annotation.Nullable;
 
 public class DistanceUtils {
 
@@ -91,12 +95,23 @@ public class DistanceUtils {
         }
 
         // Use real time path checking (slower)
-        AStarPathFinder groundPath = new AStarPathFinder();
-        groundPath.setMaxRange(searchRadius);
-        groundPath.setMaxDropHeight(MAX_DROP_HEIGHT);
-        groundPath.setMaxIterations(MAX_ITERATIONS);
+        AStarWorldExaminer examiner = new AStarWorldExaminer(source.getWorld());
+        AStar astar = new AStar(examiner);
+        astar.setRange(searchRadius);
+        astar.setMaxDropHeight(MAX_DROP_HEIGHT);
+        astar.setMaxIterations(MAX_ITERATIONS);
 
-        int distance = groundPath.getPathDistance(source, destination, LocationAdjustment.FIND_SURFACE);
+        Location sourceAdjusted = LocationUtils.findSurfaceBelow(source);
+        LocationUtils.getBlockLocation(sourceAdjusted, sourceAdjusted);
+
+        Location destAdjusted = LocationUtils.findSurfaceBelow(destination);
+        LocationUtils.getBlockLocation(destAdjusted, destAdjusted);
+
+        int distance = astar.search(
+                Coords3D.fromLocation(sourceAdjusted),
+                Coords3D.fromLocation(destAdjusted),
+                new AStarNodeContainer(examiner))
+                    .getPathDistance();
 
         return distance > -1 && distance <= maxPathDistance;
     }
