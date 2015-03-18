@@ -32,12 +32,9 @@ import com.jcwhatever.bukkit.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.bukkit.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.bukkit.pvs.modules.mobs.paths.PathCache;
 import com.jcwhatever.bukkit.pvs.modules.mobs.paths.PathCacheEntry;
-import com.jcwhatever.nucleus.utils.Coords3D;
-import com.jcwhatever.nucleus.utils.LocationUtils;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.astar.AStar;
-import com.jcwhatever.nucleus.utils.astar.basic.AStarNodeContainer;
-import com.jcwhatever.nucleus.utils.astar.basic.AStarWorldExaminer;
+import com.jcwhatever.nucleus.utils.astar.AStarUtils;
 
 import org.bukkit.Location;
 
@@ -95,22 +92,12 @@ public class DistanceUtils {
         }
 
         // Use real time path checking (slower)
-        AStarWorldExaminer examiner = new AStarWorldExaminer(source.getWorld());
-        AStar astar = new AStar(examiner);
+        AStar astar = AStarUtils.getAStar(source.getWorld());
         astar.setRange(searchRadius);
         astar.setMaxDropHeight(MAX_DROP_HEIGHT);
         astar.setMaxIterations(MAX_ITERATIONS);
 
-        Location sourceAdjusted = LocationUtils.findSurfaceBelow(source);
-        LocationUtils.getBlockLocation(sourceAdjusted, sourceAdjusted);
-
-        Location destAdjusted = LocationUtils.findSurfaceBelow(destination);
-        LocationUtils.getBlockLocation(destAdjusted, destAdjusted);
-
-        int distance = astar.search(
-                Coords3D.fromLocation(sourceAdjusted),
-                Coords3D.fromLocation(destAdjusted),
-                new AStarNodeContainer(examiner))
+        int distance = AStarUtils.searchSurface(astar, source, destination)
                     .getPathDistance();
 
         return distance > -1 && distance <= maxPathDistance;
