@@ -25,9 +25,9 @@
 
 package com.jcwhatever.bukkit.pvs.modules.doorsigns;
 
-import com.jcwhatever.nucleus.signs.SignContainer;
-import com.jcwhatever.nucleus.signs.SignHandler;
-import com.jcwhatever.nucleus.signs.SignManager;
+import com.jcwhatever.nucleus.utils.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.signs.SignHandler;
+import com.jcwhatever.nucleus.utils.signs.SignManager;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import org.bukkit.Material;

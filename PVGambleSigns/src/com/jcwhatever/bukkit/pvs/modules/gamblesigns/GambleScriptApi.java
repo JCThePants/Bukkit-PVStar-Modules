@@ -33,7 +33,7 @@ import com.jcwhatever.nucleus.scripting.IEvaluatedScript;
 import com.jcwhatever.nucleus.scripting.ScriptApiInfo;
 import com.jcwhatever.nucleus.scripting.api.NucleusScriptApi;
 import com.jcwhatever.nucleus.scripting.api.IScriptApiObject;
-import com.jcwhatever.nucleus.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.signs.SignContainer;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;

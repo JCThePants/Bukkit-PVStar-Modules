@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.doorsigns.signs;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.nucleus.providers.economy.ICurrency.CurrencyNoun;
-import com.jcwhatever.nucleus.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.signs.SignContainer;
 import com.jcwhatever.nucleus.utils.Economy;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
