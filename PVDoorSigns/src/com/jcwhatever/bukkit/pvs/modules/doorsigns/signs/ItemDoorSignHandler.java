@@ -32,7 +32,7 @@ import com.jcwhatever.bukkit.pvs.api.utils.Msg;
 import com.jcwhatever.bukkit.pvs.modules.doorsigns.DoorBlocks;
 import com.jcwhatever.bukkit.pvs.modules.doorsigns.DoorManager;
 import com.jcwhatever.bukkit.pvs.modules.doorsigns.DoorSignsModule;
-import com.jcwhatever.nucleus.kits.IKit;
+import com.jcwhatever.nucleus.utils.kits.IKit;
 import com.jcwhatever.nucleus.signs.SignContainer;
 import com.jcwhatever.nucleus.signs.SignHandler;
 import com.jcwhatever.nucleus.signs.SignManager;
