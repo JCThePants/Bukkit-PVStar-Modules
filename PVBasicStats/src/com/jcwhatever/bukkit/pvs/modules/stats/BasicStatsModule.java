@@ -27,7 +27,6 @@ package com.jcwhatever.bukkit.pvs.modules.stats;
 
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.performance.TripleKeySingleCache;
 import com.jcwhatever.bukkit.pvs.api.PVStarAPI;
 import com.jcwhatever.bukkit.pvs.api.arena.Arena;
 import com.jcwhatever.bukkit.pvs.api.arena.ArenaPlayer;
@@ -61,7 +60,8 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
 
     private final Map<Arena, Map<StatType, Map<ArenaPlayer, SessionStatTracker>>> _playerMatches = new HashMap<>(30);
 
-    private final TripleKeySingleCache<Arena, StatType, ArenaPlayer, SessionStatTracker> _trackerCache = new TripleKeySingleCache<>();
+    private final TripleKeyEntryCache<Arena, StatType, ArenaPlayer, SessionStatTracker> _trackerCache =
+            new TripleKeyEntryCache<>();
 
     @Override
     public Plugin getPlugin() {
