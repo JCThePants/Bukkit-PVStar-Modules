@@ -229,7 +229,7 @@ public class PathCacheEntry {
 
         writer.write(CACHE_FILE_VERSION);
         writer.write(_spawnpoint.getName());
-        writer.write(_spawnpoint.getLocation());
+        writer.write(_spawnpoint);
         writer.write(_isValidCachedPaths ? (byte)1 : (byte)0);
 
         writer.write(locations.size()); // int
@@ -243,6 +243,4 @@ public class PathCacheEntry {
 
         return true;
     }
-
-
 }
