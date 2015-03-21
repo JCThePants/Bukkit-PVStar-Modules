@@ -28,7 +28,7 @@ package com.jcwhatever.bukkit.pvs.modules.regions.regions.maze;
 import com.jcwhatever.nucleus.regions.BuildChunkSnapshot;
 import com.jcwhatever.nucleus.regions.BuildMethod;
 import com.jcwhatever.nucleus.regions.BuildableRegion;
-import com.jcwhatever.nucleus.regions.data.ChunkInfo;
+import com.jcwhatever.nucleus.utils.coords.ChunkInfo;
 import com.jcwhatever.nucleus.regions.data.RegionChunkSection;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.items.ItemStackUtils;
