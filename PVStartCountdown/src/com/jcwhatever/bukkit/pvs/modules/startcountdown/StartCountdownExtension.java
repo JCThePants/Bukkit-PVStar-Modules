@@ -108,14 +108,14 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
     }
 
     @Override
-    protected void onEnable() {
+    protected void onAttach() {
 
         _startCountdown = getDataNode().getInteger("start-countdown", _startCountdown);
         getArena().getEventManager().register(this);
     }
 
     @Override
-    protected void onDisable() {
+    protected void onRemove() {
 
         getArena().getEventManager().unregister(this);
     }

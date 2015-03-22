@@ -48,13 +48,13 @@ public class PlayerStateExtension extends ArenaExtension implements IEventListen
     }
 
     @Override
-    protected void onEnable() {
+    protected void onAttach() {
 
         getArena().getEventManager().register(this);
     }
 
     @Override
-    protected void onDisable() {
+    protected void onRemove() {
 
         getArena().getEventManager().unregister(this);
     }

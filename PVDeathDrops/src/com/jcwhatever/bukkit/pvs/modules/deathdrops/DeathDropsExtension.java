@@ -113,7 +113,7 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
 
 
     @Override
-    protected void onEnable() {
+    protected void onAttach() {
 
         _canKeepItemsOnDeath = getDataNode().getBoolean("keep-items", _canKeepItemsOnDeath);
 
@@ -127,7 +127,7 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
     }
 
     @Override
-    protected void onDisable() {
+    protected void onRemove() {
 
         getArena().getEventManager().unregister(this);
     }

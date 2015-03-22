@@ -85,7 +85,7 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
 
 
     @Override
-    protected void onEnable() {
+    protected void onAttach() {
 
         _chestSettings = new ChestSettings(getArena(), getDataNode());
         _itemSettings = new ItemSettings(getArena(), getDataNode());
@@ -94,7 +94,7 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
     }
 
     @Override
-    protected void onDisable() {
+    protected void onRemove() {
 
         getArena().getEventManager().unregister(this);
 

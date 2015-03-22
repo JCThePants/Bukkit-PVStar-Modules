@@ -83,7 +83,7 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
     }
 
     @Override
-    protected void onEnable() {
+    protected void onAttach() {
 
         String spawnerName = getDataNode().getString("spawner", "proximity");
 
@@ -95,7 +95,7 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
     }
 
     @Override
-    protected void onDisable() {
+    protected void onRemove() {
         getArena().getEventManager().unregister(this);
     }
 
