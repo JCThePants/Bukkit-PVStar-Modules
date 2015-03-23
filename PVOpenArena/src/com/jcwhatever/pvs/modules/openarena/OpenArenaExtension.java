@@ -25,9 +25,14 @@
 
 package com.jcwhatever.pvs.modules.openarena;
 
+import com.jcwhatever.nucleus.collections.players.PlayerSet;
+import com.jcwhatever.nucleus.events.manager.EventMethod;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
+import com.jcwhatever.nucleus.utils.MetaStore;
+import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.api.arena.PlayerMeta;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.managers.LobbyManager;
@@ -44,11 +49,6 @@ import com.jcwhatever.pvs.api.events.players.PlayerPreJoinEvent;
 import com.jcwhatever.pvs.api.events.region.PlayerEnterArenaRegionEvent;
 import com.jcwhatever.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
-import com.jcwhatever.nucleus.collections.players.PlayerSet;
-import com.jcwhatever.nucleus.events.manager.EventMethod;
-import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
-import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -126,7 +126,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
             return;
 
         // prevent spawn teleport if player enters arena on foot
-        PlayerMeta meta = event.getPlayer().getMeta();
+        MetaStore meta = event.getPlayer().getMeta();
         if (meta.get(META_ENTER) == Boolean.TRUE) {
             event.setSpawnLocation(null);
             meta.set(META_ENTER, null);
@@ -202,7 +202,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     @EventMethod
     private void onPlayerRemove(PlayerLeaveEvent event) {
 
-        PlayerMeta meta = event.getPlayer().getMeta();
+        MetaStore meta = event.getPlayer().getMeta();
 
         if (meta.get(META_LEAVE) == Boolean.TRUE) {
             event.setRestoreLocation(null);

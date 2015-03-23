@@ -26,6 +26,7 @@
 package com.jcwhatever.pvs.modules.queue;
 
 import com.jcwhatever.nucleus.collections.players.PlayerQueue;
+import com.jcwhatever.nucleus.utils.MetaKey;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.Arena;
@@ -42,8 +43,8 @@ import javax.annotation.Nullable;
 
 public final class QueueManager {
 
-    private static final String _META_PARTY_MEMBERS = "QueueManager._META_PARTY_MEMBERS";
-    private static final String _META_QUEUED_ARENA = "QueueManager._META_QUEUED_ARENA";
+    private static final MetaKey<Set> META_PARTY_MEMBERS = new MetaKey<Set>(Set.class);
+    private static final MetaKey<Arena> META_QUEUED_ARENA = new MetaKey<Arena>(Arena.class);
     //private static Map<String, Arena> _queueMap;
     private static Map<Arena, QueueManager> _queueManagers = new HashMap<>(20);
 
@@ -101,10 +102,10 @@ public final class QueueManager {
 
                 // make sure there is enough room for the party
                 if (_arena.getAvailableSlots() < partyMembers.size()) {
-                    player.getSessionMeta().set(_META_PARTY_MEMBERS, partyMembers);
+                    player.getSessionMeta().set(META_PARTY_MEMBERS, partyMembers);
 
                     for (ArenaPlayer partyMember : partyMembers) {
-                        partyMember.getSessionMeta().set(_META_QUEUED_ARENA, _arena);
+                        partyMember.getSessionMeta().set(META_QUEUED_ARENA, _arena);
                     }
 
                     break;
@@ -128,7 +129,7 @@ public final class QueueManager {
 	public static Arena getCurrentQueue(ArenaPlayer player) {
 		PreCon.notNull(player);
 
-        return player.getSessionMeta().get(_META_QUEUED_ARENA);
+        return player.getSessionMeta().get(META_QUEUED_ARENA);
 	}
 		
 	public static boolean removePlayer(ArenaPlayer player) {
@@ -143,13 +144,15 @@ public final class QueueManager {
 		if (manager._queue.remove(player.getPlayer())) {
 
             // remove player meta
-            Set<ArenaPlayer> party = player.getSessionMeta().get(_META_PARTY_MEMBERS);
-            player.getSessionMeta().set(_META_PARTY_MEMBERS, null);
-            player.getSessionMeta().set(_META_QUEUED_ARENA, null);
+            @SuppressWarnings("unchecked")
+            Set<ArenaPlayer> party = player.getSessionMeta().get(META_PARTY_MEMBERS);
+
+            player.getSessionMeta().set(META_PARTY_MEMBERS, null);
+            player.getSessionMeta().set(META_QUEUED_ARENA, null);
 
             if (party != null) {
                 for (ArenaPlayer partyMember : party) {
-                    partyMember.getSessionMeta().set(_META_QUEUED_ARENA, null);
+                    partyMember.getSessionMeta().set(META_QUEUED_ARENA, null);
                 }
             }
             return true;
@@ -165,7 +168,8 @@ public final class QueueManager {
         if (arena == null)
             return 0;
 
-        Set<ArenaPlayer> party = player.getSessionMeta().get(_META_PARTY_MEMBERS);
+        @SuppressWarnings("unchecked")
+        Set<ArenaPlayer> party = player.getSessionMeta().get(META_PARTY_MEMBERS);
 
 		int inFront = 0;
 		for (Player qp : _queue) {
@@ -205,10 +209,10 @@ public final class QueueManager {
         removePlayer(player);
 
         // setup player meta
-        player.getSessionMeta().set(_META_PARTY_MEMBERS, partyMembers);
+        player.getSessionMeta().set(META_PARTY_MEMBERS, partyMembers);
 
         for (ArenaPlayer partyMember : partyMembers) {
-            partyMember.getSessionMeta().set(_META_QUEUED_ARENA, _arena);
+            partyMember.getSessionMeta().set(META_QUEUED_ARENA, _arena);
         }
 
 		return _queue.add(player.getPlayer());

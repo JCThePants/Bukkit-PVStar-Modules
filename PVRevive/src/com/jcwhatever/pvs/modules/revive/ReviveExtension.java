@@ -25,19 +25,20 @@
 
 package com.jcwhatever.pvs.modules.revive;
 
-import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.bukkit.pvs.api.arena.PlayerMeta;
-import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
-import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.MetaKey;
+import com.jcwhatever.nucleus.utils.MetaStore;
 import com.jcwhatever.nucleus.utils.Scheduler;
 import com.jcwhatever.nucleus.utils.items.ItemStackMatcher;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.nucleus.utils.scheduler.IScheduledTask;
 import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
+import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
+import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
+import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -53,9 +54,9 @@ import org.bukkit.potion.PotionEffectType;
         description = "Adds down and revive mechanics to an arena.")
 public class ReviveExtension extends ArenaExtension implements IEventListener {
 
-    private static final String KEY_IS_DOWN = "ReviveExtension.KEY_IS_DOWN";
-    private static final String KEY_KILLER = "ReviveExtension.KEY_KILLER";
-    private static final String KEY_TASK = "ReviveExtension.KEY_TASK";
+    private static final MetaKey<String> KEY_IS_DOWN = new MetaKey<>(String.class);
+    private static final MetaKey<ArenaPlayer> KEY_KILLER = new MetaKey<>(ArenaPlayer.class);
+    private static final MetaKey<IScheduledTask> KEY_TASK = new MetaKey<>(IScheduledTask.class);
 
     private int _timeToReviveSeconds = 20;
     private int _reviveHealth = 20;
@@ -125,7 +126,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
             return;
 
-        PlayerMeta meta = player.getSessionMeta();
+        MetaStore meta = player.getSessionMeta();
 
         if ("true".equals(meta.get(KEY_IS_DOWN))) {
             // allow death if player is down
@@ -168,7 +169,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
             return;
 
-        PlayerMeta meta = player.getSessionMeta();
+        MetaStore meta = player.getSessionMeta();
 
         // make sure player is down
         if (!"true".equals(meta.get(KEY_IS_DOWN)))
