@@ -31,7 +31,7 @@ import com.jcwhatever.pvs.modules.leaderboards.commands.columns.ColumnsCommand;
 
 @CommandInfo(
         command={ "lb", "leaderboards", "pvleaderboards" },
-        description="Manage leaderboards.")
+        description="Manage leaderboards. [PVLeaderboards]")
 
 public class LBCommand extends AbstractPVCommand {
 

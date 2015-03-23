@@ -49,7 +49,8 @@ import java.util.UUID;
 
 public class SetArenasSubCommand extends AbstractLeaderboardCommand {
 
-    @Localizable static final String _SUCCESS = "Leaderboard '{0}' arenas changed to '{1}'.";
+    @Localizable static final String _SUCCESS =
+            "Leaderboard '{0: leaderboard name}' arenas changed to '{1: arena list}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

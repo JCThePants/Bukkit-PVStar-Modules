@@ -53,9 +53,14 @@ import org.bukkit.command.CommandSender;
 
 public class AmountSubCommand extends AbstractDropsCommand {
 
-    @Localizable static final String _INFO = "The amount of Exp dropped in arena '{0}' is {1}.";
-    @Localizable static final String _SET = "The amount of Exp dropped in arena '{0}' changed to {1}.";
-    @Localizable static final String _CLEAR = "Amount cleared for specificity '{0}' in arena {1}.";
+    @Localizable static final String _INFO =
+            "The amount of Exp dropped in arena '{0: arena name}' is {1: amount}.";
+
+    @Localizable static final String _SET =
+            "The amount of Exp dropped in arena '{0: arena name}' changed to {1: amount}.";
+
+    @Localizable static final String _CLEAR =
+            "Amount cleared for specificity '{0: specificity name}' in arena {1: arena name}.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

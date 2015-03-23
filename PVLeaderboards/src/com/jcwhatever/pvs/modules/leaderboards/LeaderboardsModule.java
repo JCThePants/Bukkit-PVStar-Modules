@@ -297,6 +297,4 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
 
         return leaderboard;
     }
-
-
 }

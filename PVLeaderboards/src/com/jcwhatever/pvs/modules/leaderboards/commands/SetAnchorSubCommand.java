@@ -52,9 +52,14 @@ import org.bukkit.event.block.Action;
 
 public class SetAnchorSubCommand extends AbstractLeaderboardCommand {
 
-    @Localizable static final String _NOT_A_SIGN = "The block you selected is not a sign.";
-    @Localizable static final String _SELECT_SIGN = "Please click on the leaderboard anchor sign...";
-    @Localizable static final String _ANCHOR_SET = "Leaderboard '{0}' anchor set.";
+    @Localizable static final String _NOT_A_SIGN =
+            "The block you selected is not a sign.";
+
+    @Localizable static final String _SELECT_SIGN =
+            "Please click on the leaderboard anchor sign...";
+
+    @Localizable static final String _ANCHOR_SET =
+            "Leaderboard '{0: leaderboard name}' anchor set.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

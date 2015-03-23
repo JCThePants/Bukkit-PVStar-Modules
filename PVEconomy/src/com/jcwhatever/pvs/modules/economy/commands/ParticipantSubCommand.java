@@ -51,13 +51,26 @@ import org.bukkit.command.CommandSender;
 
 public class ParticipantSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _EXTENSION_NOT_FOUND = "PVEconomy extension not installed in arena '{0}'.";
-    @Localizable static final String _INFO_NO_REWARD = "Players do not receive or lose anything when they participate in arena '{0}'.";
-    @Localizable static final String _INFO_REWARD = "Players are rewarded {0} when they participate in arena '{1}'.";
-    @Localizable static final String _INFO_PENALTY = "{0} is deducted from a player that participates in arena '{1}'.";
-    @Localizable static final String _SET_NO_REWARD = "Removed player economy rewards for participating in arena '{0}'.";
-    @Localizable static final String _SET_REWARD = "Set player economy reward for participating in arena '{0}' to {1}.";
-    @Localizable static final String _SET_PENALTY = "Set player economy penalty for participating in arena '{0}' to {1}.";
+    @Localizable static final String _EXTENSION_NOT_FOUND =
+            "PVEconomy extension not installed in arena '{0: arena name}'.";
+
+    @Localizable static final String _INFO_NO_REWARD =
+            "Players do not receive or lose anything when they participate in arena '{0: arena name}'.";
+
+    @Localizable static final String _INFO_REWARD =
+            "Players are rewarded {0: amount} when they participate in arena '{1: arena name}'.";
+
+    @Localizable static final String _INFO_PENALTY =
+            "{0: amount} is deducted from a player that participates in arena '{1: arena name}'.";
+
+    @Localizable static final String _SET_NO_REWARD =
+            "Removed player economy rewards for participating in arena '{0: arena name}'.";
+
+    @Localizable static final String _SET_REWARD =
+            "Set player economy reward for participating in arena '{0: arena name}' to {1: amount}.";
+
+    @Localizable static final String _SET_PENALTY =
+            "Set player economy penalty for participating in arena '{0: arena name}' to {1: amount}.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

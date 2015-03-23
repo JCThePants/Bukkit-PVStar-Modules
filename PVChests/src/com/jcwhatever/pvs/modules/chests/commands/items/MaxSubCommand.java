@@ -47,8 +47,11 @@ import org.bukkit.command.CommandSender;
 
 public class MaxSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _INFO = "Max random items in arena '{0}' is {1}.";
-    @Localizable static final String _CHANGED = "Max random items in arena '{0}' changed to {1}.";
+    @Localizable static final String _INFO =
+            "Max random items in arena '{0: arena name}' is {1: amount}.";
+
+    @Localizable static final String _CHANGED =
+            "Max random items in arena '{0: arena name}' changed to {1: amount}.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

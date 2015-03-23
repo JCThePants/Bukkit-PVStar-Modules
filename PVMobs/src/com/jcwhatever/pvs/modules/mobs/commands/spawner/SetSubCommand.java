@@ -49,9 +49,14 @@ import org.bukkit.command.CommandSender;
 
 public class SetSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _EXTENSION_NOT_INSTALLED = "PVMobs extension is not installed in arena '{0}'.";
-    @Localizable static final String _SPAWNER_NOT_FOUND = "A spawner named '{0}' was not found.";
-    @Localizable static final String _SUCCESS = "Spawner in arena '{0}' set to '{1}'.";
+    @Localizable static final String _EXTENSION_NOT_INSTALLED =
+            "PVMobs extension is not installed in arena '{0: arena name}'.";
+
+    @Localizable static final String _SPAWNER_NOT_FOUND =
+            "A spawner named '{0: arena name}' was not found.";
+
+    @Localizable static final String _SUCCESS =
+            "Spawner in arena '{0: arena name}' set to '{1: spawner name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

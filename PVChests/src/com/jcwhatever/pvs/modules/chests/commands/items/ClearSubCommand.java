@@ -43,7 +43,8 @@ import org.bukkit.command.CommandSender;
 
 public class ClearSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _SUCCESS = "Available chest items cleared for arena '{0}'.";
+    @Localizable static final String _SUCCESS =
+            "Available chest items cleared for arena '{0: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

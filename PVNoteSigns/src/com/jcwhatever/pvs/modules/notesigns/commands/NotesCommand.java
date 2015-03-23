@@ -30,7 +30,7 @@ import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 
 @CommandInfo(
         command={ "notes", "pvnotes", "adminnotes" },
-        description="Manage arena chests.")
+        description="Manage arena chests. [PVNoteSigns]")
 
 public class NotesCommand extends AbstractPVCommand {
 

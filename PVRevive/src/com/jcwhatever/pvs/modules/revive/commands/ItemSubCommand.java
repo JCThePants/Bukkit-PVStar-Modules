@@ -52,9 +52,14 @@ import org.bukkit.inventory.ItemStack;
 
 public class ItemSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _EXTENSION_NOT_FOUND = "PVRevive extension not installed in arena '{0}'.";
-    @Localizable static final String _CURRENT = "Current revival items: {0}";
-    @Localizable static final String _CHANGED = "Revival items in arena '{0}' set to:";
+    @Localizable static final String _EXTENSION_NOT_FOUND =
+            "PVRevive extension not installed in arena '{0: arena name}'.";
+
+    @Localizable static final String _CURRENT =
+            "Current revival items: {0: item list}";
+
+    @Localizable static final String _CHANGED =
+            "Revival items in arena '{0: arena name}' set to:";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

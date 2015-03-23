@@ -48,8 +48,11 @@ import org.bukkit.permissions.PermissionDefault;
 
 public class LeaveSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _SUCCESS = "Left the queue for arena '{0}'.";
-    @Localizable static final String _FAILED = "You're not in a queue.";
+    @Localizable static final String _SUCCESS =
+            "Left the queue for arena '{0: arena name}'.";
+
+    @Localizable static final String _FAILED =
+            "You're not in a queue.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

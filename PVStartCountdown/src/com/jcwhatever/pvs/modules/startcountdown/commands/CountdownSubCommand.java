@@ -40,7 +40,8 @@ import org.bukkit.command.CommandSender;
         parent="game",
         command="countdown",
         staticParams={"seconds=info"},
-        description="Set or view game start countdown seconds in the currently selected arena.",
+        description="Set or view game start countdown seconds in the " +
+                "currently selected arena. [PVStartCountdown]",
 
         paramDescriptions = {
                 "seconds= The number of seconds to countdown from. Leave blank " +
@@ -48,10 +49,15 @@ import org.bukkit.command.CommandSender;
 
 public class CountdownSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _EXTENSION_NOT_FOUND = "Cannot set start countdown on arena '{0}' " +
+    @Localizable static final String _EXTENSION_NOT_FOUND =
+            "Cannot set start countdown on arena '{0: arena name}' " +
             "because the PVStartCountdown extension is not installed.";
-    @Localizable static final String _COUNTDOWN_INFO = "Game start countdown seconds in arena '{0}' is set to {1}.";
-    @Localizable static final String _COUNTDOWN_SET = "Game start countdown seconds in arena '{0}' changed to {1}.";
+
+    @Localizable static final String _COUNTDOWN_INFO =
+            "Game start countdown seconds in arena '{0: arena name}' is set to {1: amount}.";
+
+    @Localizable static final String _COUNTDOWN_SET =
+            "Game start countdown seconds in arena '{0: arena name}' changed to {1: amount}.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

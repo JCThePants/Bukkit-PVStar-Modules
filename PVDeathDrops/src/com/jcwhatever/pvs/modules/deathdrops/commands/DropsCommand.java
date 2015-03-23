@@ -32,7 +32,7 @@ import com.jcwhatever.pvs.modules.deathdrops.commands.items.ItemsCommand;
 
 @CommandInfo(
         command="drops",
-        description="Manage death drop settings.")
+        description="Manage death drop settings. [PVDeathDrops]")
 
 public class DropsCommand extends AbstractPVCommand {
 

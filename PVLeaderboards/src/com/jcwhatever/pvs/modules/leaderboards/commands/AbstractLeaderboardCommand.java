@@ -34,7 +34,14 @@ import org.bukkit.command.CommandSender;
 
 public class AbstractLeaderboardCommand extends AbstractPVCommand {
 
-    @Localizable static final String _NOT_FOUND = "A leaderboard named '{0}' was not found.";
+    @Localizable static final String _INVALID_LINE_NUMBER =
+            "Invalid argument. <lineNumber> must be a number between 1 and 4.";
+
+    @Localizable static final String _NOT_FOUND =
+            "A leaderboard named '{0: leaderboard name}' was not found.";
+
+    @Localizable static final String _ALREADY_EXISTS =
+            "A leaderboard named '{0: leaderboard}' already exists.";
 
     protected Leaderboard getLeaderboard(CommandSender sender, String leaderboardName) {
         Leaderboard leaderboard = LeaderboardsModule.getModule().getLeaderboard(leaderboardName);

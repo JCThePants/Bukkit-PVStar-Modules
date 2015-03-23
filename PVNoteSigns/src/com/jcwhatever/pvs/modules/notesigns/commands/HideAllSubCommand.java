@@ -28,9 +28,9 @@ package com.jcwhatever.pvs.modules.notesigns.commands;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.signs.SignContainer;
-import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.notesigns.Lang;
@@ -48,8 +48,7 @@ import java.util.List;
 
 public class HideAllSubCommand extends AbstractPVCommand {
 
-    @Localizable
-    static final String _SUCCESS = "{0} Note signs hidden.";
+    @Localizable static final String _SUCCESS = "{0: number} Note signs hidden.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

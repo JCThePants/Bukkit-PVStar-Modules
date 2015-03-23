@@ -49,7 +49,8 @@ import java.util.List;
 
 public class SpecTypesSubCommand extends AbstractDropsCommand {
 
-    @Localizable static final String _PAGINATOR_TITLE = "Specificity Types";
+    @Localizable static final String _PAGINATOR_TITLE =
+            "Specificity Types";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

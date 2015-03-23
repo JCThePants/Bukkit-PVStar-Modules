@@ -49,7 +49,8 @@ import org.bukkit.entity.Player;
 
 public class RedefineSubCommand extends AbstractRegionCommand {
 
-    @Localizable static final String _SUCCESS = "Sub region named '{0}' in arena '{1}' has been redefined.";
+    @Localizable static final String _SUCCESS =
+            "Sub region named '{0: region name}' in arena '{1: arena name}' has been redefined.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException{

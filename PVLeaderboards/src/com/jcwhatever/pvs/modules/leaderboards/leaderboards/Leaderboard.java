@@ -215,6 +215,7 @@ public class Leaderboard {
 
     /**
      * Get ordered list of statistic types used in the leaderboard columns.
+     *
      * @return
      */
     public List<StatType> getColumnStatTypes() {
@@ -224,7 +225,7 @@ public class Leaderboard {
     /**
      * Set the arenas the leaderboard compiles statistics from.
      *
-     * @param arenaIds  A collection of arena id's
+     * @param arenaIds A collection of arena id's
      */
     public void setArenas(Collection<UUID> arenaIds) {
         _arenaIds = new ArrayList<>(arenaIds);
@@ -270,7 +271,7 @@ public class Leaderboard {
         _dataNode.set("format-line-4", ChatColor.getLastColors(ChatColor.translateAlternateColorCodes('&', anchorSign.getLine(3))));
 
         // iterate column headers
-        for (int i =0, order=0; i < headers.size(); i++, order++) {
+        for (int i = 0, order = 0; i < headers.size(); i++, order++) {
             Sign sign = headers.get(i);
 
             String statName = sign.getLine(0);
@@ -306,7 +307,6 @@ public class Leaderboard {
     }
 
 
-
     private boolean load() {
 
         loadArenaStats();
@@ -325,8 +325,7 @@ public class Leaderboard {
 
                 // insert dummy stat
                 _columnStatTypes.add(new MissingStatType(statName));
-            }
-            else {
+            } else {
                 _columnStatTypes.add(type);
             }
         }
@@ -367,9 +366,9 @@ public class Leaderboard {
             return false;
         }
 
-        _anchorSign = (Sign)state;
+        _anchorSign = (Sign) state;
         _anchorLocation = signLocation;
-        _anchorColumn = new AnchorColumn(this, (Sign)state, getLineFormats());
+        _anchorColumn = new AnchorColumn(this, (Sign) state, getLineFormats());
         return true;
     }
 
@@ -381,7 +380,7 @@ public class Leaderboard {
             return false;
         }
 
-        for (int i=0; i < statTypes.size(); i++) {
+        for (int i = 0; i < statTypes.size(); i++) {
             addColumn(headers.get(i), statTypes.get(i));
         }
 
@@ -390,11 +389,12 @@ public class Leaderboard {
 
     /**
      * Get sign line formatting from settings
+     *
      * @return
      */
     private String[] getLineFormats() {
         if (_lineFormats == null) {
-            _lineFormats = new String[] {
+            _lineFormats = new String[]{
                     _dataNode.getString("format-line-1", ""),
                     _dataNode.getString("format-line-2", ""),
                     _dataNode.getString("format-line-3", ""),
@@ -524,6 +524,4 @@ public class Leaderboard {
             _arenaStats.add(stats);
         }
     }
-
-
 }

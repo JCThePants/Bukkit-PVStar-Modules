@@ -40,15 +40,19 @@ import org.bukkit.command.CommandSender;
         parent="chests",
         command="max",
         staticParams={"number=info"},
-        description="Set max number of chests in selected arena when chests are randomized. -1 to disregard setting.",
+        description="Set max number of chests in selected arena when chests are randomized. " +
+                "-1 to disregard setting.",
 
         paramDescriptions = {
                 "number= The max number of chests. Leave blank to see current setting."})
 
 public class MaxSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _INFO = "Max random chests in arena '{0}' is {1}.";
-    @Localizable static final String _SET = "Max random chests in arena '{0}' changed to {1}.";
+    @Localizable static final String _INFO =
+            "Max random chests in arena '{0: arena name}' is {1: amount}.";
+
+    @Localizable static final String _SET =
+            "Max random chests in arena '{0: arena name}' changed to {1: amount}.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {
@@ -66,14 +70,12 @@ public class MaxSubCommand extends AbstractPVCommand {
             int max = extension.getChestSettings().getMaxChests();
 
             tell(sender, Lang.get(_INFO, arena.getName(), max));
-
         }
         else {
 
             int max = args.getInteger("number");
 
             tellSuccess(sender, Lang.get(_SET, arena.getName(), max));
-
         }
     }
 }

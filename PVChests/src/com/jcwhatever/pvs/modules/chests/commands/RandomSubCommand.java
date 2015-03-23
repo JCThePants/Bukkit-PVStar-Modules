@@ -48,10 +48,17 @@ import org.bukkit.command.CommandSender;
 
 public class RandomSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _INFO_ENABLED = "Chest randomizing in arena '{0}' is enabled.";
-    @Localizable static final String _INFO_DISABLED = "Chest randomizing in arena '{0}' is disabled.";
-    @Localizable static final String _SET_ENABLED = "Chest randomizing in arena '{0}' has been changed to Enabled.";
-    @Localizable static final String _SET_DISABLED = "Chest randomizing in arena '{0}' has been changed to Disabled.";
+    @Localizable static final String _INFO_ENABLED =
+            "Chest randomizing in arena '{0: arena name}' is enabled.";
+
+    @Localizable static final String _INFO_DISABLED =
+            "Chest randomizing in arena '{0: arena name}' is disabled.";
+
+    @Localizable static final String _SET_ENABLED =
+            "Chest randomizing in arena '{0: arena name}' has been changed to Enabled.";
+
+    @Localizable static final String _SET_DISABLED =
+            "Chest randomizing in arena '{0: arena name}' has been changed to Disabled.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

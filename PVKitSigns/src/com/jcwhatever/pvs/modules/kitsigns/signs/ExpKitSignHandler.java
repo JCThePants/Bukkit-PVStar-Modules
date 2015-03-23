@@ -25,15 +25,23 @@
 
 package com.jcwhatever.pvs.modules.kitsigns.signs;
 
+import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.signs.SignContainer;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.nucleus.utils.text.TextColor;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.pvs.api.utils.Msg;
+import com.jcwhatever.pvs.modules.kitsigns.Lang;
 
 import java.util.regex.Matcher;
 
 public class ExpKitSignHandler extends AbstractNumberSignHandler {
+
+    @Localizable static final String _DESCRIPTION =
+            "Purchase kits using player Exp as currency.";
+
+    @Localizable static final String _CURRENCY_NAME =
+            "Exp Levels";
 
     /**
      * Constructor.
@@ -49,7 +57,7 @@ public class ExpKitSignHandler extends AbstractNumberSignHandler {
 
     @Override
     public String getDescription() {
-        return "Purchase kits using player Exp as currency.";
+        return Lang.get(_DESCRIPTION);
     }
 
     @Override
@@ -77,7 +85,7 @@ public class ExpKitSignHandler extends AbstractNumberSignHandler {
 
     @Override
     protected String getCurrencyName() {
-        return "Exp Levels";
+        return Lang.get(_CURRENCY_NAME);
     }
 
     @Override

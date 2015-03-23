@@ -50,8 +50,11 @@ import org.bukkit.entity.EntityType;
 
 public class ResetSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _EXTENSION_NOT_INSTALLED = "PVMobs extension is not installed in arena '{0}'.";
-    @Localizable static final String _SUCCESS = "Limit removed for entity type '{0}' in arena '{1}'.";
+    @Localizable static final String _EXTENSION_NOT_INSTALLED =
+            "PVMobs extension is not installed in arena '{0: arena name}'.";
+
+    @Localizable static final String _SUCCESS =
+            "Limit removed for entity type '{0: entity type}' in arena '{1: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

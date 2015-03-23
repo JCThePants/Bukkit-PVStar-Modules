@@ -30,7 +30,7 @@ import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 
 @CommandInfo(
         command="revive",
-        description="Manage arena player revive settings.")
+        description="Manage arena player revive settings. [PVRevive]")
 
 public class ReviveCommand extends AbstractPVCommand {
 

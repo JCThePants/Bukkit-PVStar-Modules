@@ -49,7 +49,7 @@ import java.util.UUID;
 
 public class HideSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _SUCCESS = "{0} signs hidden in arena '{1}'.";
+    @Localizable static final String _SUCCESS = "{0: number} signs hidden in arena '{1: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

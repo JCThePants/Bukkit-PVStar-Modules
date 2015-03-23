@@ -55,11 +55,20 @@ import org.bukkit.command.CommandSender;
 
 public class TransferSubCommand extends AbstractDropsCommand {
 
-    @Localizable static final String _INFO_DIRECT = "Items are transferred directly to the player in arena '{0}'.";
-    @Localizable static final String _INFO_DROP = "Items are dropped in arena '{0}'.";
-    @Localizable static final String _SET_DIRECT = "Items transfer type changed to DIRECT in arena '{0}'.";
-    @Localizable static final String _SET_DROP = "Item transfer type changed to DROP in arena '{0}'.";
-    @Localizable static final String _CLEAR = "Value cleared for specificity '{0}' in arena '{1}'.";
+    @Localizable static final String _INFO_DIRECT =
+            "Items are transferred directly to the player in arena '{0: arena name}'.";
+
+    @Localizable static final String _INFO_DROP =
+            "Items are dropped in arena '{0: arena name}'.";
+
+    @Localizable static final String _SET_DIRECT =
+            "Items transfer type changed to DIRECT in arena '{0: arena name}'.";
+
+    @Localizable static final String _SET_DROP =
+            "Item transfer type changed to DROP in arena '{0: arena name}'.";
+
+    @Localizable static final String _CLEAR =
+            "Value cleared for specificity '{0: specificity name}' in arena '{1: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

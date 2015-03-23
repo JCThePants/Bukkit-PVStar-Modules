@@ -48,9 +48,14 @@ import org.bukkit.command.CommandSender;
 
 public class TimeSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _EXTENSION_NOT_FOUND = "PVRevive extension not installed in arena '{0}'.";
-    @Localizable static final String _CURRENT = "Current revive time in arena '{0}' is {1} seconds.";
-    @Localizable static final String _CHANGED = "Changed revive time in arena '{0}' to {1} seconds.";
+    @Localizable static final String _EXTENSION_NOT_FOUND =
+            "PVRevive extension not installed in arena '{0: arena name}'.";
+
+    @Localizable static final String _CURRENT =
+            "Current revive time in arena '{0: arena name}' is {1: seconds} seconds.";
+
+    @Localizable static final String _CHANGED =
+            "Changed revive time in arena '{0: arena name}' to {1: seconds} seconds.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

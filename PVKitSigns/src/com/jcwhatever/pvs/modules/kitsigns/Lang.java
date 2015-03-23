@@ -23,23 +23,16 @@
  */
 
 
-package com.jcwhatever.pvs.modules.mobs.commands.settings;
+package com.jcwhatever.pvs.modules.kitsigns;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
+import com.jcwhatever.nucleus.utils.language.Localized;
 
-@CommandInfo(
-        parent="mobs",
-        command="settings",
-        description="Manage a mob spawners settings.")
+public class Lang {
 
-public class SettingsCommand extends AbstractPVCommand {
+    private Lang() {}
 
-    public SettingsCommand() {
-        super();
-
-        registerCommand(InfoSubCommand.class);
-        registerCommand(ResetSubCommand.class);
-        registerCommand(SetSubCommand.class);
+    @Localized
+    public static String get(String text, Object... params) {
+        return KitSignsModule.getModule().getLanguageManager().get(text, params);
     }
 }

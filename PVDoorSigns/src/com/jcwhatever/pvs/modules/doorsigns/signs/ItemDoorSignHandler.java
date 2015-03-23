@@ -25,6 +25,13 @@
 
 package com.jcwhatever.pvs.modules.doorsigns.signs;
 
+import com.jcwhatever.nucleus.utils.kits.IKit;
+import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.utils.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.signs.SignHandler;
+import com.jcwhatever.nucleus.utils.signs.SignManager;
+import com.jcwhatever.nucleus.utils.text.TextColor;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
@@ -32,12 +39,7 @@ import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.doorsigns.DoorBlocks;
 import com.jcwhatever.pvs.modules.doorsigns.DoorManager;
 import com.jcwhatever.pvs.modules.doorsigns.DoorSignsModule;
-import com.jcwhatever.nucleus.utils.kits.IKit;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
-import com.jcwhatever.nucleus.utils.signs.SignHandler;
-import com.jcwhatever.nucleus.utils.signs.SignManager;
-import com.jcwhatever.nucleus.utils.text.TextColor;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
+import com.jcwhatever.pvs.modules.doorsigns.Lang;
 
 import org.bukkit.entity.Player;
 
@@ -45,6 +47,12 @@ import java.util.regex.Matcher;
 import javax.annotation.Nullable;
 
 public class ItemDoorSignHandler extends SignHandler {
+
+    @Localizable static final String _INSUFFICIENT_FUNDS =
+            "You don't have enough to afford this door.";
+
+    @Localizable static final String _DESCRIPTION =
+            "Open doors by paying with items from a specified kit.";
 
     /**
      * Constructor.
@@ -55,7 +63,7 @@ public class ItemDoorSignHandler extends SignHandler {
 
     @Override
     public String getDescription() {
-        return "Open doors by paying with items from a specified kit.";
+        return Lang.get(_DESCRIPTION);
     }
 
     @Override
@@ -91,7 +99,7 @@ public class ItemDoorSignHandler extends SignHandler {
             return SignChangeResult.INVALID;
         }
 
-        DoorManager manager = DoorSignsModule.getInstance().getDoorManager();
+        DoorManager manager = DoorSignsModule.getModule().getDoorManager();
 
         DoorBlocks doorBlocks = manager.findDoors(this, sign);
         if (doorBlocks == null)
@@ -115,14 +123,14 @@ public class ItemDoorSignHandler extends SignHandler {
         if (kit == null)
             return SignClickResult.IGNORED;
 
-        DoorManager manager = DoorSignsModule.getInstance().getDoorManager();
+        DoorManager manager = DoorSignsModule.getModule().getDoorManager();
 
         DoorBlocks doorBlocks = manager.findDoors(this, sign);
         if (doorBlocks == null)
             return SignClickResult.IGNORED;
 
         if (!kit.take(p, cost)) {
-            Msg.tell(p, "You don't have enough to afford this door.");
+            Msg.tell(p, Lang.get(_INSUFFICIENT_FUNDS));
             return SignClickResult.IGNORED;
         }
 
@@ -135,7 +143,7 @@ public class ItemDoorSignHandler extends SignHandler {
     protected SignBreakResult onSignBreak(Player p, SignContainer sign) {
 
         String doorBlocksId = SignManager.getSignNodeName(sign.getLocation());
-        DoorSignsModule.getInstance().getDoorManager().removeArenaDoorBlocks(doorBlocksId);
+        DoorSignsModule.getModule().getDoorManager().removeArenaDoorBlocks(doorBlocksId);
 
         return SignBreakResult.ALLOW;
     }
@@ -177,5 +185,4 @@ public class ItemDoorSignHandler extends SignHandler {
 
         return kit;
     }
-
 }

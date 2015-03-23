@@ -34,6 +34,18 @@ import com.jcwhatever.pvs.modules.kitsigns.signs.PointsKitSignHandler;
 
 public class KitSignsModule extends PVStarModule {
 
+    private static KitSignsModule _module;
+
+    public static KitSignsModule getModule() {
+        return _module;
+    }
+
+    public KitSignsModule() {
+        super();
+
+        _module = this;
+    }
+
     @Override
     protected void onRegisterTypes() {
 

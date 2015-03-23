@@ -53,7 +53,7 @@ import java.util.List;
 
 public class ListSubCommand extends AbstractRegionCommand {
 
-    @Localizable static final String _PAGINATOR_TITLE = "Sub Regions in Arena '{0}'";
+    @Localizable static final String _PAGINATOR_TITLE = "Sub Regions in Arena '{0: arena name}'";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

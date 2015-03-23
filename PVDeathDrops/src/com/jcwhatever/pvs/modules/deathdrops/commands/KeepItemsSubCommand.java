@@ -47,10 +47,17 @@ import org.bukkit.command.CommandSender;
 
 public class KeepItemsSubCommand extends AbstractDropsCommand {
 
-    @Localizable static final String _INFO_KEEP = "Players keep their items when they die and respawn in arena '{0}'.";
-    @Localizable static final String _INFO_NOT_KEEP = "Players lose their items when they die in arena '{0}'.";
-    @Localizable static final String _SET_KEEP = "Players will now keep their items when they die in arena '{0}'.";
-    @Localizable static final String _SET_NOT_KEEP = "Players will now lose their items when they die in arena '{0}'.";
+    @Localizable static final String _INFO_KEEP =
+            "Players keep their items when they die and respawn in arena '{0: arena name}'.";
+
+    @Localizable static final String _INFO_NOT_KEEP =
+            "Players lose their items when they die in arena '{0: arena name}'.";
+
+    @Localizable static final String _SET_KEEP =
+            "Players will now keep their items when they die in arena '{0: arena name}'.";
+
+    @Localizable static final String _SET_NOT_KEEP =
+            "Players will now lose their items when they die in arena '{0: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

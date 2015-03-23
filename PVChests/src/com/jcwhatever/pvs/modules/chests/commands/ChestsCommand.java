@@ -31,7 +31,7 @@ import com.jcwhatever.pvs.modules.chests.commands.items.ItemsCommand;
 
 @CommandInfo(
         command="chests",
-        description="Manage arena chests.")
+        description="Manage arena chests. [PVChests]")
 
 public class ChestsCommand extends AbstractPVCommand {
 
@@ -44,6 +44,5 @@ public class ChestsCommand extends AbstractPVCommand {
         registerCommand(MaxSubCommand.class);
         registerCommand(ScanSubCommand.class);
         registerCommand(RandomSubCommand.class);
-
     }
 }

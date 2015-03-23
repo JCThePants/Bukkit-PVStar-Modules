@@ -43,5 +43,4 @@ public class BukkitEventListener implements Listener {
             event.setCancelled(true);
         }
     }
-
 }

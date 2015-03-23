@@ -53,7 +53,8 @@ import java.util.List;
 
 public class InfoSubCommand extends AbstractLeaderboardCommand {
 
-    @Localizable static final String _PAGINATOR_TITLE = "Columns for leaderboard '{0}'.";
+    @Localizable static final String _PAGINATOR_TITLE =
+            "Columns for leaderboard '{0: leaderboard name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

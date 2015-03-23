@@ -50,8 +50,8 @@ import org.bukkit.command.CommandSender;
 
 public class FormatSubCommand extends AbstractLeaderboardCommand {
 
-    @Localizable static final String _INVALID_LINE_NUMBER = "Invalid argument. <lineNumber> must be a number between 1 and 4.";
-    @Localizable static final String _SUCCESS = "Line color changed for line {0}.";
+    @Localizable static final String _SUCCESS =
+            "Line color changed for line {0: line number}.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

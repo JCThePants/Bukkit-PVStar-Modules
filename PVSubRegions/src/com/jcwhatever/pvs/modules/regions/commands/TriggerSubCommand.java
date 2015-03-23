@@ -45,9 +45,12 @@ import org.bukkit.command.CommandSender;
 
 public class TriggerSubCommand extends AbstractRegionCommand {
 
-    @Localizable static final String _FAILED = "Failed to trigger region. Region may not implement a " +
-                                               "trigger or requirements to trigger are not met.";
-    @Localizable static final String _SUCCESS = "Sub region named '{0}' was triggered in arena '{1}'.";
+    @Localizable static final String _FAILED =
+            "Failed to trigger region. Region may not implement a " +
+            "trigger or requirements to trigger are not met.";
+
+    @Localizable static final String _SUCCESS =
+            "Sub region named '{0: region name}' was triggered in arena '{1: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

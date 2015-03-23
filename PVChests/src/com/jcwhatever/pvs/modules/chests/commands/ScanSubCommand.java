@@ -43,8 +43,11 @@ import org.bukkit.command.CommandSender;
 
 public class ScanSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _SCAN_START = "Scan starting...";
-    @Localizable static final String _SCAN_FINISH = "Scan finished. {0} chests found.";
+    @Localizable static final String _SCAN_START =
+            "Scan starting...";
+
+    @Localizable static final String _SCAN_FINISH =
+            "Scan finished. {0: number of chests found} chests found.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

@@ -58,8 +58,11 @@ import java.util.UUID;
 
 public class ListSubCommand extends AbstractCommand {
 
-    @Localizable static final String _PAGINATOR_TITLE = "Leaderboards";
-    @Localizable static final String _LABEL_ANCHOR_NOT_SET = "(anchor not set)";
+    @Localizable static final String _PAGINATOR_TITLE =
+            "Leaderboards";
+
+    @Localizable static final String _LABEL_ANCHOR_NOT_SET =
+            "(anchor not set)";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

@@ -45,9 +45,12 @@ import org.bukkit.command.CommandSender;
 
 public class UntriggerSubCommand extends AbstractRegionCommand {
 
-    @Localizable static final String _FAILED = "Failed to untrigger region. Region may not implement aa " +
-                                               "untrigger or requirements to untrigger are not met.";
-    @Localizable static final String _SUCCESS = "Sub region named '{0}' was untriggered in arena '{1}'.";
+    @Localizable static final String _FAILED =
+            "Failed to untrigger region. Region may not implement an " +
+                    "untrigger or requirements to untrigger are not met.";
+
+    @Localizable static final String _SUCCESS =
+            "Sub region named '{0: region name}' was untriggered in arena '{1: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {
@@ -69,6 +72,5 @@ public class UntriggerSubCommand extends AbstractRegionCommand {
 
         tellSuccess(sender, Lang.get(_SUCCESS, regionName, arena.getName()));
     }
-
 }
 

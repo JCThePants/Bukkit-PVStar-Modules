@@ -164,7 +164,6 @@ public abstract class AbstractColumn {
         return blocks;
     }
 
-
     protected abstract String getPlayerStatDisplay(int signLine, String playerId);
 
     // get signs below the column header sign
@@ -173,5 +172,4 @@ public abstract class AbstractColumn {
             _signs.add(sign);
         }
     }
-
 }

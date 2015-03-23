@@ -56,7 +56,7 @@ import java.util.Map;
 
 public class InfoSubCommand extends AbstractRegionCommand {
 
-    @Localizable static final String _PAGINATOR_TITLE = "Sub Region '{0}'.";
+    @Localizable static final String _PAGINATOR_TITLE = "Sub Region '{0: region name}'.";
     @Localizable static final String _LABEL_ENABLED = "ENABLED";
     @Localizable static final String _LABEL_TYPE = "TYPE";
     @Localizable static final String _LABEL_DEFINED = "DEFINED";

@@ -53,11 +53,20 @@ import org.bukkit.command.CommandSender;
 
 public class RandomSubCommand extends AbstractDropsCommand {
 
-    @Localizable static final String _INFO_ON = "Random item drop in arena '{0}' is on.";
-    @Localizable static final String _INFO_OFF = "Random item drop in arena '{0}' is off.";
-    @Localizable static final String _SET_ON = "Random item drop in arena '{0}' changed to ON.";
-    @Localizable static final String _SET_OFF = "Random item drop in arena '{0}' changed to OFF.";
-    @Localizable static final String _CLEAR = "Value cleared for specificity '{0}' in arena '{1}'.";
+    @Localizable static final String _INFO_ON =
+            "Random item drop in arena '{0: arena name}' is on.";
+
+    @Localizable static final String _INFO_OFF =
+            "Random item drop in arena '{0: arena name}' is off.";
+
+    @Localizable static final String _SET_ON =
+            "Random item drop in arena '{0: arena name}' changed to ON.";
+
+    @Localizable static final String _SET_OFF =
+            "Random item drop in arena '{0: arena name}' changed to OFF.";
+
+    @Localizable static final String _CLEAR =
+            "Value cleared for specificity '{0: specificity name}' in arena '{1: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

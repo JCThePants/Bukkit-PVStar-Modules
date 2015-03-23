@@ -25,15 +25,23 @@
 
 package com.jcwhatever.pvs.modules.doorsigns.signs;
 
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.pvs.api.utils.Msg;
+import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.signs.SignContainer;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
+import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.utils.Msg;
+import com.jcwhatever.pvs.modules.doorsigns.Lang;
 
 import java.util.regex.Matcher;
 
 public class PointsDoorSignHandler extends AbstractNumberSignHandler {
+
+    @Localizable static final String _DESCRIPTION =
+            "Opens doors using player points as currency.";
+
+    @Localizable static final String _CURRENCY_NAME =
+            "Points";
 
     /**
      * Constructor.
@@ -44,7 +52,7 @@ public class PointsDoorSignHandler extends AbstractNumberSignHandler {
 
     @Override
     public String getDescription() {
-        return "Opens doors using player points as currency.";
+        return Lang.get(_DESCRIPTION);
     }
 
     @Override
@@ -98,12 +106,11 @@ public class PointsDoorSignHandler extends AbstractNumberSignHandler {
 
     @Override
     protected String getCurrencyName() {
-        return "Points";
+        return Lang.get(_CURRENCY_NAME);
     }
 
     @Override
     protected String getCurrencyNamePlural() {
-        return "Points";
+        return getCurrencyName();
     }
-
 }

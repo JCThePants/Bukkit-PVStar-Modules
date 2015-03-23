@@ -30,7 +30,7 @@ import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 
 @CommandInfo(
         command="economy",
-        description="Manage economy settings.")
+        description="Manage economy settings. [PVEconomy]")
 
 public class EconomyCommand extends AbstractPVCommand {
 

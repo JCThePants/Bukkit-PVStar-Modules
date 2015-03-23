@@ -55,8 +55,12 @@ import java.util.Map;
 
 public class InfoSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _EXTENSION_NOT_INSTALLED = "PVMobs extension is not installed in arena '{0}'.";
-    @Localizable static final String _SPAWNER_NOT_FOUND = "Arena '{0}' does not have a mob spawner.";
+    @Localizable static final String _EXTENSION_NOT_INSTALLED =
+            "PVMobs extension is not installed in arena '{0: arena name}'.";
+
+    @Localizable static final String _SPAWNER_NOT_FOUND =
+            "Arena '{0: arena name}' does not have a mob spawner.";
+
     @Localizable static final String _PAGINATOR_TITLE = "Spawner Info";
 
     @Override

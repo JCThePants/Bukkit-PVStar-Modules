@@ -39,7 +39,8 @@ import javax.annotation.Nullable;
 
 public abstract class AbstractRegionCommand extends AbstractPVCommand {
 
-    @Localizable static final String _REGION_NOT_FOUND = "A sub region with the name '{0}' was not found in arena '{1}'.";
+    @Localizable static final String _REGION_NOT_FOUND =
+            "A sub region with the name '{0: region name}' was not found in arena '{1: arena name}'.";
 
     @Nullable
     protected AbstractPVRegion getRegion(CommandSender sender, Arena arena, String regionName) {
@@ -53,5 +54,4 @@ public abstract class AbstractRegionCommand extends AbstractPVCommand {
 
         return region;
     }
-
 }

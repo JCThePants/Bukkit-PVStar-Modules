@@ -110,5 +110,4 @@ public class ColumnSetting {
 
         return _lineFormats[index];
     }
-
 }

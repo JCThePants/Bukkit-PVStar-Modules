@@ -54,11 +54,20 @@ import org.bukkit.command.CommandSender;
 
 public class ExpCommand extends AbstractDropsCommand {
 
-    @Localizable static final String _INFO_ON = "Exp drops in arena '{0}' are on.";
-    @Localizable static final String _INFO_OFF = "Exp drops in arena '{0}' are off.";
-    @Localizable static final String _SET_ON = "Exp drops in arena '{0}' changed to ON.";
-    @Localizable static final String _SET_OFF = "Exp drops in arena '{0}' changed to {RED}OFF.";
-    @Localizable static final String _CLEAR = "Value cleared for specificity '{0}' in arena '{1}'.";
+    @Localizable static final String _INFO_ON =
+            "Exp drops in arena '{0: arena name}' are on.";
+
+    @Localizable static final String _INFO_OFF =
+            "Exp drops in arena '{0: arena name}' are off.";
+
+    @Localizable static final String _SET_ON =
+            "Exp drops in arena '{0: arena name}' changed to ON.";
+
+    @Localizable static final String _SET_OFF =
+            "Exp drops in arena '{0: arena name}' changed to {RED}OFF.";
+
+    @Localizable static final String _CLEAR =
+            "Value cleared for specificity '{0: specificity name}' in arena '{1: arena name}'.";
 
     public ExpCommand() {
         super();
@@ -107,8 +116,5 @@ public class ExpCommand extends AbstractDropsCommand {
             else
                 tellSuccess(sender, Lang.get(_SET_OFF, arena.getName()));
         }
-
-
     }
-
 }

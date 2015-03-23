@@ -42,7 +42,8 @@ import java.util.List;
 
 public class AbstractDropsCommand extends AbstractPVCommand {
 
-    @Localizable static final String _INVALID_SPECIFICITY = "Specificity can be one of the following values: {0}";
+    @Localizable static final String _INVALID_SPECIFICITY =
+            "Specificity can be one of the following values: {0: values list}";
 
     private static List<String> _settingTypes = new ArrayList<>(EntityType.values().length + 3);
 

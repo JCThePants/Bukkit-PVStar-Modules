@@ -34,7 +34,7 @@ import com.jcwhatever.pvs.modules.mobs.commands.spawner.SpawnerCommand;
 
 @CommandInfo(
         command="mobs",
-        description="Manage mob settings.")
+        description="Manage mob settings. [PVMobs]")
 
 public class MobsCommand extends AbstractPVCommand {
 

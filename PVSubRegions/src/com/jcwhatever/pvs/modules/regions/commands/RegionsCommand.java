@@ -31,7 +31,7 @@ import com.jcwhatever.pvs.modules.regions.commands.settings.SettingsCommand;
 
 @CommandInfo(
         command={"regions", "subregions", "pvregions" },
-        description="Manage special arena regions.")
+        description="Manage special arena regions. [PVSubRegions]")
 
 public class RegionsCommand extends AbstractPVCommand {
 

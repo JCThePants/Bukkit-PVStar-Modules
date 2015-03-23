@@ -46,9 +46,11 @@ import org.bukkit.command.CommandSender;
 
 public class DelSubCommand extends AbstractLeaderboardCommand {
 
+    @Localizable static final String _FAILED =
+            "Failed to remove leaderboard.";
 
-    @Localizable static final String _FAILED = "Failed to remove leaderboard.";
-    @Localizable static final String _SUCCESS = "Leaderboard '{0}' removed.";
+    @Localizable static final String _SUCCESS =
+            "Leaderboard '{0: leaderboard name}' removed.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

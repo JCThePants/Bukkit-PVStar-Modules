@@ -25,15 +25,17 @@
 
 package com.jcwhatever.pvs.modules.kitsigns.signs;
 
-import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
-import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.nucleus.utils.kits.IKit;
+import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.signs.SignContainer;
 import com.jcwhatever.nucleus.utils.signs.SignHandler;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
+import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
+import com.jcwhatever.pvs.api.utils.Msg;
+import com.jcwhatever.pvs.modules.kitsigns.Lang;
 
 import org.bukkit.entity.Player;
 
@@ -41,6 +43,21 @@ import java.util.regex.Matcher;
 import javax.annotation.Nullable;
 
 public class ItemKitSignHandler extends SignHandler {
+
+    @Localizable static final String _DESCRIPTION =
+            "Purchase kits by paying with items from a specified kit.";
+
+    @Localizable static final String _INSUFFICIENT_FUNDS =
+            "You don't have enough to afford this kit.";
+
+    @Localizable static final String _KIT_NOT_FOUND =
+            "Purchase kit on line 1 was not found.";
+
+    @Localizable static final String _COST_NOT_FOUND =
+            "Could not find cost on line 2.";
+
+    @Localizable static final String _CURRENCY_NOT_FOUND =
+            "Currency kit on line 2 was not found.";
 
     /**
      * Constructor.
@@ -51,7 +68,7 @@ public class ItemKitSignHandler extends SignHandler {
 
     @Override
     public String getDescription() {
-        return "Purchase kits by paying with items from a specified kit.";
+        return _DESCRIPTION;
     }
 
     @Override
@@ -79,19 +96,19 @@ public class ItemKitSignHandler extends SignHandler {
 
         IKit purchaseKit = getPurchaseKit(sign);
         if (purchaseKit == null) {
-            Msg.tellError(p, "Purchase kit on line 1 was not found.");
+            Msg.tellError(p, Lang.get(_KIT_NOT_FOUND));
             return SignChangeResult.INVALID;
         }
 
         int cost = getCost(sign);
         if (cost == -1) {
-            Msg.tellError(p, "Could not find cost on line 2.");
+            Msg.tellError(p, Lang.get(_COST_NOT_FOUND));
             return SignChangeResult.INVALID;
         }
 
         IKit currencyKit = getCurrencyKit(sign);
         if (currencyKit == null) {
-            Msg.tellError(p, "Currency kit on line 2 was not found.");
+            Msg.tellError(p, Lang.get(_CURRENCY_NOT_FOUND));
             return SignChangeResult.INVALID;
         }
 
@@ -118,7 +135,7 @@ public class ItemKitSignHandler extends SignHandler {
             return SignClickResult.IGNORED;
 
         if (!currencyKit.take(p, cost)) {
-            Msg.tell(p, "You don't have enough to afford this kit.");
+            Msg.tell(p, Lang.get(_INSUFFICIENT_FUNDS));
             return SignClickResult.IGNORED;
         }
 

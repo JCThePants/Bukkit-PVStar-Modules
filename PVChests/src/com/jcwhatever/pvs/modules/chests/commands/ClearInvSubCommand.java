@@ -40,11 +40,12 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="chests",
         command="clearinv",
-        description="Clear chest of all scanned chests in the selected arena. Does not change config.")
+        description="Clear inventory of all scanned chests in the selected arena. Does not change config.")
 
 public class ClearInvSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _SUCCESS = "Inventory of known chests have been cleared for arena '{0}'.";
+    @Localizable static final String _SUCCESS =
+            "Inventory of known chests have been cleared for arena '{0: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

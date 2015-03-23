@@ -25,17 +25,28 @@
 
 package com.jcwhatever.pvs.modules.kitsigns.signs;
 
+import com.jcwhatever.nucleus.utils.kits.IKit;
+import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.utils.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.signs.SignHandler;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.pvs.api.utils.Msg;
-import com.jcwhatever.nucleus.utils.kits.IKit;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
-import com.jcwhatever.nucleus.utils.signs.SignHandler;
+import com.jcwhatever.pvs.modules.kitsigns.Lang;
 
 import org.bukkit.entity.Player;
 
 public abstract class AbstractNumberSignHandler extends SignHandler {
+
+    @Localizable static final String _ADD_SIGN_FAILED_COST_PARSE =
+            "Failed to add sign because the cost could not be parsed.";
+
+    @Localizable static final String _ADD_SIGN_FAILED_KIT_NOT_FOUND =
+            "Failed to add sign because the kit named could not be found.";
+
+    @Localizable static final String _INSUFFICIENT_FUNDS =
+            "You don't have enough {0: currency name} to afford this.";
 
     /**
      * Constructor.
@@ -56,13 +67,13 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
 
         double cost = getCost(sign);
         if (cost == -1) {
-            Msg.tell(p, "Failed to add sign because the cost could not be parsed.");
+            Msg.tell(p, Lang.get(_ADD_SIGN_FAILED_COST_PARSE));
             return SignChangeResult.INVALID;
         }
 
         IKit kit = getKit(sign);
         if (kit == null) {
-            Msg.tell(p, "Failed to add sign because the kit named could not be found.");
+            Msg.tell(p, Lang.get(_ADD_SIGN_FAILED_KIT_NOT_FOUND));
             return SignChangeResult.INVALID;
         }
 
@@ -83,7 +94,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
         double balance = getBalance(player);
 
         if (balance < cost) {
-            Msg.tell(player, "You don't have enough {0} to afford this.", getCurrencyName());
+            Msg.tell(player, Lang.get(_INSUFFICIENT_FUNDS, getCurrencyName()));
             return SignClickResult.IGNORED;
         }
 

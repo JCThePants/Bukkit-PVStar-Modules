@@ -25,6 +25,11 @@
 
 package com.jcwhatever.pvs.modules.doorsigns.signs;
 
+import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.utils.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.signs.SignHandler;
+import com.jcwhatever.nucleus.utils.signs.SignManager;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
@@ -32,10 +37,7 @@ import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.doorsigns.DoorBlocks;
 import com.jcwhatever.pvs.modules.doorsigns.DoorManager;
 import com.jcwhatever.pvs.modules.doorsigns.DoorSignsModule;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
-import com.jcwhatever.nucleus.utils.signs.SignHandler;
-import com.jcwhatever.nucleus.utils.signs.SignManager;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
+import com.jcwhatever.pvs.modules.doorsigns.Lang;
 
 import org.bukkit.entity.Player;
 
@@ -47,6 +49,15 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
 
     private static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("##.00");
     private static final Pattern PATTERN_EMPTY_COINS = Pattern.compile("\\.00");
+
+    @Localizable static final String _INSUFFICIENT_FUNDS =
+            "You don't have enough {0: currency name} to open the door.";
+
+    @Localizable static final String _PARTIAL_DEDUCTION =
+            "Deducted {0: amount} {1: currency name} towards opening the door.";
+
+    @Localizable static final String _DOOR_OPENED =
+            "Opened the door using {0: amount} {1: currency name}.";
 
     /**
      * Constructor.
@@ -67,7 +78,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
         if (cost == -1)
             return SignChangeResult.INVALID;
 
-        DoorManager manager = DoorSignsModule.getInstance().getDoorManager();
+        DoorManager manager = DoorSignsModule.getModule().getDoorManager();
 
         DoorBlocks doorBlocks = manager.findDoors(this, sign);
         if (doorBlocks == null) {
@@ -90,7 +101,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
         if (Double.compare(cost, -1) == 0)
             return SignClickResult.IGNORED;
 
-        DoorManager manager = DoorSignsModule.getInstance().getDoorManager();
+        DoorManager manager = DoorSignsModule.getModule().getDoorManager();
 
         DoorBlocks doorBlocks = manager.findDoors(this, sign);
         if (doorBlocks == null) {
@@ -106,7 +117,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
         double balance = getPlayerBalance(player);
 
         if (balance <= 0) {
-            Msg.tell(player, "You don't have enough {0} to open the door.", getCurrencyNamePlural());
+            Msg.tell(player, Lang.get(_INSUFFICIENT_FUNDS, getCurrencyNamePlural()));
             return SignClickResult.IGNORED;
         }
 
@@ -115,7 +126,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
             incrementPlayerBalance(player, -balance);
             double newCost = cost - balance;
 
-            Msg.tell(player, "Deducted {0} {1} towards opening the door.", format(balance), getCurrencyNamePlural());
+            Msg.tell(player, Lang.get(_PARTIAL_DEDUCTION, format(balance), getCurrencyNamePlural()));
 
             // update cost display
             String newLine = sign.getLine(2);
@@ -138,7 +149,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
             return SignClickResult.IGNORED;
         }
 
-        Msg.tell(player, "Opened the door using {0} {1}.", format(cost), getCurrencyNamePlural());
+        Msg.tell(player, Lang.get(_DOOR_OPENED, format(cost), getCurrencyNamePlural()));
         manager.addArenaDoorBlocks(player.getArena(), doorBlocks);
 
         // restore sign
@@ -151,7 +162,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     protected SignBreakResult onSignBreak(Player p, SignContainer sign) {
 
         String doorBlocksId = SignManager.getSignNodeName(sign.getLocation());
-        DoorSignsModule.getInstance().getDoorManager().removeArenaDoorBlocks(doorBlocksId);
+        DoorSignsModule.getModule().getDoorManager().removeArenaDoorBlocks(doorBlocksId);
 
         return SignBreakResult.ALLOW;
     }
@@ -176,5 +187,4 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
         return matcher.replaceFirst("");
 
     }
-
 }

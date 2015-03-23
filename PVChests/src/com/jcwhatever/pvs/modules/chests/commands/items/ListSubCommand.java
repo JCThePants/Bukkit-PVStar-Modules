@@ -54,7 +54,8 @@ import org.bukkit.inventory.ItemStack;
 
 public class ListSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _PAGINATOR_TITLE = "Available Chest Items";
+    @Localizable static final String _PAGINATOR_TITLE =
+            "Available Chest Items";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

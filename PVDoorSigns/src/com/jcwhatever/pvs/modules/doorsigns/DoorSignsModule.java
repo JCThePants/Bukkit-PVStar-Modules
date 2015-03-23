@@ -36,7 +36,7 @@ public class DoorSignsModule extends PVStarModule {
 
     private static DoorSignsModule _instance;
 
-    public static DoorSignsModule getInstance() {
+    public static DoorSignsModule getModule() {
         return _instance;
     }
 

@@ -55,10 +55,16 @@ import java.util.List;
 
 public class AddSubCommand extends AbstractRegionCommand {
 
-    @Localizable static final String _INVALID_TYPE = "'{0}' is not a valid sub region type. Valid types are:";
-    @Localizable static final String _REGION_ALREADY_EXISTS = "A sub region named '{0}' already exists in arena '{1}'.";
+    @Localizable static final String _INVALID_TYPE =
+            "'{0: region type}' is not a valid sub region type. Valid types are:";
+
+    @Localizable static final String _REGION_ALREADY_EXISTS =
+            "A sub region named '{0: region name}' already exists in arena '{1: arena name}'.";
+
     @Localizable static final String _FAILED = "Failed to add sub region.";
-    @Localizable static final String _SUCCESS = "Sub region named '{0}' of type '{1}' was added to arena '{2}'.";
+
+    @Localizable static final String _SUCCESS =
+            "Sub region named '{0: region name}' of type '{1: region type}' was added to arena '{2: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException{

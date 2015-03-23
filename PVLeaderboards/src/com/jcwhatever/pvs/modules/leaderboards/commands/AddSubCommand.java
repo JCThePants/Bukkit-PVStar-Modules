@@ -50,9 +50,11 @@ import java.util.UUID;
 
 public class AddSubCommand extends AbstractLeaderboardCommand {
 
-    @Localizable static final String _ALREADY_EXISTS = "A leaderboard named '{0}' already exists.";
-    @Localizable static final String _FAILED = "Failed to add leaderboard.";
-    @Localizable static final String _SUCCESS = "Leaderboard '{0}' added. Set anchor to complete setup.";
+    @Localizable static final String _FAILED =
+            "Failed to add leaderboard.";
+
+    @Localizable static final String _SUCCESS =
+            "Leaderboard '{0: leaderboard name}' added. Set anchor to complete setup.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

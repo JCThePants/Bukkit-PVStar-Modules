@@ -38,7 +38,7 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="spawns",
         command="hide",
-        description="Hide arena spawns that are visible as blocks.")
+        description="Hide arena spawns that are visible as blocks. [PVShowSpawns]")
 
 public class HideCommand extends AbstractPVCommand {
 

@@ -48,10 +48,17 @@ import org.bukkit.command.CommandSender;
 
 public class RandomPresetSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _INFO_ON = "Preset chest contents are randomized in arena '{0}'.";
-    @Localizable static final String _INFO_OFF = "Preset chest contents are NOT randomized in arena '{0}'.";
-    @Localizable static final String _SET_ON = "Preset chest contents in arena '{0}' changed to ON.";
-    @Localizable static final String _SET_OFF = "Preset chest contents in arena '{0}' changed to OFF.";
+    @Localizable static final String _INFO_ON =
+            "Preset chest contents are randomized in arena '{0: arena name}'.";
+
+    @Localizable static final String _INFO_OFF =
+            "Preset chest contents are NOT randomized in arena '{0: arena name}'.";
+
+    @Localizable static final String _SET_ON =
+            "Preset chest contents in arena '{0: arena name}' changed to ON.";
+
+    @Localizable static final String _SET_OFF =
+            "Preset chest contents in arena '{0: arena name}' changed to OFF.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

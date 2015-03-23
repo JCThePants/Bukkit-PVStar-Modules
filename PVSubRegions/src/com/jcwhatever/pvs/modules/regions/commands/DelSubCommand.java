@@ -48,8 +48,11 @@ import org.bukkit.command.CommandSender;
 
 public class DelSubCommand extends AbstractRegionCommand {
 
-    @Localizable static final String _FAILED = "Failed to remove sub region.";
-    @Localizable static final String _SUCCESS = "Sub region named '{0}' was removed from arena '{1}'.";
+    @Localizable static final String _FAILED =
+            "Failed to remove sub region.";
+
+    @Localizable static final String _SUCCESS =
+            "Sub region named '{0: region name}' was removed from arena '{1: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

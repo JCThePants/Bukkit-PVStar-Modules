@@ -27,6 +27,7 @@ package com.jcwhatever.pvs.modules.graceperiod;
 
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
@@ -44,6 +45,12 @@ import org.bukkit.plugin.Plugin;
         name="PVGracePeriod",
         description = "Add grace period to the beginning of an arena which prevents PVP.")
 public class GracePeriodExtension extends ArenaExtension implements IEventListener {
+
+    @Localizable static final String _GRACE_STARTED =
+            "Pvp grace period for the next {0: amount} seconds.";
+
+    @Localizable static final String _GRACE_ENDED =
+            "Pvp grace period ended.";
 
     private int _gracePeriodSeconds = 10;
 
@@ -94,7 +101,7 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
         if (gameManager.getSettings().isPvpEnabled() ||
             gameManager.getSettings().isTeamPvpEnabled()) {
 
-            gameManager.tell("Pvp grace period for the next {0} seconds.", _gracePeriodSeconds);
+            gameManager.tell(Lang.get(_GRACE_STARTED, _gracePeriodSeconds));
 
             ArenaScheduler.runTaskLater(getArena(), 20 * _gracePeriodSeconds,
                     new GracePeriod());
@@ -126,7 +133,7 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
         @Override
         public void run() {
             _isGracePeriod = false;
-            getArena().getGameManager().tell("Pvp grace period ended.");
+            getArena().getGameManager().tell(Lang.get(_GRACE_ENDED));
         }
     }
 }

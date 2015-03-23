@@ -45,8 +45,7 @@ import org.bukkit.command.CommandSender;
 
 public class UpdateSubCommand extends AbstractLeaderboardCommand {
 
-    @Localizable
-    static final String _SUCCESS = "Leaderboard '{0}' updated.";
+    @Localizable static final String _SUCCESS = "Leaderboard '{0: leaderboard name}' updated.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

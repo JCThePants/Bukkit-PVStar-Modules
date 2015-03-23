@@ -39,7 +39,8 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         command={ "grace" },
         staticParams={"seconds=info"},
-        description="Set or view the pvp grace period time in seconds for the selected arena.",
+        description="Set or view the pvp grace period time in seconds for the " +
+                "selected arena. [PVGracePeriod]",
 
         paramDescriptions = {
                 "seconds= The number of seconds the grace period lasts. " +
@@ -47,8 +48,11 @@ import org.bukkit.command.CommandSender;
 
 public class GraceCommand extends AbstractPVCommand {
 
-    @Localizable static final String _GRACE_SECONDS_INFO = "Grace period seconds in arena '{0}' is set to {1}.";
-    @Localizable static final String _GRACE_SECONDS_SET = "Grace period seconds in arena '{0}' changed to {1}.";
+    @Localizable static final String _GRACE_SECONDS_INFO =
+            "Grace period seconds in arena '{0: arena name}' is set to {1: amount}.";
+
+    @Localizable static final String _GRACE_SECONDS_SET =
+            "Grace period seconds in arena '{0: arena name}' changed to {1: amount}.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

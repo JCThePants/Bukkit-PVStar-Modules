@@ -45,8 +45,10 @@ import org.bukkit.command.CommandSender;
 
 public class CacheSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _EXTENSION_NOT_INSTALLED = "PVMobs extension is not installed in arena '{0}'.";
-    @Localizable static final String _SUCCESS = "Mob paths in arena '{0}' cached.";
+    @Localizable static final String _EXTENSION_NOT_INSTALLED =
+            "PVMobs extension is not installed in arena '{0: arena name}'.";
+
+    @Localizable static final String _SUCCESS = "Mob paths in arena '{0: arena name}' cached.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

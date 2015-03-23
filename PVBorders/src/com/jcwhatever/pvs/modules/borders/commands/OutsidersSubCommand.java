@@ -40,14 +40,19 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="arena",
         command="outsiders",
-        usage="/{plugin-command} {command} outsiders [none|join|kick]",
-        description="Set or view the action taken when a non-arena player enters the selected arenas region.")
+        description="Set or view the action taken when a non-arena player " +
+                "enters the selected arenas region. [PVBorders]")
 
 public class OutsidersSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _EXTENSION_NOT_FOUND = "PVBorders extension is not installed in arena '{0}'.";
-    @Localizable static final String _VIEW_OUTSIDERS = "Action taken when outsiders enter region for arena '{0}' is {1}.";
-    @Localizable static final String _SET_OUTSIDERS = "Action taken when outsiders enter region for arena '{0}' changed to {1}.";
+    @Localizable static final String _EXTENSION_NOT_FOUND =
+            "PVBorders extension is not installed in arena '{0: arena name}'.";
+
+    @Localizable static final String _VIEW_OUTSIDERS =
+            "Action taken when outsiders enter region for arena '{0: arena name}' is {1: action}.";
+
+    @Localizable static final String _SET_OUTSIDERS =
+            "Action taken when outsiders enter region for arena '{0: arena name}' changed to {1: action}.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

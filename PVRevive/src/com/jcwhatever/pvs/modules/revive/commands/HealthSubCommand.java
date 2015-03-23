@@ -48,9 +48,14 @@ import org.bukkit.command.CommandSender;
 
 public class HealthSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _EXTENSION_NOT_FOUND = "PVRevive extension not installed in arena '{0}'.";
-    @Localizable static final String _CURRENT = "Current revive health in arena '{0}' is {1}.";
-    @Localizable static final String _CHANGED = "Changed revive health in arena '{0}' to {1}.";
+    @Localizable static final String _EXTENSION_NOT_FOUND =
+            "PVRevive extension not installed in arena '{0: arena name}'.";
+
+    @Localizable static final String _CURRENT =
+            "Current revive health in arena '{0: arena name}' is {1: health}.";
+
+    @Localizable static final String _CHANGED =
+            "Changed revive health in arena '{0: arena name}' to {1: health}.";
 
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {

@@ -54,8 +54,12 @@ import java.util.Set;
 
 public class InfoSubCommand extends AbstractPVCommand {
 
-    @Localizable static final String _EXTENSION_NOT_INSTALLED = "PVMobs extension is not installed in arena '{0}'.";
-    @Localizable static final String _PAGINATOR_TITLE = "Mob Limits in arena '{0}'";
+    @Localizable static final String _EXTENSION_NOT_INSTALLED =
+            "PVMobs extension is not installed in arena '{0: arena name}'.";
+
+    @Localizable static final String _PAGINATOR_TITLE =
+            "Mob Limits in arena '{0: arena name}'";
+
     @Localizable static final String _LABEL_NONE = "none";
 
     @Override

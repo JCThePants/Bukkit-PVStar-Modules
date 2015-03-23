@@ -44,7 +44,7 @@ import org.bukkit.permissions.PermissionDefault;
         command={"q", "queue"},
         staticParams={"arenaName=$info"},
         description="Queue to join the specified arena as soon as it's available " +
-                "or get your current queue status.",
+                "or get your current queue status. [PVQueue]",
         permissionDefault= PermissionDefault.TRUE,
 
         paramDescriptions = {
@@ -52,13 +52,27 @@ import org.bukkit.permissions.PermissionDefault;
 
 public class QueueCommand extends AbstractPVCommand {
 
-    @Localizable static final String _NOT_IN_QUEUE = "You are not in a queue.";
-    @Localizable static final String _QUEUE_INFO = "You are queued for arena '{0}'. Your queue position is {1}.";
-    @Localizable static final String _QUEUE_LEAVE = "Type '/{plugin-command} q leave' if you wish to leave the queue.";
-    @Localizable static final String _CANT_JOIN_IN_GAME = "You cannot join a queue while you are in a game.";
-    @Localizable static final String _ARENA_DISABLED = "Arena '{0}' is not enabled.";
-    @Localizable static final String _ARENA_NOT_FOUND = "An arena named '{0}' was not found.";
-    @Localizable static final String _SUCCESS = "Joined queue for arena '{0}'. Your queue position is {1}.";
+    @Localizable static final String _NOT_IN_QUEUE =
+            "You are not in a queue.";
+
+    @Localizable static final String _QUEUE_INFO =
+            "You are queued for arena '{0: arena name}'. Your queue position is {1: number}.";
+
+    @Localizable static final String _QUEUE_LEAVE =
+            "Type '/{plugin-command} q leave' if you wish to leave the queue.";
+
+    @Localizable static final String _CANT_JOIN_IN_GAME =
+            "You cannot join a queue while you are in a game.";
+
+    @Localizable static final String _ARENA_DISABLED =
+            "Arena '{0: arena name}' is not enabled.";
+
+    @Localizable static final String _ARENA_NOT_FOUND =
+            "An arena named '{0: arena name}' was not found.";
+
+    @Localizable static final String _SUCCESS =
+            "Joined queue for arena '{0: arena name}'. Your queue position is {1: number}.";
+
     @Localizable static final String _FAILED = "Failed to join queue.";
 
     public QueueCommand() {

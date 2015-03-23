@@ -25,17 +25,22 @@
 
 package com.jcwhatever.pvs.modules.kitsigns.signs;
 
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.nucleus.providers.economy.ICurrency.CurrencyNoun;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
 import com.jcwhatever.nucleus.utils.Economy;
+import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.utils.signs.SignContainer;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
+import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.utils.Msg;
+import com.jcwhatever.pvs.modules.kitsigns.Lang;
 
 import java.util.regex.Matcher;
 
 public class EconKitSignHandler extends AbstractNumberSignHandler {
+
+    @Localizable static final String _DESCRIPTION =
+            "Purchase kits using economy currency.";
 
     /**
      * Constructor.
@@ -51,7 +56,7 @@ public class EconKitSignHandler extends AbstractNumberSignHandler {
 
     @Override
     public String getDescription() {
-        return "Purchase kits using economy currency.";
+        return Lang.get(_DESCRIPTION);
     }
 
     @Override
@@ -101,5 +106,4 @@ public class EconKitSignHandler extends AbstractNumberSignHandler {
     protected String getCurrencyName() {
         return Economy.getCurrency().getName(CurrencyNoun.PLURAL);
     }
-
 }
