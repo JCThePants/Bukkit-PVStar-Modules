@@ -1,6 +1,6 @@
 name: PVNoteSigns
 authors: JCThePants
-module: NoteSignsModule
+module: com.jcwhatever.pvs.modules.notesigns.NoteSignsModule
 logical-version: 0
 display-version: v1.0
 description: Add hideable note signs to arenas.

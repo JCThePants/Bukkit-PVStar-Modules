@@ -1,6 +1,6 @@
 name: PVPlayerState
 authors: JCThePants
-module: PlayerStateModule
+module: com.jcwhatever.pvs.modules.playerstate.PlayerStateModule
 logical-version: 0
 display-version: v1.0
 description: Adds player state save and restore to an arena.

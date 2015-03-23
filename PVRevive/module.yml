@@ -1,6 +1,6 @@
 name: PVRevive
 authors: JCThePants
-module: ReviveModule
+module: com.jcwhatever.pvs.modules.revive.ReviveModule
 logical-version: 0
 display-version: v1.0
 description: Adds player down and revive mechanics.

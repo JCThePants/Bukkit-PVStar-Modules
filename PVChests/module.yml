@@ -1,6 +1,6 @@
 name: PVChests
 authors: JCThePants
-module: ChestModule
+module: com.jcwhatever.pvs.modules.chests.ChestModule
 logical-version: 0
 display-version: v1.0
 description: Provides arena extension for randomized chests and random chest items.
