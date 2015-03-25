@@ -39,7 +39,7 @@ import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
-import com.jcwhatever.nucleus.utils.converters.ValueConverters;
+import com.jcwhatever.nucleus.utils.converters.Converters;
 
 import org.bukkit.entity.Player;
 
@@ -65,8 +65,8 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
             .set("leave-message", PropertyValueType.STRING,
                     "The message to display to the player who enters the region.")
 
-            .setValueConverter("enter-message", ValueConverters.ALT_CHAT_COLOR)
-            .setValueConverter("leave-message", ValueConverters.ALT_CHAT_COLOR)
+            .setConverters("enter-message", Converters.ALT_COLOR, Converters.DE_ALT_COLOR)
+            .setConverters("leave-message", Converters.ALT_COLOR, Converters.DE_ALT_COLOR)
 
             .buildDefinitions()
         ;

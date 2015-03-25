@@ -30,7 +30,7 @@ import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
-import com.jcwhatever.pvs.api.utils.Converters;
+import com.jcwhatever.pvs.api.utils.ArenaConverters;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
@@ -72,7 +72,7 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
                 .set("yaw-adjust", PropertyValueType.DOUBLE, 0.0D,
                         "Used by 'teleport-region' setting. Adjust the players yaw position when teleported.")
 
-                .setValueConverter("forward-to-arena", Converters.ARENA_NAME_ID)
+                .setConverters("forward-to-arena", ArenaConverters.ARENA_ID, ArenaConverters.ARENA_NAME)
 
                 .buildDefinitions()
         ;
