@@ -34,6 +34,7 @@ import com.jcwhatever.pvs.api.events.players.PlayerLeaveEvent;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.plugin.Plugin;
 
@@ -69,13 +70,19 @@ public class PlayerStateModule extends PVStarModule implements IEventListener {
         if (state == null || !state.isSaved())
             return;
 
+        Location restoreLocation;
+
         try {
-            event.setRestoreLocation(state.restore(RestoreLocation.FALSE));
+
+            restoreLocation = state.restore(RestoreLocation.FALSE);
         }
         catch (IOException | InvalidConfigurationException e) {
             e.printStackTrace();
+            return;
         }
 
+        if (!event.isRestoring()) {
+            event.setRestoreLocation(restoreLocation);
+        }
     }
-
 }
