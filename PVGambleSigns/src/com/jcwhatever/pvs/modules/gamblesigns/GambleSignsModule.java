@@ -26,8 +26,15 @@
 package com.jcwhatever.pvs.modules.gamblesigns;
 
 import com.jcwhatever.nucleus.Nucleus;
+import com.jcwhatever.nucleus.mixins.IDisposable;
+import com.jcwhatever.nucleus.scripting.IEvaluatedScript;
+import com.jcwhatever.nucleus.scripting.IScriptApi;
+import com.jcwhatever.nucleus.scripting.SimpleScriptApi;
+import com.jcwhatever.nucleus.scripting.SimpleScriptApi.IApiObjectCreator;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
+
+import org.bukkit.plugin.Plugin;
 
 public class GambleSignsModule extends PVStarModule {
 
@@ -46,11 +53,18 @@ public class GambleSignsModule extends PVStarModule {
     @Override
     protected void onRegisterTypes() {
 
-        Nucleus.getScriptApiRepo().registerApiType(PVStarAPI.getPlugin(), GambleScriptApi.class);
+        IScriptApi scriptApi = new SimpleScriptApi(PVStarAPI.getPlugin(), "pvGambleSigns", new IApiObjectCreator() {
+            @Override
+            public IDisposable create(Plugin plugin, IEvaluatedScript script) {
+                return new GambleScriptApi(plugin);
+            }
+        });
+
+        Nucleus.getScriptApiRepo().registerApi(scriptApi);
     }
 
     @Override
     protected void onEnable() {
-
+        // do nothing
     }
 }

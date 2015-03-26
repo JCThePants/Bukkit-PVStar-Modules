@@ -27,10 +27,7 @@ package com.jcwhatever.pvs.modules.regions.scripting;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
-import com.jcwhatever.nucleus.scripting.IEvaluatedScript;
-import com.jcwhatever.nucleus.scripting.ScriptApiInfo;
-import com.jcwhatever.nucleus.scripting.api.NucleusScriptApi;
-import com.jcwhatever.nucleus.scripting.api.IScriptApiObject;
+import com.jcwhatever.nucleus.mixins.IDisposable;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
@@ -39,140 +36,115 @@ import com.jcwhatever.pvs.modules.regions.SubRegionsModule;
 import com.jcwhatever.pvs.modules.regions.regions.AbstractPVRegion;
 import com.jcwhatever.pvs.modules.regions.regions.AbstractPVRegion.RegionEventHandler;
 
-import org.bukkit.plugin.Plugin;
-
 import java.util.Collection;
 import java.util.Set;
 import javax.annotation.Nullable;
 
-@ScriptApiInfo(
-        variableName = "pvSubRegions",
-        description = "Provides script api access to PV-Star PVSubRegions module."
-)
-public class RegionScriptApi extends NucleusScriptApi {
+public class RegionScriptApi implements IDisposable {
 
-    private final SubRegionsModule _module;
+    private final SubRegionsModule _module = SubRegionsModule.getModule();
 
-    public RegionScriptApi(Plugin plugin) {
-        super(plugin);
-        _module = SubRegionsModule.getModule();
+    private final Multimap<AbstractPVRegion, RegionEventHandler> _enterHandlers =
+            MultimapBuilder.hashKeys(20).hashSetValues(15).build();
+
+    private final Multimap<AbstractPVRegion, RegionEventHandler> _leaveHandlers =
+            MultimapBuilder.hashKeys(20).hashSetValues(15).build();
+
+    private boolean _isDisposed;
+
+    @Override
+    public boolean isDisposed() {
+        return _isDisposed;
     }
 
     @Override
-    public IScriptApiObject getApiObject(IEvaluatedScript script) {
-        return new ApiObject(_module);
+    public void dispose() {
+
+        // remove enter region handlers
+        Set<AbstractPVRegion> enterRegions = _enterHandlers.keySet();
+        for (AbstractPVRegion region : enterRegions) {
+
+            Collection<RegionEventHandler> handlers = _enterHandlers.get(region);
+            if (handlers == null)
+                continue;
+
+            for (RegionEventHandler handler : handlers) {
+                region.removeEnterEventHandler(handler);
+            }
+        }
+
+        // remove leave region handlers
+        Set<AbstractPVRegion> leaveRegions = _leaveHandlers.keySet();
+        for (AbstractPVRegion region : leaveRegions) {
+
+            Collection<RegionEventHandler> handlers = _leaveHandlers.get(region);
+            if (handlers == null)
+                continue;
+
+            for (RegionEventHandler handler : handlers) {
+                region.removeLeaveEventHandler(handler);
+            }
+        }
+
+        _enterHandlers.clear();
+        _leaveHandlers.clear();
+
+        _isDisposed = true;
     }
 
-    public static class ApiObject implements IScriptApiObject {
+    @Nullable
+    public AbstractPVRegion getRegion(Arena arena, String regionName) {
+        PreCon.notNull(arena);
+        PreCon.notNullOrEmpty(regionName);
 
-        private final SubRegionsModule _module;
+        RegionManager manager = _module.getManager(arena);
+        if (manager == null)
+            return null;
 
-        private final Multimap<AbstractPVRegion, RegionEventHandler> _enterHandlers =
-                MultimapBuilder.hashKeys(20).hashSetValues(15).build();
+        return manager.getRegion(regionName);
+    }
 
-        private final Multimap<AbstractPVRegion, RegionEventHandler> _leaveHandlers =
-                MultimapBuilder.hashKeys(20).hashSetValues(15).build();
+    public boolean onEnter(Arena arena, String regionName, final RegionEventHandler handler) {
+        PreCon.notNull(arena);
+        PreCon.notNullOrEmpty(regionName);
+        PreCon.notNull(handler);
 
-        private boolean _isDisposed;
+        AbstractPVRegion region = getRegion(arena, regionName);
+        if (region == null)
+            return false;
 
-        ApiObject (SubRegionsModule module) {
-            _module = module;
-        }
-
-        @Override
-        public boolean isDisposed() {
-            return _isDisposed;
-        }
-
-        @Override
-        public void dispose() {
-
-            // remove enter region handlers
-            Set<AbstractPVRegion> enterRegions = _enterHandlers.keySet();
-            for (AbstractPVRegion region : enterRegions) {
-
-                Collection<RegionEventHandler> handlers = _enterHandlers.get(region);
-                if (handlers == null)
-                    continue;
-
-                for (RegionEventHandler handler : handlers) {
-                    region.removeEnterEventHandler(handler);
-                }
+        // wrap handler to ensure compatibility with hash maps
+        RegionEventHandler wrapper = new RegionEventHandler() {
+            @Override
+            public void onCall(ArenaPlayer player) {
+                handler.onCall(player);
             }
+        };
 
-            // remove leave region handlers
-            Set<AbstractPVRegion> leaveRegions = _leaveHandlers.keySet();
-            for (AbstractPVRegion region : leaveRegions) {
+        _enterHandlers.put(region, wrapper);
+        region.addEnterEventHandler(wrapper);
+        return true;
+    }
 
-                Collection<RegionEventHandler> handlers = _leaveHandlers.get(region);
-                if (handlers == null)
-                    continue;
+    public boolean onLeave(Arena arena, String regionName, final RegionEventHandler handler) {
+        PreCon.notNull(arena);
+        PreCon.notNullOrEmpty(regionName);
+        PreCon.notNull(handler);
 
-                for (RegionEventHandler handler : handlers) {
-                    region.removeLeaveEventHandler(handler);
-                }
+        AbstractPVRegion region = getRegion(arena, regionName);
+        if (region == null)
+            return false;
+
+        // wrap handler to ensure compatibility with hash maps
+        RegionEventHandler wrapper = new RegionEventHandler() {
+            @Override
+            public void onCall(ArenaPlayer player) {
+                handler.onCall(player);
             }
+        };
 
-            _enterHandlers.clear();
-            _leaveHandlers.clear();
-
-            _isDisposed = true;
-        }
-
-        @Nullable
-        public AbstractPVRegion getRegion(Arena arena, String regionName) {
-            PreCon.notNull(arena);
-            PreCon.notNullOrEmpty(regionName);
-
-            RegionManager manager = _module.getManager(arena);
-            if (manager == null)
-                return null;
-
-            return manager.getRegion(regionName);
-        }
-
-        public boolean onEnter(Arena arena, String regionName, final RegionEventHandler handler) {
-            PreCon.notNull(arena);
-            PreCon.notNullOrEmpty(regionName);
-            PreCon.notNull(handler);
-
-            AbstractPVRegion region = getRegion(arena, regionName);
-            if (region == null)
-                return false;
-
-            // wrap handler to ensure compatibility with hash maps
-            RegionEventHandler wrapper = new RegionEventHandler() {
-                @Override
-                public void onCall(ArenaPlayer player) {
-                    handler.onCall(player);
-                }
-            };
-
-            _enterHandlers.put(region, wrapper);
-            region.addEnterEventHandler(wrapper);
-            return true;
-        }
-
-        public boolean onLeave(Arena arena, String regionName, final RegionEventHandler handler) {
-            PreCon.notNull(arena);
-            PreCon.notNullOrEmpty(regionName);
-            PreCon.notNull(handler);
-
-            AbstractPVRegion region = getRegion(arena, regionName);
-            if (region == null)
-                return false;
-
-            // wrap handler to ensure compatibility with hash maps
-            RegionEventHandler wrapper = new RegionEventHandler() {
-                @Override
-                public void onCall(ArenaPlayer player) {
-                    handler.onCall(player);
-                }
-            };
-
-            _leaveHandlers.put(region, wrapper);
-            region.addLeaveEventHandler(wrapper);
-            return true;
-        }
+        _leaveHandlers.put(region, wrapper);
+        region.addLeaveEventHandler(wrapper);
+        return true;
     }
 }

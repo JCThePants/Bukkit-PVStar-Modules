@@ -28,6 +28,11 @@ package com.jcwhatever.pvs.modules.regions;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.mixins.IDisposable;
+import com.jcwhatever.nucleus.scripting.IEvaluatedScript;
+import com.jcwhatever.nucleus.scripting.IScriptApi;
+import com.jcwhatever.nucleus.scripting.SimpleScriptApi;
+import com.jcwhatever.nucleus.scripting.SimpleScriptApi.IApiObjectCreator;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.events.ArenaDisposeEvent;
@@ -49,8 +54,8 @@ public class SubRegionsModule extends PVStarModule implements IEventListener {
         return _module;
     }
 
-    private TypesManager _typesManager = new TypesManager();
-    private Map<Arena, RegionManager> _regionManagers = new HashMap<>(30);
+    private final TypesManager _typesManager = new TypesManager();
+    private final Map<Arena, RegionManager> _regionManagers = new HashMap<>(30);
 
     public SubRegionsModule () {
         super();
@@ -66,7 +71,14 @@ public class SubRegionsModule extends PVStarModule implements IEventListener {
     @Override
     protected void onRegisterTypes() {
 
-        Nucleus.getScriptApiRepo().registerApiType(PVStarAPI.getPlugin(), RegionScriptApi.class);
+        IScriptApi scriptApi = new SimpleScriptApi(PVStarAPI.getPlugin(), "pvSubRegions", new IApiObjectCreator() {
+            @Override
+            public IDisposable create(Plugin plugin, IEvaluatedScript script) {
+                return new RegionScriptApi();
+            }
+        });
+
+        Nucleus.getScriptApiRepo().registerApi(scriptApi);
     }
 
     public TypesManager getTypesManager() {
@@ -87,7 +99,6 @@ public class SubRegionsModule extends PVStarModule implements IEventListener {
 
         PVStarAPI.getEventManager().register(this);
         PVStarAPI.getCommandHandler().registerCommand(RegionsCommand.class);
-
     }
 
     @EventMethod
@@ -106,5 +117,4 @@ public class SubRegionsModule extends PVStarModule implements IEventListener {
             manager.dispose();
         }
     }
-
 }

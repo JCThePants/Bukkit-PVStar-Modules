@@ -29,10 +29,7 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.scripting.IEvaluatedScript;
-import com.jcwhatever.nucleus.scripting.ScriptApiInfo;
-import com.jcwhatever.nucleus.scripting.api.NucleusScriptApi;
-import com.jcwhatever.nucleus.scripting.api.IScriptApiObject;
+import com.jcwhatever.nucleus.mixins.IDisposable;
 import com.jcwhatever.nucleus.utils.signs.SignContainer;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.Arena;
@@ -43,81 +40,61 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.Collection;
 
-@ScriptApiInfo(
-        variableName = "pvGamble",
-        description = "Provide scripts with api access to PV-Star PVGambleSigns module.")
-public class GambleScriptApi extends NucleusScriptApi {
+public class GambleScriptApi implements IDisposable, IEventListener {
 
-    /**
-     * Constructor.
-     *
-     * @param plugin The owning plugin
-     */
+    private final Plugin _plugin;
+
+    private Multimap<String, GambleHandler> _gambleHandlers =
+            MultimapBuilder.hashKeys(25).hashSetValues(10).build();
+
+    private boolean _isDisposed;
+
     public GambleScriptApi(Plugin plugin) {
-        super(plugin);
+        _plugin = plugin;
+        PVStarAPI.getEventManager().register(this);
     }
 
     @Override
-    public IScriptApiObject getApiObject(IEvaluatedScript script) {
-        return new ApiObject(getPlugin());
+    public Plugin getPlugin() {
+        return _plugin;
     }
 
-    public static class ApiObject implements IScriptApiObject, IEventListener {
+    public void addWinHandler(String eventName, GambleHandler handler) {
+        _gambleHandlers.put(eventName, handler);
+    }
 
-        private final Plugin _plugin;
+    public void removeWinHandler(String eventName, GambleHandler handler) {
+        _gambleHandlers.remove(eventName, handler);
+    }
 
-        private Multimap<String, GambleHandler> _gambleHandlers =
-                MultimapBuilder.hashKeys(25).hashSetValues(10).build();
+    @Override
+    public boolean isDisposed() {
+        return _isDisposed;
+    }
 
-        private boolean _isDisposed;
+    @Override
+    public void dispose() {
+        _gambleHandlers.clear();
+        PVStarAPI.getEventManager().unregister(this);
+        _isDisposed = true;
+    }
 
-        ApiObject(Plugin plugin) {
-            _plugin = plugin;
-            PVStarAPI.getEventManager().register(this);
-        }
+    @EventMethod
+    private void onGambleTriggered(GambleTriggeredEvent event) {
+        String eventName = event.getEventName();
 
-        @Override
-        public Plugin getPlugin() {
-            return _plugin;
-        }
+        Collection<GambleHandler> handlers = _gambleHandlers.get(eventName);
+        if (handlers == null)
+            return;
 
-        public void addWinHandler(String eventName, GambleHandler handler) {
-            _gambleHandlers.put(eventName, handler);
-        }
-
-        public void removeWinHandler(String eventName, GambleHandler handler) {
-            _gambleHandlers.remove(eventName, handler);
-        }
-
-        @Override
-        public boolean isDisposed() {
-            return _isDisposed;
-        }
-
-        @Override
-        public void dispose() {
-            _gambleHandlers.clear();
-            PVStarAPI.getEventManager().unregister(this);
-            _isDisposed = true;
-        }
-
-        @EventMethod
-        private void onGambleTriggered(GambleTriggeredEvent event) {
-            String eventName = event.getEventName();
-
-            Collection<GambleHandler> handlers = _gambleHandlers.get(eventName);
-            if (handlers == null)
-                return;
-
-            for (GambleHandler handler : handlers) {
-                handler.onCall(event.getArena(), event.getPlayer(), eventName, event.getSignContainer());
-            }
+        for (GambleHandler handler : handlers) {
+            handler.onCall(event.getArena(), event.getPlayer(), eventName, event.getSignContainer());
         }
     }
+
 
     public static interface GambleHandler {
 
         public void onCall(Arena arena, ArenaPlayer signClicker, String eventName, SignContainer sign);
-
     }
 }
