@@ -25,14 +25,14 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
-import com.jcwhatever.nucleus.sounds.ResourceSound;
-import com.jcwhatever.nucleus.sounds.SoundManager;
+import com.jcwhatever.nucleus.sounds.types.ResourceSound;
 import com.jcwhatever.nucleus.sounds.SoundSettings;
 import com.jcwhatever.nucleus.sounds.playlist.PlayList.PlayerSoundQueue;
 import com.jcwhatever.nucleus.sounds.playlist.SimplePlayList;
@@ -133,7 +133,7 @@ public class MusicRegion extends AbstractPVRegion {
 
         for (String soundName : soundNames) {
 
-            ResourceSound sound = SoundManager.getSound(soundName.trim());
+            ResourceSound sound = Nucleus.getSoundManager().getSound(soundName.trim());
             if (sound == null) {
                 Msg.debug("Sound '{0}' not found while loading musical region '{1}'.", soundName, getName());
                 continue;
