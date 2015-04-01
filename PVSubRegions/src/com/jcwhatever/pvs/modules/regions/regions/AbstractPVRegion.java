@@ -25,6 +25,8 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
+import com.jcwhatever.nucleus.storage.settings.SettingsManager.PropertyValue;
+import com.jcwhatever.nucleus.utils.observer.update.UpdateSubscriber;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
@@ -67,6 +69,19 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
     private List<RegionEventHandler> _onEnter;
     private List<RegionEventHandler> _onLeave;
+    private UpdateSubscriber<PropertyValue> _onChange = new UpdateSubscriber<PropertyValue>() {
+        @Override
+        public void on(PropertyValue argument) {
+            boolean prevEnabled = _isEnabled;
+
+            _isEnabled = getDataNode().getBoolean("enabled", DEFAULT_ENABLE);
+
+            onLoadSettings(_extraNode);
+
+            if (_isEnabled && !prevEnabled)
+                onEnable();
+        }
+    };
 
     public AbstractPVRegion(String name) {
         super(PVStarAPI.getPlugin(), name);
@@ -94,23 +109,8 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         //noinspection ConstantConditions
         _settingsManager = new SettingsManager(_extraNode, getDefinitions());
 
-        Runnable onSettingsChanged = new Runnable() {
-            @Override
-            public void run() {
-
-                boolean prevEnabled = _isEnabled;
-
-                _isEnabled = getDataNode().getBoolean("enabled", DEFAULT_ENABLE);
-
-                onLoadSettings(_extraNode);
-
-                if (_isEnabled && !prevEnabled)
-                    onEnable();
-            }
-        };
-
-        _settingsManager.onSettingsChanged(onSettingsChanged);
-        onSettingsChanged.run();
+        _settingsManager.onChange(_onChange);
+        _onChange.on(null);
 
         onInit();
     }
@@ -298,8 +298,9 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
         if (_isEnabled)
             onDisable();
-    }
 
+        _settingsManager.dispose();
+    }
 
     protected abstract void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason);
     protected abstract void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason);
@@ -312,9 +313,8 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     @Nullable
     protected abstract Map<String, PropertyDefinition> getDefinitions();
 
-    public static interface RegionEventHandler {
+    public interface RegionEventHandler {
 
-        public void onCall(ArenaPlayer player);
+        void onCall(ArenaPlayer player);
     }
-
 }

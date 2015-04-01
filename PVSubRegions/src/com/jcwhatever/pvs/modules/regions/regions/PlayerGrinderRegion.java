@@ -82,7 +82,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
                 .set("damage", PropertyValueType.DOUBLE, 20.0D,
                         "Set amount of damage done to players.")
 
-                .buildDefinitions()
+                .build()
         ;
     }
 

@@ -68,7 +68,7 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
             .setConverters("enter-message", Converters.ALT_COLOR, Converters.DE_ALT_COLOR)
             .setConverters("leave-message", Converters.ALT_COLOR, Converters.DE_ALT_COLOR)
 
-            .buildDefinitions()
+            .build()
         ;
     }
 

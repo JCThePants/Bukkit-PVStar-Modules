@@ -31,6 +31,8 @@ import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.nucleus.storage.settings.SettingsManager;
+import com.jcwhatever.nucleus.storage.settings.SettingsManager.PropertyValue;
+import com.jcwhatever.nucleus.utils.observer.update.UpdateSubscriber;
 import com.jcwhatever.pvs.modules.mobs.spawners.ISpawnerSettings;
 
 import java.util.Map;
@@ -56,7 +58,7 @@ public class ProximitySettings implements ISpawnerSettings {
                 .set("max-distance", PropertyValueType.INTEGER, 24,
                         "Maximum distance when detecting proximity.")
 
-                .buildDefinitions()
+                .build()
         ;
     }
 
@@ -74,10 +76,9 @@ public class ProximitySettings implements ISpawnerSettings {
         _dataNode = spawner.getManager().getDataNode().getNode("spawners.proximity");
         _settingsManager = new SettingsManager(_dataNode, _possibleSettings);
 
-        Runnable onSettingsChanged = new Runnable() {
+        UpdateSubscriber<PropertyValue> onChange = new UpdateSubscriber<PropertyValue>() {
             @Override
-            public void run() {
-
+            public void on(PropertyValue argument) {
                 _maxMobs = _dataNode.getInteger("max-mobs", _maxMobs);
                 _maxMobsPerSpawn = _dataNode.getInteger("max-per-spawn", _maxMobsPerSpawn);
                 _maxMobsPerPlayer = _dataNode.getInteger("max-mobs-per-player", _maxMobsPerPlayer);
@@ -87,8 +88,8 @@ public class ProximitySettings implements ISpawnerSettings {
             }
         };
 
-        _settingsManager.onSettingsChanged(onSettingsChanged);
-        onSettingsChanged.run();
+        _settingsManager.onChange(onChange);
+        onChange.on(null);
     }
 
     @Override

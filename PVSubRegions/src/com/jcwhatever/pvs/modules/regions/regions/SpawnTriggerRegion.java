@@ -64,7 +64,7 @@ public class SpawnTriggerRegion extends AbstractPVRegion implements IEventListen
 
             .set("max-triggers", PropertyValueType.INTEGER, 1,
                     "Set the maximum times the region can be triggered.")
-            .buildDefinitions()
+            .build()
         ;
     }
 

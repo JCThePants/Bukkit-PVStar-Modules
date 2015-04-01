@@ -69,7 +69,7 @@ public class TeleportRegion extends AbstractPVRegion {
 
                 .set("yaw-adjust", PropertyValueType.DOUBLE, 0.0D,
                         "Used by 'teleport-region' setting. Adjust the players yaw position when teleported.")
-                .buildDefinitions()
+                .build()
         ;
     }
 

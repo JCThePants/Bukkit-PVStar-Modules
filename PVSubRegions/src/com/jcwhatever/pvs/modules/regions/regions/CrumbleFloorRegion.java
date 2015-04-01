@@ -72,7 +72,7 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements IEventListen
 
                 .set("crumble-delay-ticks", PropertyValueType.INTEGER, 0,
                         "The delay time in ticks that a block crumbles after being stepped on.")
-                .buildDefinitions()
+                .build()
         ;
     }
 

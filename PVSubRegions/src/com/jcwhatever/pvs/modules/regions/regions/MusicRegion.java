@@ -62,7 +62,7 @@ public class MusicRegion extends AbstractPVRegion {
 
                 .set("loop", PropertyValueType.BOOLEAN,
                         "Set play sounds on a loop.")
-                .buildDefinitions()
+                .build()
         ;
     }
 

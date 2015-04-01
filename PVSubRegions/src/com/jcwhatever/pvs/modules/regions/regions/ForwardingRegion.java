@@ -74,7 +74,7 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
 
                 .setConverters("forward-to-arena", ArenaConverters.ARENA_ID, ArenaConverters.ARENA_NAME)
 
-                .buildDefinitions()
+                .build()
         ;
     }
 

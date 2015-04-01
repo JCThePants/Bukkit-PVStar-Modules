@@ -58,7 +58,7 @@ public class DamageIntervalRegion extends AbstractPVRegion {
                 .set("interval", PropertyValueType.INTEGER, 1,
                         "The interval in seconds that damage is inflicted.")
 
-                .buildDefinitions()
+                .build()
         ;
     }
 

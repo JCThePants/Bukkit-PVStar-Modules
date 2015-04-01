@@ -77,7 +77,7 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements IEventList
 
                 .set("rebuild-delay-ticks", PropertyValueType.INTEGER, 40,
                         "The delay time in ticks before a block is placed back after crumbling.")
-                .buildDefinitions()
+                .build()
         ;
     }
 

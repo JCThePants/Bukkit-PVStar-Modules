@@ -63,7 +63,7 @@ public class MazeRegion extends AbstractPVRegion implements IEventListener {
                 .set("run-on-arena-end", PropertyValueType.BOOLEAN, true,
                         "Set true to rebuild maze when the owning arena ends.")
 
-                .buildDefinitions()
+                .build()
         ;
     }
 

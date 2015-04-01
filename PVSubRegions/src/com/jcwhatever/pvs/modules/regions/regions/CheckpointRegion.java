@@ -58,7 +58,7 @@ public class CheckpointRegion extends AbstractPVRegion implements IEventListener
         _possibleSettings = new SettingsBuilder()
                 .set("spawns", PropertyValueType.STRING,
                         "The name of the spawnpoint to set the players respawn point to.")
-                .buildDefinitions()
+                .build()
         ;
     }
 

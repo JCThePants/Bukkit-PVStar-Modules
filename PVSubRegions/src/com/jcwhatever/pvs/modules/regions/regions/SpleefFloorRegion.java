@@ -66,7 +66,7 @@ public class SpleefFloorRegion extends AbstractPVRegion implements IEventListene
         _possibleSettings = new SettingsBuilder()
                 .set("affected-blocks", PropertyValueType.ITEM_STACK_ARRAY,
                         "Set the blocks affected by the region. Null or air affects all blocks.")
-                .buildDefinitions()
+                .build()
         ;
     }
 

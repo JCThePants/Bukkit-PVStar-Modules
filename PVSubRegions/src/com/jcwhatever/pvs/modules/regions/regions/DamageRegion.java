@@ -49,7 +49,7 @@ public class DamageRegion extends AbstractPVRegion {
         _possibleSettings = new SettingsBuilder()
                 .set("damage", PropertyValueType.DOUBLE, 1.0D,
                         "The amount of damage inflicted on a player. Negative values give health.")
-                .buildDefinitions()
+                .build()
         ;
     }
 
