@@ -28,9 +28,9 @@ package com.jcwhatever.pvs.modules.showspawns;
 import com.jcwhatever.nucleus.commands.AbstractCommand;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.items.ItemStackUtils;
-import com.jcwhatever.nucleus.utils.coords.LocationUtils;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.SignUtils;
+import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.events.players.PlayerPreAddEvent;
@@ -101,7 +101,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
             states.addLast(spawn.getBlock().getState());
 
             MaterialData materialData = new MaterialData(Material.BEDROCK);
-            ItemStackUtils.setBlock(spawn.getBlock(), materialData);
+            setBlock(spawn.getBlock(), materialData);
 
             Block above = spawn.getBlock().getRelative(0, 1, 0);
 
@@ -109,7 +109,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
 
             ItemStack signStack = new ItemStack(Material.SIGN_POST);
 
-            ItemStackUtils.setBlock(above, signStack);
+            setBlock(above, signStack);
 
             above = spawn.getBlock().getRelative(0, 1, 0);
 
@@ -149,5 +149,35 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
         hideSigns(event.getArena());
     }
 
+    /**
+     * Set the specified block material and data to the material and data
+     * represented by the ItemStack.
+     */
+    private static void setBlock(Block block, ItemStack stack) {
+        PreCon.notNull(block);
+        PreCon.notNull(stack);
 
+        if (block.getType() != stack.getType())
+            block.setType(stack.getType());
+
+        if (block.getData() != stack.getData().getData())
+            block.setData(stack.getData().getData());
+    }
+
+    /*
+     * Set the specified block material and data to the material and data
+     * represented by the MaterialData.
+     */
+    private static void setBlock(Block block, MaterialData data) {
+        PreCon.notNull(block);
+        PreCon.notNull(data);
+
+        BlockState state = block.getState();
+        state.setType(data.getItemType());
+        state.update(true);
+
+        state = block.getState();
+        state.setData(data.clone());
+        state.update(true);
+    }
 }

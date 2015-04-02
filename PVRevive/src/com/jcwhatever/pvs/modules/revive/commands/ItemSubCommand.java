@@ -78,7 +78,7 @@ public class ItemSubCommand extends AbstractPVCommand {
 
             ItemStack[] revivalItems = extension.getRevivalItems();
 
-            tell(sender, Lang.get(_CURRENT, ItemStackUtils.serializeToString(revivalItems, SerializerOutputType.COLOR)));
+            tell(sender, Lang.get(_CURRENT, ItemStackUtils.serialize(revivalItems, SerializerOutputType.COLOR)));
         }
         else {
 
@@ -87,7 +87,7 @@ public class ItemSubCommand extends AbstractPVCommand {
             extension.setRevivalItems(revivalItems);
 
             tellSuccess(sender, Lang.get(_CHANGED, arena.getName()));
-            tell(sender, ItemStackUtils.serializeToString(revivalItems, SerializerOutputType.COLOR));
+            tell(sender, ItemStackUtils.serialize(revivalItems, SerializerOutputType.COLOR));
         }
     }
 }

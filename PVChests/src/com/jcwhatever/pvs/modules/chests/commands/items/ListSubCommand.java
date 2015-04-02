@@ -77,7 +77,7 @@ public class ListSubCommand extends AbstractPVCommand {
 
         while (iterator.hasNext()) {
             ItemStack stack = iterator.next();
-            pagin.add(iterator.weight() + "w, " + ItemStackUtils.serializeToString(stack, SerializerOutputType.COLOR));
+            pagin.add(iterator.weight() + "w, " + ItemStackUtils.serialize(stack, SerializerOutputType.COLOR));
         }
 
         pagin.show(sender, page, FormatTemplate.RAW);
