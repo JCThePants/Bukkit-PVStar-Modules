@@ -162,7 +162,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     @Override
     protected SignBreakResult onSignBreak(Player player, ISignContainer sign) {
 
-        String doorBlocksId = LocationUtils.locationToString(sign.getLocation());
+        String doorBlocksId = LocationUtils.serialize(sign.getLocation());
         DoorSignsModule.getModule().getDoorManager().removeArenaDoorBlocks(doorBlocksId);
 
         return SignBreakResult.ALLOW;

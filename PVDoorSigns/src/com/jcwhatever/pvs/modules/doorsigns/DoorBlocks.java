@@ -63,7 +63,7 @@ public class DoorBlocks {
         _sign = sign;
         _doorBlocks = doorBlocks;
 
-        _id = LocationUtils.locationToString(sign.getLocation());
+        _id = LocationUtils.serialize(sign.getLocation());
     }
 
     public String getId() {

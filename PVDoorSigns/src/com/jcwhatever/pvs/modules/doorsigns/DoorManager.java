@@ -128,7 +128,7 @@ public class DoorManager implements IEventListener {
 
     private DoorBlocks getDoorBlocks(Arena arena, SignHandler handler, ISignContainer sign, List<Block> doorBlocks) {
 
-        String doorId = LocationUtils.locationToString(sign.getLocation());
+        String doorId = LocationUtils.serialize(sign.getLocation());
 
         if (_doorsBySign.containsKey(doorId)) {
             return _doorsBySign.get(doorId);
