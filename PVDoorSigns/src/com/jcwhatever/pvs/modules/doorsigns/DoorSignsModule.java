@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.doorsigns;
 
-import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.modules.doorsigns.signs.EconDoorSignHandler;
 import com.jcwhatever.pvs.modules.doorsigns.signs.ExpDoorSignHandler;
@@ -56,10 +56,10 @@ public class DoorSignsModule extends PVStarModule {
     protected void onRegisterTypes() {
 
         _doorManager = new DoorManager();
-        PVStarAPI.getSignManager().registerSignType(new ItemDoorSignHandler());
-        PVStarAPI.getSignManager().registerSignType(new PointsDoorSignHandler());
-        PVStarAPI.getSignManager().registerSignType(new ExpDoorSignHandler());
-        PVStarAPI.getSignManager().registerSignType(new EconDoorSignHandler());
+        Nucleus.getSignManager().registerHandler(new ItemDoorSignHandler());
+        Nucleus.getSignManager().registerHandler(new PointsDoorSignHandler());
+        Nucleus.getSignManager().registerHandler(new ExpDoorSignHandler());
+        Nucleus.getSignManager().registerHandler(new EconDoorSignHandler());
     }
 
     @Override

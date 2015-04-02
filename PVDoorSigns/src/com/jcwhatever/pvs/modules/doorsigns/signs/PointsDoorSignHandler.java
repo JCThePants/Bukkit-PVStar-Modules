@@ -26,7 +26,7 @@
 package com.jcwhatever.pvs.modules.doorsigns.signs;
 
 import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.signs.ISignContainer;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
@@ -71,7 +71,7 @@ public class PointsDoorSignHandler extends AbstractNumberSignHandler {
     }
 
     @Override
-    protected double getCost(SignContainer sign) {
+    protected double getCost(ISignContainer sign) {
         int cost;
 
         Matcher matcher = TextUtils.PATTERN_NUMBERS.matcher(sign.getRawLine(1));

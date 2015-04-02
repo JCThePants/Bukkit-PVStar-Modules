@@ -36,7 +36,7 @@ import com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns.ColumnSettin
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns.StatisticsColumn;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.SignUtils;
+import com.jcwhatever.nucleus.utils.signs.SignUtils;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 
 import org.bukkit.ChatColor;

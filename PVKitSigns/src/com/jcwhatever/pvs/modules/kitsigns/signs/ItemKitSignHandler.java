@@ -27,7 +27,7 @@ package com.jcwhatever.pvs.modules.kitsigns.signs;
 
 import com.jcwhatever.nucleus.utils.kits.IKit;
 import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.signs.ISignContainer;
 import com.jcwhatever.nucleus.utils.signs.SignHandler;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
@@ -87,28 +87,28 @@ public class ItemKitSignHandler extends SignHandler {
     }
 
     @Override
-    protected void onSignLoad(SignContainer sign) {
+    protected void onSignLoad(ISignContainer sign) {
         // do nothing
     }
 
     @Override
-    protected SignChangeResult onSignChange(Player p, SignContainer sign) {
+    protected SignChangeResult onSignChange(Player player, ISignContainer sign) {
 
         IKit purchaseKit = getPurchaseKit(sign);
         if (purchaseKit == null) {
-            Msg.tellError(p, Lang.get(_KIT_NOT_FOUND));
+            Msg.tellError(player, Lang.get(_KIT_NOT_FOUND));
             return SignChangeResult.INVALID;
         }
 
         int cost = getCost(sign);
         if (cost == -1) {
-            Msg.tellError(p, Lang.get(_COST_NOT_FOUND));
+            Msg.tellError(player, Lang.get(_COST_NOT_FOUND));
             return SignChangeResult.INVALID;
         }
 
         IKit currencyKit = getCurrencyKit(sign);
         if (currencyKit == null) {
-            Msg.tellError(p, Lang.get(_CURRENCY_NOT_FOUND));
+            Msg.tellError(player, Lang.get(_CURRENCY_NOT_FOUND));
             return SignChangeResult.INVALID;
         }
 
@@ -116,7 +116,7 @@ public class ItemKitSignHandler extends SignHandler {
     }
 
     @Override
-    protected SignClickResult onSignClick(Player p, SignContainer sign) {
+    protected SignClickResult onSignClick(Player p, ISignContainer sign) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
         if (player.getArena() == null || player.getArenaRelation() == ArenaPlayerRelation.SPECTATOR)
@@ -145,11 +145,11 @@ public class ItemKitSignHandler extends SignHandler {
     }
 
     @Override
-    protected SignBreakResult onSignBreak(Player p, SignContainer sign) {
+    protected SignBreakResult onSignBreak(Player player, ISignContainer sign) {
         return SignBreakResult.ALLOW;
     }
 
-    private int getCost(SignContainer sign) {
+    private int getCost(ISignContainer sign) {
 
         String rawCost = sign.getRawLine(1);
 
@@ -172,7 +172,7 @@ public class ItemKitSignHandler extends SignHandler {
     }
 
     @Nullable
-    private IKit getPurchaseKit(SignContainer sign) {
+    private IKit getPurchaseKit(ISignContainer sign) {
 
         String kitName = sign.getRawLine(1);
 
@@ -184,7 +184,7 @@ public class ItemKitSignHandler extends SignHandler {
     }
 
     @Nullable
-    private IKit getCurrencyKit(SignContainer sign) {
+    private IKit getCurrencyKit(ISignContainer sign) {
 
         String rawKitName = sign.getRawLine(2);
 

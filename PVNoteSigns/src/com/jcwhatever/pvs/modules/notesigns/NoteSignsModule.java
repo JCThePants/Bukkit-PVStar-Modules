@@ -25,6 +25,7 @@
 
 package com.jcwhatever.pvs.modules.notesigns;
 
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.modules.notesigns.commands.NotesCommand;
@@ -52,7 +53,7 @@ public class NoteSignsModule extends PVStarModule {
 
         _handler = new NoteSignHandler();
 
-        if (PVStarAPI.getSignManager().registerSignType(_handler)) {
+        if (Nucleus.getSignManager().registerHandler(_handler)) {
 
             PVStarAPI.getCommandHandler().registerCommand(NotesCommand.class);
         }

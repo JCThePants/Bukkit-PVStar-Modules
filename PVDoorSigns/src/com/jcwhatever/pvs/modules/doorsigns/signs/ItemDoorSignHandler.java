@@ -25,11 +25,11 @@
 
 package com.jcwhatever.pvs.modules.doorsigns.signs;
 
+import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.nucleus.utils.kits.IKit;
 import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.signs.ISignContainer;
 import com.jcwhatever.nucleus.utils.signs.SignHandler;
-import com.jcwhatever.nucleus.utils.signs.SignManager;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
@@ -82,12 +82,12 @@ public class ItemDoorSignHandler extends SignHandler {
     }
 
     @Override
-    protected void onSignLoad(SignContainer sign) {
+    protected void onSignLoad(ISignContainer sign) {
         // do nothing
     }
 
     @Override
-    protected SignChangeResult onSignChange(Player p, SignContainer sign) {
+    protected SignChangeResult onSignChange(Player player, ISignContainer sign) {
 
         int cost = getCost(sign);
         if (cost == -1) {
@@ -109,7 +109,7 @@ public class ItemDoorSignHandler extends SignHandler {
     }
 
     @Override
-    protected SignClickResult onSignClick(Player p, SignContainer sign) {
+    protected SignClickResult onSignClick(Player p, ISignContainer sign) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
         if (player.getArena() == null || player.getArenaRelation() == ArenaPlayerRelation.SPECTATOR)
@@ -140,15 +140,15 @@ public class ItemDoorSignHandler extends SignHandler {
     }
 
     @Override
-    protected SignBreakResult onSignBreak(Player p, SignContainer sign) {
+    protected SignBreakResult onSignBreak(Player player, ISignContainer sign) {
 
-        String doorBlocksId = SignManager.getSignNodeName(sign.getLocation());
+        String doorBlocksId = LocationUtils.locationToString(sign.getLocation());
         DoorSignsModule.getModule().getDoorManager().removeArenaDoorBlocks(doorBlocksId);
 
         return SignBreakResult.ALLOW;
     }
 
-    private int getCost(SignContainer sign) {
+    private int getCost(ISignContainer sign) {
 
         String rawCost = sign.getRawLine(2);
 
@@ -171,7 +171,7 @@ public class ItemDoorSignHandler extends SignHandler {
     }
 
     @Nullable
-    private IKit getKit(SignContainer sign) {
+    private IKit getKit(ISignContainer sign) {
 
         String rawKitName = sign.getRawLine(2);
 

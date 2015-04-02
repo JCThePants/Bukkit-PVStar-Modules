@@ -25,12 +25,12 @@
 
 package com.jcwhatever.pvs.modules.notesigns.signs;
 
+import com.jcwhatever.nucleus.utils.signs.ISignContainer;
+import com.jcwhatever.nucleus.utils.signs.SignHandler;
+import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.utils.Msg;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
-import com.jcwhatever.nucleus.utils.signs.SignHandler;
-import com.jcwhatever.nucleus.utils.text.TextColor;
 
 import org.bukkit.entity.Player;
 
@@ -64,32 +64,31 @@ public class NoteSignHandler extends SignHandler {
     }
 
     @Override
-    protected void onSignLoad(SignContainer sign) {
+    protected void onSignLoad(ISignContainer sign) {
         // do nothing
     }
 
     @Override
-    protected SignChangeResult onSignChange(Player p, SignContainer sign) {
+    protected SignChangeResult onSignChange(Player player, ISignContainer sign) {
 
         Arena arena = PVStarAPI.getArenaManager().getArena(sign.getLocation());
         if (arena == null) {
-            Msg.tellError(p, "No arena found at this location.");
+            Msg.tellError(player, "No arena found at this location.");
             return SignChangeResult.INVALID;
         }
 
-        if (sign.getDataNode() != null)
-            sign.getDataNode().set("arena-id", arena.getId());
+        sign.getMetaNode().set("arena-id", arena.getId());
 
         return SignChangeResult.VALID;
     }
 
     @Override
-    protected SignClickResult onSignClick(Player p, SignContainer sign) {
+    protected SignClickResult onSignClick(Player player, ISignContainer sign) {
         return SignClickResult.IGNORED;
     }
 
     @Override
-    protected SignBreakResult onSignBreak(Player p, SignContainer sign) {
+    protected SignBreakResult onSignBreak(Player player, ISignContainer sign) {
         return SignBreakResult.ALLOW;
     }
 }

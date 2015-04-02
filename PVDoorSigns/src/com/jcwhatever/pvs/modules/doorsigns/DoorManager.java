@@ -27,12 +27,13 @@ package com.jcwhatever.pvs.modules.doorsigns;
 
 import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
-import com.jcwhatever.nucleus.utils.signs.SignHandler;
-import com.jcwhatever.nucleus.utils.signs.SignManager;
 import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.coords.LocationUtils;
+import com.jcwhatever.nucleus.utils.signs.ISignContainer;
+import com.jcwhatever.nucleus.utils.signs.SignHandler;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
@@ -82,7 +83,7 @@ public class DoorManager implements IEventListener {
     }
 
     @Nullable
-    public DoorBlocks findDoors(SignHandler handler, SignContainer signContainer) {
+    public DoorBlocks findDoors(SignHandler handler, ISignContainer signContainer) {
         PreCon.notNull(handler);
         PreCon.notNull(signContainer);
 
@@ -125,9 +126,9 @@ public class DoorManager implements IEventListener {
         return getDoorBlocks(arena, handler, signContainer, doorBlocks);
     }
 
-    private DoorBlocks getDoorBlocks(Arena arena, SignHandler handler, SignContainer sign, List<Block> doorBlocks) {
+    private DoorBlocks getDoorBlocks(Arena arena, SignHandler handler, ISignContainer sign, List<Block> doorBlocks) {
 
-        String doorId = SignManager.getSignNodeName(sign.getLocation());
+        String doorId = LocationUtils.locationToString(sign.getLocation());
 
         if (_doorsBySign.containsKey(doorId)) {
             return _doorsBySign.get(doorId);
@@ -149,7 +150,7 @@ public class DoorManager implements IEventListener {
         for (DoorBlocks doorBlock : doorBlocks) {
             doorBlock.setOpen(false);
 
-            PVStarAPI.getSignManager().restoreSign(
+            Nucleus.getSignManager().restoreSign(
                     doorBlock.getSignHandler().getName(),
                     doorBlock.getSignContainer().getLocation());
         }

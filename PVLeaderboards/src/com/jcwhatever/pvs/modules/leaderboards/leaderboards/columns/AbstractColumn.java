@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns;
 
-import com.jcwhatever.nucleus.utils.SignUtils;
+import com.jcwhatever.nucleus.utils.signs.SignUtils;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.Leaderboard;

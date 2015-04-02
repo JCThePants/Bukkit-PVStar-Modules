@@ -25,18 +25,17 @@
 
 package com.jcwhatever.pvs.modules.notesigns.commands;
 
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
 import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.utils.signs.ISignContainer;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.notesigns.Lang;
 
-import org.bukkit.Material;
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -60,29 +59,22 @@ public class ClearSubCommand extends AbstractPVCommand {
             return; // finish
 
         int hideCount = 0;
-        List<SignContainer> signs = PVStarAPI.getSignManager().getSigns("Note");
+        List<ISignContainer> signs = Nucleus.getSignManager().getSigns("Note");
 
-        for (SignContainer sign : signs) {
+        for (ISignContainer sign : signs) {
 
-            IDataNode signNode = sign.getDataNode();
-            if (signNode == null)
+            IDataNode metaNode = sign.getMetaNode();
+            if (metaNode == null)
                 continue;
 
-            UUID arenaId = signNode.getUUID("arena-id");
+            UUID arenaId = metaNode.getUUID("arena-id");
             if (!arena.getId().equals(arenaId))
                 continue;
 
-            if (sign.getSign() != null)
-                sign.getSign().getBlock().setType(Material.AIR);
-
-            if (sign.getDataNode() != null) {
-                sign.getDataNode().remove();
-            }
+            sign.remove();
 
             hideCount++;
         }
-
-        PVStarAPI.getSignManager().getDataNode().save();
 
         tellSuccess(sender, Lang.get(_SUCCESS, hideCount, arena.getName()));
     }

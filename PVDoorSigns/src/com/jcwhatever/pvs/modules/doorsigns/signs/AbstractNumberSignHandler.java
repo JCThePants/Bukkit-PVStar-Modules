@@ -25,10 +25,11 @@
 
 package com.jcwhatever.pvs.modules.doorsigns.signs;
 
+import com.jcwhatever.nucleus.Nucleus;
+import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.signs.ISignContainer;
 import com.jcwhatever.nucleus.utils.signs.SignHandler;
-import com.jcwhatever.nucleus.utils.signs.SignManager;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
@@ -67,12 +68,12 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     }
 
     @Override
-    protected void onSignLoad(SignContainer sign) {
+    protected void onSignLoad(ISignContainer sign) {
         // Do nothing
     }
 
     @Override
-    protected SignChangeResult onSignChange(Player p, SignContainer sign) {
+    protected SignChangeResult onSignChange(Player player, ISignContainer sign) {
 
         double cost = getCost(sign);
         if (cost == -1)
@@ -91,7 +92,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     }
 
     @Override
-    protected SignClickResult onSignClick(Player p, SignContainer sign) {
+    protected SignClickResult onSignClick(Player p, ISignContainer sign) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
         if (player.getArena() == null || player.getArenaRelation() == ArenaPlayerRelation.SPECTATOR)
@@ -153,22 +154,22 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
         manager.addArenaDoorBlocks(player.getArena(), doorBlocks);
 
         // restore sign
-        PVStarAPI.getSignManager().restoreSign(getName(), sign.getLocation());
+        Nucleus.getSignManager().restoreSign(getName(), sign.getLocation());
 
         return SignClickResult.HANDLED;
     }
 
     @Override
-    protected SignBreakResult onSignBreak(Player p, SignContainer sign) {
+    protected SignBreakResult onSignBreak(Player player, ISignContainer sign) {
 
-        String doorBlocksId = SignManager.getSignNodeName(sign.getLocation());
+        String doorBlocksId = LocationUtils.locationToString(sign.getLocation());
         DoorSignsModule.getModule().getDoorManager().removeArenaDoorBlocks(doorBlocksId);
 
         return SignBreakResult.ALLOW;
     }
 
 
-    protected abstract double getCost (SignContainer sign);
+    protected abstract double getCost (ISignContainer sign);
 
     protected abstract double getPlayerBalance(ArenaPlayer player);
 

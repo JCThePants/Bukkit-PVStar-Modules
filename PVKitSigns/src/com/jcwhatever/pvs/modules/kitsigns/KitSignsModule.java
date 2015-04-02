@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.kitsigns;
 
-import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.modules.kitsigns.signs.EconKitSignHandler;
 import com.jcwhatever.pvs.modules.kitsigns.signs.ExpKitSignHandler;
@@ -49,10 +49,10 @@ public class KitSignsModule extends PVStarModule {
     @Override
     protected void onRegisterTypes() {
 
-        PVStarAPI.getSignManager().registerSignType(new ExpKitSignHandler());
-        PVStarAPI.getSignManager().registerSignType(new ItemKitSignHandler());
-        PVStarAPI.getSignManager().registerSignType(new PointsKitSignHandler());
-        PVStarAPI.getSignManager().registerSignType(new EconKitSignHandler());
+        Nucleus.getSignManager().registerHandler(new ExpKitSignHandler());
+        Nucleus.getSignManager().registerHandler(new ItemKitSignHandler());
+        Nucleus.getSignManager().registerHandler(new PointsKitSignHandler());
+        Nucleus.getSignManager().registerHandler(new EconKitSignHandler());
     }
 
     @Override

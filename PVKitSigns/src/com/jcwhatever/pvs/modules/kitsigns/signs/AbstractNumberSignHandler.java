@@ -27,7 +27,7 @@ package com.jcwhatever.pvs.modules.kitsigns.signs;
 
 import com.jcwhatever.nucleus.utils.kits.IKit;
 import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.signs.ISignContainer;
 import com.jcwhatever.nucleus.utils.signs.SignHandler;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
@@ -58,22 +58,22 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     }
 
     @Override
-    protected void onSignLoad(SignContainer sign) {
+    protected void onSignLoad(ISignContainer sign) {
         // do nothing
     }
 
     @Override
-    protected SignChangeResult onSignChange(Player p, SignContainer sign) {
+    protected SignChangeResult onSignChange(Player player, ISignContainer sign) {
 
         double cost = getCost(sign);
         if (cost == -1) {
-            Msg.tell(p, Lang.get(_ADD_SIGN_FAILED_COST_PARSE));
+            Msg.tell(player, Lang.get(_ADD_SIGN_FAILED_COST_PARSE));
             return SignChangeResult.INVALID;
         }
 
         IKit kit = getKit(sign);
         if (kit == null) {
-            Msg.tell(p, Lang.get(_ADD_SIGN_FAILED_KIT_NOT_FOUND));
+            Msg.tell(player, Lang.get(_ADD_SIGN_FAILED_KIT_NOT_FOUND));
             return SignChangeResult.INVALID;
         }
 
@@ -81,7 +81,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     }
 
     @Override
-    protected SignClickResult onSignClick(Player p, SignContainer sign) {
+    protected SignClickResult onSignClick(Player p, ISignContainer sign) {
 
         ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
         if (player.getArena() == null || player.getArenaRelation() == ArenaPlayerRelation.SPECTATOR)
@@ -110,11 +110,11 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     }
 
     @Override
-    protected SignBreakResult onSignBreak(Player p, SignContainer sign) {
+    protected SignBreakResult onSignBreak(Player player, ISignContainer sign) {
         return SignBreakResult.ALLOW;
     }
 
-    protected abstract double getCost(SignContainer sign);
+    protected abstract double getCost(ISignContainer sign);
 
     protected abstract double getBalance(ArenaPlayer player);
 
@@ -123,7 +123,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     protected abstract String getCurrencyName();
 
 
-    private IKit getKit(SignContainer sign) {
+    private IKit getKit(ISignContainer sign) {
         String kitName = sign.getRawLine(1);
 
         IKit kit = PVStarAPI.getKitManager().get(kitName);

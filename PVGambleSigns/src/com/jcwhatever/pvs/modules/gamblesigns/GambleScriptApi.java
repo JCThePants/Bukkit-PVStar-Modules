@@ -30,7 +30,7 @@ import com.google.common.collect.MultimapBuilder;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.mixins.IDisposable;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
+import com.jcwhatever.nucleus.utils.signs.ISignContainer;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
@@ -95,6 +95,6 @@ public class GambleScriptApi implements IDisposable, IEventListener {
 
     public static interface GambleHandler {
 
-        public void onCall(Arena arena, ArenaPlayer signClicker, String eventName, SignContainer sign);
+        public void onCall(Arena arena, ArenaPlayer signClicker, String eventName, ISignContainer sign);
     }
 }

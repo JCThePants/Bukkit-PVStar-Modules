@@ -25,11 +25,12 @@
 
 package com.jcwhatever.pvs.modules.doorsigns;
 
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
-import com.jcwhatever.nucleus.utils.signs.SignHandler;
-import com.jcwhatever.nucleus.utils.signs.SignManager;
 import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.coords.LocationUtils;
+import com.jcwhatever.nucleus.utils.signs.ISignContainer;
+import com.jcwhatever.nucleus.utils.signs.SignHandler;
 import com.jcwhatever.pvs.api.arena.Arena;
+
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -47,11 +48,11 @@ public class DoorBlocks {
 
     private final Arena _arena;
     private final SignHandler _handler;
-    private final SignContainer _sign;
+    private final ISignContainer _sign;
     private List<Block> _doorBlocks;
     private String _id;
 
-    public DoorBlocks(Arena arena, SignHandler handler, SignContainer sign, List<Block> doorBlocks) {
+    public DoorBlocks(Arena arena, SignHandler handler, ISignContainer sign, List<Block> doorBlocks) {
         PreCon.notNull(arena);
         PreCon.notNull(handler);
         PreCon.notNull(sign);
@@ -62,7 +63,7 @@ public class DoorBlocks {
         _sign = sign;
         _doorBlocks = doorBlocks;
 
-        _id = SignManager.getSignNodeName(sign.getLocation());
+        _id = LocationUtils.locationToString(sign.getLocation());
     }
 
     public String getId() {
@@ -77,7 +78,7 @@ public class DoorBlocks {
         return _handler;
     }
 
-    public SignContainer getSignContainer() {
+    public ISignContainer getSignContainer() {
         return _sign;
     }
 

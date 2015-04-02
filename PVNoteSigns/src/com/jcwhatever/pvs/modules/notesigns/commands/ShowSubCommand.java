@@ -25,13 +25,13 @@
 
 package com.jcwhatever.pvs.modules.notesigns.commands;
 
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
 import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.utils.signs.ISignContainer;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.notesigns.Lang;
@@ -58,23 +58,21 @@ public class ShowSubCommand extends AbstractPVCommand {
         if (arena == null)
             return; // finish
 
-        int hideCount = 0;
-        List<SignContainer> signs = PVStarAPI.getSignManager().getSigns("Note");
+        int showCount = 0;
+        List<ISignContainer> signs = Nucleus.getSignManager().getSigns("Note");
 
-        for (SignContainer sign : signs) {
+        for (ISignContainer sign : signs) {
 
-            IDataNode signNode = sign.getDataNode();
-            if (signNode == null)
-                continue;
+            IDataNode metaNode = sign.getMetaNode();
 
-            UUID arenaId = signNode.getUUID("arena-id");
+            UUID arenaId = metaNode.getUUID("arena-id");
             if (!arena.getId().equals(arenaId))
                 continue;
 
-            PVStarAPI.getSignManager().restoreSign("Note", sign.getLocation());
-            hideCount++;
+            Nucleus.getSignManager().restoreSign("Note", sign.getLocation());
+            showCount++;
         }
 
-        tellSuccess(sender, Lang.get(_SUCCESS, hideCount, arena.getName()));
+        tellSuccess(sender, Lang.get(_SUCCESS, showCount, arena.getName()));
     }
 }

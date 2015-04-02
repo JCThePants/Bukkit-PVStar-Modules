@@ -25,13 +25,12 @@
 
 package com.jcwhatever.pvs.modules.notesigns.commands;
 
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.utils.signs.SignContainer;
-import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.nucleus.utils.signs.ISignContainer;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.notesigns.Lang;
 
@@ -54,13 +53,9 @@ public class HideAllSubCommand extends AbstractPVCommand {
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
         int hideCount = 0;
-        List<SignContainer> signs = PVStarAPI.getSignManager().getSigns("Note");
+        List<ISignContainer> signs = Nucleus.getSignManager().getSigns("Note");
 
-        for (SignContainer sign : signs) {
-
-            IDataNode signNode = sign.getDataNode();
-            if (signNode == null)
-                continue;
+        for (ISignContainer sign : signs) {
 
             Sign s = sign.getSign();
             if (s == null)
