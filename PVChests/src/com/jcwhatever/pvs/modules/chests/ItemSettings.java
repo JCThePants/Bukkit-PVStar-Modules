@@ -25,7 +25,6 @@
 
 package com.jcwhatever.pvs.modules.chests;
 
-import com.jcwhatever.nucleus.utils.items.WeightedItems;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.pvs.api.arena.Arena;
 
@@ -153,6 +152,4 @@ public class ItemSettings {
             return this;
         }
     }
-
-
 }
