@@ -26,7 +26,7 @@
 package com.jcwhatever.pvs.modules.gamblesigns.events;
 
 import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.signs.ISignContainer;
+import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
 import com.jcwhatever.pvs.api.events.players.AbstractPlayerEvent;

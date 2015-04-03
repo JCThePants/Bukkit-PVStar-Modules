@@ -25,8 +25,8 @@
 package com.jcwhatever.pvs.modules.gamblesigns.signs;
 
 import com.jcwhatever.nucleus.utils.Rand;
-import com.jcwhatever.nucleus.utils.signs.ISignContainer;
-import com.jcwhatever.nucleus.utils.signs.SignHandler;
+import com.jcwhatever.nucleus.managed.signs.ISignContainer;
+import com.jcwhatever.nucleus.managed.signs.SignHandler;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;

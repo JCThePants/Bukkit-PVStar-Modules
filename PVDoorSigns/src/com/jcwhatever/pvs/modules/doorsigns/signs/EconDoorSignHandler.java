@@ -28,7 +28,7 @@ package com.jcwhatever.pvs.modules.doorsigns.signs;
 import com.jcwhatever.nucleus.providers.economy.ICurrency.CurrencyNoun;
 import com.jcwhatever.nucleus.utils.Economy;
 import com.jcwhatever.nucleus.utils.language.Localizable;
-import com.jcwhatever.nucleus.utils.signs.ISignContainer;
+import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
