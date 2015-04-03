@@ -29,7 +29,6 @@ import com.jcwhatever.nucleus.collections.WeightedArrayList.WeightedIterator;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.utils.items.serializer.ItemStackSerializer.SerializerOutputType;
 import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.items.ItemStackUtils;
@@ -77,7 +76,7 @@ public class ListSubCommand extends AbstractPVCommand {
 
         while (iterator.hasNext()) {
             ItemStack stack = iterator.next();
-            pagin.add(iterator.weight() + "w, " + ItemStackUtils.serialize(stack, SerializerOutputType.COLOR));
+            pagin.add(iterator.weight() + "w, " + ItemStackUtils.serialize(stack));
         }
 
         pagin.show(sender, page, FormatTemplate.RAW);

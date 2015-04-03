@@ -28,7 +28,6 @@ package com.jcwhatever.pvs.modules.revive.commands;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.utils.items.serializer.ItemStackSerializer.SerializerOutputType;
 import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.items.ItemStackUtils;
 import com.jcwhatever.pvs.api.arena.Arena;
@@ -78,7 +77,7 @@ public class ItemSubCommand extends AbstractPVCommand {
 
             ItemStack[] revivalItems = extension.getRevivalItems();
 
-            tell(sender, Lang.get(_CURRENT, ItemStackUtils.serialize(revivalItems, SerializerOutputType.COLOR)));
+            tell(sender, Lang.get(_CURRENT, ItemStackUtils.serialize(revivalItems)));
         }
         else {
 
@@ -87,7 +86,7 @@ public class ItemSubCommand extends AbstractPVCommand {
             extension.setRevivalItems(revivalItems);
 
             tellSuccess(sender, Lang.get(_CHANGED, arena.getName()));
-            tell(sender, ItemStackUtils.serialize(revivalItems, SerializerOutputType.COLOR));
+            tell(sender, ItemStackUtils.serialize(revivalItems));
         }
     }
 }
