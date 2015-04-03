@@ -27,7 +27,7 @@ package com.jcwhatever.pvs.modules.showspawns.commands;
 
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.showspawns.Lang;

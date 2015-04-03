@@ -29,7 +29,7 @@ import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.notesigns.Lang;

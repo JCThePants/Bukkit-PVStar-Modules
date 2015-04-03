@@ -29,7 +29,7 @@ import com.jcwhatever.nucleus.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.commands.exceptions.InvalidArgumentException;
 import com.jcwhatever.nucleus.commands.parameters.ParameterDescription;
 import com.jcwhatever.pvs.modules.deathdrops.Lang;
-import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.deathdrops.DeathDropsExtension;

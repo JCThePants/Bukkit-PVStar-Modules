@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.graceperiod;
 
-import com.jcwhatever.nucleus.utils.language.Localized;
+import com.jcwhatever.nucleus.managed.language.Localized;
 
 public class Lang {
 
@@ -33,6 +33,6 @@ public class Lang {
 
     @Localized
     public static String get(String text, Object... params) {
-        return GracePeriodModule.getModule().getLanguageManager().get(text, params);
+        return GracePeriodModule.getModule().getLanguageContext().get(text, params);
     }
 }

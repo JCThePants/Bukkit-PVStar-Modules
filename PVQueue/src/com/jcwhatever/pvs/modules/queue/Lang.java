@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.queue;
 
-import com.jcwhatever.nucleus.utils.language.Localized;
+import com.jcwhatever.nucleus.managed.language.Localized;
 
 public class Lang {
 
@@ -33,6 +33,6 @@ public class Lang {
 
     @Localized
     public static String get(String text, Object... params) {
-        return QueueModule.getModule().getLanguageManager().get(text, params);
+        return QueueModule.getModule().getLanguageContext().get(text, params);
     }
 }

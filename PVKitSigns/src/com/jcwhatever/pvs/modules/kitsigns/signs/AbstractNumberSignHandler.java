@@ -27,7 +27,7 @@ package com.jcwhatever.pvs.modules.kitsigns.signs;
 
 import com.jcwhatever.nucleus.providers.kits.IKit;
 import com.jcwhatever.nucleus.providers.kits.Kits;
-import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.nucleus.managed.signs.SignHandler;
 import com.jcwhatever.pvs.api.PVStarAPI;

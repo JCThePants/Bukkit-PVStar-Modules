@@ -27,7 +27,7 @@ package com.jcwhatever.pvs.modules.graceperiod;
 
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;

@@ -28,7 +28,7 @@ package com.jcwhatever.pvs.modules.leaderboards.commands;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.utils.player.PlayerBlockSelect;
 import com.jcwhatever.nucleus.utils.player.PlayerBlockSelect.BlockSelectResult;
 import com.jcwhatever.nucleus.utils.player.PlayerBlockSelect.PlayerBlockSelectHandler;

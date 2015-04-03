@@ -26,7 +26,7 @@
 package com.jcwhatever.pvs.modules.regions.commands;
 
 import com.jcwhatever.pvs.modules.regions.Lang;
-import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.regions.RegionManager;

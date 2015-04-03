@@ -27,7 +27,7 @@ package com.jcwhatever.pvs.modules.doorsigns.signs;
 
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.utils.coords.LocationUtils;
-import com.jcwhatever.nucleus.utils.language.Localizable;
+import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.nucleus.managed.signs.SignHandler;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
