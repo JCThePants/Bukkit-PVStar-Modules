@@ -25,7 +25,8 @@
 
 package com.jcwhatever.pvs.modules.kitsigns.signs;
 
-import com.jcwhatever.nucleus.utils.kits.IKit;
+import com.jcwhatever.nucleus.providers.kits.IKit;
+import com.jcwhatever.nucleus.utils.Kits;
 import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.signs.ISignContainer;
 import com.jcwhatever.nucleus.utils.signs.SignHandler;
@@ -126,7 +127,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     private IKit getKit(ISignContainer sign) {
         String kitName = sign.getRawLine(1);
 
-        IKit kit = PVStarAPI.getKitManager().get(kitName);
+        IKit kit = Kits.get(kitName);
         if (kit == null)
             Msg.warning("Failed to find kit named '{0}' from line 2 of {1} sign.", kitName, getDisplayName());
 
