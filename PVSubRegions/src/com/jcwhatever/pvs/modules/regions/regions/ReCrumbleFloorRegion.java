@@ -40,7 +40,7 @@ import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.nucleus.utils.BlockUtils;
-import com.jcwhatever.nucleus.utils.Scheduler;
+import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.nucleus.utils.observer.result.FutureResultAgent.Future;
 import com.jcwhatever.nucleus.utils.observer.result.FutureSubscriber;

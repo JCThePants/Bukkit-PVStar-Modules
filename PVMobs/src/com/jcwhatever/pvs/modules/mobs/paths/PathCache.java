@@ -27,7 +27,7 @@ package com.jcwhatever.pvs.modules.mobs.paths;
 
 import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
 import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.Scheduler;
+import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;

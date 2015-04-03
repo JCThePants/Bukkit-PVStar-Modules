@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.economy;
 
-import com.jcwhatever.nucleus.utils.Economy;
+import com.jcwhatever.nucleus.providers.economy.Economy;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;

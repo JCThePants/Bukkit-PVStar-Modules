@@ -36,7 +36,7 @@ import com.jcwhatever.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.Scheduler;
+import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.nucleus.utils.language.Localizable;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
