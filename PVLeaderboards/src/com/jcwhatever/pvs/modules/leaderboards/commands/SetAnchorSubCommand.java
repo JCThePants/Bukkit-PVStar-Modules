@@ -25,13 +25,13 @@
 
 package com.jcwhatever.pvs.modules.leaderboards.commands;
 
+import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.blockselect.IBlockSelectHandler;
+import com.jcwhatever.nucleus.managed.blockselect.IBlockSelector.BlockSelectResult;
 import com.jcwhatever.nucleus.managed.language.Localizable;
-import com.jcwhatever.nucleus.utils.player.PlayerBlockSelect;
-import com.jcwhatever.nucleus.utils.player.PlayerBlockSelect.BlockSelectResult;
-import com.jcwhatever.nucleus.utils.player.PlayerBlockSelect.PlayerBlockSelectHandler;
 import com.jcwhatever.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.Leaderboard;
 
@@ -74,7 +74,7 @@ public class SetAnchorSubCommand extends AbstractLeaderboardCommand {
 
         Player p = (Player)sender;
 
-        PlayerBlockSelect.query(p, new PlayerBlockSelectHandler() {
+        Nucleus.getBlockSelector().query(p, new IBlockSelectHandler() {
             @Override
             public BlockSelectResult onBlockSelect(Player player, Block selectedBlock, Action clickAction) {
 
