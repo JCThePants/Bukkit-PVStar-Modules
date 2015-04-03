@@ -38,7 +38,7 @@ import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.nucleus.utils.Scheduler;
-import com.jcwhatever.nucleus.utils.scheduler.IScheduledTask;
+import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
 
 import org.bukkit.Location;
 import org.bukkit.Material;

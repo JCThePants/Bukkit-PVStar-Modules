@@ -34,8 +34,8 @@ import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
-import com.jcwhatever.nucleus.utils.scheduler.IScheduledTask;
-import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
+import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
+import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
 
 import org.bukkit.entity.Player;
 

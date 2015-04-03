@@ -39,8 +39,8 @@ import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.Rand;
 import com.jcwhatever.nucleus.utils.astar.AStar;
 import com.jcwhatever.nucleus.utils.astar.AStarUtils;
-import com.jcwhatever.nucleus.utils.scheduler.IScheduledTask;
-import com.jcwhatever.nucleus.utils.scheduler.TaskHandler;
+import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
+import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
 
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
