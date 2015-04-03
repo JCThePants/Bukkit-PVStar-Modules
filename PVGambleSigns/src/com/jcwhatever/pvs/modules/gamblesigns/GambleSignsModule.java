@@ -27,10 +27,10 @@ package com.jcwhatever.pvs.modules.gamblesigns;
 
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.mixins.IDisposable;
-import com.jcwhatever.nucleus.scripting.IEvaluatedScript;
-import com.jcwhatever.nucleus.scripting.IScriptApi;
-import com.jcwhatever.nucleus.scripting.SimpleScriptApi;
-import com.jcwhatever.nucleus.scripting.SimpleScriptApi.IApiObjectCreator;
+import com.jcwhatever.nucleus.managed.scripting.IEvaluatedScript;
+import com.jcwhatever.nucleus.managed.scripting.IScriptApi;
+import com.jcwhatever.nucleus.managed.scripting.SimpleScriptApi;
+import com.jcwhatever.nucleus.managed.scripting.SimpleScriptApi.IApiObjectCreator;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 
