@@ -28,18 +28,19 @@ package com.jcwhatever.pvs.modules.regions.regions.maze;
 import com.jcwhatever.nucleus.regions.BuildChunkSnapshot;
 import com.jcwhatever.nucleus.regions.BuildMethod;
 import com.jcwhatever.nucleus.regions.BuildableRegion;
-import com.jcwhatever.nucleus.utils.coords.ChunkInfo;
 import com.jcwhatever.nucleus.regions.data.RegionChunkSection;
 import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.utils.items.ItemStackUtils;
 import com.jcwhatever.nucleus.utils.Rand;
+import com.jcwhatever.nucleus.utils.coords.IChunkCoords;
 import com.jcwhatever.pvs.modules.regions.regions.maze.MazeGenerator.Orientation;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public class MazeBuilder {
@@ -49,7 +50,7 @@ public class MazeBuilder {
     private IDataNode _settings;
     private BuildableRegion _region;
     private Plugin _plugin;
-    private ItemStack[][][] _map;
+    private MaterialData[][][] _map;
     private ItemStack[] _wallMaterials;
 
     public MazeBuilder (Plugin plugin, BuildableRegion region, IDataNode settings) {
@@ -108,10 +109,10 @@ public class MazeBuilder {
             }
         }
 
-        List<ChunkInfo> chunks = _region.getChunks();
+        Collection<IChunkCoords> chunks = _region.getChunkCoords();
         List<BuildChunkSnapshot> snapshots = new ArrayList<BuildChunkSnapshot>(chunks.size());
-        for (ChunkInfo chunk : chunks) {
-            RegionChunkSection section = new RegionChunkSection(_region, chunk);
+        for (IChunkCoords coord : chunks) {
+            RegionChunkSection section = new RegionChunkSection(_region, coord);
             BuildChunkSnapshot mazeSnap = new BuildChunkSnapshot(_map, section);
             snapshots.add(mazeSnap);
         }
@@ -212,27 +213,23 @@ public class MazeBuilder {
                 int mapx = (xStart * size) + x + xOffset;
                 int mapz = (zStart * size) + z + zOffset;
 
-
-
                 ItemStack wall = Rand.get(_wallMaterials);
 
                 if (x == 0 && z == 0 && !omitColumn(orientation, xStart, zStart)) {
-                    _map[mapx][y][mapz] = wall;
+                    _map[mapx][y][mapz] = wall.getData();
                 }
                 else if (x == 0 && hasZWall(orientation)) {
-                    _map[mapx][y][mapz] = wall;
+                    _map[mapx][y][mapz] = wall.getData();
                 }
                 else if (z == 0 && hasXWall(orientation)) {
-                    _map[mapx][y][mapz] = wall;
+                    _map[mapx][y][mapz] = wall.getData();
                 }
                 else {
-                    _map[mapx][y][mapz] = ItemStackUtils.AIR;
+                    _map[mapx][y][mapz] = null;
                 }
-
             }
         }
     }
-
 
     public ItemStack[] getWallMaterials() {
         ItemStack[] materials = _settings.getItemStacks("wall-materials");
@@ -243,6 +240,4 @@ public class MazeBuilder {
 
         return materials;
     }
-
-
 }

@@ -233,7 +233,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     }
 
     @Override
-    protected final void onSave() {
+    protected final void onPreSave() {
         getArena().setBusy();
     }
 
@@ -243,12 +243,12 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     }
 
     @Override
-    protected final void onRestore() {
+    protected final void onPreRestore() {
         getArena().setBusy();
     }
 
     @Override
-    protected final void onRestoreComplete() {
+    protected final void onRestore() {
         getArena().setIdle();
     }
 

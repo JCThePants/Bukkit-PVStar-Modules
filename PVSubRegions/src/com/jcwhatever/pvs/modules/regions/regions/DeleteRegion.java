@@ -25,25 +25,26 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.regions.BuildChunkSnapshot;
 import com.jcwhatever.nucleus.regions.BuildMethod;
-import com.jcwhatever.nucleus.utils.coords.ChunkInfo;
 import com.jcwhatever.nucleus.regions.data.RegionChunkSection;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.utils.coords.IChunkCoords;
 import com.jcwhatever.nucleus.utils.observer.result.FutureResultAgent.Future;
 import com.jcwhatever.nucleus.utils.observer.result.FutureSubscriber;
 import com.jcwhatever.nucleus.utils.observer.result.Result;
 import com.jcwhatever.nucleus.utils.performance.queued.QueueTask;
+import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.material.MaterialData;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -77,12 +78,12 @@ public class DeleteRegion extends AbstractPVRegion {
 
         _isTriggered = true;
 
-        ItemStack[][][] regionData = this.getBuildArray();
-        List<ChunkInfo> chunks = this.getChunks();
+        MaterialData[][][] regionData = this.getBuildArray();
+        Collection<IChunkCoords> chunks = this.getChunkCoords();
         List<BuildChunkSnapshot> snapshots = new ArrayList<>(chunks.size());
 
-        for (ChunkInfo chunk : chunks) {
-            RegionChunkSection section = new RegionChunkSection(this, chunk);
+        for (IChunkCoords coord : chunks) {
+            RegionChunkSection section = new RegionChunkSection(this, coord);
             BuildChunkSnapshot snapshot = new BuildChunkSnapshot(regionData, section);
             snapshots.add(snapshot);
         }
