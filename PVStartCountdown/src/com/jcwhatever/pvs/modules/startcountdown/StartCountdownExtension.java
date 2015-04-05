@@ -214,7 +214,6 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
                     for (ArenaPlayer player : group) {
                         title.showTo(player.getPlayer());
                     }
-                    Msg.tell(group, Lang.get(_SECONDS, remaining));
                 }
             }
 
