@@ -103,6 +103,8 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
 
             gameManager.tell(Lang.get(_GRACE_STARTED, _gracePeriodSeconds));
 
+            _isGracePeriod = true;
+
             ArenaScheduler.runTaskLater(getArena(), 20 * _gracePeriodSeconds,
                     new GracePeriod());
         }
