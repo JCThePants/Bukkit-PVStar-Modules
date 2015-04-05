@@ -33,6 +33,7 @@ import com.jcwhatever.nucleus.utils.MetaStore;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.managers.LobbyManager;
@@ -52,8 +53,6 @@ import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
-
-import java.util.List;
 
 @ArenaExtensionInfo(
         name = "PVOpenArena",
@@ -151,7 +150,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
      */
     @EventMethod
     private void onArenaPreStart(ArenaPreStartEvent event) {
-        List<ArenaPlayer> players = getArena().getLobbyManager().getPlayers();
+        ArenaPlayerCollection players = getArena().getLobbyManager().getPlayers();
 
         event.getJoiningPlayers().addAll(players);
     }

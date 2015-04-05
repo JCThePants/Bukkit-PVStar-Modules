@@ -31,10 +31,10 @@ import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
 import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
+import com.jcwhatever.nucleus.managed.titles.Titles;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
-import com.jcwhatever.nucleus.utils.titles.Title;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.managers.GameManager;
@@ -44,9 +44,6 @@ import com.jcwhatever.pvs.api.events.players.PlayerJoinedEvent;
 import com.jcwhatever.pvs.api.utils.Msg;
 
 import org.bukkit.plugin.Plugin;
-
-import java.util.List;
-import java.util.Set;
 
 @ArenaExtensionInfo(
         name="PVStartCountdown",
@@ -144,7 +141,7 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
     /*
      * Begin the game start countdown.
      */
-    private void startCountdown(final ArenaStartReason reason, Set<ArenaPlayer> players) {
+    private void startCountdown(final ArenaStartReason reason, ArenaPlayerCollection players) {
 
         final GameManager gameManager = getArena().getGameManager();
 
@@ -158,10 +155,8 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
             return;
 
         // tell players the countdown is starting.
-        Title title = new Title(Lang.get(_STARTING_COUNTDOWN, getStartCountdownSeconds()), null);
-        for (ArenaPlayer player : players) {
-            title.showTo(player.getPlayer());
-        }
+        Titles.showTo(players.asPlayers(), Lang.get(_STARTING_COUNTDOWN, getStartCountdownSeconds()));
+
         // schedule countdown task
         _countdownTask = Scheduler.runTaskRepeat(PVStarAPI.getPlugin(), 20, 20, new TaskHandler() {
 
@@ -174,7 +169,7 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
 
                 long remaining = getStartCountdownSeconds() - elapsedSeconds;
 
-                List<ArenaPlayer> group = reason == ArenaStartReason.AUTO
+                ArenaPlayerCollection group = reason == ArenaStartReason.AUTO
                         ? getArena().getLobbyManager().getNextGroup()
                         : getArena().getLobbyManager().getReadyGroup();
 
@@ -188,10 +183,7 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
 
                     getArena().getGameManager().start(reason);
 
-                    Title title = new Title(Lang.get(_GO), null);
-                    for (ArenaPlayer player : group) {
-                        title.showTo(player.getPlayer());
-                    }
+                    Titles.showTo(group.asPlayers(), Lang.get(_GO));
 
                     cancelTask();
 
@@ -201,19 +193,13 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
                 else if (remaining > 5) {
 
                     if (remaining % 10 == 0) {
-                        Title title = new Title(Lang.get(_MOD_10_SECONDS, remaining), null);
-                        for (ArenaPlayer player : group) {
-                            title.showTo(player.getPlayer());
-                        }
+                        Titles.showTo(group.asPlayers(), Lang.get(_MOD_10_SECONDS, remaining));
                     }
 
                 }
                 // tell current time left at 1 seconds intervals
                 else {
-                    Title title = new Title(Lang.get(_SECONDS, remaining), null);
-                    for (ArenaPlayer player : group) {
-                        title.showTo(player.getPlayer());
-                    }
+                    Titles.showTo(group.asPlayers(), Lang.get(_SECONDS, remaining));
                 }
             }
 

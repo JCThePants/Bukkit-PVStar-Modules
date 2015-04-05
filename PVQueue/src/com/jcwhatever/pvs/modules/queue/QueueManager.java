@@ -31,6 +31,7 @@ import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
 import com.jcwhatever.pvs.api.events.players.PlayerJoinQueryEvent;
 
 import org.bukkit.entity.Player;
@@ -96,7 +97,8 @@ public final class QueueManager {
 			}
 
             // make sure other modules agree to the player joining the arena
-            Set<ArenaPlayer> partyMembers = _arena.getEventManager().call(this, new PlayerJoinQueryEvent(_arena, player)).getPlayers();
+            ArenaPlayerCollection partyMembers = _arena.getEventManager().call(this,
+                    new PlayerJoinQueryEvent(_arena, player)).getPlayers();
 
             if (partyMembers.contains(player)) {
 
@@ -196,7 +198,7 @@ public final class QueueManager {
 		PreCon.notNull(player);
 
         // make sure other modules agree to the player joining the arena
-        Set<ArenaPlayer> partyMembers = _arena.getEventManager()
+        ArenaPlayerCollection partyMembers = _arena.getEventManager()
                 .call(this, new PlayerJoinQueryEvent(_arena, player)).getPlayers();
 
         if (!partyMembers.contains(player))
@@ -217,5 +219,4 @@ public final class QueueManager {
 
 		return _queue.add(player.getPlayer());
 	}
-
 }

@@ -30,6 +30,7 @@ import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.events.ArenaStartedEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerLoseEvent;
@@ -45,7 +46,6 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import javax.annotation.Nullable;
@@ -85,7 +85,7 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
 
     @EventMethod
     private void onArenaStart(ArenaStartedEvent event) {
-        List<ArenaPlayer> players = event.getArena().getGameManager().getPlayers();
+        ArenaPlayerCollection players = event.getArena().getGameManager().getPlayers();
 
         for (ArenaPlayer player : players) {
 

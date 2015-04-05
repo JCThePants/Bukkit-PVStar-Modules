@@ -28,6 +28,7 @@ import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.ArenaTeam;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
@@ -38,6 +39,7 @@ import com.jcwhatever.pvs.api.events.players.PlayerRemovedEvent;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import javax.annotation.Nullable;
 
@@ -106,8 +108,14 @@ public class LastStandingExtension extends ArenaExtension implements IEventListe
 
         GameManager manager = getArena().getGameManager();
 
-        if (manager.getPlayers().size() == 1) {
-            ArenaPlayer winner = manager.getPlayers().get(0);
+        ArenaPlayerCollection players = manager.getPlayers();
+
+        if (players.size() == 1) {
+
+            Iterator<ArenaPlayer> iterator = players.iterator();
+            iterator.hasNext();
+
+            ArenaPlayer winner = iterator.next();
             if (!winner.equals(removedPlayer)) {
                 return winner;
             }

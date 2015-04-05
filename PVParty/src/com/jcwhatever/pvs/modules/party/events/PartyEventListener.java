@@ -30,6 +30,7 @@ import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.options.AddPlayerReason;
 import com.jcwhatever.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerJoinQueryEvent;
@@ -44,7 +45,6 @@ import org.bukkit.plugin.Plugin;
 
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 import javax.annotation.Nullable;
 
 public class PartyEventListener implements IEventListener {
@@ -60,7 +60,7 @@ public class PartyEventListener implements IEventListener {
     @EventMethod
     private void onPlayerJoinQuery(PlayerJoinQueryEvent event) {
 
-        Set<ArenaPlayer> playersJoining = event.getPlayers();
+        ArenaPlayerCollection playersJoining = event.getPlayers();
         Iterator<ArenaPlayer> playerIterator = playersJoining.iterator();
 
         // Ensure party members are only allowed to join if
@@ -73,11 +73,10 @@ public class PartyEventListener implements IEventListener {
             if (leader == null)
                 continue;
 
-            if (!playersJoining.contains(leader)) {
-                playerIterator.remove();
-            }
-            else {
+            if (playersJoining.contains(leader)) {
                 player.getSessionMeta().set(META_ALLOW_JOIN_ARENA, event.getArena());
+            } else {
+                playerIterator.remove();
             }
         }
     }

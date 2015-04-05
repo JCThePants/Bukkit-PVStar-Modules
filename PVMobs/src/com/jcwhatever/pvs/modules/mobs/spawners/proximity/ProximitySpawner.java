@@ -25,8 +25,15 @@
 
 package com.jcwhatever.pvs.modules.mobs.spawners.proximity;
 
+import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
+import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.Rand;
+import com.jcwhatever.nucleus.utils.astar.AStar;
+import com.jcwhatever.nucleus.utils.astar.AStarUtils;
 import com.jcwhatever.pvs.api.arena.Arena;
 import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.pvs.modules.mobs.DespawnMethod;
@@ -35,12 +42,6 @@ import com.jcwhatever.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.pvs.modules.mobs.spawners.ISpawnerSettings;
 import com.jcwhatever.pvs.modules.mobs.spawners.SpawnerInfo;
 import com.jcwhatever.pvs.modules.mobs.utils.DistanceUtils;
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.Rand;
-import com.jcwhatever.nucleus.utils.astar.AStar;
-import com.jcwhatever.nucleus.utils.astar.AStarUtils;
-import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
-import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
 
 import org.bukkit.entity.Creature;
 import org.bukkit.entity.Entity;
@@ -195,7 +196,7 @@ public class ProximitySpawner implements ISpawner {
             if (_isPaused)
                 return;
 
-            List<ArenaPlayer> players = _arena.getGameManager().getPlayers();
+            ArenaPlayerCollection players = _arena.getGameManager().getPlayers();
 
             int maxMobsPerSpawn = _settings.getMaxMobsPerSpawn();
 
