@@ -34,6 +34,7 @@ import com.jcwhatever.nucleus.utils.astar.AStarUtils;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
+import com.jcwhatever.pvs.api.arena.managers.IGameManager;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.pvs.modules.mobs.DespawnMethod;
@@ -103,12 +104,18 @@ public class ProximitySpawner implements ISpawner {
 
         _isPaused = false;
 
-        if (_arena == null || _isRunning || !_arena.getGameManager().isRunning() || _arena.getGameManager().getPlayerCount() == 0)
+        if (_arena == null || _isRunning)
             return;
+
+        IGameManager gameManager = _arena.getGameManager();
+
+        if (!gameManager.isRunning() || gameManager.getPlayers().size() == 0) {
+            return;
+        }
 
         _isRunning = true;
 
-        int totalPlayers = _arena.getGameManager().getPlayerCount();
+        int totalPlayers = gameManager.getPlayers().size();
         _maxMobs = Math.min(
                 _settings.getMaxMobs(),
                 _settings.getMaxMobsPerPlayer() * totalPlayers);
