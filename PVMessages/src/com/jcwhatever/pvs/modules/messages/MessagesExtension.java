@@ -74,12 +74,12 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
 
     @EventMethod
     private void onPlayerWin(PlayerWinEvent event) {
-        if (event.getWinMessage() == null ||
+        if (event.getWinMessage() != null ||
                 event.getPlayer().getTeam() != ArenaTeam.NONE) {
             return;
         }
 
-        event.setWinMessage(event.getPlayer().getName() + " wins!");
+        event.setWinMessage("{GREEN}" + event.getPlayer().getName() + " wins!");
     }
 
     @EventMethod
@@ -90,7 +90,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
 
         ArenaTeam team = event.getTeam();
 
-        event.setWinMessage(team.getTextColor() + team.getDisplay() + " wins!");
+        event.setWinMessage(team.getTextColor() + team.getDisplay() + " {GREEN}wins!");
     }
 
     @EventMethod
