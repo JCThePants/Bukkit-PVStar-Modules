@@ -27,6 +27,7 @@ package com.jcwhatever.pvs.modules.messages;
 
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.managed.actionbar.ActionBarPriority;
 import com.jcwhatever.nucleus.managed.actionbar.ActionBars;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.PVStarAPI;
@@ -104,7 +105,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
 
         String globalMessage = Lang.get(_PLAYER_WIN_GLOBAL, event.getPlayer().getName(), getArena().getName());
         if (!globalMessage.isEmpty())
-            ActionBars.showTo(Bukkit.getOnlinePlayers(), globalMessage);
+            ActionBars.showTo(Bukkit.getOnlinePlayers(), globalMessage, ActionBarPriority.LOW);
     }
 
     @EventMethod
