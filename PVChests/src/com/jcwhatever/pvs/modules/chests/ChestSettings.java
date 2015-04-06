@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.chests;
 
-import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.coords.SyncLocation;
+import com.jcwhatever.pvs.api.arena.IArena;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -160,13 +161,15 @@ public class ChestSettings {
 
         for (IDataNode chestNode : _chestNode) {
 
-            Location location = chestNode.getLocation("location");
+            SyncLocation location = chestNode.getLocation("location");
             if (location == null)
                 continue;
 
             ItemStack[] contents = chestNode.getItemStacks("contents", (ItemStack[])null);
 
-            _chests.put(location, new ChestInfo(location, contents));
+            Location bukkitLocation = location.getBukkitLocation();
+
+            _chests.put(bukkitLocation, new ChestInfo(bukkitLocation, contents));
         }
     }
 }
