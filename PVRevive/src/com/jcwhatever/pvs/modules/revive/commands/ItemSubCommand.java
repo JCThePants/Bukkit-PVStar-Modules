@@ -67,7 +67,7 @@ public class ItemSubCommand extends AbstractPVCommand {
         if (arena == null)
             return; // finish
 
-        ReviveExtension extension = arena.getExtensionManager().get(ReviveExtension.class);
+        ReviveExtension extension = arena.getExtensions().get(ReviveExtension.class);
         if (extension == null) {
             tellError(sender, Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
             return; //finish

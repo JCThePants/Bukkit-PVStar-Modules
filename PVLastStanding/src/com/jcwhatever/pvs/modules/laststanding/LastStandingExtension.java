@@ -32,9 +32,9 @@ import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.ArenaTeam;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.managers.IGameManager;
-import com.jcwhatever.pvs.api.arena.options.RemovePlayerReason;
-import com.jcwhatever.pvs.api.events.players.PlayerRemovedEvent;
+import com.jcwhatever.pvs.api.arena.context.IGameContext;
+import com.jcwhatever.pvs.api.arena.options.RemoveFromContextReason;
+import com.jcwhatever.pvs.api.events.players.PlayerRemovedFromContextEvent;
 
 import org.bukkit.plugin.Plugin;
 
@@ -67,24 +67,24 @@ public class LastStandingExtension extends ArenaExtension implements IEventListe
      * Check for a winner when a player is removed.
      */
     @EventMethod
-    private void onCheckForWinner(PlayerRemovedEvent event) {
+    private void onCheckForWinner(PlayerRemovedFromContextEvent event) {
 
-        if (event.getReason() == RemovePlayerReason.ARENA_RELATION_CHANGE ||
-                event.getReason() == RemovePlayerReason.FORWARDING)
+        if (event.getReason() == RemoveFromContextReason.CONTEXT_CHANGE ||
+                event.getReason() == RemoveFromContextReason.FORWARDING)
             return;
 
-        if (!(event.getRelatedManager() instanceof IGameManager))
+        if (!(event.getContextManager() instanceof IGameContext))
             return;
 
-        IGameManager manager = (IGameManager)event.getRelatedManager();
+        IGameContext manager = (IGameContext)event.getContextManager();
 
         if (manager.isRunning() && !manager.isGameOver()) {
 
             // check for team winner
-            if (getArena().getTeamManager().totalTeams() > 0) {
+            if (getArena().getTeams().totalTeams() > 0) {
 
-                if (getArena().getTeamManager().totalCurrentTeams() == 1) {
-                    List<ArenaTeam> teams = new ArrayList<>(getArena().getTeamManager().getCurrentTeams());
+                if (getArena().getTeams().totalCurrentTeams() == 1) {
+                    List<ArenaTeam> teams = new ArrayList<>(getArena().getTeams().getCurrentTeams());
 
                     manager.setWinner(teams.get(0));
                     return; // finished
@@ -106,7 +106,7 @@ public class LastStandingExtension extends ArenaExtension implements IEventListe
     @Nullable
     private IArenaPlayer checkForWinnerOnRemove(IArenaPlayer removedPlayer) {
 
-        IGameManager manager = getArena().getGameManager();
+        IGameContext manager = getArena().getGame();
 
         IArenaPlayerCollection players = manager.getPlayers();
 

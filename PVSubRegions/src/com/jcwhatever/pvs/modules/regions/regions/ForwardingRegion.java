@@ -28,7 +28,7 @@ package com.jcwhatever.pvs.modules.regions.regions;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
-import com.jcwhatever.pvs.api.events.players.PlayerAddedEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerAddedToContextEvent;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.pvs.api.utils.ArenaConverters;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
@@ -91,7 +91,7 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
     }
 
     @EventMethod
-    private void onPlayerAdded(final PlayerAddedEvent event) {
+    private void onPlayerAdded(final PlayerAddedToContextEvent event) {
 
         Location location = _forwardLocMap.remove(event.getPlayer().getUniqueId());
         if (location == null)
@@ -133,7 +133,7 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
             _vectorMap.put(player.getUniqueId(), vector);
         }
 
-        getArena().getGameManager().forwardPlayer(player, _forwardArena);
+        getArena().getGame().forwardPlayer(player, _forwardArena);
     }
 
     @Override

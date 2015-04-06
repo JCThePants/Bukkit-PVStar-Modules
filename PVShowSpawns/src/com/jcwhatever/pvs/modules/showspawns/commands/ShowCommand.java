@@ -47,7 +47,7 @@ public class ShowCommand extends AbstractPVCommand {
     @Override
     public void execute(CommandSender sender, CommandArguments args) {
 
-        IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
+        IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNING);
         if (arena == null)
             return; // finished
 

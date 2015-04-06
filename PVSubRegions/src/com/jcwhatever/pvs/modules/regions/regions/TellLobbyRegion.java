@@ -40,6 +40,6 @@ public class TellLobbyRegion extends TellRegion {
     @Override
     protected void tellMessage(IArenaPlayer player, String message) {
 
-        getArena().getLobbyManager().tell(message);
+        getArena().getLobby().tell(message);
     }
 }

@@ -34,7 +34,7 @@ import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.events.ArenaStartedEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerLoseEvent;
-import com.jcwhatever.pvs.api.events.players.PlayerPreRemoveEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerPreRemoveFromContextEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerWinEvent;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.api.stats.IArenaStats;
@@ -85,7 +85,7 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
 
     @EventMethod
     private void onArenaStart(ArenaStartedEvent event) {
-        IArenaPlayerCollection players = event.getArena().getGameManager().getPlayers();
+        IArenaPlayerCollection players = event.getArena().getGame().getPlayers();
 
         for (IArenaPlayer player : players) {
 
@@ -137,7 +137,7 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
         stats.addScore(LOSSES, event.getPlayer().getUniqueId(), 1);
     }
 
-    private void onPlayerLeave(PlayerPreRemoveEvent event) {
+    private void onPlayerLeave(PlayerPreRemoveFromContextEvent event) {
 
         // get points earned before player leaves
         SessionStatTracker tracker = getStatTracker(event.getPlayer(), POINTS);

@@ -66,7 +66,7 @@ public class CountdownSubCommand extends AbstractPVCommand {
         if (arena == null)
             return; // finished
 
-        StartCountdownExtension extension = arena.getExtensionManager().get(StartCountdownExtension.class);
+        StartCountdownExtension extension = arena.getExtensions().get(StartCountdownExtension.class);
         if (extension == null) {
             tellError(sender, Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
             return; // finished

@@ -36,7 +36,7 @@ import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
+import com.jcwhatever.pvs.api.arena.options.ArenaContext;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.events.ArenaPreStartEvent;
 import com.jcwhatever.pvs.modules.chests.ArenaChests.ChestInfo;
@@ -196,7 +196,7 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         if (_chestSettings.getTotalChests() == 0)
             return;
 
-        getArena().getLobbyManager().tell("{YELLOW}Randomizing chest availability.");
+        getArena().getLobby().tell("{YELLOW}Randomizing chest availability.");
 
         List<ChestInfo> chestInfoList = _chestSettings.getChestInfo();
 
@@ -509,7 +509,7 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getPlayer());
 
         // check that player is in an arena game
-        if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
+        if (player.getContext() != ArenaContext.GAME)
             return;
 
         // determine if the player clicked a chest block

@@ -38,7 +38,7 @@ public class GambleTriggeredEvent extends AbstractPlayerEvent {
 
     public GambleTriggeredEvent(IArena arena, IArenaPlayer player, String eventName, ISignContainer sign) {
         //noinspection ConstantConditions
-        super(arena, player, player.getRelatedManager());
+        super(arena, player, player.getContextManager());
 
         PreCon.notNullOrEmpty(eventName);
         PreCon.notNull(sign);

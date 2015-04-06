@@ -63,11 +63,11 @@ public class SetSubCommand extends AbstractPVCommand {
 
         String spawnerName = args.getString("spawnerName");
 
-        IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
+        IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNING);
         if (arena == null)
             return; // finish
 
-        MobArenaExtension extension = arena.getExtensionManager().get(MobArenaExtension.class);
+        MobArenaExtension extension = arena.getExtensions().get(MobArenaExtension.class);
         if (extension == null) {
             tellError(sender, Lang.get(_EXTENSION_NOT_INSTALLED, arena.getName()));
             return; // finish

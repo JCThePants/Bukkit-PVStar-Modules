@@ -140,7 +140,7 @@ public class SpawnTriggerRegion extends AbstractPVRegion implements IEventListen
             if (spawnName.isEmpty())
                 continue;
 
-            Spawnpoint spawn = getArena().getSpawnManager().getSpawn(spawnName);
+            Spawnpoint spawn = getArena().getSpawns().get(spawnName);
             if (spawn != null && spawn.getSpawnType().isSpawner())
                 _spawns.add(spawn);
         }

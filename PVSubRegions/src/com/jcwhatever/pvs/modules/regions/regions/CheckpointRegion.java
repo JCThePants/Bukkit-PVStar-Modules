@@ -86,7 +86,7 @@ public class CheckpointRegion extends AbstractPVRegion implements IEventListener
         String spawnNames = dataNode.getString("spawns");
 
         if (spawnNames != null)
-            _spawnpoints = getArena().getSpawnManager().getSpawns(spawnNames);
+            _spawnpoints = getArena().getSpawns().getAll(spawnNames);
     }
 
     @Override

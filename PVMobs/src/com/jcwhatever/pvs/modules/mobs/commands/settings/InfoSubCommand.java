@@ -72,7 +72,7 @@ public class InfoSubCommand extends AbstractPVCommand {
 
         int page = args.getInteger("page");
 
-        MobArenaExtension extension = arena.getExtensionManager().get(MobArenaExtension.class);
+        MobArenaExtension extension = arena.getExtensions().get(MobArenaExtension.class);
         if (extension == null) {
             tellError(sender, Lang.get(_EXTENSION_NOT_INSTALLED, arena.getName()));
             return; // finish

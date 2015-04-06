@@ -37,10 +37,10 @@ import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.managers.IGameManager;
+import com.jcwhatever.pvs.api.arena.context.IGameContext;
 import com.jcwhatever.pvs.api.arena.options.ArenaStartReason;
 import com.jcwhatever.pvs.api.events.ArenaPreStartEvent;
-import com.jcwhatever.pvs.api.events.players.PlayerJoinedEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerJoinedArenaEvent;
 import com.jcwhatever.pvs.api.utils.Msg;
 
 import org.bukkit.plugin.Plugin;
@@ -119,10 +119,10 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
     }
 
     @EventMethod
-    private void onPlayerJoin(PlayerJoinedEvent event) {
+    private void onPlayerJoin(PlayerJoinedArenaEvent event) {
 
         Msg.tell(event.getPlayer(), Lang.get(_AUTO_START_INFO,
-                getArena().getLobbyManager().getSettings().getMinAutoStartPlayers()));
+                getArena().getLobby().getSettings().getMinAutoStartPlayers()));
     }
 
     @EventMethod(priority = EventSubscriberPriority.FIRST)
@@ -143,7 +143,7 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
      */
     private void startCountdown(final ArenaStartReason reason, IArenaPlayerCollection players) {
 
-        final IGameManager gameManager = getArena().getGameManager();
+        final IGameContext gameManager = getArena().getGame();
 
         // make sure countdown isn't already running and
         // the game isn't in progress.
@@ -170,8 +170,8 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
                 long remaining = getStartCountdownSeconds() - elapsedSeconds;
 
                 IArenaPlayerCollection group = reason == ArenaStartReason.AUTO
-                        ? getArena().getLobbyManager().getNextGroup()
-                        : getArena().getLobbyManager().getReadyGroup();
+                        ? getArena().getLobby().getNextGroup()
+                        : getArena().getLobby().getReadyGroup();
 
                 // cancel countdown if there is no longer a group of players to start the game
                 if (group.isEmpty()) {
@@ -181,7 +181,7 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
                 else if (remaining <= 0) {
                     _isStarting = true;
 
-                    getArena().getGameManager().start(reason);
+                    getArena().getGame().start(reason);
 
                     Titles.showTo(group.asPlayers(), Lang.get(_GO));
 

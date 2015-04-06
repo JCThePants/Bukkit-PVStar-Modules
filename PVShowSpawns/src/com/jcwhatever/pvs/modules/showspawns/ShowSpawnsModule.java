@@ -33,7 +33,7 @@ import com.jcwhatever.nucleus.utils.SignUtils;
 import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
-import com.jcwhatever.pvs.api.events.players.PlayerPreAddEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerPreAddToContextEvent;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.modules.showspawns.commands.HideCommand;
@@ -93,7 +93,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
 
         hideSigns(arena);
 
-        List<Spawnpoint> spawnpoints = arena.getSpawnManager().getSpawns();
+        List<Spawnpoint> spawnpoints = arena.getSpawns().getAll();
         LinkedList<BlockState> states = new LinkedList<>();
 
         for (Spawnpoint spawn : spawnpoints) {
@@ -145,7 +145,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
     }
 
     @EventMethod
-    private void onArenaPlayerAdd(PlayerPreAddEvent event) {
+    private void onArenaPlayerAdd(PlayerPreAddToContextEvent event) {
         hideSigns(event.getArena());
     }
 

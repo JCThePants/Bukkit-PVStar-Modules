@@ -34,8 +34,8 @@ import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
-import com.jcwhatever.pvs.api.events.players.PlayerAddedEvent;
+import com.jcwhatever.pvs.api.arena.options.ArenaContext;
+import com.jcwhatever.pvs.api.events.players.PlayerAddedToContextEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerLoseEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerWinEvent;
 import org.bukkit.event.entity.EntityDeathEvent;
@@ -84,7 +84,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
 
         IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
 
-        if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
+        if (player.getContext() != ArenaContext.GAME)
             return;
 
         // Death reward
@@ -99,7 +99,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
 
         IArenaPlayer killer = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
 
-        if (killer.getArenaRelation() != ArenaPlayerRelation.GAME)
+        if (killer.getContext() != ArenaContext.GAME)
             return;
 
         // Kill reward
@@ -107,8 +107,8 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
     }
 
     @EventMethod
-    private void onAddPlayer(PlayerAddedEvent event) {
-        if (event.getPlayer().getArenaRelation() == ArenaPlayerRelation.GAME) {
+    private void onAddPlayer(PlayerAddedToContextEvent event) {
+        if (event.getPlayer().getContext() == ArenaContext.GAME) {
             giveMoney(event.getPlayer(), getParticipantAmount());
         }
     }

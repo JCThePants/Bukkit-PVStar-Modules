@@ -78,7 +78,7 @@ public class KillSubCommand extends AbstractPVCommand {
         if (arena == null)
             return; // finish
 
-        EconomyExtension extension = arena.getExtensionManager().get(EconomyExtension.class);
+        EconomyExtension extension = arena.getExtensions().get(EconomyExtension.class);
         if (extension == null) {
             tellError(sender, Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
             return; //finish

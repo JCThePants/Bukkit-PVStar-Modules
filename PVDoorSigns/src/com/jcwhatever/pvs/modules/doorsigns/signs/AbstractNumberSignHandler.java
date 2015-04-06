@@ -33,7 +33,7 @@ import com.jcwhatever.nucleus.managed.signs.SignHandler;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
-import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
+import com.jcwhatever.pvs.api.arena.options.ArenaContext;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.doorsigns.DoorBlocks;
 import com.jcwhatever.pvs.modules.doorsigns.DoorManager;
@@ -95,7 +95,7 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     protected SignClickResult onSignClick(Player p, ISignContainer sign) {
 
         IArenaPlayer player = PVStarAPI.getArenaPlayer(p);
-        if (player.getArena() == null || player.getArenaRelation() == ArenaPlayerRelation.SPECTATOR)
+        if (player.getArena() == null || player.getContext() == ArenaContext.SPECTATOR)
             return SignClickResult.IGNORED;
 
         double cost = getCost(sign);

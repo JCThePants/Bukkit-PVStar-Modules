@@ -26,7 +26,6 @@
 package com.jcwhatever.pvs.modules.regions;
 
 import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.pvs.api.exceptions.MissingTypeInfoException;
 import com.jcwhatever.pvs.modules.regions.regions.AbstractPVRegion;
 import com.jcwhatever.pvs.modules.regions.regions.BasicRegion;
 import com.jcwhatever.pvs.modules.regions.regions.CheckpointRegion;
@@ -84,7 +83,9 @@ public class TypesManager {
 
         RegionTypeInfo info = regionClass.getAnnotation(RegionTypeInfo.class);
         if (info == null) {
-            throw new MissingTypeInfoException(regionClass);
+            throw new IllegalArgumentException(
+                    "Expected but did not find proper type info annotation on " +
+                            "class: " + regionClass.getName());
         }
 
         _regionTypes.put(info.name().toLowerCase(), regionClass);

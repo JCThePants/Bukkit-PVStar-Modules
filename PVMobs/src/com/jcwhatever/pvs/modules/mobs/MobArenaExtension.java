@@ -368,7 +368,7 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
 
     // get game spawns that are alive
     private List<Spawnpoint> getGameMobSpawns() {
-        List<Spawnpoint> spawns = getArena().getSpawnManager().getSpawns();
+        List<Spawnpoint> spawns = getArena().getSpawns().getAll();
 
         Iterator<Spawnpoint> iterator = spawns.iterator();
 

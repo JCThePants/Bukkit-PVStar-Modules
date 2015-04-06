@@ -31,10 +31,10 @@ import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
-import com.jcwhatever.pvs.api.arena.options.AddPlayerReason;
-import com.jcwhatever.pvs.api.events.players.PlayerAddedEvent;
+import com.jcwhatever.pvs.api.arena.options.AddToContextReason;
+import com.jcwhatever.pvs.api.events.players.PlayerAddedToContextEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerJoinQueryEvent;
-import com.jcwhatever.pvs.api.events.players.PlayerPreAddEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerPreAddToContextEvent;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.party.Party;
 import com.jcwhatever.pvs.modules.party.PartyManager;
@@ -84,9 +84,9 @@ public class PartyEventListener implements IEventListener {
 
     // Check to see if player can be added
     @EventMethod
-    private void onPlayerPreAdd(PlayerPreAddEvent event) {
+    private void onPlayerPreAdd(PlayerPreAddToContextEvent event) {
 
-        if (event.getReason() != AddPlayerReason.PLAYER_JOIN)
+        if (event.getReason() != AddToContextReason.PLAYER_JOIN)
             return;
 
         if (!canJoin(event.getArena(), event.getPlayer(), true)) {
@@ -98,7 +98,7 @@ public class PartyEventListener implements IEventListener {
     // player has already been allowed to join, add party members if applicable.
     // handled separately in case another module cancels the PlayerPreAddEvent
     @EventMethod
-    private void onPlayerAdded(PlayerAddedEvent event) {
+    private void onPlayerAdded(PlayerAddedToContextEvent event) {
 
         Player p = event.getPlayer().getPlayer();
         IArena arena = event.getArena();

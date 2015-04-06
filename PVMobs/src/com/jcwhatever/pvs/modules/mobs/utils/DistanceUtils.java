@@ -77,7 +77,7 @@ public class DistanceUtils {
             return false;
 
         // check for cached paths first
-        ArenaExtension manager = arena.getExtensionManager().get(MobArenaExtension.NAME);
+        ArenaExtension manager = arena.getExtensions().get(MobArenaExtension.NAME);
         if (manager instanceof MobArenaExtension) {
 
             PathCache pathCache = ((MobArenaExtension) manager).getGroupGenerator().getPathCache();

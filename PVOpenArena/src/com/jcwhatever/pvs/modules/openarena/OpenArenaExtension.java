@@ -36,17 +36,17 @@ import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.managers.ILobbyManager;
-import com.jcwhatever.pvs.api.arena.managers.IPlayerManager;
-import com.jcwhatever.pvs.api.arena.options.AddPlayerReason;
+import com.jcwhatever.pvs.api.arena.context.ILobbyContext;
+import com.jcwhatever.pvs.api.arena.context.IContextManager;
+import com.jcwhatever.pvs.api.arena.options.AddToContextReason;
+import com.jcwhatever.pvs.api.arena.options.ArenaContext;
 import com.jcwhatever.pvs.api.arena.options.ArenaStartReason;
-import com.jcwhatever.pvs.api.arena.options.RemovePlayerReason;
 import com.jcwhatever.pvs.api.events.ArenaIdleEvent;
 import com.jcwhatever.pvs.api.events.ArenaPreStartEvent;
-import com.jcwhatever.pvs.api.events.players.PlayerAddedEvent;
-import com.jcwhatever.pvs.api.events.players.PlayerLeaveEvent;
-import com.jcwhatever.pvs.api.events.players.PlayerPreAddEvent;
-import com.jcwhatever.pvs.api.events.players.PlayerPreJoinEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerAddedToContextEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerLeaveArenaEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerPreAddToContextEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerPreJoinArenaEvent;
 import com.jcwhatever.pvs.api.events.region.PlayerEnterArenaRegionEvent;
 import com.jcwhatever.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
@@ -84,11 +84,11 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     }
 
     @EventMethod(priority = EventSubscriberPriority.HIGH, ignoreCancelled = true)
-    private void onPlayerJoin(PlayerPreJoinEvent event) {
+    private void onPlayerJoin(PlayerPreJoinArenaEvent event) {
 
         // override default behavior of rejecting players
         // because the arena is already running.
-        if (event.isCancelled() && getArena().getGameManager().isRunning()) {
+        if (event.isCancelled() && getArena().getGame().isRunning()) {
             event.setCancelled(false); // un-cancel event
         }
     }
@@ -97,18 +97,18 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
      *  Make sure game is started
      */
     @EventMethod
-    private void onPlayerPreAdd(PlayerPreAddEvent event) {
+    private void onPlayerPreAdd(PlayerPreAddToContextEvent event) {
 
-        if (event.getReason() != AddPlayerReason.PLAYER_JOIN &&
-                event.getReason() != AddPlayerReason.FORWARDING)
+        if (event.getReason() != AddToContextReason.PLAYER_JOIN &&
+                event.getReason() != AddToContextReason.FORWARDING)
             return;
 
-        if (!getArena().getGameManager().isRunning()) {
+        if (!getArena().getGame().isRunning()) {
 
             ArenaScheduler.runTaskLater(getArena(), new Runnable() {
                 @Override
                 public void run() {
-                    getArena().getGameManager().start(ArenaStartReason.AUTO);
+                    getArena().getGame().start(ArenaStartReason.AUTO);
                 }
             });
         }
@@ -118,10 +118,10 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
      *  Make sure players added to lobby are automatically moved to the game.
      */
     @EventMethod
-    private void onPlayerAdded(PlayerAddedEvent event) {
+    private void onPlayerAdded(PlayerAddedToContextEvent event) {
 
-        if (event.getReason() != AddPlayerReason.PLAYER_JOIN &&
-                event.getReason() != AddPlayerReason.FORWARDING)
+        if (event.getReason() != AddToContextReason.PLAYER_JOIN &&
+                event.getReason() != AddToContextReason.FORWARDING)
             return;
 
         // prevent spawn teleport if player enters arena on foot
@@ -132,16 +132,15 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
         }
 
         // check if game is already running
-        if (!getArena().getGameManager().isRunning())
+        if (!getArena().getGame().isRunning())
             return;
 
-        IPlayerManager manager = event.getPlayer().getRelatedManager();
+        IContextManager manager = event.getPlayer().getContextManager();
 
         // auto forward player to game manager
-        if (manager instanceof ILobbyManager) {
+        if (manager instanceof ILobbyContext) {
 
-            getArena().getLobbyManager().removePlayer(event.getPlayer(), RemovePlayerReason.ARENA_RELATION_CHANGE);
-            getArena().getGameManager().addPlayer(event.getPlayer(), AddPlayerReason.ARENA_RELATION_CHANGE);
+            event.getPlayer().changeContext(ArenaContext.GAME);
         }
     }
 
@@ -150,7 +149,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
      */
     @EventMethod
     private void onArenaPreStart(ArenaPreStartEvent event) {
-        IArenaPlayerCollection players = getArena().getLobbyManager().getPlayers();
+        IArenaPlayerCollection players = getArena().getLobby().getPlayers();
 
         event.getJoiningPlayers().addAll(players);
     }
@@ -190,7 +189,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
             }
             else {
                 event.getPlayer().getMeta().set(META_LEAVE, true);
-                getArena().remove(event.getPlayer(), RemovePlayerReason.PLAYER_LEAVE);
+                event.getPlayer().leaveArena();
             }
         }
     }
@@ -199,7 +198,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
      * Prevent location restore if the player is leaving the arena on foot.
      */
     @EventMethod
-    private void onPlayerRemove(PlayerLeaveEvent event) {
+    private void onPlayerRemove(PlayerLeaveArenaEvent event) {
 
         MetaStore meta = event.getPlayer().getMeta();
 

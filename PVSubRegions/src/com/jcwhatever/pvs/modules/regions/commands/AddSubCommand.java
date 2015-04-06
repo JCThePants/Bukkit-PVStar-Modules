@@ -71,7 +71,7 @@ public class AddSubCommand extends AbstractRegionCommand {
 
         CommandException.checkNotConsole(this, sender);
 
-        IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
+        IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNING);
         if (arena == null)
             return; // finish
 

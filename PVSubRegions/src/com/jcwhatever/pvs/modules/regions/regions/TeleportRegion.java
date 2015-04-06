@@ -183,7 +183,7 @@ public class TeleportRegion extends AbstractPVRegion {
                 if (name.isEmpty())
                     continue;
 
-                Spawnpoint spawnpoint = getArena().getSpawnManager().getSpawn(name.trim());
+                Spawnpoint spawnpoint = getArena().getSpawns().get(name.trim());
                 if (spawnpoint == null)
                     continue;
 

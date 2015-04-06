@@ -71,7 +71,7 @@ public class SpawnGroup extends Spawnpoint {
 
         List<Entity> result = new ArrayList<>(count * _spawns.size());
 
-        int totalPlayers = arena.getGameManager().getPlayers().size();
+        int totalPlayers = arena.getGame().getPlayers().size();
 
         int maxMobs = Math.min(_manager.getSpawner().getSettings().getMaxMobs(),
                                _manager.getSpawner().getSettings().getMaxMobsPerPlayer() * totalPlayers);

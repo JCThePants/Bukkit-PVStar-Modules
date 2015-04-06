@@ -27,14 +27,13 @@ package com.jcwhatever.pvs.modules.borders;
 
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
-import com.jcwhatever.pvs.api.arena.options.RemovePlayerReason;
+import com.jcwhatever.pvs.api.arena.options.ArenaContext;
 import com.jcwhatever.pvs.api.events.region.PlayerEnterArenaRegionEvent;
 import com.jcwhatever.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.pvs.api.utils.Msg;
@@ -113,7 +112,7 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
         if (getOutsidersAction() == OutsidersAction.NONE)
             return;
 
-        if (!getArena().getGameManager().isRunning())
+        if (!getArena().getGame().isRunning())
             return;
 
         final IArenaPlayer player = event.getPlayer();
@@ -157,34 +156,34 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
         if (getOutOfBoundsAction() == OutOfBoundsAction.NONE)
             return;
 
-        if (!getArena().getGameManager().isRunning())
+        if (!getArena().getGame().isRunning())
             return;
 
         final IArenaPlayer player = event.getPlayer();
         if (!getArena().equals(player.getArena()))
             return;
 
-        if (getArena().equals(player.getArena()) && player.getArenaRelation() == ArenaPlayerRelation.GAME) {
+        if (getArena().equals(player.getArena()) && player.getContext() == ArenaContext.GAME) {
 
             switch (getOutOfBoundsAction()) {
 
                 case KICK:
-                    getArena().remove(player, RemovePlayerReason.KICK);
+                    player.kick();
                     Msg.tellError(player, "Kicked for leaving the arena.");
                     break;
 
                 case WIN:
-                    if (!getArena().getGameManager().isGameOver())
-                        getArena().getGameManager().setWinner(player);
+                    if (!getArena().getGame().isGameOver())
+                        getArena().getGame().setWinner(player);
                     break;
 
                 case LOSE:
-                    if (!getArena().getGameManager().isGameOver())
-                        getArena().remove(player, RemovePlayerReason.LOSE);
+                    if (!getArena().getGame().isGameOver())
+                        player.loseGame();
                     break;
 
                 case RESPAWN:
-                    getArena().getGameManager().respawnPlayer(player);
+                    player.respawn();
                     break;
 
                 default:

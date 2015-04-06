@@ -33,8 +33,8 @@ import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.managers.IGameManager;
-import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
+import com.jcwhatever.pvs.api.arena.context.IGameContext;
+import com.jcwhatever.pvs.api.arena.options.ArenaContext;
 import com.jcwhatever.pvs.api.events.ArenaStartedEvent;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 
@@ -95,7 +95,7 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
     @EventMethod
     private void onArenaStart(@SuppressWarnings("unused") ArenaStartedEvent event) {
 
-        IGameManager gameManager = getArena().getGameManager();
+        IGameContext gameManager = getArena().getGame();
 
         if (gameManager.getSettings().isPvpEnabled() ||
             gameManager.getSettings().isTeamPvpEnabled()) {
@@ -123,7 +123,7 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
 
         IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
 
-        if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
+        if (player.getContext() != ArenaContext.GAME)
             return;
 
         event.setCancelled(true);
@@ -134,7 +134,7 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
         @Override
         public void run() {
             _isGracePeriod = false;
-            getArena().getGameManager().tell(Lang.get(_GRACE_ENDED));
+            getArena().getGame().tell(Lang.get(_GRACE_ENDED));
         }
     }
 }

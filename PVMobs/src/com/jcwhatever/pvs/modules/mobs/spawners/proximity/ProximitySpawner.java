@@ -34,7 +34,7 @@ import com.jcwhatever.nucleus.utils.astar.AStarUtils;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
-import com.jcwhatever.pvs.api.arena.managers.IGameManager;
+import com.jcwhatever.pvs.api.arena.context.IGameContext;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.pvs.modules.mobs.DespawnMethod;
@@ -107,7 +107,7 @@ public class ProximitySpawner implements ISpawner {
         if (_arena == null || _isRunning)
             return;
 
-        IGameManager gameManager = _arena.getGameManager();
+        IGameContext gameManager = _arena.getGame();
 
         if (!gameManager.isRunning() || gameManager.getPlayers().size() == 0) {
             return;
@@ -168,7 +168,7 @@ public class ProximitySpawner implements ISpawner {
             Creature creature = (Creature)entity;
 
             IArenaPlayer closest = DistanceUtils.getClosestPlayer(
-                    _arena.getGameManager().getPlayers(), creature.getLocation(), _settings.getMaxMobDistanceSquared());
+                    _arena.getGame().getPlayers(), creature.getLocation(), _settings.getMaxMobDistanceSquared());
 
             if (closest == null) {
                 _extension.removeMob(entity, DespawnMethod.REMOVE);
@@ -200,7 +200,7 @@ public class ProximitySpawner implements ISpawner {
             if (_isPaused)
                 return;
 
-            IArenaPlayerCollection players = _arena.getGameManager().getPlayers();
+            IArenaPlayerCollection players = _arena.getGame().getPlayers();
 
             int maxMobsPerSpawn = _settings.getMaxMobsPerSpawn();
 
@@ -285,7 +285,7 @@ public class ProximitySpawner implements ISpawner {
                 }
                 else {
                     IArenaPlayer closest = DistanceUtils.getClosestPlayer(
-                            _arena.getGameManager().getPlayers(), mob.getLocation(), _settings.getMaxMobDistanceSquared());
+                            _arena.getGame().getPlayers(), mob.getLocation(), _settings.getMaxMobDistanceSquared());
 
                     if (closest == null) {
                         _extension.removeMob(mob, DespawnMethod.REMOVE);

@@ -38,7 +38,7 @@ import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
+import com.jcwhatever.pvs.api.arena.options.ArenaContext;
 
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -123,7 +123,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
 
         IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
 
-        if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
+        if (player.getContext() != ArenaContext.GAME)
             return;
 
         MetaStore meta = player.getSessionMeta();
@@ -166,7 +166,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
         IArenaPlayer reviver = PVStarAPI.getArenaPlayer(event.getDamager());
 
-        if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
+        if (player.getContext() != ArenaContext.GAME)
             return;
 
         MetaStore meta = player.getSessionMeta();

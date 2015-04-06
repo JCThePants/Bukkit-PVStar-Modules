@@ -61,7 +61,7 @@ public class OutsidersSubCommand extends AbstractPVCommand {
         if (arena == null)
             return; // finished
 
-        BordersExtension extension = arena.getExtensionManager().get(BordersExtension.class);
+        BordersExtension extension = arena.getExtensions().get(BordersExtension.class);
         if (extension == null) {
             tellError(sender, Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
             return; // finished
