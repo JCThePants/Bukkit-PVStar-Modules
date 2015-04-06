@@ -26,12 +26,18 @@
 package com.jcwhatever.pvs.modules.chests;
 
 import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.mixins.IArenaOwned;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class ItemSettings {
+/**
+ * Stores {@link ItemStack}'s that can be randomly placed in
+ * chests in an arena.
+ */
+public class ArenaRandomChestItems implements IArenaOwned {
 
     private final IArena _arena;
     private final IDataNode _dataNode;
@@ -40,52 +46,95 @@ public class ItemSettings {
     private boolean _isPresetContentsRandomized = false; // randomize contents of chests with preset contents
     private int _maxRandomItems = 4;
 
-
-    public ItemSettings(IArena arena, IDataNode dataNode) {
+    /**
+     * Constructor.
+     *
+     * @param arena     The owning arena.
+     * @param dataNode  The data node where items are stored.
+     */
+    public ArenaRandomChestItems(IArena arena, IDataNode dataNode) {
         _arena = arena;
         _dataNode = dataNode;
         _itemsNode = dataNode.getNode("chest-items");
 
-        loadItemSettings();
+        load();
     }
 
+    @Override
     public IArena getArena() {
         return _arena;
     }
 
+    /**
+     * Get the total number of available items.
+     */
     public int getTotalItems() {
         return _chestItems.size();
     }
 
+    /**
+     * Get the maximum number of items that can be randomly placed into
+     * a chest.
+     */
     public int getMaxRandomItems() {
         return _maxRandomItems;
     }
 
+    /**
+     * Set the maximum number of items that can be randomly placed into
+     * a chest.
+     *
+     * @param max  The max number of items.
+     */
     public void setMaxRandomItems(int max) {
+        PreCon.positiveNumber(max);
+
         _maxRandomItems = max;
         _dataNode.set("max-random-items", max);
         _dataNode.save();
     }
 
+    /**
+     * Determine if chest that have preset contents should have the contents
+     * randomized.
+     *
+     * <p>Preset contents are contents that have been set specific to the chest.</p>
+     */
     public boolean isPresetContentsRandomized() {
         return _isPresetContentsRandomized;
     }
 
+    /**
+     * Change the setting that determines if chests that have preset contents
+     * should have the contents randomized.
+     *
+     * @param isRandomContents  True to randomize preset contents, false to leave contents as is.
+     */
     public void setPresetContentsRandomized(boolean isRandomContents) {
         _isPresetContentsRandomized = isRandomContents;
         _dataNode.set("random-contents", isRandomContents);
         _dataNode.save();
     }
 
+    /**
+     * Get the collection of items.
+     */
     public WeightedItems getItems() {
         return _chestItems;
     }
 
+    /**
+     * Clear all saved items.
+     */
     public void clearItems() {
         _chestItems.clear();
         _itemsNode.remove("items");
+        _itemsNode.save();
     }
 
+    /**
+     * Add default items.
+     */
     public void addDefaultItems() {
 
         new DefaultItemHelper()
@@ -126,10 +175,13 @@ public class ItemSettings {
                 .add(Material.WOOD_AXE)			    .add(Material.WOOD_SWORD)
         ;
 
-        saveChestItems();
+        save();
     }
 
-    private void loadItemSettings() {
+    /*
+     * Load items and settings from the data node.
+     */
+    private void load() {
 
         _isPresetContentsRandomized = _dataNode.getBoolean("is-random-contents", _isPresetContentsRandomized);
         _maxRandomItems = _dataNode.getInteger("max-random-items", _maxRandomItems);
@@ -140,7 +192,10 @@ public class ItemSettings {
                 : new WeightedItems(items);
     }
 
-    private void saveChestItems() {
+    /*
+     * Save items to the data node.
+     */
+    private void save() {
         ItemStack[] items = _chestItems.toArray(new ItemStack[_chestItems.size()]);
         _itemsNode.set("items", items);
         _itemsNode.save();

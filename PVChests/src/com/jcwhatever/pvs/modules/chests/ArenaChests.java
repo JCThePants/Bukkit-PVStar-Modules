@@ -27,11 +27,14 @@ package com.jcwhatever.pvs.modules.chests;
 
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.coords.Coords3D;
 import com.jcwhatever.nucleus.utils.coords.SyncLocation;
 import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.mixins.IArenaOwned;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Chest;
 import org.bukkit.inventory.ItemStack;
@@ -43,7 +46,10 @@ import java.util.List;
 import java.util.Map;
 import javax.annotation.Nullable;
 
-public class ChestSettings {
+/**
+ * Stores info about chests in an arena.
+ */
+public class ArenaChests implements IArenaOwned {
 
     private final IArena _arena;
     private final IDataNode _chestNode;
@@ -53,7 +59,13 @@ public class ChestSettings {
     private int _maxChests = -1;
     private boolean _hasRandomizedChests = false;
 
-    public ChestSettings(IArena arena, IDataNode dataNode) {
+    /**
+     * Constructor.
+     *
+     * @param arena     The owning arena.
+     * @param dataNode  The data node where the arenas chest data is stored.
+     */
+    public ArenaChests(IArena arena, IDataNode dataNode) {
         PreCon.notNull(arena);
         PreCon.notNull(dataNode);
 
@@ -61,34 +73,71 @@ public class ChestSettings {
         _dataNode = dataNode;
         _chestNode = dataNode.getNode("chest-data");
 
-        loadChests();
+        load();
     }
 
+    @Override
+    public IArena getArena() {
+        return _arena;
+    }
+
+    /**
+     * Get the max number of chests to keep when randomizing the presence
+     * of chests in the arena.
+     */
     public int getMaxChests() {
         return _maxChests;
     }
 
+    /**
+     * Set the max number of chests to allow when randomizing the presence
+     * of chests in the arena.
+     *
+     * @param max  The max number of chests.
+     */
     public void setMaxChests(int max) {
         _maxChests = max;
         _dataNode.set("max-chests", max);
         _dataNode.save();
     }
 
+    /**
+     * Determine if the presence of chests is randomized.
+     */
     public final boolean isChestsRandomized() {
         return _hasRandomizedChests;
     }
 
-    public void setIsChestsRandomized(boolean isRandom) {
+    /**
+     * Change the chest randomizing setting.
+     *
+     * @param isRandom  True to randomize the presence of chests, otherwise false.
+     */
+    public void setChestsRandomized(boolean isRandom) {
         _hasRandomizedChests = isRandom;
         _dataNode.set("randomize-chests", isRandom);
         _dataNode.save();
     }
 
-
+    /**
+     * Get the total number of chests found in the last scan for chests.
+     *
+     * <p>Represents the total number of chests known to exist in the arena.</p>
+     *
+     * @return  The number of chests. 0 indicates either no chests or a scan has not been done.
+     */
     public int getTotalChests() {
         return _chests != null ? _chests.size() : 0;
     }
 
+    /**
+     * Get info about a chest at the specified block location.
+     *
+     * @param chestLocation  The block location of the chest.
+     *
+     * @return  The {@link ChestInfo} or null if a chest is not known to exist
+     * in the specified location.
+     */
     @Nullable
     public ChestInfo getChestInfo(Location chestLocation) {
         PreCon.notNull(chestLocation);
@@ -99,6 +148,9 @@ public class ChestSettings {
         return _chests.get(chestLocation);
     }
 
+    /**
+     * Get info for all chests known to exist in the arena.
+     */
     public List<ChestInfo> getChestInfo() {
         if (_chests == null)
             return new ArrayList<>(0);
@@ -106,6 +158,9 @@ public class ChestSettings {
         return new ArrayList<>(_chests.values());
     }
 
+    /**
+     * Scan for and update the collection of chests that are known to exist.
+     */
     public void scanChests() {
         LinkedList<Location> chestLocations = _arena.getRegion().find(Material.CHEST);
         Map<Location, ChestInfo> chestInfo = new HashMap<>(chestLocations.size());
@@ -151,8 +206,10 @@ public class ChestSettings {
         _chestNode.save();
     }
 
-
-    private void loadChests() {
+    /*
+     * Load chest info and settings from the data node.
+     */
+    private void load() {
 
         _maxChests = _dataNode.getInteger("max-chests", _maxChests);
         _hasRandomizedChests = _dataNode.getBoolean("randomize-chests", _hasRandomizedChests);
@@ -170,6 +227,80 @@ public class ChestSettings {
             Location bukkitLocation = location.getBukkitLocation();
 
             _chests.put(bukkitLocation, new ChestInfo(bukkitLocation, contents));
+        }
+    }
+
+    /**
+     * Contains info about a single chest in the arena.
+     */
+    public static class ChestInfo {
+
+        private final World world;
+        private final Coords3D coords;
+        private final ItemStack[] contents;
+
+        /**
+         * Constructor.
+         *
+         * @param location  The location of the chest.
+         * @param contents  The contents of the chest.
+         */
+        public ChestInfo (Location location, @Nullable ItemStack[] contents) {
+            this.world = location.getWorld();
+            this.coords = Coords3D.fromLocation(location);
+            this.contents = contents;
+        }
+
+        /**
+         * Get the world the chest is in.
+         * @return
+         */
+        public World getWorld() {
+            return world;
+        }
+
+        /**
+         * Get the location of the chest.
+         */
+        public Location getLocation() {
+            return coords.toLocation(world);
+        }
+
+        /**
+         * Get the preset contents of the chest.
+         *
+         * @return  Null if the chest has no preset contents.
+         */
+        @Nullable
+        public ItemStack[] getPresetContents() {
+            return contents;
+        }
+
+        /**
+         * Get the chest at the location.
+         *
+         * @return  Null if the location of the chest info is not a chest.
+         */
+        @Nullable
+        public Chest getChest() {
+            BlockState state = coords.getBlock(world).getState();
+
+            if (state instanceof Chest)
+                return (Chest)state;
+
+            return null;
+        }
+
+        @Override
+        public int hashCode() {
+            return coords.hashCode();
+        }
+
+        @Override
+        public boolean equals(Object obj) {
+            return obj instanceof ChestInfo &&
+                    ((ChestInfo) obj).coords.equals(coords) &&
+                    ((ChestInfo) obj).world.equals(world);
         }
     }
 }

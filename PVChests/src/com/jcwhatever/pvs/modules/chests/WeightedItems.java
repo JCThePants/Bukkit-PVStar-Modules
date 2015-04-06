@@ -275,5 +275,4 @@ public class WeightedItems extends WeightedArrayList<ItemStack> {
             return this;
         }
     }
-
 }

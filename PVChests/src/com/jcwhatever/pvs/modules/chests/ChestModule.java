@@ -29,14 +29,23 @@ import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.modules.chests.commands.ChestsCommand;
 
+/**
+ * Adds an extension that allows managing chests in an arena.
+ */
 public class ChestModule extends PVStarModule {
 
     private static ChestModule _module;
 
+    /**
+     * Get the module instance.
+     */
     public static ChestModule getModule() {
         return _module;
     }
 
+    /**
+     * Constructor.
+     */
     public ChestModule() {
         super();
 
@@ -50,8 +59,6 @@ public class ChestModule extends PVStarModule {
 
     @Override
     protected void onEnable() {
-
         PVStarAPI.getCommandHandler().registerCommand(ChestsCommand.class);
-
     }
 }

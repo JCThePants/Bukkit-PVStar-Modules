@@ -27,10 +27,11 @@ package com.jcwhatever.pvs.modules.chests;
 
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
+import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.Rand;
-import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
+import com.jcwhatever.nucleus.utils.coords.LocationUtils;
+import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
@@ -38,6 +39,8 @@ import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.events.ArenaPreStartEvent;
+import com.jcwhatever.pvs.modules.chests.ArenaChests.ChestInfo;
+
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -51,14 +54,15 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 @ArenaExtensionInfo(
         name = "PVChests",
         description = "Add randomized chests and chest contents to an arena.")
-
 public class ChestExtension extends ArenaExtension implements IEventListener, Listener {
 
     public enum ClearChestRestore {
@@ -66,29 +70,34 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         PRESET_CONTENTS
     }
 
-    private ChestSettings _chestSettings;
-    private ItemSettings _itemSettings;
-    private Set<ChestInfo> _openedChests = new HashSet<>(35);
+    private ArenaChests _chestSettings;
+    private ArenaRandomChestItems _itemSettings;
+    private Map<Location, ChestInfo> _openedChests = new HashMap<>(35);
 
     @Override
     public Plugin getPlugin() {
         return PVStarAPI.getPlugin();
     }
 
-    public ChestSettings getChestSettings() {
+    /**
+     * Get settings for chests.
+     */
+    public ArenaChests getChestSettings() {
         return _chestSettings;
     }
 
-    public ItemSettings getItemSettings() {
+    /**
+     * Get settings for chest items.
+     */
+    public ArenaRandomChestItems getItemSettings() {
         return _itemSettings;
     }
-
 
     @Override
     protected void onAttach() {
 
-        _chestSettings = new ChestSettings(getArena(), getDataNode());
-        _itemSettings = new ItemSettings(getArena(), getDataNode());
+        _chestSettings = new ArenaChests(getArena(), getDataNode());
+        _itemSettings = new ArenaRandomChestItems(getArena(), getDataNode());
 
         getArena().getEventManager().register(this);
     }
@@ -101,21 +110,42 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         restoreChests();
     }
 
+    /**
+     * Determine if a chest has already been opened at the specified location.
+     *
+     * @param location  The location to check.
+     */
+    public boolean isChestOpened(Location location) {
+        PreCon.notNull(location);
 
-    public boolean isChestOpened(Location loc) {
-        PreCon.notNull(loc);
-
-        return _openedChests.contains(loc);
+        return _openedChests.containsKey(location);
     }
 
-    public boolean setIsChestOpened(Location loc) {
-        PreCon.notNull(loc);
+    /**
+     * Flag a chest as having been opened by a player.
+     *
+     * @param location  The location of the chest.
+     *
+     * @return True if the flag was updated, false if there is no chest or
+     * the chest has already been flagged.
+     */
+    public boolean setChestOpened(Location location) {
+        PreCon.notNull(location);
 
-        ChestInfo chestInfo = _chestSettings.getChestInfo(loc);
-        return chestInfo != null && _openedChests.add(chestInfo);
+        if (_openedChests.containsKey(location))
+            return false;
+
+        ChestInfo chestInfo = _chestSettings.getChestInfo(location);
+        if (chestInfo == null)
+            return false;
+
+        _openedChests.put(location, chestInfo);
+        return true;
     }
 
-
+    /**
+     * Get the total number of chests that have preset contents.
+     */
     public int getTotalChestsWithPresetContents() {
 
         if (_chestSettings.getTotalChests() == 0)
@@ -129,6 +159,12 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         return total;
     }
 
+    /**
+     * Clear contents of known chests in the arena.
+     *
+     * @param restore  Specify if chests with preset contents should have their
+     *                 contents restored.
+     */
     public void clearChestContents(ClearChestRestore restore) {
 
         if (_chestSettings.getTotalChests() == 0)
@@ -150,8 +186,11 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         }
     }
 
-
-
+    /**
+     * Randomly remove chests from the arena.
+     *
+     * <p>The chests are restored when the arena ends.</p>
+     */
     public void randomHideChests() {
 
         if (_chestSettings.getTotalChests() == 0)
@@ -207,7 +246,13 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         }
     }
 
-
+    /**
+     * Fill a chest with random items.
+     *
+     * <p>Only fills chests that are known to exist.</p>
+     *
+     * @param chestLocation  The location of the chest.
+     */
     public void fillChest(Location chestLocation) {
         PreCon.notNull(chestLocation);
 
@@ -215,17 +260,17 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         if (_chestSettings.getTotalChests() == 0)
             return;
 
+        // determine if the chest has already been opened
+        if (_openedChests.containsKey(chestLocation))
+            return;
+
         // get info about the chest at the chest location
         ChestInfo chestInfo = _chestSettings.getChestInfo(chestLocation);
         if (chestInfo == null)
             return;
 
-        // determine if the chest has already been opened
-        if (_openedChests.contains(chestInfo))
-            return;
-
         // mark the chest as being opened.
-        _openedChests.add(chestInfo);
+        _openedChests.put(LocationUtils.copy(chestLocation), chestInfo);
 
         // make sure there are items to put in the chest
         if (chestInfo.getPresetContents() == null && _itemSettings.getTotalItems() == 0)
@@ -235,7 +280,6 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         Chest chest = chestInfo.getChest();
         if (chest == null)
             return;
-
 
         if (chestInfo.getPresetContents() == null) {
             fillRandomGlobalItems(chest, _itemSettings.getMaxRandomItems());
@@ -248,7 +292,9 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         }
     }
 
-
+    /**
+     * Restore all chests in the arena.
+     */
     public void restoreChests() {
 
         if (_chestSettings.getTotalChests() == 0)
@@ -281,8 +327,9 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         });
     }
 
-
-    // fill chest that has no preset contents
+    /*
+     * Fill a chest that has no preset contents.
+     */
     private void fillRandomGlobalItems(Chest chest, int maxSlots) {
 
         // get the chests current chest
@@ -323,8 +370,9 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         chest.update(true);
     }
 
-
-    // fill chest with random items from preset contents
+    /*
+     * Fill a chest with random items from preset contents.
+     */
     private void fillRandomContents(Chest chest, ItemStack[] source, int maxSlots) {
 
         Inventory inventory = chest.getBlockInventory();
@@ -359,7 +407,9 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         chest.update(true);
     }
 
-    // fill chest with preset contents
+    /*
+     * Fill a chest with preset contents.
+     */
     private void fillContents(Chest chest, ItemStack[] source) {
 
         Inventory inventory = chest.getBlockInventory();
@@ -370,9 +420,10 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
     }
 
 
-    // remove empty slots from an item stack array and
-    // spreads item stack's, 1 item to a slot in the returned
-    // array.
+    /*
+     * Remove empty slots from an ItemStack[] and spreads ItemStack's, 1 item to
+     * a slot in the returned array.
+     */
     private ItemStack[] spreadItems(ItemStack[] stacks) {
         PreCon.notNull(stacks);
 
@@ -392,8 +443,10 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         return results;
     }
 
-    // count the number of non empty slots in an item stack array
-    // including the amount of items in each stack
+    /*
+     * Count the number of non-empty slots in an ItemStack[] array including the
+     * amount of items in each stack.
+     */
     private int countItems(ItemStack[] stacks) {
 
         int total = 0;
@@ -407,17 +460,15 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         return total;
     }
 
-
-
     @EventMethod(priority = EventSubscriberPriority.LAST)
-    private void onArenaPreStart(ArenaPreStartEvent event) {
+    private void onArenaPreStart(@SuppressWarnings("unused") ArenaPreStartEvent event) {
 
         if (_chestSettings.isChestsRandomized())
             randomHideChests();
     }
 
     @EventMethod
-    private void onArenaEnd(ArenaEndedEvent event) {
+    private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
 
         if (_chestSettings.isChestsRandomized())
             restoreChests();
@@ -469,6 +520,4 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
             fillChest(blockState.getLocation());
         }
     }
-
-
 }
