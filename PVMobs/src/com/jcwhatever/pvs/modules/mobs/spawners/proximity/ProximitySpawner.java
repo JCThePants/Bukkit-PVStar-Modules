@@ -63,7 +63,7 @@ import java.util.Map;
 public class ProximitySpawner implements ISpawner {
 
     private IArena _arena;
-    private MobArenaExtension _manager;
+    private MobArenaExtension _extension;
     private ProximitySettings _settings;
     private List<Spawnpoint> _mobSpawns;
 
@@ -81,7 +81,7 @@ public class ProximitySpawner implements ISpawner {
         PreCon.notNull(manager);
 
         _arena = manager.getArena();
-        _manager = manager;
+        _extension = manager;
         _settings = new ProximitySettings(this);
     }
 
@@ -91,7 +91,7 @@ public class ProximitySpawner implements ISpawner {
     }
 
     public MobArenaExtension getManager() {
-        return _manager;
+        return _extension;
     }
 
     /**
@@ -106,9 +106,6 @@ public class ProximitySpawner implements ISpawner {
         if (_arena == null || _isRunning || !_arena.getGameManager().isRunning() || _arena.getGameManager().getPlayerCount() == 0)
             return;
 
-        if (!_manager.isEnabled())
-            return;
-
         _isRunning = true;
 
         int totalPlayers = _arena.getGameManager().getPlayerCount();
@@ -116,7 +113,7 @@ public class ProximitySpawner implements ISpawner {
                 _settings.getMaxMobs(),
                 _settings.getMaxMobsPerPlayer() * totalPlayers);
 
-        _mobSpawns = _manager.getMobSpawns();
+        _mobSpawns = _extension.getMobSpawns();
 
         _spawnMobsTask = ArenaScheduler.runTaskRepeat(_arena, 5, 20 + (3 * totalPlayers), new SpawnMobs());
         _despawnMobsTask = ArenaScheduler.runTaskRepeat(_arena, 10, 10, new DespawnMobs());
@@ -146,7 +143,7 @@ public class ProximitySpawner implements ISpawner {
         }
 
         _arena = null;
-        _manager = null;
+        _extension = null;
 
         _isDisposed = true;
     }
@@ -167,7 +164,7 @@ public class ProximitySpawner implements ISpawner {
                     _arena.getGameManager().getPlayers(), creature.getLocation(), _settings.getMaxMobDistanceSquared());
 
             if (closest == null) {
-                _manager.removeMob(entity, DespawnMethod.REMOVE);
+                _extension.removeMob(entity, DespawnMethod.REMOVE);
                 continue;
             }
 
@@ -191,7 +188,7 @@ public class ProximitySpawner implements ISpawner {
         @Override
         public void run() {
 
-            _manager.removeDead();
+            _extension.removeDead();
 
             if (_isPaused)
                 return;
@@ -201,7 +198,7 @@ public class ProximitySpawner implements ISpawner {
             int maxMobsPerSpawn = _settings.getMaxMobsPerSpawn();
 
             // make sure mob limit has no been reached.
-            if (_manager.getMobCount() < _maxMobs) {
+            if (_extension.getMobCount() < _maxMobs) {
 
                 // get spawns in proximity to players
                 List<Spawnpoint> spawns = DistanceUtils.getClosestSpawns(
@@ -232,7 +229,7 @@ public class ProximitySpawner implements ISpawner {
 
                         int spawnCount = getSpawnCount(maxMobsPerSpawn);
 
-                        List<LivingEntity> spawned = _manager.spawn(spawn, spawnCount);
+                        List<LivingEntity> spawned = _extension.spawn(spawn, spawnCount);
                         if (spawned != null) {
                             setMobTargets(spawned);
 
@@ -247,17 +244,17 @@ public class ProximitySpawner implements ISpawner {
 
         @Override
         protected void onCancel() {
-            _manager.reset(DespawnMethod.REMOVE);
+            _extension.reset(DespawnMethod.REMOVE);
             _isRunning = false;
             _isPaused = false;
         }
 
         private boolean canAddMobs() {
-            return _manager.getMobCount() < _maxMobs;
+            return _extension.getMobCount() < _maxMobs;
         }
 
         private int getSpawnCount(int maxMobsPerSpawn) {
-            return Math.min(_maxMobs - _manager.getMobCount(), maxMobsPerSpawn);
+            return Math.min(_maxMobs - _extension.getMobCount(), maxMobsPerSpawn);
         }
     }
 
@@ -270,21 +267,21 @@ public class ProximitySpawner implements ISpawner {
         @Override
         public void run() {
 
-            List<LivingEntity> mobs = _manager.getMobs();
+            List<LivingEntity> mobs = _extension.getMobs();
 
             if (mobs.size() > 0) {
 
                 LivingEntity mob = Rand.get(mobs);
 
                 if (mob.isDead()) {
-                    _manager.removeMob(mob, DespawnMethod.REMOVE);
+                    _extension.removeMob(mob, DespawnMethod.REMOVE);
                 }
                 else {
                     IArenaPlayer closest = DistanceUtils.getClosestPlayer(
                             _arena.getGameManager().getPlayers(), mob.getLocation(), _settings.getMaxMobDistanceSquared());
 
                     if (closest == null) {
-                        _manager.removeMob(mob, DespawnMethod.REMOVE);
+                        _extension.removeMob(mob, DespawnMethod.REMOVE);
                         return;
                     }
 
@@ -299,7 +296,7 @@ public class ProximitySpawner implements ISpawner {
                                     .getPathDistance();
 
                         if (distance == -1 || distance > _settings.getMaxPathDistance())
-                            _manager.removeMob(mob, DespawnMethod.REMOVE);
+                            _extension.removeMob(mob, DespawnMethod.REMOVE);
                     }
                 }
             }
