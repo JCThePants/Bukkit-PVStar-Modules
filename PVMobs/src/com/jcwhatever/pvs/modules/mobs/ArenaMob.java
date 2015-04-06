@@ -26,7 +26,7 @@
 package com.jcwhatever.pvs.modules.mobs;
 
 import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
 
@@ -36,16 +36,16 @@ import java.util.WeakHashMap;
 
 public class ArenaMob {
 
-    private static Map<Entity, Arena> _mobs = new WeakHashMap<>(50);
+    private static Map<Entity, IArena> _mobs = new WeakHashMap<>(50);
 
-    public static void registerEntity(Entity entity, Arena arena) {
+    public static void registerEntity(Entity entity, IArena arena) {
         PreCon.notNull(entity);
         PreCon.notNull(arena);
 
         _mobs.put(entity, arena);
     }
 
-    public static void registerLivingEntities(Collection<LivingEntity> entities, Arena arena) {
+    public static void registerLivingEntities(Collection<LivingEntity> entities, IArena arena) {
         PreCon.notNull(entities);
         PreCon.notNull(arena);
 
@@ -53,7 +53,7 @@ public class ArenaMob {
             _mobs.put(entity, arena);
     }
 
-    public static void registerEntities(Collection<Entity> entities, Arena arena) {
+    public static void registerEntities(Collection<Entity> entities, IArena arena) {
         PreCon.notNull(entities);
         PreCon.notNull(arena);
 
@@ -61,7 +61,7 @@ public class ArenaMob {
             _mobs.put(entity, arena);
     }
 
-    public static Arena getEntityArena(Entity entity) {
+    public static IArena getEntityArena(Entity entity) {
         return _mobs.get(entity);
     }
 

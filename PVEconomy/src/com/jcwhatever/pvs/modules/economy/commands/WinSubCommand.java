@@ -30,7 +30,7 @@ import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.providers.economy.Economy;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.economy.EconomyExtension;
 import com.jcwhatever.pvs.modules.economy.Lang;
@@ -75,7 +75,7 @@ public class WinSubCommand extends AbstractPVCommand {
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
-        Arena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "amount"));
+        IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "amount"));
         if (arena == null)
             return; // finish
 

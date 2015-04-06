@@ -28,16 +28,16 @@ package com.jcwhatever.pvs.modules.stats;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.events.ArenaStartedEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerLoseEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerPreRemoveEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerWinEvent;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
-import com.jcwhatever.pvs.api.stats.ArenaStats;
+import com.jcwhatever.pvs.api.stats.IArenaStats;
 import com.jcwhatever.pvs.api.stats.StatTracking;
 import com.jcwhatever.pvs.api.stats.StatType;
 
@@ -58,9 +58,9 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
     public static final StatType LOSSES = new StatType("losses", "Losses", StatTracking.TOTAL);
     public static final StatType POINTS = new StatType("points", "Points", StatTracking.TOTAL_MIN_MAX);
 
-    private final Map<Arena, Map<StatType, Map<ArenaPlayer, SessionStatTracker>>> _playerMatches = new HashMap<>(30);
+    private final Map<IArena, Map<StatType, Map<IArenaPlayer, SessionStatTracker>>> _playerMatches = new HashMap<>(30);
 
-    private final TripleKeyEntryCache<Arena, StatType, ArenaPlayer, SessionStatTracker> _trackerCache =
+    private final TripleKeyEntryCache<IArena, StatType, IArenaPlayer, SessionStatTracker> _trackerCache =
             new TripleKeyEntryCache<>();
 
     @Override
@@ -85,9 +85,9 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
 
     @EventMethod
     private void onArenaStart(ArenaStartedEvent event) {
-        ArenaPlayerCollection players = event.getArena().getGameManager().getPlayers();
+        IArenaPlayerCollection players = event.getArena().getGameManager().getPlayers();
 
-        for (ArenaPlayer player : players) {
+        for (IArenaPlayer player : players) {
 
             // initialize stats
             getStatTracker(player, KILLS);
@@ -102,7 +102,7 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
         if (event.getEntity().getKiller() == null)
             return;
 
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
 
         SessionStatTracker tracker = getStatTracker(player, KILLS);
         if (tracker == null)
@@ -114,7 +114,7 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
     @EventMethod
     private void onPlayerDeath(PlayerDeathEvent event) {
 
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
 
         SessionStatTracker tracker = getStatTracker(player, DEATHS);
         if (tracker == null)
@@ -125,14 +125,14 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
 
     @EventMethod
     private void onPlayerWin(PlayerWinEvent event) {
-        ArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(event.getArena().getId());
+        IArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(event.getArena().getId());
 
         stats.addScore(WINS, event.getPlayer().getUniqueId(), 1);
     }
 
     @EventMethod
     private void onPlayerLose(PlayerLoseEvent event) {
-        ArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(event.getArena().getId());
+        IArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(event.getArena().getId());
 
         stats.addScore(LOSSES, event.getPlayer().getUniqueId(), 1);
     }
@@ -150,7 +150,7 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
     @EventMethod
     private void onArenaEnd(ArenaEndedEvent event) {
 
-        ArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(event.getArena().getId());
+        IArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(event.getArena().getId());
 
         saveSession(event.getArena(), stats, KILLS);
         saveSession(event.getArena(), stats, DEATHS);
@@ -163,11 +163,11 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
         }
     }
 
-    private void saveSession(Arena arena, ArenaStats stats, StatType type) {
-        Map<ArenaPlayer, SessionStatTracker> sessionMap = getPlayerSessionMap(arena, type);
+    private void saveSession(IArena arena, IArenaStats stats, StatType type) {
+        Map<IArenaPlayer, SessionStatTracker> sessionMap = getPlayerSessionMap(arena, type);
         if (sessionMap != null) {
 
-            for (Entry<ArenaPlayer, SessionStatTracker> arenaPlayerSessionStatTrackerEntry : sessionMap.entrySet()) {
+            for (Entry<IArenaPlayer, SessionStatTracker> arenaPlayerSessionStatTrackerEntry : sessionMap.entrySet()) {
 
                 SessionStatTracker tracker = arenaPlayerSessionStatTrackerEntry.getValue();
 
@@ -177,9 +177,9 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
     }
 
     @Nullable
-    private Map<ArenaPlayer, SessionStatTracker> getPlayerSessionMap(Arena arena, StatType type) {
+    private Map<IArenaPlayer, SessionStatTracker> getPlayerSessionMap(IArena arena, StatType type) {
 
-        Map<StatType, Map<ArenaPlayer, SessionStatTracker>> typeMap = _playerMatches.get(arena);
+        Map<StatType, Map<IArenaPlayer, SessionStatTracker>> typeMap = _playerMatches.get(arena);
         if (typeMap == null)
             return null;
 
@@ -187,20 +187,20 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
     }
 
     @Nullable
-    private SessionStatTracker getStatTracker(ArenaPlayer player, StatType type) {
+    private SessionStatTracker getStatTracker(IArenaPlayer player, StatType type) {
         if (player.getArena() == null)
             return null;
 
         if (_trackerCache.keyEquals(player.getArena(), type, player))
             return _trackerCache.getValue();
 
-        Map<StatType, Map<ArenaPlayer, SessionStatTracker>> typeMap = _playerMatches.get(player.getArena());
+        Map<StatType, Map<IArenaPlayer, SessionStatTracker>> typeMap = _playerMatches.get(player.getArena());
         if (typeMap == null) {
             typeMap = new HashMap<>(5);
             _playerMatches.put(player.getArena(), typeMap);
         }
 
-        Map<ArenaPlayer, SessionStatTracker> statMap = typeMap.get(type);
+        Map<IArenaPlayer, SessionStatTracker> statMap = typeMap.get(type);
         if (statMap == null) {
             statMap = new HashMap<>(100);
             typeMap.put(type, statMap);

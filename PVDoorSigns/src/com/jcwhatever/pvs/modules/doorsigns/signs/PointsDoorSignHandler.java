@@ -29,7 +29,7 @@ import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.doorsigns.Lang;
 
@@ -95,12 +95,12 @@ public class PointsDoorSignHandler extends AbstractNumberSignHandler {
     }
 
     @Override
-    protected double getPlayerBalance(ArenaPlayer player) {
+    protected double getPlayerBalance(IArenaPlayer player) {
         return player.getPoints();
     }
 
     @Override
-    protected void incrementPlayerBalance(ArenaPlayer player, double amount) {
+    protected void incrementPlayerBalance(IArenaPlayer player, double amount) {
         player.incrementPoints((int) amount);
     }
 

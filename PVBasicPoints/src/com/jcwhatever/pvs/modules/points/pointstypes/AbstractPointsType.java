@@ -26,14 +26,14 @@
 package com.jcwhatever.pvs.modules.points.pointstypes;
 
 import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.points.PointsHandler;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.points.IPointsHandler;
 import com.jcwhatever.pvs.api.points.PointsType;
 
 public abstract class AbstractPointsType<T extends AbstractPointsHandler> extends PointsType {
 
 
-    protected final T getNewHandler(Arena arena, IDataNode node) {
+    protected final T getNewHandler(IArena arena, IDataNode node) {
         T handler = onGetNewHandler(arena, node);
 
         arena.getEventManager().register(handler);
@@ -42,11 +42,11 @@ public abstract class AbstractPointsType<T extends AbstractPointsHandler> extend
     }
 
     @Override
-    protected void onRemove(Arena arena, PointsHandler handler) {
+    protected void onRemove(IArena arena, IPointsHandler handler) {
 
         arena.getEventManager().unregister((AbstractPointsHandler)handler);
     }
 
-    protected abstract T onGetNewHandler(Arena arena, IDataNode node);
+    protected abstract T onGetNewHandler(IArena arena, IDataNode node);
 
 }

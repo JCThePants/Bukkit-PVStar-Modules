@@ -28,8 +28,8 @@ package com.jcwhatever.pvs.modules.regions.regions;
 import com.jcwhatever.nucleus.storage.settings.SettingsManager.PropertyValue;
 import com.jcwhatever.nucleus.utils.observer.update.UpdateSubscriber;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.pvs.modules.regions.SubRegionsModule;
 import com.jcwhatever.nucleus.regions.BuildMethod;
@@ -60,7 +60,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     private boolean _isEnabled = false;
     private boolean _isInitialized = false;
 
-    private Arena _arena;
+    private IArena _arena;
     private RegionTypeInfo _typeInfo;
     private SettingsManager _settingsManager;
     private SubRegionsModule _module;
@@ -87,7 +87,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         super(PVStarAPI.getPlugin(), name);
     }
 
-    public void init(RegionTypeInfo typeInfo, Arena arena, IDataNode dataNode, SubRegionsModule module) {
+    public void init(RegionTypeInfo typeInfo, IArena arena, IDataNode dataNode, SubRegionsModule module) {
         PreCon.notNull(typeInfo);
         PreCon.notNull(arena);
         PreCon.notNull(dataNode);
@@ -121,7 +121,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         return _dataNode;
     }
 
-    public final Arena getArena() {
+    public final IArena getArena() {
         return _arena;
     }
 
@@ -254,7 +254,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
     @Override
     protected final void onPlayerEnter(Player p, EnterRegionReason reason) {
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(p);
 
         if (!getArena().equals(player.getArena()))
             return;
@@ -270,7 +270,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
     @Override
     protected final void onPlayerLeave(Player p, LeaveRegionReason reason) {
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(p);
 
         if (!getArena().equals(player.getArena()))
             return;
@@ -302,8 +302,8 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         _settingsManager.dispose();
     }
 
-    protected abstract void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason);
-    protected abstract void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason);
+    protected abstract void onPlayerEnter(IArenaPlayer player, EnterRegionReason reason);
+    protected abstract void onPlayerLeave(IArenaPlayer player, LeaveRegionReason reason);
     protected abstract boolean onTrigger();
     protected abstract boolean onUntrigger();
     protected abstract void onEnable();
@@ -315,6 +315,6 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
     public interface RegionEventHandler {
 
-        void onCall(ArenaPlayer player);
+        void onCall(IArenaPlayer player);
     }
 }

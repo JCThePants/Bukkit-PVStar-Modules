@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 
 @RegionTypeInfo(
@@ -38,7 +38,7 @@ public class TellSpectatorsRegion extends TellRegion {
     }
 
     @Override
-    protected void tellMessage(ArenaPlayer player, String message) {
+    protected void tellMessage(IArenaPlayer player, String message) {
 
         getArena().getSpectatorManager().tell(message);
     }

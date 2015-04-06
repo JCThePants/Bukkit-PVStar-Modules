@@ -29,8 +29,8 @@ import com.google.common.collect.Multimap;
 import com.google.common.collect.MultimapBuilder;
 import com.jcwhatever.nucleus.mixins.IDisposable;
 import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.modules.regions.RegionManager;
 import com.jcwhatever.pvs.modules.regions.SubRegionsModule;
 import com.jcwhatever.pvs.modules.regions.regions.AbstractPVRegion;
@@ -93,7 +93,7 @@ public class RegionScriptApi implements IDisposable {
     }
 
     @Nullable
-    public AbstractPVRegion getRegion(Arena arena, String regionName) {
+    public AbstractPVRegion getRegion(IArena arena, String regionName) {
         PreCon.notNull(arena);
         PreCon.notNullOrEmpty(regionName);
 
@@ -104,7 +104,7 @@ public class RegionScriptApi implements IDisposable {
         return manager.getRegion(regionName);
     }
 
-    public boolean onEnter(Arena arena, String regionName, final RegionEventHandler handler) {
+    public boolean onEnter(IArena arena, String regionName, final RegionEventHandler handler) {
         PreCon.notNull(arena);
         PreCon.notNullOrEmpty(regionName);
         PreCon.notNull(handler);
@@ -116,7 +116,7 @@ public class RegionScriptApi implements IDisposable {
         // wrap handler to ensure compatibility with hash maps
         RegionEventHandler wrapper = new RegionEventHandler() {
             @Override
-            public void onCall(ArenaPlayer player) {
+            public void onCall(IArenaPlayer player) {
                 handler.onCall(player);
             }
         };
@@ -126,7 +126,7 @@ public class RegionScriptApi implements IDisposable {
         return true;
     }
 
-    public boolean onLeave(Arena arena, String regionName, final RegionEventHandler handler) {
+    public boolean onLeave(IArena arena, String regionName, final RegionEventHandler handler) {
         PreCon.notNull(arena);
         PreCon.notNullOrEmpty(regionName);
         PreCon.notNull(handler);
@@ -138,7 +138,7 @@ public class RegionScriptApi implements IDisposable {
         // wrap handler to ensure compatibility with hash maps
         RegionEventHandler wrapper = new RegionEventHandler() {
             @Override
-            public void onCall(ArenaPlayer player) {
+            public void onCall(IArenaPlayer player) {
                 handler.onCall(player);
             }
         };

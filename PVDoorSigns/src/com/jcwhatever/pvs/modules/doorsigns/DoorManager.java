@@ -35,7 +35,7 @@ import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.nucleus.managed.signs.SignHandler;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.events.ArenaStartedEvent;
 
@@ -55,7 +55,7 @@ import javax.annotation.Nullable;
 public class DoorManager implements IEventListener {
 
     private Map<String, DoorBlocks> _doorsBySign = new HashMap<>(20);
-    private Multimap<Arena, DoorBlocks> _doorsByArena =
+    private Multimap<IArena, DoorBlocks> _doorsByArena =
             MultimapBuilder.hashKeys(35).hashSetValues(10).build();
 
     public DoorManager() {
@@ -67,7 +67,7 @@ public class DoorManager implements IEventListener {
         return PVStarAPI.getPlugin();
     }
 
-    public void addArenaDoorBlocks(Arena arena, DoorBlocks doorBlocks) {
+    public void addArenaDoorBlocks(IArena arena, DoorBlocks doorBlocks) {
         _doorsByArena.put(arena, doorBlocks);
     }
 
@@ -90,7 +90,7 @@ public class DoorManager implements IEventListener {
         Sign sign = signContainer.getSign();
         assert sign != null;
 
-        Arena arena = PVStarAPI.getArenaManager().getArena(sign.getLocation());
+        IArena arena = PVStarAPI.getArenaManager().getArena(sign.getLocation());
         if (arena == null)
             return null;
 
@@ -126,7 +126,7 @@ public class DoorManager implements IEventListener {
         return getDoorBlocks(arena, handler, signContainer, doorBlocks);
     }
 
-    private DoorBlocks getDoorBlocks(Arena arena, SignHandler handler, ISignContainer sign, List<Block> doorBlocks) {
+    private DoorBlocks getDoorBlocks(IArena arena, SignHandler handler, ISignContainer sign, List<Block> doorBlocks) {
 
         String doorId = LocationUtils.serialize(sign.getLocation());
 
@@ -141,7 +141,7 @@ public class DoorManager implements IEventListener {
         return door;
     }
 
-    private void closeDoors(Arena arena) {
+    private void closeDoors(IArena arena) {
 
         Collection<DoorBlocks> doorBlocks = _doorsByArena.removeAll(arena);
         if (doorBlocks == null)

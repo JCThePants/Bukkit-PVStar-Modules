@@ -35,7 +35,7 @@ import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
 import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
@@ -55,7 +55,7 @@ import org.bukkit.potion.PotionEffectType;
 public class ReviveExtension extends ArenaExtension implements IEventListener {
 
     private static final MetaKey<String> KEY_IS_DOWN = new MetaKey<>(String.class);
-    private static final MetaKey<ArenaPlayer> KEY_KILLER = new MetaKey<>(ArenaPlayer.class);
+    private static final MetaKey<IArenaPlayer> KEY_KILLER = new MetaKey<>(IArenaPlayer.class);
     private static final MetaKey<IScheduledTask> KEY_TASK = new MetaKey<>(IScheduledTask.class);
 
     private int _timeToReviveSeconds = 20;
@@ -121,7 +121,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
     @EventMethod(priority = EventSubscriberPriority.FIRST)
     private void onPlayerDeath(PlayerDeathEvent event) {
 
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
 
         if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
             return;
@@ -163,8 +163,8 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         if (!(event.getDamager() instanceof Player))
             return;
 
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
-        ArenaPlayer reviver = PVStarAPI.getArenaPlayer(event.getDamager());
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
+        IArenaPlayer reviver = PVStarAPI.getArenaPlayer(event.getDamager());
 
         if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
             return;
@@ -199,10 +199,10 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
 
     private static class PlayerDownedTimer extends TaskHandler {
 
-        private ArenaPlayer _player;
+        private IArenaPlayer _player;
         private double _health;
 
-        public PlayerDownedTimer(ArenaPlayer player) {
+        public PlayerDownedTimer(IArenaPlayer player) {
             _player = player;
             _health = player.getPlayer().getHealth();
             _player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 50000, 2));
@@ -213,7 +213,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
             _health -= 1.0D;
 
             if (_health <= 0.0D) {
-                ArenaPlayer killer = _player.getSessionMeta().get(KEY_KILLER);
+                IArenaPlayer killer = _player.getSessionMeta().get(KEY_KILLER);
 
                 _player.kill(killer);
 

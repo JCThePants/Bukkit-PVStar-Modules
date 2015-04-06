@@ -27,7 +27,7 @@ package com.jcwhatever.pvs.modules.regions.commands;
 
 import com.jcwhatever.pvs.modules.regions.Lang;
 import com.jcwhatever.nucleus.managed.language.Localizable;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.regions.RegionManager;
 import com.jcwhatever.pvs.modules.regions.SubRegionsModule;
@@ -43,7 +43,7 @@ public abstract class AbstractRegionCommand extends AbstractPVCommand {
             "A sub region with the name '{0: region name}' was not found in arena '{1: arena name}'.";
 
     @Nullable
-    protected AbstractPVRegion getRegion(CommandSender sender, Arena arena, String regionName) {
+    protected AbstractPVRegion getRegion(CommandSender sender, IArena arena, String regionName) {
 
         RegionManager manager = SubRegionsModule.getModule().getManager(arena);
         AbstractPVRegion region = manager.getRegion(regionName);

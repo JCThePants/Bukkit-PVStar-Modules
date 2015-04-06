@@ -30,7 +30,7 @@ import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.storage.settings.ISettingsManager;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.mobs.Lang;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
@@ -58,7 +58,7 @@ public class ResetSubCommand extends AbstractPVCommand {
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
-        Arena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
+        IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
         if (arena == null)
             return; // finish
 

@@ -30,7 +30,7 @@ import com.jcwhatever.nucleus.managed.signs.SignHandler;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.gamblesigns.events.GambleTriggeredEvent;
@@ -94,7 +94,7 @@ public class GambleSignHandler extends SignHandler {
     @Override
     protected SignClickResult onSignClick(Player p, ISignContainer sign) {
 
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(p);
         if (player.getArena() == null || player.getArenaRelation() == ArenaPlayerRelation.SPECTATOR)
             return SignClickResult.IGNORED;
 

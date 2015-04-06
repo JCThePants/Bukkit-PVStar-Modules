@@ -30,7 +30,7 @@ import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
@@ -116,7 +116,7 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
         if (!getArena().getGameManager().isRunning())
             return;
 
-        final ArenaPlayer player = event.getPlayer();
+        final IArenaPlayer player = event.getPlayer();
         if (getArena().equals(player.getArena()))
             return;
 
@@ -160,7 +160,7 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
         if (!getArena().getGameManager().isRunning())
             return;
 
-        final ArenaPlayer player = event.getPlayer();
+        final IArenaPlayer player = event.getPlayer();
         if (!getArena().equals(player.getArena()))
             return;
 

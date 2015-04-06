@@ -26,8 +26,8 @@
 package com.jcwhatever.pvs.modules.regions.regions;
 
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.pvs.api.utils.ArenaConverters;
@@ -78,7 +78,7 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
         ;
     }
 
-    private Arena _forwardArena;
+    private IArena _forwardArena;
     private boolean _doTeleport = true;
     private AbstractPVRegion _destinationRegion;
     private float _yawAdjust = 0.0F;
@@ -119,7 +119,7 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
     }
 
     @Override
-    protected void onPlayerEnter(final ArenaPlayer player, EnterRegionReason reason) {
+    protected void onPlayerEnter(final IArenaPlayer player, EnterRegionReason reason) {
 
         boolean doRegionTeleport = _doTeleport &&
                                    _destinationRegion != null &&
@@ -142,7 +142,7 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
+    protected void onPlayerLeave(IArenaPlayer player, LeaveRegionReason reason) {
         // do nothing
     }
 
@@ -203,7 +203,7 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
         return _possibleSettings;
     }
 
-    private Location getRegionDestination(ArenaPlayer p) {
+    private Location getRegionDestination(IArenaPlayer p) {
         Location pLoc = p.getLocation();
 
         double x = pLoc.getX() - getXStart();

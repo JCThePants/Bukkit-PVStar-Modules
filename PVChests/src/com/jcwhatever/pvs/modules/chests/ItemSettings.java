@@ -26,14 +26,14 @@
 package com.jcwhatever.pvs.modules.chests;
 
 import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 public class ItemSettings {
 
-    private final Arena _arena;
+    private final IArena _arena;
     private final IDataNode _dataNode;
     private final IDataNode _itemsNode;
     private WeightedItems _chestItems;
@@ -41,7 +41,7 @@ public class ItemSettings {
     private int _maxRandomItems = 4;
 
 
-    public ItemSettings(Arena arena, IDataNode dataNode) {
+    public ItemSettings(IArena arena, IDataNode dataNode) {
         _arena = arena;
         _dataNode = dataNode;
         _itemsNode = dataNode.getNode("chest-items");
@@ -49,7 +49,7 @@ public class ItemSettings {
         loadItemSettings();
     }
 
-    public Arena getArena() {
+    public IArena getArena() {
         return _arena;
     }
 

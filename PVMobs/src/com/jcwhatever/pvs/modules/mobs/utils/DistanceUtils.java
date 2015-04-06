@@ -25,8 +25,8 @@
 
 package com.jcwhatever.pvs.modules.mobs.utils;
 
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
@@ -64,7 +64,7 @@ public class DistanceUtils {
      * @param maxPathDistance  The max path distance to a destination.
      * @return
      */
-    public static boolean isValidMobDestination(Arena arena, Spawnpoint source,
+    public static boolean isValidMobDestination(IArena arena, Spawnpoint source,
                                                 Location destination, int searchRadius, int maxPathDistance) {
         PreCon.notNull(destination);
 
@@ -105,7 +105,7 @@ public class DistanceUtils {
 
 
     public static <T extends Spawnpoint> ArrayList<T> getClosestSpawns(
-            Arena arena, Collection<ArenaPlayer> players, Collection<T> spawnpoints, int maxPathDistance) {
+            IArena arena, Collection<IArenaPlayer> players, Collection<T> spawnpoints, int maxPathDistance) {
 
         PreCon.notNull(arena);
         PreCon.notNull(players);
@@ -119,7 +119,7 @@ public class DistanceUtils {
         List<T> playerResults = new ArrayList<>(players.size());
         Set<T> spawns = new HashSet<>(spawnpoints);
 
-        for (ArenaPlayer player : players) {
+        for (IArenaPlayer player : players) {
 
             Location playerLocation  = player.getLocation();
 
@@ -171,15 +171,15 @@ public class DistanceUtils {
     }
 
 
-    public static ArenaPlayer getClosestPlayer(Collection<ArenaPlayer> players, Location loc, int maxDistanceSquared) {
+    public static IArenaPlayer getClosestPlayer(Collection<IArenaPlayer> players, Location loc, int maxDistanceSquared) {
         PreCon.notNull(players);
         PreCon.notNull(loc);
 
 
         double current = maxDistanceSquared;
-        ArenaPlayer result = null;
+        IArenaPlayer result = null;
 
-        for (ArenaPlayer player : players) {
+        for (IArenaPlayer player : players) {
 
             if (player.isImmobilized())
                 continue;

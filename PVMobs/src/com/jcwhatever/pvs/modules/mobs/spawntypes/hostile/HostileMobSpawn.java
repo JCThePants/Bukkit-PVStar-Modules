@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.mobs.spawntypes.hostile;
 
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.spawns.SpawnType;
 import com.jcwhatever.nucleus.utils.Rand;
 import com.jcwhatever.nucleus.utils.entity.EntityTypes;
@@ -80,7 +80,7 @@ public class HostileMobSpawn extends SpawnType {
 
     @Nullable
     @Override
-    public List<Entity> spawn(Arena arena, Location location, int count) {
+    public List<Entity> spawn(IArena arena, Location location, int count) {
         List<Entity> result = new ArrayList<>(count);
 
         for (int i=0; i < count; i++) {

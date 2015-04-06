@@ -33,7 +33,7 @@ import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.items.ItemStackUtils;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.chests.ChestExtension;
@@ -59,7 +59,7 @@ public class ListSubCommand extends AbstractPVCommand {
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
-        Arena arena = getSelectedArena(sender, ArenaReturned.ALWAYS);
+        IArena arena = getSelectedArena(sender, ArenaReturned.ALWAYS);
         if (arena == null)
             return; // finish
 

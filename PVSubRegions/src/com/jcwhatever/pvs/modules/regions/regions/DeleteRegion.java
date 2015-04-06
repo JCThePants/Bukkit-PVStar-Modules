@@ -37,7 +37,7 @@ import com.jcwhatever.nucleus.utils.observer.result.FutureResultAgent.Future;
 import com.jcwhatever.nucleus.utils.observer.result.FutureSubscriber;
 import com.jcwhatever.nucleus.utils.observer.result.Result;
 import com.jcwhatever.nucleus.utils.performance.queued.QueueTask;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 
 import org.bukkit.material.MaterialData;
@@ -62,12 +62,12 @@ public class DeleteRegion extends AbstractPVRegion {
 
 
     @Override
-    protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
+    protected void onPlayerEnter(IArenaPlayer player, EnterRegionReason reason) {
         // do nothing
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
+    protected void onPlayerLeave(IArenaPlayer player, LeaveRegionReason reason) {
         // do nothing
     }
 

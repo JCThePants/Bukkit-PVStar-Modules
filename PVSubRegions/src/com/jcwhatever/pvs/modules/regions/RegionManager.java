@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.regions;
 
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.modules.regions.regions.AbstractPVRegion;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
@@ -42,12 +42,12 @@ import javax.annotation.Nullable;
 
 public class RegionManager {
 
-    private final Arena _arena;
+    private final IArena _arena;
     private final IDataNode _dataNode;
     private final Map<String, AbstractPVRegion> _regions = new HashMap<>(30);
     private final SubRegionsModule _module;
 
-    public RegionManager(Arena arena, SubRegionsModule module) {
+    public RegionManager(IArena arena, SubRegionsModule module) {
         _arena = arena;
         _module = module;
         _dataNode = arena.getDataNode("special-regions");

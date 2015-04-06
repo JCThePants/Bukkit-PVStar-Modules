@@ -26,7 +26,7 @@
 package com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns;
 
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.stats.ArenaStats;
+import com.jcwhatever.pvs.api.stats.IArenaStats;
 import com.jcwhatever.pvs.api.stats.StatType;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.Leaderboard;
 import com.jcwhatever.nucleus.collections.timed.TimedHashMap;
@@ -76,9 +76,9 @@ public class StatisticsColumn extends AbstractColumn {
 
         double value = 0;
 
-        List<ArenaStats> arenaStats = getLeaderboard().getArenaStats();
+        List<IArenaStats> arenaStats = getLeaderboard().getArenaStats();
 
-        for (ArenaStats stats : arenaStats) {
+        for (IArenaStats stats : arenaStats) {
             value += stats.getValue(getStatType(), playerId, getSettings().getTrackingType());
         }
 

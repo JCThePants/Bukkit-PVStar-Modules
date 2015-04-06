@@ -29,7 +29,7 @@ import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.nucleus.managed.signs.SignHandler;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.utils.Msg;
 
 import org.bukkit.entity.Player;
@@ -71,7 +71,7 @@ public class NoteSignHandler extends SignHandler {
     @Override
     protected SignChangeResult onSignChange(Player player, ISignContainer sign) {
 
-        Arena arena = PVStarAPI.getArenaManager().getArena(sign.getLocation());
+        IArena arena = PVStarAPI.getArenaManager().getArena(sign.getLocation());
         if (arena == null) {
             Msg.tellError(player, "No arena found at this location.");
             return SignChangeResult.INVALID;

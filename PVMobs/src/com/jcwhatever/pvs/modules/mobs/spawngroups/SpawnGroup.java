@@ -26,7 +26,7 @@
 package com.jcwhatever.pvs.modules.mobs.spawngroups;
 
 import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
 
@@ -64,7 +64,7 @@ public class SpawnGroup extends Spawnpoint {
 
     @Nullable
     @Override
-    public List<Entity> spawn(Arena arena, int count) {
+    public List<Entity> spawn(IArena arena, int count) {
         PreCon.notNull(arena);
         PreCon.greaterThanZero(count);
         PreCon.isValid(arena.equals(_manager.getArena()), "Can only spawn for arena: " + _manager.getArena().getName());

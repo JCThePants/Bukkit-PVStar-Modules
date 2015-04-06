@@ -29,8 +29,8 @@ import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.points.PointsType;
 import com.jcwhatever.pvs.modules.points.pointstypes.KillPlayerPointsType.KillPlayerPointsHandler;
 import org.bukkit.entity.Player;
@@ -49,13 +49,13 @@ public class KillPlayerPointsType extends AbstractPointsType<KillPlayerPointsHan
     }
 
     @Override
-    protected KillPlayerPointsHandler onGetNewHandler(Arena arena, IDataNode node) {
+    protected KillPlayerPointsHandler onGetNewHandler(IArena arena, IDataNode node) {
         return new KillPlayerPointsHandler(arena, this, node);
     }
 
     public static class KillPlayerPointsHandler extends AbstractPointsHandler implements IEventListener {
 
-        KillPlayerPointsHandler(Arena arena, PointsType type, IDataNode node) {
+        KillPlayerPointsHandler(IArena arena, PointsType type, IDataNode node) {
             super(arena, type, node);
         }
 
@@ -68,7 +68,7 @@ public class KillPlayerPointsType extends AbstractPointsType<KillPlayerPointsHan
             if (event.getEntity().getKiller() == null)
                 return;
 
-            ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
+            IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
 
             player.incrementPoints(getPoints());
         }

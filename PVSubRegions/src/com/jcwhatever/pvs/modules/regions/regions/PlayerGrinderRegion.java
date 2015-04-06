@@ -26,7 +26,7 @@
 package com.jcwhatever.pvs.modules.regions.regions;
 
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
@@ -97,14 +97,14 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
     private IScheduledTask _bladeTask;
     private BladeRotator _bladeRotator;
 
-    private Set<ArenaPlayer> _playersInRegion = new HashSet<>(25);
+    private Set<IArenaPlayer> _playersInRegion = new HashSet<>(25);
 
     public PlayerGrinderRegion(String name) {
         super(name);
     }
 
     @Override
-    protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
+    protected void onPlayerEnter(IArenaPlayer player, EnterRegionReason reason) {
         synchronized(_sync) {
             _playersInRegion.add(player);
         }
@@ -113,7 +113,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
+    protected void onPlayerLeave(IArenaPlayer player, LeaveRegionReason reason) {
         synchronized(_sync) {
             _playersInRegion.remove(player);
         }
@@ -407,7 +407,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
 
             synchronized (_region._sync) {
 
-                for (ArenaPlayer player : _region._playersInRegion) {
+                for (IArenaPlayer player : _region._playersInRegion) {
 
                     if (blade.contains(player.getLocation())) {
                         damagePlayer(player);
@@ -417,7 +417,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
             }
         }
 
-        private void damagePlayer(ArenaPlayer player) {
+        private void damagePlayer(IArenaPlayer player) {
             if (player != null) {
 
                 // don't damage invulnerable players

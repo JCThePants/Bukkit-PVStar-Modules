@@ -25,21 +25,21 @@
 
 package com.jcwhatever.pvs.modules.stats;
 
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.stats.StatType;
 
 public class SessionStatTracker {
 
-    private final ArenaPlayer _player;
+    private final IArenaPlayer _player;
     private final StatType _statType;
     private double _total;
 
-    public SessionStatTracker(ArenaPlayer player, StatType type) {
+    public SessionStatTracker(IArenaPlayer player, StatType type) {
         _player = player;
         _statType = type;
     }
 
-    public ArenaPlayer getPlayer() {
+    public IArenaPlayer getPlayer() {
         return _player;
     }
 

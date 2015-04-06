@@ -29,9 +29,9 @@ import com.jcwhatever.nucleus.collections.players.PlayerQueue;
 import com.jcwhatever.nucleus.utils.MetaKey;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.events.players.PlayerJoinQueryEvent;
 
 import org.bukkit.entity.Player;
@@ -45,11 +45,11 @@ import javax.annotation.Nullable;
 public final class QueueManager {
 
     private static final MetaKey<Set> META_PARTY_MEMBERS = new MetaKey<Set>(Set.class);
-    private static final MetaKey<Arena> META_QUEUED_ARENA = new MetaKey<Arena>(Arena.class);
+    private static final MetaKey<IArena> META_QUEUED_ARENA = new MetaKey<IArena>(IArena.class);
     //private static Map<String, Arena> _queueMap;
-    private static Map<Arena, QueueManager> _queueManagers = new HashMap<>(20);
+    private static Map<IArena, QueueManager> _queueManagers = new HashMap<>(20);
 
-    public static QueueManager get(Arena arena) {
+    public static QueueManager get(IArena arena) {
         PreCon.notNull(arena);
 
         QueueManager queueManager = _queueManagers.get(arena);
@@ -63,21 +63,21 @@ public final class QueueManager {
 
 
 
-	private final Arena _arena;
+	private final IArena _arena;
 	private final Queue<Player> _queue;
 
 	static {
 		 //_queueMap = new PlayerMap<Arena>();
 	}
 	
-	public QueueManager(Arena arena) {
+	public QueueManager(IArena arena) {
 		PreCon.notNull(arena);
 				
 		_arena = arena;
 		_queue = new PlayerQueue(PVStarAPI.getPlugin());
 	}
 
-	public Arena getArena() {
+	public IArena getArena() {
 		return _arena;
 	}
 
@@ -89,7 +89,7 @@ public final class QueueManager {
 		while (!_queue.isEmpty()) {
 			Player p = _queue.peek();
 
-            ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
+            IArenaPlayer player = PVStarAPI.getArenaPlayer(p);
 			
 			if (!p.isOnline()) {
 				_queue.remove();
@@ -97,7 +97,7 @@ public final class QueueManager {
 			}
 
             // make sure other modules agree to the player joining the arena
-            ArenaPlayerCollection partyMembers = _arena.getEventManager().call(this,
+            IArenaPlayerCollection partyMembers = _arena.getEventManager().call(this,
                     new PlayerJoinQueryEvent(_arena, player)).getPlayers();
 
             if (partyMembers.contains(player)) {
@@ -106,7 +106,7 @@ public final class QueueManager {
                 if (_arena.getAvailableSlots() < partyMembers.size()) {
                     player.getSessionMeta().set(META_PARTY_MEMBERS, partyMembers);
 
-                    for (ArenaPlayer partyMember : partyMembers) {
+                    for (IArenaPlayer partyMember : partyMembers) {
                         partyMember.getSessionMeta().set(META_QUEUED_ARENA, _arena);
                     }
 
@@ -115,7 +115,7 @@ public final class QueueManager {
 
                 _queue.remove(); // remove party leader/player from queue
 
-                for (ArenaPlayer partyMember : partyMembers) {
+                for (IArenaPlayer partyMember : partyMembers) {
                     _arena.join(partyMember);
                 }
             } else {
@@ -128,16 +128,16 @@ public final class QueueManager {
 	}
 
     @Nullable
-	public static Arena getCurrentQueue(ArenaPlayer player) {
+	public static IArena getCurrentQueue(IArenaPlayer player) {
 		PreCon.notNull(player);
 
         return player.getSessionMeta().get(META_QUEUED_ARENA);
 	}
 		
-	public static boolean removePlayer(ArenaPlayer player) {
+	public static boolean removePlayer(IArenaPlayer player) {
 		PreCon.notNull(player);
 
-        Arena arena = getCurrentQueue(player);
+        IArena arena = getCurrentQueue(player);
         if (arena == null)
             return false;
 
@@ -147,13 +147,13 @@ public final class QueueManager {
 
             // remove player meta
             @SuppressWarnings("unchecked")
-            Set<ArenaPlayer> party = player.getSessionMeta().get(META_PARTY_MEMBERS);
+            Set<IArenaPlayer> party = player.getSessionMeta().get(META_PARTY_MEMBERS);
 
             player.getSessionMeta().set(META_PARTY_MEMBERS, null);
             player.getSessionMeta().set(META_QUEUED_ARENA, null);
 
             if (party != null) {
-                for (ArenaPlayer partyMember : party) {
+                for (IArenaPlayer partyMember : party) {
                     partyMember.getSessionMeta().set(META_QUEUED_ARENA, null);
                 }
             }
@@ -163,15 +163,15 @@ public final class QueueManager {
         return false;
 	}
 	
-	public int getQueuePosition(ArenaPlayer player) {
+	public int getQueuePosition(IArenaPlayer player) {
 		PreCon.notNull(player);
 
-        Arena arena = getCurrentQueue(player);
+        IArena arena = getCurrentQueue(player);
         if (arena == null)
             return 0;
 
         @SuppressWarnings("unchecked")
-        Set<ArenaPlayer> party = player.getSessionMeta().get(META_PARTY_MEMBERS);
+        Set<IArenaPlayer> party = player.getSessionMeta().get(META_PARTY_MEMBERS);
 
 		int inFront = 0;
 		for (Player qp : _queue) {
@@ -182,7 +182,7 @@ public final class QueueManager {
 
             // check if player is part of a queued players party
             if (party != null) {
-                ArenaPlayer qPlayer = PVStarAPI.getArenaPlayer(qp);
+                IArenaPlayer qPlayer = PVStarAPI.getArenaPlayer(qp);
 
                 if (party.contains(qPlayer))
                     return inFront + 1;
@@ -194,11 +194,11 @@ public final class QueueManager {
 		return 0;
 	}
 	
-	public boolean addPlayer(ArenaPlayer player) {
+	public boolean addPlayer(IArenaPlayer player) {
 		PreCon.notNull(player);
 
         // make sure other modules agree to the player joining the arena
-        ArenaPlayerCollection partyMembers = _arena.getEventManager()
+        IArenaPlayerCollection partyMembers = _arena.getEventManager()
                 .call(this, new PlayerJoinQueryEvent(_arena, player)).getPlayers();
 
         if (!partyMembers.contains(player))
@@ -213,7 +213,7 @@ public final class QueueManager {
         // setup player meta
         player.getSessionMeta().set(META_PARTY_MEMBERS, partyMembers);
 
-        for (ArenaPlayer partyMember : partyMembers) {
+        for (IArenaPlayer partyMember : partyMembers) {
             partyMember.getSessionMeta().set(META_QUEUED_ARENA, _arena);
         }
 

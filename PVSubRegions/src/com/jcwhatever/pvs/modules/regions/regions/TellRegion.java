@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
@@ -101,7 +101,7 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
     }
 
     @Override
-    protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
+    protected void onPlayerEnter(IArenaPlayer player, EnterRegionReason reason) {
 
         tellMessage(player, _enterMessage);
 
@@ -127,7 +127,7 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
+    protected void onPlayerLeave(IArenaPlayer player, LeaveRegionReason reason) {
 
         tellMessage(player, _leaveMessage);
 
@@ -169,7 +169,7 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
         return null;
     }
 
-    protected void tellMessage(ArenaPlayer player, String message) {
+    protected void tellMessage(IArenaPlayer player, String message) {
         Msg.tell(player.getPlayer(), message);
     }
 

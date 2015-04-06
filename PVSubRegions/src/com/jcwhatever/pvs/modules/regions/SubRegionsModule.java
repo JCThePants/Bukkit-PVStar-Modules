@@ -34,7 +34,7 @@ import com.jcwhatever.nucleus.managed.scripting.IScriptApi;
 import com.jcwhatever.nucleus.managed.scripting.SimpleScriptApi;
 import com.jcwhatever.nucleus.managed.scripting.SimpleScriptApi.IApiObjectCreator;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.events.ArenaDisposeEvent;
 import com.jcwhatever.pvs.api.events.ArenaLoadedEvent;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
@@ -55,7 +55,7 @@ public class SubRegionsModule extends PVStarModule implements IEventListener {
     }
 
     private final TypesManager _typesManager = new TypesManager();
-    private final Map<Arena, RegionManager> _regionManagers = new HashMap<>(30);
+    private final Map<IArena, RegionManager> _regionManagers = new HashMap<>(30);
 
     public SubRegionsModule () {
         super();
@@ -85,7 +85,7 @@ public class SubRegionsModule extends PVStarModule implements IEventListener {
         return _typesManager;
     }
 
-    public RegionManager getManager(Arena arena) {
+    public RegionManager getManager(IArena arena) {
         RegionManager manager = _regionManagers.get(arena);
         if (manager == null) {
             manager = new RegionManager(arena, this);
@@ -111,7 +111,7 @@ public class SubRegionsModule extends PVStarModule implements IEventListener {
     @EventMethod
     private void onArenaDispose(ArenaDisposeEvent event) {
 
-        Arena arena = event.getArena();
+        IArena arena = event.getArena();
         RegionManager manager = _regionManagers.remove(arena);
         if (manager != null) {
             manager.dispose();

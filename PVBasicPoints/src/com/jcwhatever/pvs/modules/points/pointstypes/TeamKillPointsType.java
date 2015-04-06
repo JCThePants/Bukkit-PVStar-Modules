@@ -28,8 +28,8 @@ package com.jcwhatever.pvs.modules.points.pointstypes;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.ArenaTeam;
 import com.jcwhatever.pvs.api.points.PointsType;
 import com.jcwhatever.pvs.modules.points.pointstypes.TeamKillPointsType.TeamKillPointsHandler;
@@ -49,13 +49,13 @@ public class TeamKillPointsType extends AbstractPointsType<TeamKillPointsHandler
     }
 
     @Override
-    protected TeamKillPointsHandler onGetNewHandler(Arena arena, IDataNode node) {
+    protected TeamKillPointsHandler onGetNewHandler(IArena arena, IDataNode node) {
         return new TeamKillPointsHandler(arena, this, node);
     }
 
     public static class TeamKillPointsHandler extends AbstractPointsHandler {
 
-        TeamKillPointsHandler(Arena arena, PointsType type, IDataNode node) {
+        TeamKillPointsHandler(IArena arena, PointsType type, IDataNode node) {
             super(arena, type, node);
         }
 
@@ -68,8 +68,8 @@ public class TeamKillPointsType extends AbstractPointsType<TeamKillPointsHandler
             if (event.getEntity().getKiller() == null)
                 return;
 
-            ArenaPlayer dead = PVStarAPI.getArenaPlayer(event.getEntity());
-            ArenaPlayer killer = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
+            IArenaPlayer dead = PVStarAPI.getArenaPlayer(event.getEntity());
+            IArenaPlayer killer = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
 
             if (killer.getTeam() == dead.getTeam() &&
                     killer.getTeam() != ArenaTeam.NONE) {

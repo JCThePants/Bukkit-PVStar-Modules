@@ -31,7 +31,7 @@ import com.jcwhatever.nucleus.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.regions.Lang;
 import com.jcwhatever.pvs.modules.regions.RegionManager;
@@ -58,7 +58,7 @@ public class ListSubCommand extends AbstractRegionCommand {
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
-        Arena arena = getSelectedArena(sender, ArenaReturned.ALWAYS);
+        IArena arena = getSelectedArena(sender, ArenaReturned.ALWAYS);
         if (arena == null)
             return; // finish
 

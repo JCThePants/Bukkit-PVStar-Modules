@@ -24,7 +24,7 @@
 
 package com.jcwhatever.pvs.modules.mobs.commands.limit;
 
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.mobs.Lang;
@@ -65,7 +65,7 @@ public class InfoSubCommand extends AbstractPVCommand {
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
-        Arena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
+        IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
         if (arena == null)
             return; // finish
 

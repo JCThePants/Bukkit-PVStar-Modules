@@ -29,7 +29,7 @@ import com.jcwhatever.nucleus.commands.CommandInfo;
 import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.language.Localizable;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.modules.deathdrops.DeathDropsExtension;
 import com.jcwhatever.pvs.modules.deathdrops.DropSettings;
 import com.jcwhatever.pvs.modules.deathdrops.Lang;
@@ -74,7 +74,7 @@ public class TransferSubCommand extends AbstractDropsCommand {
     @Override
     public void execute(CommandSender sender, CommandArguments args) throws CommandException {
 
-        Arena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "drop|direct|clear|info"));
+        IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "drop|direct|clear|info"));
         if (arena == null)
             return; // finished
 

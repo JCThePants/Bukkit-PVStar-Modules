@@ -26,7 +26,7 @@
 package com.jcwhatever.pvs.modules.leaderboards.leaderboards;
 
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.stats.ArenaStats;
+import com.jcwhatever.pvs.api.stats.IArenaStats;
 import com.jcwhatever.pvs.api.stats.StatTracking.StatTrackType;
 import com.jcwhatever.pvs.api.stats.StatType;
 import com.jcwhatever.pvs.api.utils.Msg;
@@ -63,7 +63,7 @@ public class Leaderboard {
     private final String _name;
 
     private List<UUID> _arenaIds;
-    private Set<ArenaStats> _arenaStats;
+    private Set<IArenaStats> _arenaStats;
 
     private Location _anchorLocation;
     private Sign _anchorSign;
@@ -111,7 +111,7 @@ public class Leaderboard {
         return new ArrayList<>(_arenaIds);
     }
 
-    public List<ArenaStats> getArenaStats() {
+    public List<IArenaStats> getArenaStats() {
         return new ArrayList<>(_arenaStats);
     }
 
@@ -517,7 +517,7 @@ public class Leaderboard {
         _arenaStats = new HashSet<>(_arenaIds.size());
 
         for (UUID arenaId : _arenaIds) {
-            ArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(arenaId);
+            IArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(arenaId);
             if (stats == null)
                 continue;
 

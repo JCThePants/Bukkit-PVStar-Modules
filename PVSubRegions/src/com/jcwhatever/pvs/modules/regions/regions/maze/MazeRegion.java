@@ -26,7 +26,7 @@
 package com.jcwhatever.pvs.modules.regions.regions.maze;
 
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.pvs.modules.regions.regions.AbstractPVRegion;
@@ -95,12 +95,12 @@ public class MazeRegion extends AbstractPVRegion implements IEventListener {
     }
 
     @Override
-    protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
+    protected void onPlayerEnter(IArenaPlayer player, EnterRegionReason reason) {
         // do nothing
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
+    protected void onPlayerLeave(IArenaPlayer player, LeaveRegionReason reason) {
         // do nothing
     }
 

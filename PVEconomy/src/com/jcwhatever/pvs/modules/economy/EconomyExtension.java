@@ -31,7 +31,7 @@ import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
@@ -82,7 +82,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
     @EventMethod
     private void onPlayerDeath(PlayerDeathEvent event) {
 
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
 
         if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
             return;
@@ -97,7 +97,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         if (event.getEntity().getKiller() == null)
             return;
 
-        ArenaPlayer killer = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
+        IArenaPlayer killer = PVStarAPI.getArenaPlayer(event.getEntity().getKiller());
 
         if (killer.getArenaRelation() != ArenaPlayerRelation.GAME)
             return;
@@ -173,7 +173,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         getDataNode().save();
     }
 
-    private void giveMoney(ArenaPlayer player, double amount) {
+    private void giveMoney(IArenaPlayer player, double amount) {
         PreCon.notNull(player);
 
         if (!isEnabled())

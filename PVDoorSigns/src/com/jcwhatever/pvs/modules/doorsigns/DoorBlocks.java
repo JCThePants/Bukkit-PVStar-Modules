@@ -29,7 +29,7 @@ import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.nucleus.managed.signs.SignHandler;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 
 import org.bukkit.Material;
 import org.bukkit.Sound;
@@ -46,13 +46,13 @@ import java.util.List;
  */
 public class DoorBlocks {
 
-    private final Arena _arena;
+    private final IArena _arena;
     private final SignHandler _handler;
     private final ISignContainer _sign;
     private List<Block> _doorBlocks;
     private String _id;
 
-    public DoorBlocks(Arena arena, SignHandler handler, ISignContainer sign, List<Block> doorBlocks) {
+    public DoorBlocks(IArena arena, SignHandler handler, ISignContainer sign, List<Block> doorBlocks) {
         PreCon.notNull(arena);
         PreCon.notNull(handler);
         PreCon.notNull(sign);
@@ -70,7 +70,7 @@ public class DoorBlocks {
         return _id;
     }
 
-    public Arena getArena() {
+    public IArena getArena() {
         return _arena;
     }
 

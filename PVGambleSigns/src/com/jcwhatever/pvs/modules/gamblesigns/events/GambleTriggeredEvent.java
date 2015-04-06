@@ -27,8 +27,8 @@ package com.jcwhatever.pvs.modules.gamblesigns.events;
 
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.events.players.AbstractPlayerEvent;
 
 public class GambleTriggeredEvent extends AbstractPlayerEvent {
@@ -36,7 +36,7 @@ public class GambleTriggeredEvent extends AbstractPlayerEvent {
     private final String _eventName;
     private final ISignContainer _signContainer;
 
-    public GambleTriggeredEvent(Arena arena, ArenaPlayer player, String eventName, ISignContainer sign) {
+    public GambleTriggeredEvent(IArena arena, IArenaPlayer player, String eventName, ISignContainer sign) {
         //noinspection ConstantConditions
         super(arena, player, player.getRelatedManager());
 

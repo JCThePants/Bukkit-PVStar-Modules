@@ -31,9 +31,9 @@ import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.Rand;
 import com.jcwhatever.nucleus.utils.astar.AStar;
 import com.jcwhatever.nucleus.utils.astar.AStarUtils;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.pvs.modules.mobs.DespawnMethod;
@@ -62,7 +62,7 @@ import java.util.Map;
 )
 public class ProximitySpawner implements ISpawner {
 
-    private Arena _arena;
+    private IArena _arena;
     private MobArenaExtension _manager;
     private ProximitySettings _settings;
     private List<Spawnpoint> _mobSpawns;
@@ -163,7 +163,7 @@ public class ProximitySpawner implements ISpawner {
 
             Creature creature = (Creature)entity;
 
-            ArenaPlayer closest = DistanceUtils.getClosestPlayer(
+            IArenaPlayer closest = DistanceUtils.getClosestPlayer(
                     _arena.getGameManager().getPlayers(), creature.getLocation(), _settings.getMaxMobDistanceSquared());
 
             if (closest == null) {
@@ -196,7 +196,7 @@ public class ProximitySpawner implements ISpawner {
             if (_isPaused)
                 return;
 
-            ArenaPlayerCollection players = _arena.getGameManager().getPlayers();
+            IArenaPlayerCollection players = _arena.getGameManager().getPlayers();
 
             int maxMobsPerSpawn = _settings.getMaxMobsPerSpawn();
 
@@ -280,7 +280,7 @@ public class ProximitySpawner implements ISpawner {
                     _manager.removeMob(mob, DespawnMethod.REMOVE);
                 }
                 else {
-                    ArenaPlayer closest = DistanceUtils.getClosestPlayer(
+                    IArenaPlayer closest = DistanceUtils.getClosestPlayer(
                             _arena.getGameManager().getPlayers(), mob.getLocation(), _settings.getMaxMobDistanceSquared());
 
                     if (closest == null) {

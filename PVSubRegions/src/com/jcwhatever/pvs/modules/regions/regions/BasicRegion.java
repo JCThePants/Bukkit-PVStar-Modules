@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
@@ -45,12 +45,12 @@ public class BasicRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
+    protected void onPlayerEnter(IArenaPlayer player, EnterRegionReason reason) {
         // do nothing
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
+    protected void onPlayerLeave(IArenaPlayer player, LeaveRegionReason reason) {
         // do nothing
     }
 

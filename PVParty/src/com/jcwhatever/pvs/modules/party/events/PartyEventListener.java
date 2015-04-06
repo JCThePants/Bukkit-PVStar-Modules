@@ -28,9 +28,9 @@ package com.jcwhatever.pvs.modules.party.events;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.options.AddPlayerReason;
 import com.jcwhatever.pvs.api.events.players.PlayerAddedEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerJoinQueryEvent;
@@ -60,16 +60,16 @@ public class PartyEventListener implements IEventListener {
     @EventMethod
     private void onPlayerJoinQuery(PlayerJoinQueryEvent event) {
 
-        ArenaPlayerCollection playersJoining = event.getPlayers();
-        Iterator<ArenaPlayer> playerIterator = playersJoining.iterator();
+        IArenaPlayerCollection playersJoining = event.getPlayers();
+        Iterator<IArenaPlayer> playerIterator = playersJoining.iterator();
 
         // Ensure party members are only allowed to join if
         // their party leader is in the collection.
         // Players not in a party are disregarded.
         while(playerIterator.hasNext()) {
-            ArenaPlayer player = playerIterator.next();
+            IArenaPlayer player = playerIterator.next();
 
-            ArenaPlayer leader = getPartyLeader(player);
+            IArenaPlayer leader = getPartyLeader(player);
             if (leader == null)
                 continue;
 
@@ -101,7 +101,7 @@ public class PartyEventListener implements IEventListener {
     private void onPlayerAdded(PlayerAddedEvent event) {
 
         Player p = event.getPlayer().getPlayer();
-        Arena arena = event.getArena();
+        IArena arena = event.getArena();
 
         PartyManager manager = PartyModule.getModule().getManager();
 
@@ -118,7 +118,7 @@ public class PartyEventListener implements IEventListener {
                     if (member.equals(p)) // don't add player that is already joining
                         continue;
 
-                    ArenaPlayer player = PVStarAPI.getArenaPlayer(member);
+                    IArenaPlayer player = PVStarAPI.getArenaPlayer(member);
 
                     // don't add player that is already in arena
                     if (player.getArena() != null)
@@ -136,7 +136,7 @@ public class PartyEventListener implements IEventListener {
 
 
     @Nullable
-    private ArenaPlayer getPartyLeader(ArenaPlayer player) {
+    private IArenaPlayer getPartyLeader(IArenaPlayer player) {
 
         Player p = player.getPlayer();
 
@@ -158,7 +158,7 @@ public class PartyEventListener implements IEventListener {
     }
 
 
-    private boolean canJoin(Arena arena, ArenaPlayer player, boolean verbose) {
+    private boolean canJoin(IArena arena, IArenaPlayer player, boolean verbose) {
 
         if (arena.equals(player.getSessionMeta().get(META_ALLOW_JOIN_ARENA))) {
             return true;
@@ -174,7 +174,7 @@ public class PartyEventListener implements IEventListener {
             Party party = manager.getParty(p);
             if (party != null && !party.isDisbanded()) {
 
-                ArenaPlayer partyLeader = PVStarAPI.getArenaPlayer(party.getLeader());
+                IArenaPlayer partyLeader = PVStarAPI.getArenaPlayer(party.getLeader());
 
                 // only the party leader can join a game
                 if (!party.getLeader().equals(p) && !arena.equals(partyLeader.getArena())) {

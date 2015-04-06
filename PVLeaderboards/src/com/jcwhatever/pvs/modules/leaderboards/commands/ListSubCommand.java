@@ -35,7 +35,7 @@ import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.pvs.modules.leaderboards.LeaderboardsModule;
@@ -85,7 +85,7 @@ public class ListSubCommand extends AbstractCommand {
             List<String> arenaNames = new ArrayList<String>(arenaIds.size());
 
             for (UUID id : arenaIds) {
-                Arena arena = PVStarAPI.getArenaManager().getArena(id);
+                IArena arena = PVStarAPI.getArenaManager().getArena(id);
                 if (arena == null)
                     continue;
 

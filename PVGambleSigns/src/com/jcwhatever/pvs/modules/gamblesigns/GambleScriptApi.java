@@ -32,8 +32,8 @@ import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.mixins.IDisposable;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.modules.gamblesigns.events.GambleTriggeredEvent;
 
 import org.bukkit.plugin.Plugin;
@@ -95,6 +95,6 @@ public class GambleScriptApi implements IDisposable, IEventListener {
 
     public static interface GambleHandler {
 
-        public void onCall(Arena arena, ArenaPlayer signClicker, String eventName, ISignContainer sign);
+        public void onCall(IArena arena, IArenaPlayer signClicker, String eventName, ISignContainer sign);
     }
 }

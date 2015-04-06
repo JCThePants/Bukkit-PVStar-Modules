@@ -32,12 +32,12 @@ import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.utils.MetaStore;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.managers.LobbyManager;
-import com.jcwhatever.pvs.api.arena.managers.PlayerManager;
+import com.jcwhatever.pvs.api.arena.managers.ILobbyManager;
+import com.jcwhatever.pvs.api.arena.managers.IPlayerManager;
 import com.jcwhatever.pvs.api.arena.options.AddPlayerReason;
 import com.jcwhatever.pvs.api.arena.options.ArenaStartReason;
 import com.jcwhatever.pvs.api.arena.options.RemovePlayerReason;
@@ -135,10 +135,10 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
         if (!getArena().getGameManager().isRunning())
             return;
 
-        PlayerManager manager = event.getPlayer().getRelatedManager();
+        IPlayerManager manager = event.getPlayer().getRelatedManager();
 
         // auto forward player to game manager
-        if (manager instanceof LobbyManager) {
+        if (manager instanceof ILobbyManager) {
 
             getArena().getLobbyManager().removePlayer(event.getPlayer(), RemovePlayerReason.ARENA_RELATION_CHANGE);
             getArena().getGameManager().addPlayer(event.getPlayer(), AddPlayerReason.ARENA_RELATION_CHANGE);
@@ -150,7 +150,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
      */
     @EventMethod
     private void onArenaPreStart(ArenaPreStartEvent event) {
-        ArenaPlayerCollection players = getArena().getLobbyManager().getPlayers();
+        IArenaPlayerCollection players = getArena().getLobbyManager().getPlayers();
 
         event.getJoiningPlayers().addAll(players);
     }
@@ -219,7 +219,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
 
             for (Player p : _joinOnIdle) {
 
-                ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
+                IArenaPlayer player = PVStarAPI.getArenaPlayer(p);
 
                 if (player.getArena() != null)
                     continue;

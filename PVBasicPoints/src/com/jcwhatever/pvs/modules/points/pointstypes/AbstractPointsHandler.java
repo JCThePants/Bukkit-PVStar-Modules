@@ -29,20 +29,20 @@ import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.points.PointsHandler;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.points.IPointsHandler;
 import com.jcwhatever.pvs.api.points.PointsType;
 
 import org.bukkit.plugin.Plugin;
 
-public class AbstractPointsHandler implements PointsHandler, IEventListener {
+public class AbstractPointsHandler implements IPointsHandler, IEventListener {
 
-    private final Arena _arena;
+    private final IArena _arena;
     private final PointsType _type;
     private final IDataNode _dataNode;
     private int _points = 1;
 
-    public AbstractPointsHandler(Arena arena, PointsType type, IDataNode node) {
+    public AbstractPointsHandler(IArena arena, PointsType type, IDataNode node) {
         PreCon.notNull(arena);
         PreCon.notNull(type);
         PreCon.notNull(node);
@@ -59,7 +59,7 @@ public class AbstractPointsHandler implements PointsHandler, IEventListener {
     }
 
     @Override
-    public Arena getArena() {
+    public IArena getArena() {
         return _arena;
     }
 

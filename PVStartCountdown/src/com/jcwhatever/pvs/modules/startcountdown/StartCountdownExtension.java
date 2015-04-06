@@ -34,10 +34,10 @@ import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
 import com.jcwhatever.nucleus.managed.titles.Titles;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
+import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.managers.GameManager;
+import com.jcwhatever.pvs.api.arena.managers.IGameManager;
 import com.jcwhatever.pvs.api.arena.options.ArenaStartReason;
 import com.jcwhatever.pvs.api.events.ArenaPreStartEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerJoinedEvent;
@@ -141,9 +141,9 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
     /*
      * Begin the game start countdown.
      */
-    private void startCountdown(final ArenaStartReason reason, ArenaPlayerCollection players) {
+    private void startCountdown(final ArenaStartReason reason, IArenaPlayerCollection players) {
 
-        final GameManager gameManager = getArena().getGameManager();
+        final IGameManager gameManager = getArena().getGameManager();
 
         // make sure countdown isn't already running and
         // the game isn't in progress.
@@ -169,7 +169,7 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
 
                 long remaining = getStartCountdownSeconds() - elapsedSeconds;
 
-                ArenaPlayerCollection group = reason == ArenaStartReason.AUTO
+                IArenaPlayerCollection group = reason == ArenaStartReason.AUTO
                         ? getArena().getLobbyManager().getNextGroup()
                         : getArena().getLobbyManager().getReadyGroup();
 

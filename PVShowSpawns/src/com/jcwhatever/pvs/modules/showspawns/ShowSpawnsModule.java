@@ -32,7 +32,7 @@ import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.SignUtils;
 import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.events.players.PlayerPreAddEvent;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
@@ -61,7 +61,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
         return _module;
     }
 
-    private Map<Arena, LinkedList<BlockState>> _blockStates = new HashMap<>(20);
+    private Map<IArena, LinkedList<BlockState>> _blockStates = new HashMap<>(20);
 
     public ShowSpawnsModule() {
         _module = this;
@@ -89,7 +89,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
         }
     }
 
-    public void showSigns(Arena arena) {
+    public void showSigns(IArena arena) {
 
         hideSigns(arena);
 
@@ -133,7 +133,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
             _blockStates.put(arena, states);
     }
 
-    public void hideSigns(Arena arena) {
+    public void hideSigns(IArena arena) {
         LinkedList<BlockState> signList = _blockStates.remove(arena);
         if (signList == null)
             return;

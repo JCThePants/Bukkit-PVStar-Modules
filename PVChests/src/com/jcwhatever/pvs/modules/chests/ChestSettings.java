@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.chests;
 
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 
@@ -44,7 +44,7 @@ import javax.annotation.Nullable;
 
 public class ChestSettings {
 
-    private final Arena _arena;
+    private final IArena _arena;
     private final IDataNode _chestNode;
     private final IDataNode _dataNode;
 
@@ -52,7 +52,7 @@ public class ChestSettings {
     private int _maxChests = -1;
     private boolean _hasRandomizedChests = false;
 
-    public ChestSettings(Arena arena, IDataNode dataNode) {
+    public ChestSettings(IArena arena, IDataNode dataNode) {
         PreCon.notNull(arena);
         PreCon.notNull(dataNode);
 

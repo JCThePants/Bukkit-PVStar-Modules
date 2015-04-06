@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.leaderboards.leaderboards;
 
-import com.jcwhatever.pvs.api.stats.ArenaStats;
+import com.jcwhatever.pvs.api.stats.IArenaStats;
 import com.jcwhatever.pvs.api.stats.StatType;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns.StatisticsColumn;
 
@@ -66,13 +66,13 @@ public class PlayerSorter {
 
     public List<String> getSortedPlayerIds() {
 
-        final List<ArenaStats> arenaStats = _leaderboard.getArenaStats();
+        final List<IArenaStats> arenaStats = _leaderboard.getArenaStats();
         final LinkedList<String> playerIds = new LinkedList<>();
 
         if (arenaStats.isEmpty())
             return new ArrayList<>(0);
 
-        for (ArenaStats stats : arenaStats) {
+        for (IArenaStats stats : arenaStats) {
             for (StatisticsColumn column : _columns) {
                 _idCheckBuffer.addAll(stats.getRawPlayerIds(column.getStatType()));
             }
@@ -100,7 +100,7 @@ public class PlayerSorter {
                     double value1 = 0;
                     double value2 = 0;
 
-                    for (ArenaStats stats : arenaStats) {
+                    for (IArenaStats stats : arenaStats) {
 
                         value1 += stats.getValue(column.getStatType(), playerId1, column.getSettings().getTrackingType());
                         value2 += stats.getValue(column.getStatType(), playerId2, column.getSettings().getTrackingType());

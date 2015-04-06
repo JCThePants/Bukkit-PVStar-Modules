@@ -28,8 +28,8 @@ package com.jcwhatever.pvs.modules.playerstate;
 import com.jcwhatever.nucleus.utils.player.PlayerState;
 import com.jcwhatever.nucleus.utils.player.PlayerState.RestoreLocation;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import org.bukkit.Location;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.event.EventHandler;
@@ -67,8 +67,8 @@ public class BukkitEventListener implements Listener {
     @EventHandler(priority=EventPriority.LOWEST)
     private void onPlayerRespawn(PlayerRespawnEvent event) {
 
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getPlayer());
-        Arena arena = player.getArena();
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getPlayer());
+        IArena arena = player.getArena();
 
         // restore player state, if any
         if (arena == null) {

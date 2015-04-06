@@ -30,7 +30,7 @@ import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.modules.regions.Lang;
 import com.jcwhatever.pvs.modules.regions.regions.AbstractPVRegion;
 
@@ -57,7 +57,7 @@ public class RedefineSubCommand extends AbstractRegionCommand {
 
         CommandException.checkNotConsole(this, sender);
 
-        Arena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
+        IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNNING);
         if (arena == null)
             return; // finish
 

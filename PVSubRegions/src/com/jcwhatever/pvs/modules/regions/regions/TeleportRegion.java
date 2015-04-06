@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.pvs.api.utils.SpawnFilter;
@@ -89,7 +89,7 @@ public class TeleportRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected void onPlayerEnter(final ArenaPlayer player, EnterRegionReason reason) {
+    protected void onPlayerEnter(final IArenaPlayer player, EnterRegionReason reason) {
 
         List<Location> locations = new ArrayList<Location>(_spawnpoints.size() + 3);
 
@@ -136,7 +136,7 @@ public class TeleportRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
+    protected void onPlayerLeave(IArenaPlayer player, LeaveRegionReason reason) {
         // do nothing
     }
 
@@ -204,7 +204,7 @@ public class TeleportRegion extends AbstractPVRegion {
         return _possibleSettings;
     }
 
-    private Location getRegionDestination(ArenaPlayer player) {
+    private Location getRegionDestination(IArenaPlayer player) {
         Location pLoc = player.getLocation();
 
         double x = pLoc.getX() - getXStart();

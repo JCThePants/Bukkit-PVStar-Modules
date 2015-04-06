@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
@@ -84,7 +84,7 @@ public class SpawnTriggerRegion extends AbstractPVRegion implements IEventListen
     }
 
     @Override
-    protected void onPlayerEnter(ArenaPlayer player, EnterRegionReason reason) {
+    protected void onPlayerEnter(IArenaPlayer player, EnterRegionReason reason) {
         for (Spawnpoint spawn : _spawns) {
             spawn.spawn(getArena(), _spawnCount);
         }
@@ -97,7 +97,7 @@ public class SpawnTriggerRegion extends AbstractPVRegion implements IEventListen
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
+    protected void onPlayerLeave(IArenaPlayer player, LeaveRegionReason reason) {
         // do nothing
     }
 

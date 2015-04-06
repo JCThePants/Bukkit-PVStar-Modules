@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
@@ -71,7 +71,7 @@ public class DamageIntervalRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected void onPlayerEnter(final ArenaPlayer player, EnterRegionReason reason) {
+    protected void onPlayerEnter(final IArenaPlayer player, EnterRegionReason reason) {
 
         IScheduledTask task = ArenaScheduler.runTaskRepeat(getArena(), 1, _interval * 20, new TaskHandler() {
 
@@ -106,7 +106,7 @@ public class DamageIntervalRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected void onPlayerLeave(ArenaPlayer player, LeaveRegionReason reason) {
+    protected void onPlayerLeave(IArenaPlayer player, LeaveRegionReason reason) {
 
         IScheduledTask task = _tasks.remove(player.getUniqueId());
 

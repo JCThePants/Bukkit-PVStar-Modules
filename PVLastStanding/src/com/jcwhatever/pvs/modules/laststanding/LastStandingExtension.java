@@ -27,12 +27,12 @@ package com.jcwhatever.pvs.modules.laststanding;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
-import com.jcwhatever.pvs.api.arena.collections.ArenaPlayerCollection;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.ArenaTeam;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.managers.GameManager;
+import com.jcwhatever.pvs.api.arena.managers.IGameManager;
 import com.jcwhatever.pvs.api.arena.options.RemovePlayerReason;
 import com.jcwhatever.pvs.api.events.players.PlayerRemovedEvent;
 
@@ -73,10 +73,10 @@ public class LastStandingExtension extends ArenaExtension implements IEventListe
                 event.getReason() == RemovePlayerReason.FORWARDING)
             return;
 
-        if (!(event.getRelatedManager() instanceof GameManager))
+        if (!(event.getRelatedManager() instanceof IGameManager))
             return;
 
-        GameManager manager = (GameManager)event.getRelatedManager();
+        IGameManager manager = (IGameManager)event.getRelatedManager();
 
         if (manager.isRunning() && !manager.isGameOver()) {
 
@@ -92,7 +92,7 @@ public class LastStandingExtension extends ArenaExtension implements IEventListe
             }
 
             // Check for player winner
-            ArenaPlayer winner = checkForWinnerOnRemove(event.getPlayer());
+            IArenaPlayer winner = checkForWinnerOnRemove(event.getPlayer());
             if (winner != null) {
                 manager.setWinner(winner);
             }
@@ -104,18 +104,18 @@ public class LastStandingExtension extends ArenaExtension implements IEventListe
      * after the specified player is removed.
      */
     @Nullable
-    private ArenaPlayer checkForWinnerOnRemove(ArenaPlayer removedPlayer) {
+    private IArenaPlayer checkForWinnerOnRemove(IArenaPlayer removedPlayer) {
 
-        GameManager manager = getArena().getGameManager();
+        IGameManager manager = getArena().getGameManager();
 
-        ArenaPlayerCollection players = manager.getPlayers();
+        IArenaPlayerCollection players = manager.getPlayers();
 
         if (players.size() == 1) {
 
-            Iterator<ArenaPlayer> iterator = players.iterator();
+            Iterator<IArenaPlayer> iterator = players.iterator();
             iterator.hasNext();
 
-            ArenaPlayer winner = iterator.next();
+            IArenaPlayer winner = iterator.next();
             if (!winner.equals(removedPlayer)) {
                 return winner;
             }

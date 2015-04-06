@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.mobs.paths;
 
-import com.jcwhatever.pvs.api.arena.Arena;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
@@ -58,7 +58,7 @@ public class PathCacheEntry {
 
     private final MobArenaExtension _manager;
     private final Spawnpoint _spawnpoint;
-    private final Arena _arena;
+    private final IArena _arena;
 
 
     private Set<Location> _cachedPaths;

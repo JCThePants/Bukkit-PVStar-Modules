@@ -32,7 +32,7 @@ import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.Rand;
 import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
@@ -455,7 +455,7 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         if (event.getAction() != Action.RIGHT_CLICK_BLOCK)
             return;
 
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getPlayer());
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getPlayer());
 
         // check that player is in an arena game
         if (player.getArenaRelation() != ArenaPlayerRelation.GAME)

@@ -30,8 +30,8 @@ import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
 import com.jcwhatever.nucleus.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.Arena;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.queue.Lang;
 import com.jcwhatever.pvs.modules.queue.QueueManager;
@@ -87,12 +87,12 @@ public class QueueCommand extends AbstractPVCommand {
         CommandException.checkNotConsole(this, sender);
 
         Player p = (Player)sender;
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(p);
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(p);
 
         // get info about players current queue status.
         if (args.getString("arenaName").equals("$info")) {
 
-            Arena arena = QueueManager.getCurrentQueue(player);
+            IArena arena = QueueManager.getCurrentQueue(player);
             if (arena == null) {
                 tell(p, Lang.get(_NOT_IN_QUEUE));
             }
@@ -106,7 +106,7 @@ public class QueueCommand extends AbstractPVCommand {
         }
 
         // Make sure the player is not already in an arena
-        Arena currentArena = player.getArena();
+        IArena currentArena = player.getArena();
         if (currentArena != null) {
             tellError(p, Lang.get(_CANT_JOIN_IN_GAME));
             return; // finish
@@ -114,7 +114,7 @@ public class QueueCommand extends AbstractPVCommand {
 
         String arenaName = args.getName("arenaName");
 
-        Arena arena = getArena(sender, arenaName);
+        IArena arena = getArena(sender, arenaName);
         if (arena == null)
             return; // finish
 

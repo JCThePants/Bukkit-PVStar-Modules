@@ -30,10 +30,10 @@ import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.ArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.managers.GameManager;
+import com.jcwhatever.pvs.api.arena.managers.IGameManager;
 import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.pvs.api.events.ArenaStartedEvent;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
@@ -96,7 +96,7 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
     @EventMethod
     private void onArenaStart(ArenaStartedEvent event) {
 
-        GameManager gameManager = getArena().getGameManager();
+        IGameManager gameManager = getArena().getGameManager();
 
         if (gameManager.getSettings().isPvpEnabled() ||
             gameManager.getSettings().isTeamPvpEnabled()) {
@@ -122,7 +122,7 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
         if (!(event.getDamager() instanceof Player))
             return;
 
-        ArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
 
         if (player.getArenaRelation() != ArenaPlayerRelation.GAME)
             return;
