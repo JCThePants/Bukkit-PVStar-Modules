@@ -37,6 +37,7 @@ import com.jcwhatever.pvs.api.arena.managers.IGameManager;
 import com.jcwhatever.pvs.api.arena.options.ArenaPlayerRelation;
 import com.jcwhatever.pvs.api.events.ArenaStartedEvent;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
+
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
 import org.bukkit.plugin.Plugin;
@@ -47,10 +48,10 @@ import org.bukkit.plugin.Plugin;
 public class GracePeriodExtension extends ArenaExtension implements IEventListener {
 
     @Localizable static final String _GRACE_STARTED =
-            "Pvp grace period for the next {0: amount} seconds.";
+            "{GOLD}Pvp grace period for the next {0: amount} seconds.";
 
     @Localizable static final String _GRACE_ENDED =
-            "Pvp grace period ended.";
+            "{GOLD}Pvp grace period ended.";
 
     private int _gracePeriodSeconds = 10;
 
@@ -78,7 +79,6 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
         getDataNode().save();
     }
 
-
     @Override
     protected void onAttach() {
 
@@ -89,12 +89,11 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
 
     @Override
     protected void onRemove() {
-
         getArena().getEventManager().unregister(this);
     }
 
     @EventMethod
-    private void onArenaStart(ArenaStartedEvent event) {
+    private void onArenaStart(@SuppressWarnings("unused") ArenaStartedEvent event) {
 
         IGameManager gameManager = getArena().getGameManager();
 

@@ -30,14 +30,24 @@ import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.modules.graceperiod.commands.GraceCommand;
 
+/**
+ * Adds an extension that allows a PVP grace period at the beginning of an
+ * arena match.
+ */
 public class GracePeriodModule extends PVStarModule {
 
     private static GracePeriodModule _module;
 
+    /**
+     * Get the module instance.
+     */
     public static GracePeriodModule getModule() {
         return _module;
     }
 
+    /**
+     * Constructor.
+     */
     public GracePeriodModule() {
         super();
 
