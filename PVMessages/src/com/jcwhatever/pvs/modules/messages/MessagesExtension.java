@@ -27,6 +27,8 @@ package com.jcwhatever.pvs.modules.messages;
 
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.managed.actionbar.ActionBars;
+import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaTeam;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
@@ -38,6 +40,7 @@ import com.jcwhatever.pvs.api.events.players.PlayerReadyEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerWinEvent;
 import com.jcwhatever.pvs.api.events.team.TeamWinEvent;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 @ArenaExtensionInfo(
@@ -45,6 +48,24 @@ import org.bukkit.plugin.Plugin;
         description = "Adds basic status and event messages to an arena.")
 
 public class MessagesExtension extends ArenaExtension implements IEventListener {
+
+    @Localizable static final String _JOINED =
+            "{GRAY}{0: player name} joined.";
+
+    @Localizable static final String _PLAYER_WIN =
+            "{GREEN}{0: player name} wins!";
+
+    @Localizable static final String _PLAYER_WIN_GLOBAL =
+            "{GREEN}{0: player name} won the match in {1: arena name}!";
+
+    @Localizable static final String _TEAM_WIN =
+            "{GREEN}{0: team name} wins!";
+
+    @Localizable static final String _READY =
+            "{LIGHT_PURPLE}{0: player name} is ready to start.";
+
+    @Localizable static final String _PLAYER_LOSE =
+            "{RED}{0: player name} lost.";
 
     @Override
     public Plugin getPlugin() {
@@ -69,7 +90,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
         if (event.getMessage() != null)
             return;
 
-        event.setMessage(event.getPlayer().getName() + " joined.");
+        event.setMessage(Lang.get(_JOINED, event.getPlayer().getName()));
     }
 
     @EventMethod
@@ -79,7 +100,11 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
             return;
         }
 
-        event.setWinMessage("{GREEN}" + event.getPlayer().getName() + " wins!");
+        event.setWinMessage(Lang.get(_PLAYER_WIN, event.getPlayer().getName()));
+
+        String globalMessage = Lang.get(_PLAYER_WIN_GLOBAL, event.getPlayer().getName(), getArena().getName());
+        if (!globalMessage.isEmpty())
+            ActionBars.showTo(Bukkit.getOnlinePlayers(), globalMessage);
     }
 
     @EventMethod
@@ -90,7 +115,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
 
         ArenaTeam team = event.getTeam();
 
-        event.setWinMessage(team.getTextColor() + team.getDisplay() + " {GREEN}wins!");
+        event.setWinMessage(Lang.get(_TEAM_WIN, team.getTextColor() + team.getDisplay()));
     }
 
     @EventMethod
@@ -98,9 +123,8 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
         if (event.getMessage() != null)
             return;
 
-        event.setMessage(
-                event.getPlayer().getTeam().getTextColor() +
-                        event.getPlayer().getName() + "{WHITE} is ready to start.");
+        event.setMessage(Lang.get(_READY,
+                event.getPlayer().getTeam().getTextColor() + event.getPlayer().getName()));
     }
 
     @EventMethod
@@ -108,8 +132,6 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
         if (event.getLoseMessage() != null)
             return;
 
-        event.setLoseMessage("{RED}" + event.getPlayer().getName() + " died.");
+        event.setLoseMessage(Lang.get(_PLAYER_LOSE, event.getPlayer().getName()));
     }
-
-
 }

@@ -22,40 +22,16 @@
  * THE SOFTWARE.
  */
 
-
 package com.jcwhatever.pvs.modules.messages;
 
-import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.modules.PVStarModule;
+import com.jcwhatever.nucleus.managed.language.Localized;
 
-/**
- * Adds default messages that are displayed to players on arena events.
- */
-public class MessagesModule extends PVStarModule {
+public class Lang {
 
-    private static MessagesModule _instance;
+    private Lang() {}
 
-    /**
-     * Get the module instance.
-     */
-    public static MessagesModule getModule() {
-        return _instance;
-    }
-
-    /**
-     * Constructor.
-     */
-    public MessagesModule() {
-        _instance = this;
-    }
-
-    @Override
-    protected void onRegisterTypes() {
-        PVStarAPI.getExtensionManager().registerType(MessagesExtension.class);
-    }
-
-    @Override
-    protected void onEnable() {
-        // do nothing
+    @Localized
+    public static String get(String text, Object... params) {
+        return MessagesModule.getModule().getLanguageContext().get(text, params);
     }
 }
