@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.deathdrops.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.modules.deathdrops.DeathDropsExtension;
@@ -45,7 +46,7 @@ import org.bukkit.command.CommandSender;
                 "on|off|info= Use 'on' to turn on, 'off' to turn off, " +
                         "'info' or leave blank to see current setting."})
 
-public class KeepItemsSubCommand extends AbstractDropsCommand {
+public class KeepItemsSubCommand extends AbstractDropsCommand implements IExecutableCommand {
 
     @Localizable static final String _INFO_KEEP =
             "Players keep their items when they die and respawn in arena '{0: arena name}'.";
@@ -60,7 +61,7 @@ public class KeepItemsSubCommand extends AbstractDropsCommand {
             "Players will now lose their items when they die in arena '{0: arena name}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "on|off|info"));
         if (arena == null)

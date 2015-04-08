@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.queue.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
@@ -46,7 +47,7 @@ import org.bukkit.permissions.PermissionDefault;
         description="Leave the queue.",
         permissionDefault= PermissionDefault.TRUE)
 
-public class LeaveSubCommand extends AbstractPVCommand {
+public class LeaveSubCommand extends AbstractPVCommand implements IExecutableCommand {
 
     @Localizable static final String _SUCCESS =
             "Left the queue for arena '{0: arena name}'.";
@@ -55,9 +56,9 @@ public class LeaveSubCommand extends AbstractPVCommand {
             "You're not in a queue.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
-        CommandException.checkNotConsole(this, sender);
+        CommandException.checkNotConsole(getPlugin(), this, sender);
 
         Player p = (Player)sender;
         IArenaPlayer player = PVStarAPI.getArenaPlayer(p);

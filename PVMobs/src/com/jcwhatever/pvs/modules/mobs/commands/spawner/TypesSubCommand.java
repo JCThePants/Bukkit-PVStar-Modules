@@ -25,16 +25,17 @@
 
 package com.jcwhatever.pvs.modules.mobs.commands.spawner;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.InvalidCommandSenderException;
-import com.jcwhatever.nucleus.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
-import com.jcwhatever.pvs.modules.mobs.Lang;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidCommandSenderException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
+import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.api.utils.Msg;
+import com.jcwhatever.pvs.modules.mobs.Lang;
 import com.jcwhatever.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.pvs.modules.mobs.spawners.SpawnerInfo;
 import com.jcwhatever.pvs.modules.mobs.spawners.SpawnerManager;
@@ -52,12 +53,12 @@ import java.util.List;
         paramDescriptions = {
                 "page= {PAGE}"})
 
-public class TypesSubCommand extends AbstractPVCommand {
+public class TypesSubCommand extends AbstractPVCommand implements IExecutableCommand {
 
     @Localizable static final String _PAGINATOR_TITLE = "Available Mob Spawners";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args)
+    public void execute(CommandSender sender, ICommandArguments args)
             throws InvalidCommandSenderException, InvalidArgumentException {
 
         int page = args.getInteger("page");

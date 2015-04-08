@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.mobs.commands.paths;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
@@ -43,7 +44,7 @@ import org.bukkit.command.CommandSender;
         command="cache",
         description="Cache mob paths in the currently selected arena.")
 
-public class CacheSubCommand extends AbstractPVCommand {
+public class CacheSubCommand extends AbstractPVCommand implements IExecutableCommand {
 
     @Localizable static final String _EXTENSION_NOT_INSTALLED =
             "PVMobs extension is not installed in arena '{0: arena name}'.";
@@ -51,7 +52,7 @@ public class CacheSubCommand extends AbstractPVCommand {
     @Localizable static final String _SUCCESS = "Mob paths in arena '{0: arena name}' cached.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNING);
         if (arena == null)

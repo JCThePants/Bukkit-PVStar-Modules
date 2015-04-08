@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.economy.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.providers.economy.Economy;
 import com.jcwhatever.pvs.api.arena.IArena;
@@ -49,7 +50,7 @@ import org.bukkit.command.CommandSender;
                 "amount= The currency amount. Negative numbers to deduct. " +
                         "Leave blank to see current setting."})
 
-public class ParticipantSubCommand extends AbstractPVCommand {
+public class ParticipantSubCommand extends AbstractPVCommand implements IExecutableCommand {
 
     @Localizable static final String _EXTENSION_NOT_FOUND =
             "PVEconomy extension not installed in arena '{0: arena name}'.";
@@ -73,7 +74,7 @@ public class ParticipantSubCommand extends AbstractPVCommand {
             "Set player economy penalty for participating in arena '{0: arena name}' to {1: amount}.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "amount"));
         if (arena == null)

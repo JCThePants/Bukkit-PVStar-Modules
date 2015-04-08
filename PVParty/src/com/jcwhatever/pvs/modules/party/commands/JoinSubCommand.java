@@ -25,10 +25,11 @@
 
 package com.jcwhatever.pvs.modules.party.commands;
 
-import com.jcwhatever.nucleus.commands.AbstractCommand;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
+import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.utils.player.PlayerUtils;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.modules.party.Party;
@@ -53,12 +54,12 @@ import java.util.List;
 				"playerName= The name of the player who owns the party to join. Only required if " +
 						"invited to more than 1 party."})
 
-public class JoinSubCommand extends AbstractCommand {
+public class JoinSubCommand extends AbstractCommand implements IExecutableCommand {
 
 	@Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
-		CommandException.checkNotConsole(this, sender);
+		CommandException.checkNotConsole(getPlugin(), this, sender);
 		
 		Player p = (Player)sender;
 

@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.deathdrops.commands.items;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.modules.deathdrops.DeathDropsExtension;
@@ -51,7 +52,7 @@ import org.bukkit.command.CommandSender;
                 "on|off|clear|info= Use 'on' to turn on, 'off' to turn off, 'clear' to remove the setting, " +
                         "'info' or leave blank to see current setting."})
 
-public class RandomSubCommand extends AbstractDropsCommand {
+public class RandomSubCommand extends AbstractDropsCommand implements IExecutableCommand {
 
     @Localizable static final String _INFO_ON =
             "Random item drop in arena '{0: arena name}' is on.";
@@ -69,7 +70,7 @@ public class RandomSubCommand extends AbstractDropsCommand {
             "Value cleared for specificity '{0: specificity name}' in arena '{1: arena name}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "on|off|clear|info"));
         if (arena == null)

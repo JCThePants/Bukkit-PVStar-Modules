@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.leaderboards.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.modules.leaderboards.Lang;
@@ -48,13 +49,13 @@ import org.bukkit.command.CommandSender;
                         "There are 4 lines in a sign.",
                 "lineColor=The name of the color or the color code prefix with '&'."})
 
-public class FormatSubCommand extends AbstractLeaderboardCommand {
+public class FormatSubCommand extends AbstractLeaderboardCommand implements IExecutableCommand {
 
     @Localizable static final String _SUCCESS =
             "Line color changed for line {0: line number}.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String leaderboardName = args.getName("leaderboardName");
         int lineNumber = args.getInteger("lineNumber");

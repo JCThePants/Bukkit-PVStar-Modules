@@ -51,6 +51,6 @@ public class QueueModule extends PVStarModule {
     @Override
     protected void onEnable() {
 
-        PVStarAPI.getCommandHandler().registerCommand(QueueCommand.class);
+        PVStarAPI.getCommandDispatcher().registerCommand(QueueCommand.class);
     }
 }

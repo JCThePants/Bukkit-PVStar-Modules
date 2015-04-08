@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.leaderboards.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.pvs.modules.leaderboards.LeaderboardsModule;
@@ -48,7 +49,7 @@ import java.util.UUID;
                 "leaderboardName= The name of the leaderboard. {NAME16}",
                 "arenaNames= A comma delimited list of arena names. No spaces."})
 
-public class AddSubCommand extends AbstractLeaderboardCommand {
+public class AddSubCommand extends AbstractLeaderboardCommand implements IExecutableCommand {
 
     @Localizable static final String _FAILED =
             "Failed to add leaderboard.";
@@ -57,7 +58,7 @@ public class AddSubCommand extends AbstractLeaderboardCommand {
             "Leaderboard '{0: leaderboard name}' added. Set anchor to complete setup.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String leaderboardName = args.getName("leaderboardName");
         String arenaNames = args.getString("arenaNames");

@@ -58,7 +58,7 @@ public class PartyModule extends PVStarModule {
 
         _partyManager = new PartyManager();
 
-        PVStarAPI.getCommandHandler().registerCommand(PartyCommand.class);
+        PVStarAPI.getCommandDispatcher().registerCommand(PartyCommand.class);
         PVStarAPI.getEventManager().register(new PartyEventListener());
     }
 

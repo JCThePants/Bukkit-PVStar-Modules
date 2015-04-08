@@ -51,7 +51,7 @@ public class ReviveModule extends PVStarModule {
     @Override
     protected void onEnable() {
 
-        PVStarAPI.getCommandHandler().registerCommand(ReviveCommand.class);
+        PVStarAPI.getCommandDispatcher().registerCommand(ReviveCommand.class);
 
         PVStarAPI.getExtensionManager().registerType(ReviveExtension.class);
     }

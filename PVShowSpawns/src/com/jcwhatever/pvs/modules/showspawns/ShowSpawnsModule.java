@@ -25,9 +25,9 @@
 
 package com.jcwhatever.pvs.modules.showspawns;
 
-import com.jcwhatever.nucleus.commands.AbstractCommand;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.managed.commands.IRegisteredCommand;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.SignUtils;
 import com.jcwhatever.nucleus.utils.coords.LocationUtils;
@@ -82,7 +82,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
 
         PVStarAPI.getEventManager().register(this);
 
-        AbstractCommand spawnsCommand = PVStarAPI.getCommandHandler().getCommand("spawns");
+        IRegisteredCommand spawnsCommand = PVStarAPI.getCommandDispatcher().getCommand("spawns");
         if (spawnsCommand != null) {
             spawnsCommand.registerCommand(ShowCommand.class);
             spawnsCommand.registerCommand(HideCommand.class);

@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.borders;
 
-import com.jcwhatever.nucleus.commands.AbstractCommand;
+import com.jcwhatever.nucleus.managed.commands.IRegisteredCommand;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.modules.borders.commands.OutOfBoundsSubCommand;
@@ -54,7 +54,7 @@ public class BordersModule extends PVStarModule{
     @Override
     protected void onEnable() {
 
-        AbstractCommand command = PVStarAPI.getCommandHandler().getCommand("arena");
+        IRegisteredCommand command = PVStarAPI.getCommandDispatcher().getCommand("arena");
         if (command != null) {
             command.registerCommand(OutOfBoundsSubCommand.class);
             command.registerCommand(OutsidersSubCommand.class);

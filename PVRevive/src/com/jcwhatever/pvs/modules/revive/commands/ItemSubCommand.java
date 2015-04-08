@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.revive.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.utils.items.ItemStackUtils;
 import com.jcwhatever.pvs.api.arena.IArena;
@@ -49,7 +50,7 @@ import org.bukkit.inventory.ItemStack;
         paramDescriptions = {
                 "itemStack= The item or items. {ITEM_STACK}"})
 
-public class ItemSubCommand extends AbstractPVCommand {
+public class ItemSubCommand extends AbstractPVCommand implements IExecutableCommand {
 
     @Localizable static final String _EXTENSION_NOT_FOUND =
             "PVRevive extension not installed in arena '{0: arena name}'.";
@@ -61,7 +62,7 @@ public class ItemSubCommand extends AbstractPVCommand {
             "Revival items in arena '{0: arena name}' set to:";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.ALWAYS);
         if (arena == null)

@@ -26,9 +26,10 @@
 package com.jcwhatever.pvs.modules.notesigns.commands;
 
 import com.jcwhatever.nucleus.Nucleus;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
@@ -45,12 +46,12 @@ import java.util.List;
         command="hideall",
         description="Hide all notes in all arenas.")
 
-public class HideAllSubCommand extends AbstractPVCommand {
+public class HideAllSubCommand extends AbstractPVCommand implements IExecutableCommand {
 
     @Localizable static final String _SUCCESS = "{0: number} Note signs hidden.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         int hideCount = 0;
         List<ISignContainer> signs = Nucleus.getSignManager().getSigns("Note");

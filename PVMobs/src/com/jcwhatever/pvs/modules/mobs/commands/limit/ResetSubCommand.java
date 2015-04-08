@@ -24,16 +24,17 @@
 
 package com.jcwhatever.pvs.modules.mobs.commands.limit;
 
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
+import com.jcwhatever.nucleus.managed.language.Localizable;
+import com.jcwhatever.nucleus.utils.entity.EntityTypeProperty;
+import com.jcwhatever.nucleus.utils.entity.EntityTypes;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.mobs.Lang;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.utils.entity.EntityTypeProperty;
-import com.jcwhatever.nucleus.utils.entity.EntityTypes;
-import com.jcwhatever.nucleus.managed.language.Localizable;
 
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
@@ -48,7 +49,7 @@ import org.bukkit.entity.EntityType;
         paramDescriptions = {
                 "entityType= The EntityType name."})
 
-public class ResetSubCommand extends AbstractPVCommand {
+public class ResetSubCommand extends AbstractPVCommand implements IExecutableCommand {
 
     @Localizable static final String _EXTENSION_NOT_INSTALLED =
             "PVMobs extension is not installed in arena '{0: arena name}'.";
@@ -57,7 +58,7 @@ public class ResetSubCommand extends AbstractPVCommand {
             "Limit removed for entity type '{0: entity type}' in arena '{1: arena name}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNING);
         if (arena == null)

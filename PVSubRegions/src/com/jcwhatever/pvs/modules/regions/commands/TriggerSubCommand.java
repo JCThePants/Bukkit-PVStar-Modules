@@ -24,9 +24,10 @@
 
 package com.jcwhatever.pvs.modules.regions.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.modules.regions.Lang;
@@ -43,7 +44,7 @@ import org.bukkit.command.CommandSender;
         paramDescriptions = {
                 "regionName= The name of the sub region."})
 
-public class TriggerSubCommand extends AbstractRegionCommand {
+public class TriggerSubCommand extends AbstractRegionCommand implements IExecutableCommand {
 
     @Localizable static final String _FAILED =
             "Failed to trigger region. Region may not implement a " +
@@ -53,7 +54,7 @@ public class TriggerSubCommand extends AbstractRegionCommand {
             "Sub region named '{0: region name}' was triggered in arena '{1: arena name}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNING);
         if (arena == null)
@@ -72,5 +73,4 @@ public class TriggerSubCommand extends AbstractRegionCommand {
 
         tellSuccess(sender, Lang.get(_SUCCESS, regionName, arena.getName()));
     }
-
 }

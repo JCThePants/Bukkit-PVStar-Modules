@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.regions.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.providers.regionselect.IRegionSelection;
 import com.jcwhatever.pvs.api.arena.IArena;
@@ -47,15 +48,15 @@ import org.bukkit.entity.Player;
         paramDescriptions = {
                 "regionName= The name of the sub region."})
 
-public class RedefineSubCommand extends AbstractRegionCommand {
+public class RedefineSubCommand extends AbstractRegionCommand implements IExecutableCommand {
 
     @Localizable static final String _SUCCESS =
             "Sub region named '{0: region name}' in arena '{1: arena name}' has been redefined.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException{
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException{
 
-        CommandException.checkNotConsole(this, sender);
+        CommandException.checkNotConsole(getPlugin(), this, sender);
 
         IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNING);
         if (arena == null)

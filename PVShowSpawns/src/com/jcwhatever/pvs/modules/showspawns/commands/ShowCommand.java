@@ -25,8 +25,9 @@
 
 package com.jcwhatever.pvs.modules.showspawns.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
@@ -40,12 +41,12 @@ import org.bukkit.command.CommandSender;
         command="show",
         description="Show arena spawns as blocks. [PVShowSpawns]")
 
-public class ShowCommand extends AbstractPVCommand {
+public class ShowCommand extends AbstractPVCommand implements IExecutableCommand {
 
     @Localizable static final String _SHOW_SPAWNS = "Spawnpoints for arena '{0}' are visible as blocks.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) {
+    public void execute(CommandSender sender, ICommandArguments args) {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNING);
         if (arena == null)

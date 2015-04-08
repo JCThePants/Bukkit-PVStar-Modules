@@ -52,6 +52,6 @@ public class EconomyModule extends PVStarModule {
     protected void onEnable() {
 
         PVStarAPI.getExtensionManager().registerType(EconomyExtension.class);
-        PVStarAPI.getCommandHandler().registerCommand(EconomyCommand.class);
+        PVStarAPI.getCommandDispatcher().registerCommand(EconomyCommand.class);
     }
 }

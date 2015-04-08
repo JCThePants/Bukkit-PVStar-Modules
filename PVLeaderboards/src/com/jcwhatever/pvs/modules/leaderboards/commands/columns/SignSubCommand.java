@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.leaderboards.commands.columns;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.pvs.modules.leaderboards.commands.AbstractLeaderboardCommand;
@@ -56,7 +57,7 @@ import java.util.List;
                         "There are 4 lines in a sign.",
                 "text= The text to put."})
 
-public class SignSubCommand extends AbstractLeaderboardCommand {
+public class SignSubCommand extends AbstractLeaderboardCommand implements IExecutableCommand {
 
     @Localizable static final String _SIGN_NOT_FOUND =
             "A sign was not found at index {0: index} on leaderboard '{1: leaderboard name}'.";
@@ -68,7 +69,7 @@ public class SignSubCommand extends AbstractLeaderboardCommand {
             "Leaderboard sign edited.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         String leaderboardName = args.getName("leaderboardName");
         int signIndex = args.getInteger("signIndex");

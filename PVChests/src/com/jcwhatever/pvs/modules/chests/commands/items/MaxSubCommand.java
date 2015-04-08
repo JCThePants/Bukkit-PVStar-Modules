@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.chests.commands.items;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
@@ -45,7 +46,7 @@ import org.bukkit.command.CommandSender;
         paramDescriptions = {
                 "number= The maximum number of items. Leave blank to see current setting."})
 
-public class MaxSubCommand extends AbstractPVCommand {
+public class MaxSubCommand extends AbstractPVCommand implements IExecutableCommand {
 
     @Localizable static final String _INFO =
             "Max random items in arena '{0: arena name}' is {1: amount}.";
@@ -54,7 +55,7 @@ public class MaxSubCommand extends AbstractPVCommand {
             "Max random items in arena '{0: arena name}' changed to {1: amount}.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "number"));
         if (arena == null)

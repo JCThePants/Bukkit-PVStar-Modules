@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.leaderboards.commands.columns;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 
 @CommandInfo(

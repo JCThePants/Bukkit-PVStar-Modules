@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.regions.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
@@ -51,12 +52,12 @@ import java.util.List;
         paramDescriptions = {
                 "page= {PAGE}"})
 
-public class ListSubCommand extends AbstractRegionCommand {
+public class ListSubCommand extends AbstractRegionCommand implements IExecutableCommand {
 
     @Localizable static final String _PAGINATOR_TITLE = "Sub Regions in Arena '{0: arena name}'";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.ALWAYS);
         if (arena == null)

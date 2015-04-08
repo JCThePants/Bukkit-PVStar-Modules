@@ -26,12 +26,13 @@
 package com.jcwhatever.pvs.modules.notesigns.commands;
 
 import com.jcwhatever.nucleus.Nucleus;
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
+import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.notesigns.Lang;
@@ -46,13 +47,13 @@ import java.util.UUID;
         command="show",
         description="Show notes in the selected arena.")
 
-public class ShowSubCommand extends AbstractPVCommand {
+public class ShowSubCommand extends AbstractPVCommand implements IExecutableCommand {
 
     @Localizable static final String _SUCCESS =
             "{0: number} signs made visible in arena '{1: arena name}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNING);
         if (arena == null)

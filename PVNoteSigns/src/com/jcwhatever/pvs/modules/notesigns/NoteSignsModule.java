@@ -55,7 +55,7 @@ public class NoteSignsModule extends PVStarModule {
 
         if (Nucleus.getSignManager().registerHandler(_handler)) {
 
-            PVStarAPI.getCommandHandler().registerCommand(NotesCommand.class);
+            PVStarAPI.getCommandDispatcher().registerCommand(NotesCommand.class);
         }
     }
 

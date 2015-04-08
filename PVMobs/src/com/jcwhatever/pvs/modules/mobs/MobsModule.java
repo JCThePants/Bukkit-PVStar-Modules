@@ -97,7 +97,7 @@ public class MobsModule extends PVStarModule {
     @Override
     protected void onEnable() {
 
-        PVStarAPI.getCommandHandler().registerCommand(MobsCommand.class);
+        PVStarAPI.getCommandDispatcher().registerCommand(MobsCommand.class);
     }
 
 }

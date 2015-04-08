@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.borders.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
@@ -43,7 +44,7 @@ import org.bukkit.command.CommandSender;
         description="Set or view the action taken when a non-arena player " +
                 "enters the selected arenas region. [PVBorders]")
 
-public class OutsidersSubCommand extends AbstractPVCommand {
+public class OutsidersSubCommand extends AbstractPVCommand implements IExecutableCommand {
 
     @Localizable static final String _EXTENSION_NOT_FOUND =
             "PVBorders extension is not installed in arena '{0: arena name}'.";
@@ -55,7 +56,7 @@ public class OutsidersSubCommand extends AbstractPVCommand {
             "Action taken when outsiders enter region for arena '{0: arena name}' changed to {1: action}.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "none|join|kick|info"));
         if (arena == null)

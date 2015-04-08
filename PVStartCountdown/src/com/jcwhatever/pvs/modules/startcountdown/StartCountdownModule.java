@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.startcountdown;
 
-import com.jcwhatever.nucleus.commands.AbstractCommand;
+import com.jcwhatever.nucleus.managed.commands.IRegisteredCommand;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.api.utils.Msg;
@@ -53,7 +53,7 @@ public class StartCountdownModule extends PVStarModule {
     @Override
     protected void onEnable() {
 
-        AbstractCommand command = PVStarAPI.getCommandHandler().getCommand("game");
+        IRegisteredCommand command = PVStarAPI.getCommandDispatcher().getCommand("game");
         if (command == null) {
             Msg.warning("Failed to register CountdownSubCommand for PVStarCountdown module " +
                     "because 'game' command could not be found.");

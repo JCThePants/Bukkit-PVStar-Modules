@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.deathdrops.commands.items;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.modules.deathdrops.DeathDropsExtension;
@@ -51,7 +52,7 @@ import org.bukkit.command.CommandSender;
                 "percent= The droprate as a percent. (ie 99%). Use 'clear' to remove the setting. " +
                         "Leave blank to see current setting."})
 
-public class DropRateSubCommand extends AbstractDropsCommand {
+public class DropRateSubCommand extends AbstractDropsCommand implements IExecutableCommand {
 
     @Localizable static final String _INFO =
             "Item drop rate in arena '{0: arena name}' is {1: percent}.";
@@ -63,7 +64,7 @@ public class DropRateSubCommand extends AbstractDropsCommand {
             "Value cleared for specificity '{0: specificity name}' in arena '{1: arena name}'.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "percent"));
         if (arena == null)

@@ -59,6 +59,6 @@ public class ChestModule extends PVStarModule {
 
     @Override
     protected void onEnable() {
-        PVStarAPI.getCommandHandler().registerCommand(ChestsCommand.class);
+        PVStarAPI.getCommandDispatcher().registerCommand(ChestsCommand.class);
     }
 }

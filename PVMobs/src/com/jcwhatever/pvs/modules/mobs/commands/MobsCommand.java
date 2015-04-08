@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.mobs.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.mobs.commands.limit.LimitCommand;
 import com.jcwhatever.pvs.modules.mobs.commands.paths.PathsCommand;

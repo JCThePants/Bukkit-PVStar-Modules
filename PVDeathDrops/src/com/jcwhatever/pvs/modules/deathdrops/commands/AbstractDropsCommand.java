@@ -25,17 +25,18 @@
 
 package com.jcwhatever.pvs.modules.deathdrops.commands;
 
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
-import com.jcwhatever.nucleus.commands.exceptions.InvalidArgumentException;
-import com.jcwhatever.nucleus.commands.parameters.ParameterDescription;
-import com.jcwhatever.pvs.modules.deathdrops.Lang;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.exceptions.InvalidArgumentException;
+import com.jcwhatever.nucleus.managed.commands.parameters.IParameterDescription;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.deathdrops.DeathDropsExtension;
 import com.jcwhatever.pvs.modules.deathdrops.DropSettings;
+import com.jcwhatever.pvs.modules.deathdrops.Lang;
 
 import org.bukkit.entity.EntityType;
+import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,8 +72,7 @@ public class AbstractDropsCommand extends AbstractPVCommand {
         specificity = specificity.toLowerCase();
 
         if (!_settingTypes.contains(specificity)) {
-            CommandException.invalidArgument(this, new ParameterDescription(this, "specificity",
-                            Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", "))));
+            throw CommandException.invalidArgument(getRegistered(), new SpecificityParameter());
         }
 
         switch (specificity) {
@@ -100,11 +100,25 @@ public class AbstractDropsCommand extends AbstractPVCommand {
                 break;
         }
 
-        CommandException.invalidArgument(this,
-                new ParameterDescription(this, "specificity",
-                        Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", "))));
+        throw CommandException.invalidArgument(getRegistered(), new SpecificityParameter());
+    }
 
-        return null;
+    private class SpecificityParameter implements IParameterDescription {
+
+        @Override
+        public Plugin getPlugin() {
+            return AbstractDropsCommand.this.getPlugin();
+        }
+
+        @Override
+        public String getName() {
+            return "specificity";
+        }
+
+        @Override
+        public String getDescription() {
+            return Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", "));
+        }
     }
 
 }

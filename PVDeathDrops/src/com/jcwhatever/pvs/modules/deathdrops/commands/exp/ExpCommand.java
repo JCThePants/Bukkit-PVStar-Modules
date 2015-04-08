@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.deathdrops.commands.exp;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.modules.deathdrops.DeathDropsExtension;
@@ -52,7 +53,7 @@ import org.bukkit.command.CommandSender;
                         "'clear' to remove the setting, 'info' or leave blank " +
                         "to see current setting."})
 
-public class ExpCommand extends AbstractDropsCommand {
+public class ExpCommand extends AbstractDropsCommand implements IExecutableCommand {
 
     @Localizable static final String _INFO_ON =
             "Exp drops in arena '{0: arena name}' are on.";
@@ -78,7 +79,7 @@ public class ExpCommand extends AbstractDropsCommand {
     }
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "on|off|clear|info"));
         if (arena == null)

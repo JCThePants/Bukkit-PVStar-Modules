@@ -98,7 +98,7 @@ public class SubRegionsModule extends PVStarModule implements IEventListener {
     protected void onEnable() {
 
         PVStarAPI.getEventManager().register(this);
-        PVStarAPI.getCommandHandler().registerCommand(RegionsCommand.class);
+        PVStarAPI.getCommandDispatcher().registerCommand(RegionsCommand.class);
     }
 
     @EventMethod

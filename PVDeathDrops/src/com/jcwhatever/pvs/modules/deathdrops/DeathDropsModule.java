@@ -52,7 +52,7 @@ public class DeathDropsModule extends PVStarModule {
     protected void onEnable() {
 
         PVStarAPI.getExtensionManager().registerType(DeathDropsExtension.class);
-        PVStarAPI.getCommandHandler().registerCommand(DropsCommand.class);
+        PVStarAPI.getCommandDispatcher().registerCommand(DropsCommand.class);
     }
 
 }

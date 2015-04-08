@@ -25,7 +25,7 @@
 
 package com.jcwhatever.pvs.modules.graceperiod;
 
-import com.jcwhatever.nucleus.commands.AbstractCommand;
+import com.jcwhatever.nucleus.managed.commands.IRegisteredCommand;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.modules.graceperiod.commands.GraceCommand;
@@ -63,12 +63,12 @@ public class GracePeriodModule extends PVStarModule {
     @Override
     protected void onEnable() {
 
-        AbstractCommand command = PVStarAPI.getCommandHandler().getCommand("game");
+        IRegisteredCommand command = PVStarAPI.getCommandDispatcher().getCommand("game");
         if (command != null) {
             command.registerCommand(GraceCommand.class);
         }
         else {
-            PVStarAPI.getCommandHandler().registerCommand(GraceCommand.class);
+            PVStarAPI.getCommandDispatcher().registerCommand(GraceCommand.class);
         }
     }
 }

@@ -91,7 +91,7 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
 
         loadLeaderboards();
         PVStarAPI.getEventManager().register(this);
-        PVStarAPI.getCommandHandler().registerCommand(LBCommand.class);
+        PVStarAPI.getCommandDispatcher().registerCommand(LBCommand.class);
 
         BukkitEventListener _bukkitListener = new BukkitEventListener();
         Bukkit.getPluginManager().registerEvents(_bukkitListener, PVStarAPI.getPlugin());

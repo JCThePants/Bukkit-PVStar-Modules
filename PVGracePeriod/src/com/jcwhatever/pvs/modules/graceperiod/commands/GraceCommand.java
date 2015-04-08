@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.graceperiod.commands;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
@@ -46,7 +47,7 @@ import org.bukkit.command.CommandSender;
                 "seconds= The number of seconds the grace period lasts. " +
                         "Leave blank to see current setting."})
 
-public class GraceCommand extends AbstractPVCommand {
+public class GraceCommand extends AbstractPVCommand implements IExecutableCommand {
 
     @Localizable static final String _GRACE_SECONDS_INFO =
             "Grace period seconds in arena '{0: arena name}' is set to {1: amount}.";
@@ -55,7 +56,7 @@ public class GraceCommand extends AbstractPVCommand {
             "Grace period seconds in arena '{0: arena name}' changed to {1: amount}.";
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "seconds"));
         if (arena == null)

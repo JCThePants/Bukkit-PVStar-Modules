@@ -25,9 +25,10 @@
 
 package com.jcwhatever.pvs.modules.regions.commands.settings;
 
-import com.jcwhatever.nucleus.commands.CommandInfo;
-import com.jcwhatever.nucleus.commands.arguments.CommandArguments;
-import com.jcwhatever.nucleus.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
+import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.storage.settings.ISettingsManager;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.modules.regions.commands.AbstractRegionCommand;
@@ -45,10 +46,10 @@ import org.bukkit.command.CommandSender;
                 "regionName= The name of the sub region.",
                 "property= The name of the setting property to clear."})
 
-public class ClearSubCommand extends AbstractRegionCommand {
+public class ClearSubCommand extends AbstractRegionCommand implements IExecutableCommand {
 
     @Override
-    public void execute(CommandSender sender, CommandArguments args) throws CommandException {
+    public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender, ArenaReturned.NOT_RUNNING);
         if (arena == null)
