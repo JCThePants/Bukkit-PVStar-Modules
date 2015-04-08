@@ -69,16 +69,12 @@ public class SetSubCommand extends AbstractPVCommand implements IExecutableComma
             return; // finish
 
         MobArenaExtension extension = arena.getExtensions().get(MobArenaExtension.class);
-        if (extension == null) {
-            tellError(sender, Lang.get(_EXTENSION_NOT_INSTALLED, arena.getName()));
-            return; // finish
-        }
+        if (extension == null)
+            throw new CommandException(Lang.get(_EXTENSION_NOT_INSTALLED, arena.getName()));
 
         Class<? extends ISpawner> spawnerClass = SpawnerManager.getSpawnerClass(spawnerName);
-        if (spawnerClass == null) {
-            tellError(sender, Lang.get(_SPAWNER_NOT_FOUND, spawnerName));
-            return; // finish
-        }
+        if (spawnerClass == null)
+            throw new CommandException(Lang.get(_SPAWNER_NOT_FOUND, spawnerName));
 
         extension.setSpawner(spawnerName);
 

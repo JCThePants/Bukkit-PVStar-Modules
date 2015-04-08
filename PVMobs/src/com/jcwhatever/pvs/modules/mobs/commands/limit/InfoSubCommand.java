@@ -71,10 +71,8 @@ public class InfoSubCommand extends AbstractPVCommand implements IExecutableComm
             return; // finish
 
         MobArenaExtension extension = arena.getExtensions().get(MobArenaExtension.class);
-        if (extension == null) {
-            tellError(sender, Lang.get(_EXTENSION_NOT_INSTALLED, arena.getName()));
-            return; // finish
-        }
+        if (extension == null)
+            throw new CommandException(Lang.get(_EXTENSION_NOT_INSTALLED, arena.getName()));
 
         int page = args.getInteger("page");
 

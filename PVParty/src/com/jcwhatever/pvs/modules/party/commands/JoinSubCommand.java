@@ -65,74 +65,58 @@ public class JoinSubCommand extends AbstractCommand implements IExecutableComman
 
         PartyManager manager = PartyModule.getModule().getManager();
 		
-		if (manager.isInParty(p)) {
-			tellError(p, "You're already in a party. You must leave the party you're in before you can join another.");
-			return; // finish
-		}
-		
+		if (manager.isInParty(p))
+			throw new CommandException("You're already in a party. You must leave the party " +
+					"you're in before you can join another.");
+
 		String playerName = args.getString("playerName");
 		List<Party> invited = manager.getInvitedParties(p);
 		
-		if (invited.size() == 0) {
-			tellError(p, "You haven't been invited to any parties.");
-			return; // finish
-		}
-		
+		if (invited.size() == 0)
+			throw new CommandException("You haven't been invited to any parties.");
+
 		if (playerName.equals("$default") && invited.size() > 1) {
-			
-			tellError(p, "You've been invited to multiple parties. Please specify which player party you want to join. Type '/pv party join ?' for help.");
-			
+
 			List<String> leaderNames = new ArrayList<String>(invited.size());
 			for (Party party : invited) {
 				leaderNames.add(party.getLeader().getName());
 			}
-			
-			tell(p, "You've received invitations from: {0}", TextUtils.concat(leaderNames, ", "));			
-			
-			return; // finish
+
+			throw new CommandException("You've been invited to multiple parties. Please " +
+					"specify which player party you want to join. Type '/pv party join ?' " +
+					"for help. \n{WHITE} You've received invitations from: {0}",
+					TextUtils.concat(leaderNames, ", "));
 		}
 		
 		if (playerName.equals("$default") && invited.size() == 1) {
 			Party party = invited.get(0);
-			if (!manager.addPlayer(p, party)) {
-				tellError(p, "Failed to join party.");
-				return; // finish
-			}
+
+			if (!manager.addPlayer(p, party))
+				throw new CommandException("Failed to join party.");
+
 			party.tell("{0} has joined the party.", p.getName());
 			return; // finish
 		}
-		
-		
-		
-		
+
 		Player leader = PlayerUtils.getPlayer(playerName);
-		if (leader == null) {
-			tellError(p, "Player '{0}' was not found.", playerName);
-			return; // finish
-		}
-		
-		if (!manager.isInParty(leader)) {
-			tellError(p, "{0} is not the leader of a party.", leader.getName());
-			return; // finish
-		}
-		
+		if (leader == null)
+			throw new CommandException("Player '{0}' was not found.", playerName);
+
+		if (!manager.isInParty(leader))
+			throw new CommandException("{0} is not the leader of a party.", leader.getName());
+
 		Party party = manager.getParty(leader);
 		
-		if (!party.getLeader().equals(leader)) {
-			tellError(p, "{0} is not the leader of {1}.", leader.getName(), party.getPartyName());
-			return; // finish
-		}
-		
-		if (!party.isInvited(p)) {
-			tellError(p, "You're not invited to {0} or you're invitation has expired.", party.getPartyName());
-			return; // finish
-		}
-				
-		if (!manager.addPlayer(p, party)) {
-			tellError(p, "Failed to join party.");
-			return; // finish
-		}
-		
+		if (!party.getLeader().equals(leader))
+			throw new CommandException("{0} is not the leader of {1}.", leader.getName(), party.getPartyName());
+
+		if (!party.isInvited(p))
+			throw new CommandException("You're not invited to {0} or you're invitation " +
+					"has expired.", party.getPartyName());
+
+		if (!manager.addPlayer(p, party))
+			throw new CommandException("Failed to join party.");
+
 		party.tell("{0} has joined the party.", p.getName());
     }
 }

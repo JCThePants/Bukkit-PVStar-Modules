@@ -67,8 +67,6 @@ public class RedefineSubCommand extends AbstractRegionCommand implements IExecut
         Player p = (Player)sender;
 
         IRegionSelection sel = getRegionSelection(p);
-        if (sel == null)
-            return; // finish
 
         AbstractPVRegion region = getRegion(sender, arena, regionName);
         if (region == null)

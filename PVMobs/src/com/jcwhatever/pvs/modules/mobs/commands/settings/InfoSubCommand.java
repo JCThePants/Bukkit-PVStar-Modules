@@ -74,17 +74,12 @@ public class InfoSubCommand extends AbstractPVCommand implements IExecutableComm
         int page = args.getInteger("page");
 
         MobArenaExtension extension = arena.getExtensions().get(MobArenaExtension.class);
-        if (extension == null) {
-            tellError(sender, Lang.get(_EXTENSION_NOT_INSTALLED, arena.getName()));
-            return; // finish
-        }
-
+        if (extension == null)
+            throw new CommandException(Lang.get(_EXTENSION_NOT_INSTALLED, arena.getName()));
 
         ISpawner spawner = extension.getSpawner();
-        if (spawner == null) {
-            tellError(sender, Lang.get(_SPAWNER_NOT_FOUND, arena.getName()));
-            return; // finish
-        }
+        if (spawner == null)
+            throw new CommandException(Lang.get(_SPAWNER_NOT_FOUND, arena.getName()));
 
         ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE));
 

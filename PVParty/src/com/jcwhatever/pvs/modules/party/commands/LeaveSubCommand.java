@@ -55,11 +55,9 @@ public class LeaveSubCommand extends AbstractCommand implements IExecutableComma
 
         PartyManager manager = PartyModule.getModule().getManager();
 
-		if (!manager.isInParty(p)) {
-			tellError(p, "You're not in a party.");
-			return; // finish
-		}
-		
+		if (!manager.isInParty(p))
+			throw new CommandException("You're not in a party.");
+
 		Party party = manager.getParty(p);
 		
 		if (party.getLeader().equals(p)) {
@@ -68,17 +66,12 @@ public class LeaveSubCommand extends AbstractCommand implements IExecutableComma
 			return; // finish
 		}
 		
-		if (!manager.leaveParty(p)) {
-			tellError(p, "Failed to leave party.");
-			return; // finish
-		}
-		
+		if (!manager.leaveParty(p))
+			throw new CommandException("Failed to leave party.");
+
 		party.tell("{0} left the party.", p.getName());
 		
 		tellSuccess(p, "You've left {0}.", party.getPartyName());
     }
-
-
-    
 }
 

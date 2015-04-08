@@ -66,10 +66,8 @@ public class FormatSubCommand extends AbstractLeaderboardCommand implements IExe
 
         color = TextUtils.format(color);
 
-        if (lineNumber < 1 || lineNumber > 4) {
-            tellError(sender, Lang.get(_INVALID_LINE_NUMBER));
-            return; // finish
-        }
+        if (lineNumber < 1 || lineNumber > 4)
+            throw new CommandException(Lang.get(_INVALID_LINE_NUMBER));
 
         // adjust to zero based
         lineNumber -= 1;

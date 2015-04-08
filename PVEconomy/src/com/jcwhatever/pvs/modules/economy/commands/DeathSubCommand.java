@@ -80,10 +80,8 @@ public class DeathSubCommand extends AbstractPVCommand implements IExecutableCom
             return; // finish
 
         EconomyExtension extension = arena.getExtensions().get(EconomyExtension.class);
-        if (extension == null) {
-            tellError(sender, Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
-            return; //finish
-        }
+        if (extension == null)
+            throw new CommandException(Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
 
         if (args.getString("amount").equals("info")) {
 

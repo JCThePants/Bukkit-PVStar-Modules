@@ -66,10 +66,8 @@ public class UntriggerSubCommand extends AbstractRegionCommand implements IExecu
         if (region == null)
             return; // finish
 
-        if (!region.untrigger()) {
-            tellError(sender, Lang.get(_FAILED));
-            return; // finish
-        }
+        if (!region.untrigger())
+            throw new CommandException(Lang.get(_FAILED));
 
         tellSuccess(sender, Lang.get(_SUCCESS, regionName, arena.getName()));
     }

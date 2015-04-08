@@ -25,6 +25,7 @@
 
 package com.jcwhatever.pvs.modules.leaderboards.commands;
 
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
@@ -43,14 +44,12 @@ public class AbstractLeaderboardCommand extends AbstractPVCommand {
     @Localizable static final String _ALREADY_EXISTS =
             "A leaderboard named '{0: leaderboard}' already exists.";
 
-    protected Leaderboard getLeaderboard(CommandSender sender, String leaderboardName) {
+    protected Leaderboard getLeaderboard(CommandSender sender, String leaderboardName) throws CommandException {
+
         Leaderboard leaderboard = LeaderboardsModule.getModule().getLeaderboard(leaderboardName);
-        if (leaderboard == null) {
-            tellError(sender, Lang.get(_NOT_FOUND, leaderboardName));
-            return null;
-        }
+        if (leaderboard == null)
+            throw new CommandException(Lang.get(_NOT_FOUND, leaderboardName));
 
         return leaderboard;
     }
-
 }

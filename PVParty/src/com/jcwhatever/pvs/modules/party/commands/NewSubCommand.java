@@ -57,16 +57,14 @@ public class NewSubCommand extends AbstractCommand implements IExecutableCommand
 		
 		if (manager.isInParty(p)) {
 			Party current = manager.getParty(p);
-			tellError(p, "You can't create a new party until you leave the one you're in. You're currently in {0}.", current.getPartyName());
-			return; // finish
+			throw new CommandException("You can't create a new party until you leave the one you're " +
+					"in. You're currently in {0}.", current.getPartyName());
 		}
 		
 		Party party = manager.getParty(p); // creates new party with player as leader
 		
 		tellSuccess(p, "{0} created. Type '/pv party invite ?' to find out how to invite players to your party.", party.getPartyName());
     }
-
-    
 }
 
 

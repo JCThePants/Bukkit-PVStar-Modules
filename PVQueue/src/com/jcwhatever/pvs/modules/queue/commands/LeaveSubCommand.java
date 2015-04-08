@@ -65,10 +65,8 @@ public class LeaveSubCommand extends AbstractPVCommand implements IExecutableCom
 
         // check queue
         IArena arena = QueueManager.getCurrentQueue(player);
-        if (arena == null) {
-            tellError(p, Lang.get(_FAILED));
-            return; // finish
-        }
+        if (arena == null)
+            throw new CommandException(Lang.get(_FAILED));
 
         QueueManager.removePlayer(player);
         tellSuccess(p, Lang.get(_SUCCESS, arena.getName()));

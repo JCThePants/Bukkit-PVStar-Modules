@@ -62,10 +62,8 @@ public class DelSubCommand extends AbstractLeaderboardCommand implements IExecut
         if (leaderboard == null)
             return; // finish
 
-        if (!LeaderboardsModule.getModule().removeLeaderboard(leaderboardName)) {
-            tellError(sender, Lang.get(_FAILED));
-            return; // finish
-        }
+        if (!LeaderboardsModule.getModule().removeLeaderboard(leaderboardName))
+            throw new CommandException(Lang.get(_FAILED));
 
         tellSuccess(sender, Lang.get(_SUCCESS, leaderboard.getName()));
     }

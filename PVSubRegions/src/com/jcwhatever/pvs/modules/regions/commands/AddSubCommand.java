@@ -65,7 +65,8 @@ public class AddSubCommand extends AbstractRegionCommand implements IExecutableC
     @Localizable static final String _FAILED = "Failed to add sub region.";
 
     @Localizable static final String _SUCCESS =
-            "Sub region named '{0: region name}' of type '{1: region type}' was added to arena '{2: arena name}'.";
+            "Sub region named '{0: region name}' of type '{1: region type}' was added to " +
+                    "arena '{2: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException{
@@ -82,32 +83,25 @@ public class AddSubCommand extends AbstractRegionCommand implements IExecutableC
         Player p = (Player)sender;
 
         IRegionSelection sel = getRegionSelection(p);
-        if (sel == null)
-            return; // finish
 
         if (!SubRegionsModule.getModule().getTypesManager().hasType(regionType)) {
 
-            tellError(sender, Lang.get(_INVALID_TYPE, regionType));
-
             List<String> typeNames = SubRegionsModule.getModule().getTypesManager().getRegionTypeNames();
 
-            tell(sender, TextUtils.concat(typeNames, ", "));
-            return; // finish
+            throw new CommandException(
+                    Lang.get(_INVALID_TYPE, regionType) + "\n{WHITE}{0}", TextUtils.concat(typeNames, ", ")
+            );
         }
 
         RegionManager manager = SubRegionsModule.getModule().getManager(arena);
 
         AbstractPVRegion region = manager.getRegion(regionName);
-        if (region != null) {
-            tellError(sender, Lang.get(_REGION_ALREADY_EXISTS, regionName));
-            return; // finish
-        }
+        if (region != null)
+            throw new CommandException(Lang.get(_REGION_ALREADY_EXISTS, regionName));
 
         region = manager.addRegion(regionName, regionType, sel.getP1(), sel.getP2());
-        if (region == null) {
-            tellError(sender, Lang.get(_FAILED));
-            return; // finish
-        }
+        if (region == null)
+            throw new CommandException(Lang.get(_FAILED));
 
         tellSuccess(sender, Lang.get(_SUCCESS, regionName, regionType, arena.getName()));
     }

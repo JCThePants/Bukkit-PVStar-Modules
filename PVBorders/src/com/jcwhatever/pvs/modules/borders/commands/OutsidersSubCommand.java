@@ -63,10 +63,8 @@ public class OutsidersSubCommand extends AbstractPVCommand implements IExecutabl
             return; // finished
 
         BordersExtension extension = arena.getExtensions().get(BordersExtension.class);
-        if (extension == null) {
-            tellError(sender, Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
-            return; // finished
-        }
+        if (extension == null)
+            throw new CommandException(Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
 
         if (args.getString("none|join|kick|info").equals("info")) {
             tell(sender, Lang.get(_VIEW_OUTSIDERS, arena.getName(), extension.getOutsidersAction().name()));

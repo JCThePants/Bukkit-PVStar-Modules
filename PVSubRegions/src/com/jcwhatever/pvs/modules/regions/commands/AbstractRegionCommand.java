@@ -25,32 +25,29 @@
 
 package com.jcwhatever.pvs.modules.regions.commands;
 
-import com.jcwhatever.pvs.modules.regions.Lang;
+import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
+import com.jcwhatever.pvs.modules.regions.Lang;
 import com.jcwhatever.pvs.modules.regions.RegionManager;
 import com.jcwhatever.pvs.modules.regions.SubRegionsModule;
 import com.jcwhatever.pvs.modules.regions.regions.AbstractPVRegion;
 
 import org.bukkit.command.CommandSender;
 
-import javax.annotation.Nullable;
-
 public abstract class AbstractRegionCommand extends AbstractPVCommand {
 
     @Localizable static final String _REGION_NOT_FOUND =
             "A sub region with the name '{0: region name}' was not found in arena '{1: arena name}'.";
 
-    @Nullable
-    protected AbstractPVRegion getRegion(CommandSender sender, IArena arena, String regionName) {
+    protected AbstractPVRegion getRegion(CommandSender sender, IArena arena, String regionName)
+            throws CommandException {
 
         RegionManager manager = SubRegionsModule.getModule().getManager(arena);
         AbstractPVRegion region = manager.getRegion(regionName);
-        if (region == null) {
-            tellError(sender, Lang.get(_REGION_NOT_FOUND, regionName, arena.getName()));
-            return null; // finish
-        }
+        if (region == null)
+            throw new CommandException(Lang.get(_REGION_NOT_FOUND, regionName, arena.getName()));
 
         return region;
     }

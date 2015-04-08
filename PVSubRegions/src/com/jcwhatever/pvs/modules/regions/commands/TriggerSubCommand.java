@@ -66,10 +66,8 @@ public class TriggerSubCommand extends AbstractRegionCommand implements IExecuta
         if (region == null)
             return; // finish
 
-        if (!region.trigger()) {
-            tellError(sender, Lang.get(_FAILED));
-            return; // finish
-        }
+        if (!region.trigger())
+            throw new CommandException(Lang.get(_FAILED));
 
         tellSuccess(sender, Lang.get(_SUCCESS, regionName, arena.getName()));
     }

@@ -64,10 +64,8 @@ public class OutOfBoundsSubCommand extends AbstractPVCommand implements IExecuta
             return; // finished
 
         BordersExtension extension = arena.getExtensions().get(BordersExtension.class);
-        if (extension == null) {
-            tellError(sender, Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
-            return; // finished
-        }
+        if (extension == null)
+            throw new CommandException(Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
 
         if (args.getString("none|kick|win|lose|respawn|info").equals("info")) {
             tell(sender, Lang.get(_VIEW_OUTOFBOUNDS,

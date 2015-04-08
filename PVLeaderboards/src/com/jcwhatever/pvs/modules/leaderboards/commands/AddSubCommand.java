@@ -68,16 +68,12 @@ public class AddSubCommand extends AbstractLeaderboardCommand implements IExecut
             return; // finish
 
         Leaderboard leaderboard = LeaderboardsModule.getModule().getLeaderboard(leaderboardName);
-        if (leaderboard != null) {
-            tellError(sender, Lang.get(_ALREADY_EXISTS, leaderboardName));
-            return; // finish
-        }
+        if (leaderboard != null)
+            throw new CommandException(Lang.get(_ALREADY_EXISTS, leaderboardName));
 
         leaderboard = LeaderboardsModule.getModule().addLeaderboard(leaderboardName, arenaIds);
-        if (leaderboard == null) {
-            tellError(sender, Lang.get(_FAILED));
-            return; // finish
-        }
+        if (leaderboard == null)
+            throw new CommandException(Lang.get(_FAILED));
 
         tellSuccess(sender, Lang.get(_SUCCESS, leaderboard.getName()));
     }

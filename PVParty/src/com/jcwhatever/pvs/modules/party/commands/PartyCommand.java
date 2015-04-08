@@ -77,12 +77,9 @@ public class PartyCommand extends AbstractCommand implements IExecutableCommand 
 		Player p = (Player)sender;
         PartyManager manager = PartyModule.getModule().getManager();
 				
-		if (!manager.isInParty(p)) {
-		    String message = Lang.get("No information to display. You're not in a party.");
-			tellError(p, message);
-			return; // finish
-		}
-		
+		if (!manager.isInParty(p))
+			throw new CommandException("No information to display. You're not in a party.");
+
 		Party party = manager.getParty(p);
 		
 		if (party.isDisbanded())
@@ -99,8 +96,7 @@ public class PartyCommand extends AbstractCommand implements IExecutableCommand 
 		// Leader
 		label = Lang.get("Leader");
 		pagin.add(label, party.getLeader().getName());
-		
-		
+
 		// Members
 		List<String> names = new ArrayList<String>(members.size());
 		for (Player member : members) {
@@ -110,8 +106,7 @@ public class PartyCommand extends AbstractCommand implements IExecutableCommand 
 		
 		label = Lang.get("Members");
 		pagin.add(label, names.size() > 0 ? TextUtils.concat(names, ", ") : noneLabel);
-		
-		
+
 		// Invitations
 		List<String> invited = new ArrayList<String>(invitees.size());
 		for (Player invitee : invitees) {

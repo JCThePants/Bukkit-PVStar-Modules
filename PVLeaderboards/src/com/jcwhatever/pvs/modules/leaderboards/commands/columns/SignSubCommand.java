@@ -95,15 +95,11 @@ public class SignSubCommand extends AbstractLeaderboardCommand implements IExecu
             }
         }
 
-        if (column == null) {
-            tellError(sender, Lang.get(_SIGN_NOT_FOUND, signIndex, leaderboard.getName()));
-            return; // finished
-        }
+        if (column == null)
+            throw new CommandException(Lang.get(_SIGN_NOT_FOUND, signIndex, leaderboard.getName()));
 
-        if (lineNum < 1 || lineNum > 4) {
-            tellError(sender, Lang.get(_INVALID_LINE_NUMBER));
-            return; // finished
-        }
+        if (lineNum < 1 || lineNum > 4)
+            throw new CommandException(Lang.get(_INVALID_LINE_NUMBER));
 
         if (column instanceof AnchorColumn) {
 

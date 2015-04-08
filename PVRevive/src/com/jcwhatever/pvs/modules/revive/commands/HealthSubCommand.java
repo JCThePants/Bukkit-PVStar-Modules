@@ -66,10 +66,8 @@ public class HealthSubCommand extends AbstractPVCommand implements IExecutableCo
             return; // finish
 
         ReviveExtension extension = arena.getExtensions().get(ReviveExtension.class);
-        if (extension == null) {
-            tellError(sender, Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
-            return; //finish
-        }
+        if (extension == null)
+            throw new CommandException(Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
 
         if (args.getString("amount").equals("info")) {
 

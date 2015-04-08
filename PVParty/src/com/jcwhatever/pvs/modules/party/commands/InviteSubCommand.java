@@ -59,35 +59,25 @@ public class InviteSubCommand extends AbstractCommand implements IExecutableComm
 		Player p = (Player)sender;
 
         PartyManager manager = PartyModule.getModule().getManager();
+		if (!manager.isInParty(p))
+			throw new CommandException("You don't have a party to invite anyone to.");
 
-		if (!manager.isInParty(p)) {
-			tellError(p, "You don't have a party to invite anyone to.");
-			return; // finish
-		}
-		
 		Party party = manager.getParty(p);
 		assert party != null && party.getLeader() != null;
 		
-		if (!party.getLeader().equals(p)) {
-			tellError(p, "You can't invite players because you're not the party leader.");
-			return; // finish
-		}
-		
+		if (!party.getLeader().equals(p))
+			throw new CommandException("You can't invite players because you're not the party leader.");
+
 		String playerName = args.getName("playerName");
 		
 		Player invitee = PlayerUtils.getPlayer(playerName);
 		
-		if (invitee == null) {
-			tellError(p, "Could not find player '{0}'", playerName);
-			return; // finish
-		}
-		
-		if (!manager.invitePlayer(invitee, party)) {
-			tellError(p, "Failed to invite player.");
-			return; // finish
-		}
-		
-		
+		if (invitee == null)
+			throw new CommandException("Could not find player '{0}'", playerName);
+
+		if (!manager.invitePlayer(invitee, party))
+			throw new CommandException("Failed to invite player.");
+
 		if (manager.getInvitedParties(invitee).size() > 1)
 			tell(invitee, "You've been invited to {0}. Type '/pv party join {1}' to join.", party.getPartyName(), party.getLeader().getName());
 		else
@@ -97,6 +87,5 @@ public class InviteSubCommand extends AbstractCommand implements IExecutableComm
 		
 		tellSuccess(p, "{0} has been invited to your party.", invitee.getName());
     }
-
 }
 

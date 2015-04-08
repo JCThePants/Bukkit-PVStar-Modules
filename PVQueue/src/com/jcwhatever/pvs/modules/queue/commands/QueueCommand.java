@@ -108,10 +108,8 @@ public class QueueCommand extends AbstractPVCommand implements IExecutableComman
 
         // Make sure the player is not already in an arena
         IArena currentArena = player.getArena();
-        if (currentArena != null) {
-            tellError(p, Lang.get(_CANT_JOIN_IN_GAME));
-            return; // finish
-        }
+        if (currentArena != null)
+            throw new CommandException(Lang.get(_CANT_JOIN_IN_GAME));
 
         String arenaName = args.getName("arenaName");
 
@@ -120,15 +118,11 @@ public class QueueCommand extends AbstractPVCommand implements IExecutableComman
             return; // finish
 
 
-        if (!arena.getSettings().isVisible()) {
-            tellError(p, Lang.get(_ARENA_NOT_FOUND, arenaName));
-            return; // finish
-        }
+        if (!arena.getSettings().isVisible())
+            throw new CommandException(Lang.get(_ARENA_NOT_FOUND, arenaName));
 
-        if (!arena.getSettings().isEnabled()) {
-            tellError(p, Lang.get(_ARENA_DISABLED, arenaName));
-            return; // finish
-        }
+        if (!arena.getSettings().isEnabled())
+            throw new CommandException(Lang.get(_ARENA_DISABLED, arenaName));
 
         if (arena.canJoin()) {
             arena.join(player);
@@ -140,7 +134,7 @@ public class QueueCommand extends AbstractPVCommand implements IExecutableComman
             tellSuccess(p, Lang.get(_SUCCESS, arena.getName(), manager.getQueuePosition(player)));
         }
         else {
-            tellError(p, Lang.get(_FAILED));
+            throw new CommandException(Lang.get(_FAILED));
         }
     }
 }

@@ -65,10 +65,8 @@ public class SetSubCommand extends AbstractPVCommand implements IExecutableComma
             return; // finish
 
         MobArenaExtension extension = arena.getExtensions().get(MobArenaExtension.class);
-        if (extension == null) {
-            tellError(sender, Lang.get(_EXTENSION_NOT_INSTALLED, arena.getName()));
-            return; // finish
-        }
+        if (extension == null)
+            throw new CommandException(Lang.get(_EXTENSION_NOT_INSTALLED, arena.getName()));
 
         EntityType type = args.getEnum("entityType",
                 EntityType.class, EntityTypes.get(EntityTypeProperty.ALIVE));

@@ -70,10 +70,8 @@ public class DelSubCommand extends AbstractRegionCommand implements IExecutableC
         if (region == null)
             return; // finish
 
-        if (!manager.removeRegion(regionName)) {
-            tellError(sender, Lang.get(_FAILED));
-            return; // finish
-        }
+        if (!manager.removeRegion(regionName))
+            throw new CommandException(Lang.get(_FAILED));
 
         tellSuccess(sender, Lang.get(_SUCCESS, regionName, arena.getName()));
     }
