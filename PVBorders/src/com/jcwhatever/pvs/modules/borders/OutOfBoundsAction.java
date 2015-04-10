@@ -26,8 +26,7 @@
 package com.jcwhatever.pvs.modules.borders;
 
 /**
- * Describes an action to take when a player
- * leaves the arena region.
+ * Describes an action to take when a player leaves the arena region.
  */
 public enum OutOfBoundsAction {
 
@@ -35,24 +34,24 @@ public enum OutOfBoundsAction {
      * Do nothing.
      */
     NONE,
-
     /**
      * Kick the player from the arena.
      */
     KICK,
-
     /**
      * Declare the player the winner.
      */
     WIN,
-
     /**
      * The player loses.
      */
     LOSE,
-
     /**
      * Respawn the player.
      */
-    RESPAWN
+    RESPAWN,
+    /**
+     * Prevent the player from moving out of bounds.
+     */
+    PREVENT
 }

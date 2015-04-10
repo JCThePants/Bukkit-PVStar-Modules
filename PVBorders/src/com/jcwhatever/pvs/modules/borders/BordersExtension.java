@@ -29,7 +29,9 @@ import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
@@ -39,6 +41,7 @@ import com.jcwhatever.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.pvs.api.utils.Msg;
 
 import org.bukkit.Location;
+import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
 
 @ArenaExtensionInfo(
@@ -46,6 +49,7 @@ import org.bukkit.plugin.Plugin;
         description="Add arena region entry and exit handling.")
 public class BordersExtension extends ArenaExtension implements IEventListener {
 
+    private final Location PREVENT_MOVE_LOCATION = new Location(null, 0, 0, 0);
     private OutOfBoundsAction _outOfBoundsAction = OutOfBoundsAction.NONE;
     private OutsidersAction _outsidersAction = OutsidersAction.NONE;
 
@@ -150,10 +154,42 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
         });
     }
 
+    @EventMethod(priority = EventSubscriberPriority.LAST)
+    private void onPlayerLeaveRegionPrevent(PlayerMoveEvent event) {
+
+        if (getOutOfBoundsAction() != OutOfBoundsAction.PREVENT)
+            return;
+
+        IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getPlayer());
+        if (player == null)
+            return;
+
+        IArena arena = player.getArena();
+        if (arena == null)
+            return;
+
+        Location to = event.getTo();
+
+        if (arena.getRegion().contains(to))
+            return;
+
+        Location from = event.getFrom();
+        Location prevent = PREVENT_MOVE_LOCATION;
+
+        prevent.setWorld(from.getWorld());
+        prevent.setX(from.getX());
+        prevent.setY(from.getY());
+        prevent.setZ(from.getZ());
+        prevent.setYaw(to.getYaw());
+        prevent.setPitch(to.getPitch());
+        event.setTo(prevent);
+    }
+
     @EventMethod
     private void onPlayerLeaveRegion(PlayerLeaveArenaRegionEvent event) {
 
-        if (getOutOfBoundsAction() == OutOfBoundsAction.NONE)
+        if (getOutOfBoundsAction() == OutOfBoundsAction.NONE ||
+                getOutOfBoundsAction() == OutOfBoundsAction.PREVENT)
             return;
 
         if (!getArena().getGame().isRunning())

@@ -41,7 +41,7 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="arena",
         command="outofbounds",
-        staticParams={"none|kick|win|lose|respawn|info=info"},
+        staticParams={"none|kick|win|lose|respawn|prevent|info=info"},
         description="Set or view the action taken when a player in an " +
                 "arena exits the arena region. [PVBorders]")
 
@@ -59,7 +59,8 @@ public class OutOfBoundsSubCommand extends AbstractPVCommand implements IExecuta
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
-        IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "none|join|kick|info"));
+        IArena arena = getSelectedArena(sender,
+                ArenaReturned.getInfoToggled(args, "none|kick|win|lose|respawn|prevent|info"));
         if (arena == null)
             return; // finished
 
@@ -67,12 +68,15 @@ public class OutOfBoundsSubCommand extends AbstractPVCommand implements IExecuta
         if (extension == null)
             throw new CommandException(Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
 
-        if (args.getString("none|kick|win|lose|respawn|info").equals("info")) {
+        if (args.getString("none|kick|win|lose|respawn|prevent|info").equals("info")) {
             tell(sender, Lang.get(_VIEW_OUTOFBOUNDS,
                     arena.getName(), extension.getOutOfBoundsAction().name()));
         }
         else {
-            OutOfBoundsAction action = args.getEnum("none|kick|win|lose|respawn|info", OutOfBoundsAction.class);
+
+            OutOfBoundsAction action = args.getEnum(
+                    "none|kick|win|lose|respawn|prevent|info", OutOfBoundsAction.class);
+
             extension.setOutOfBoundsAction(action);
 
             tellSuccess(sender, Lang.get(_SET_OUTOFBOUNDS, arena.getName(), action.name()));
