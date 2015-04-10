@@ -26,8 +26,8 @@
 package com.jcwhatever.pvs.modules.regions.regions.maze;
 
 import com.jcwhatever.nucleus.regions.BuildChunkSnapshot;
-import com.jcwhatever.nucleus.regions.BuildMethod;
 import com.jcwhatever.nucleus.regions.BuildableRegion;
+import com.jcwhatever.nucleus.regions.BuildableRegion.BuildSpeed;
 import com.jcwhatever.nucleus.regions.data.RegionChunkSection;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.Rand;
@@ -117,9 +117,8 @@ public class MazeBuilder {
             snapshots.add(mazeSnap);
         }
 
-        _region.build(BuildMethod.PERFORMANCE, snapshots);
+        _region.build(BuildSpeed.PERFORMANCE, snapshots);
     }
-
 
     public void test() {
         test(getBlockSize());
@@ -138,7 +137,6 @@ public class MazeBuilder {
             }
         }
     }
-
 
     private static boolean omitColumn(Orientation orientation, int xStart, int zStart) {
         return  (zStart == 0 && !hasZWall(orientation)) ||

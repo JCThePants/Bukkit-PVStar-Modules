@@ -28,7 +28,7 @@ package com.jcwhatever.pvs.modules.regions.regions;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
-import com.jcwhatever.nucleus.regions.BuildMethod;
+import com.jcwhatever.nucleus.regions.file.IRegionFileLoader.LoadSpeed;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
@@ -169,7 +169,7 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements IEventListen
             return;
 
         try {
-            restoreData(BuildMethod.PERFORMANCE, false);
+            restoreData(LoadSpeed.PERFORMANCE, false);
         } catch (IOException e) {
             e.printStackTrace();
         }

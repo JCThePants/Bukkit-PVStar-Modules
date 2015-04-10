@@ -27,8 +27,8 @@ package com.jcwhatever.pvs.modules.autorestore;
 
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.regions.file.IRegionFileLoader.LoadSpeed;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
-import com.jcwhatever.nucleus.regions.BuildMethod;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
@@ -66,7 +66,7 @@ public class AutoRestoreExtension extends ArenaExtension implements IEventListen
     private void onArenaEnd(ArenaEndedEvent event) {
 
         try {
-            getArena().getRegion().restoreData(BuildMethod.PERFORMANCE);
+            getArena().getRegion().restoreData(LoadSpeed.PERFORMANCE);
         }
         catch (IOException e) {
             e.printStackTrace();

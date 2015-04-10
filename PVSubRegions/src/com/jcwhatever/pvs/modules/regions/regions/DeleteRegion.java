@@ -26,8 +26,8 @@
 package com.jcwhatever.pvs.modules.regions.regions;
 
 import com.jcwhatever.nucleus.regions.BuildChunkSnapshot;
-import com.jcwhatever.nucleus.regions.BuildMethod;
 import com.jcwhatever.nucleus.regions.data.RegionChunkSection;
+import com.jcwhatever.nucleus.regions.file.IRegionFileLoader.LoadSpeed;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
@@ -88,7 +88,7 @@ public class DeleteRegion extends AbstractPVRegion {
             snapshots.add(snapshot);
         }
 
-        this.build(BuildMethod.FAST, snapshots);
+        this.build(BuildSpeed.FAST, snapshots);
 
         return true;
     }
@@ -97,7 +97,7 @@ public class DeleteRegion extends AbstractPVRegion {
     protected boolean onUntrigger() {
         try {
 
-            restoreData(BuildMethod.FAST).onSuccess(new FutureSubscriber() {
+            restoreData(LoadSpeed.FAST).onSuccess(new FutureSubscriber() {
                 @Override
                 public void on(FutureStatus status, @Nullable String message) {
                     _isTriggered = false;

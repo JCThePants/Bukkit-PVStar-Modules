@@ -25,8 +25,10 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.regions.BuildMethod;
+import com.jcwhatever.nucleus.regions.IRegion;
 import com.jcwhatever.nucleus.regions.MultiSnapshotRegion;
+import com.jcwhatever.nucleus.regions.file.IRegionFileLoader.LoadSpeed;
+import com.jcwhatever.nucleus.regions.file.basic.BasicFileFactory;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
@@ -84,6 +86,8 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
 
     public AbstractPVRegion(String name) {
         super(PVStarAPI.getPlugin(), name);
+
+        setFileFactory(new FileFactory());
     }
 
     public void init(RegionTypeInfo typeInfo, IArena arena, IDataNode dataNode, SubRegionsModule module) {
@@ -160,7 +164,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         return _settingsManager;
     }
 
-    public final IFuture restoreData(BuildMethod buildMethod, boolean forceRestore) throws IOException {
+    public final IFuture restoreData(LoadSpeed loadSpeed, boolean forceRestore) throws IOException {
 
         if (!forceRestore &&
                 _arena.getRegion().isRestoring()) {
@@ -170,7 +174,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
             return cancelledProject.cancel("Restore cancelled to prevent redundancy.");
         }
 
-        return restoreData(buildMethod);
+        return restoreData(loadSpeed);
     }
 
     public final boolean trigger() {
@@ -227,11 +231,6 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     }
 
     @Override
-    protected String getFilePrefix() {
-        return "subregion." + getName() + '.' + getTypeName();
-    }
-
-    @Override
     protected final void onPreSave() {
         getArena().setBusy();
     }
@@ -247,7 +246,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     }
 
     @Override
-    protected final void onRestore() {
+    protected final void onRestoreComplete() {
         getArena().setIdle();
     }
 
@@ -315,5 +314,13 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
     public interface RegionEventHandler {
 
         void onCall(IArenaPlayer player);
+    }
+
+    private class FileFactory extends BasicFileFactory {
+
+        @Override
+        public String getFilename(IRegion region) {
+            return "subregion." + getName() + '.' + getTypeName();
+        }
     }
 }
