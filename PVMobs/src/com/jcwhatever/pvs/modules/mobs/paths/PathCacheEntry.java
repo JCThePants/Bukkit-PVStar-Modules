@@ -36,8 +36,8 @@ import com.jcwhatever.nucleus.utils.astar.AStar;
 import com.jcwhatever.nucleus.utils.astar.AStarUtils;
 import com.jcwhatever.nucleus.utils.astar.PathAreaFinder;
 import com.jcwhatever.nucleus.utils.astar.PathAreaFinder.PathAreaResults;
-import com.jcwhatever.nucleus.utils.file.NucleusByteReader;
-import com.jcwhatever.nucleus.utils.file.NucleusByteWriter;
+import com.jcwhatever.nucleus.utils.file.BasicByteReader;
+import com.jcwhatever.nucleus.utils.file.BasicByteWriter;
 
 import org.bukkit.Location;
 import org.bukkit.World;
@@ -158,7 +158,7 @@ public class PathCacheEntry {
         if (!file.exists())
             return false;
 
-        NucleusByteReader reader = new NucleusByteReader(new FileInputStream(file));
+        BasicByteReader reader = new BasicByteReader(new FileInputStream(file));
 
         int version = reader.getInteger();
         if (version != CACHE_FILE_VERSION) {
@@ -223,7 +223,7 @@ public class PathCacheEntry {
         if (file == null)
             return false;
 
-        NucleusByteWriter writer = new NucleusByteWriter(new FileOutputStream(file));
+        BasicByteWriter writer = new BasicByteWriter(new FileOutputStream(file));
 
         LinkedList<Location> locations = new LinkedList<Location>(_cachedPaths);
 
