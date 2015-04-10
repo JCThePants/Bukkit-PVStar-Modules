@@ -26,12 +26,9 @@
 package com.jcwhatever.pvs.modules.regions.regions;
 
 
-import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.IArenaPlayer;
-import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
-import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.nucleus.regions.BuildMethod;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
@@ -40,12 +37,14 @@ import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.nucleus.utils.BlockUtils;
-import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
-import com.jcwhatever.nucleus.utils.observer.result.FutureResultAgent.Future;
-import com.jcwhatever.nucleus.utils.observer.result.FutureSubscriber;
-import com.jcwhatever.nucleus.utils.observer.result.Result;
-import com.jcwhatever.nucleus.utils.performance.queued.QueueTask;
+import com.jcwhatever.nucleus.utils.observer.future.FutureSubscriber;
+import com.jcwhatever.nucleus.utils.observer.future.IFuture;
+import com.jcwhatever.nucleus.utils.observer.future.IFuture.FutureStatus;
+import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
+import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -132,7 +131,7 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements IEventList
 
             // save region data
 
-            Future<QueueTask> result;
+            IFuture result;
 
             try {
                 result = this.saveData();
@@ -141,15 +140,15 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements IEventList
                 return;
             }
 
-            result.onCancel(new FutureSubscriber<QueueTask>() {
+            result.onCancel(new FutureSubscriber() {
                 @Override
-                public void on(Result<QueueTask> argument) {
+                public void on(FutureStatus status, @Nullable String message) {
                     // disable to prevent loss of build
                     setEnabled(false);
                 }
-            }).onError(new FutureSubscriber<QueueTask>() {
+            }).onError(new FutureSubscriber() {
                 @Override
-                public void on(Result<QueueTask> argument) {
+                public void on(FutureStatus status, @Nullable String message) {
                     // disable to prevent loss of build
                     setEnabled(false);
                 }

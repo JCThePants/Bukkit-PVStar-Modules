@@ -25,13 +25,6 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.storage.settings.SettingsManager.PropertyValue;
-import com.jcwhatever.nucleus.utils.observer.update.UpdateSubscriber;
-import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.IArena;
-import com.jcwhatever.pvs.api.arena.IArenaPlayer;
-import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
-import com.jcwhatever.pvs.modules.regions.SubRegionsModule;
 import com.jcwhatever.nucleus.regions.BuildMethod;
 import com.jcwhatever.nucleus.regions.MultiSnapshotRegion;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
@@ -39,10 +32,16 @@ import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.SettingsManager;
+import com.jcwhatever.nucleus.storage.settings.SettingsManager.PropertyValue;
 import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.observer.result.FutureResultAgent.Future;
+import com.jcwhatever.nucleus.utils.observer.future.IFuture;
+import com.jcwhatever.nucleus.utils.observer.update.UpdateSubscriber;
 import com.jcwhatever.nucleus.utils.performance.queued.QueueProject;
-import com.jcwhatever.nucleus.utils.performance.queued.QueueTask;
+import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
+import com.jcwhatever.pvs.modules.regions.SubRegionsModule;
 
 import org.bukkit.entity.Player;
 
@@ -161,7 +160,7 @@ public abstract class AbstractPVRegion extends MultiSnapshotRegion {
         return _settingsManager;
     }
 
-    public final Future<QueueTask> restoreData(BuildMethod buildMethod, boolean forceRestore) throws IOException {
+    public final IFuture restoreData(BuildMethod buildMethod, boolean forceRestore) throws IOException {
 
         if (!forceRestore &&
                 _arena.getRegion().isRestoring()) {

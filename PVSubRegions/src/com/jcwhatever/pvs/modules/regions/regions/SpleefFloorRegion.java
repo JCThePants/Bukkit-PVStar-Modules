@@ -25,9 +25,6 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.arena.IArenaPlayer;
-import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
-import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.regions.BuildMethod;
@@ -40,10 +37,12 @@ import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.nucleus.utils.BlockUtils;
 import com.jcwhatever.nucleus.utils.items.ItemStackMatcher;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
-import com.jcwhatever.nucleus.utils.observer.result.FutureResultAgent.Future;
-import com.jcwhatever.nucleus.utils.observer.result.FutureSubscriber;
-import com.jcwhatever.nucleus.utils.observer.result.Result;
-import com.jcwhatever.nucleus.utils.performance.queued.QueueTask;
+import com.jcwhatever.nucleus.utils.observer.future.FutureSubscriber;
+import com.jcwhatever.nucleus.utils.observer.future.IFuture;
+import com.jcwhatever.nucleus.utils.observer.future.IFuture.FutureStatus;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
+import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -103,7 +102,7 @@ public class SpleefFloorRegion extends AbstractPVRegion implements IEventListene
 
         if (!canRestore()) {
 
-            Future<QueueTask> result;
+            IFuture result;
 
             try {
                 result = this.saveData();
@@ -112,14 +111,14 @@ public class SpleefFloorRegion extends AbstractPVRegion implements IEventListene
                 return;
             }
 
-            result.onCancel(new FutureSubscriber<QueueTask>() {
+            result.onCancel(new FutureSubscriber() {
                 @Override
-                public void on(Result<QueueTask> argument) {
+                public void on(FutureStatus status, @Nullable String message) {
                     setEnabled(false);
                 }
-            }).onError(new FutureSubscriber<QueueTask>() {
+            }).onError(new FutureSubscriber() {
                 @Override
-                public void on(Result<QueueTask> argument) {
+                public void on(FutureStatus status, @Nullable String message) {
                     setEnabled(false);
                 }
             });

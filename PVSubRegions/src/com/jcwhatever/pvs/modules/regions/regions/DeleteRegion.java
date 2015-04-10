@@ -33,10 +33,9 @@ import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.utils.coords.IChunkCoords;
-import com.jcwhatever.nucleus.utils.observer.result.FutureResultAgent.Future;
-import com.jcwhatever.nucleus.utils.observer.result.FutureSubscriber;
-import com.jcwhatever.nucleus.utils.observer.result.Result;
-import com.jcwhatever.nucleus.utils.performance.queued.QueueTask;
+import com.jcwhatever.nucleus.utils.observer.future.FutureSubscriber;
+import com.jcwhatever.nucleus.utils.observer.future.IFuture;
+import com.jcwhatever.nucleus.utils.observer.future.IFuture.FutureStatus;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 
@@ -47,6 +46,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="delete",
@@ -97,9 +97,9 @@ public class DeleteRegion extends AbstractPVRegion {
     protected boolean onUntrigger() {
         try {
 
-            restoreData(BuildMethod.FAST).onSuccess(new FutureSubscriber<QueueTask>() {
+            restoreData(BuildMethod.FAST).onSuccess(new FutureSubscriber() {
                 @Override
-                public void on(Result<QueueTask> argument) {
+                public void on(FutureStatus status, @Nullable String message) {
                     _isTriggered = false;
                 }
             });
@@ -117,7 +117,7 @@ public class DeleteRegion extends AbstractPVRegion {
 
         if (!canRestore()) {
 
-            Future<QueueTask> result;
+            IFuture result;
 
             try {
                 result = this.saveData();
@@ -126,14 +126,14 @@ public class DeleteRegion extends AbstractPVRegion {
                 return;
             }
 
-            result.onCancel(new FutureSubscriber<QueueTask>() {
+            result.onCancel(new FutureSubscriber() {
                 @Override
-                public void on(Result<QueueTask> argument) {
+                public void on(FutureStatus status, @Nullable String message) {
                     setEnabled(false);
                 }
-            }).onError(new FutureSubscriber<QueueTask>() {
+            }).onError(new FutureSubscriber() {
                 @Override
-                public void on(Result<QueueTask> argument) {
+                public void on(FutureStatus status, @Nullable String message) {
                     setEnabled(false);
                 }
             });
