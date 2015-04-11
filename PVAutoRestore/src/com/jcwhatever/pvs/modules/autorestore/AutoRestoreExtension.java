@@ -51,19 +51,17 @@ public class AutoRestoreExtension extends ArenaExtension implements IEventListen
     }
 
     @Override
-    protected void onAttach() {
-
+    protected void onEnable() {
         getArena().getEventManager().register(this);
     }
 
     @Override
-    protected void onRemove() {
-
+    protected void onDisable() {
         getArena().getEventManager().unregister(this);
     }
 
     @EventMethod(priority = EventSubscriberPriority.FIRST)
-    private void onArenaEnd(ArenaEndedEvent event) {
+    private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
 
         try {
             getArena().getRegion().restoreData(LoadSpeed.PERFORMANCE);

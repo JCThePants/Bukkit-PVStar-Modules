@@ -80,7 +80,7 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
     }
 
     @Override
-    protected void onAttach() {
+    protected void onEnable() {
 
         _gracePeriodSeconds = getDataNode().getInteger("seconds", _gracePeriodSeconds);
 
@@ -88,7 +88,7 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
     }
 
     @Override
-    protected void onRemove() {
+    protected void onDisable() {
         getArena().getEventManager().unregister(this);
     }
 

@@ -45,12 +45,12 @@ public class InfiniteLivesExtension extends ArenaExtension implements IEventList
     }
 
     @Override
-    protected void onAttach() {
+    protected void onEnable() {
         getArena().getEventManager().register(this);
     }
 
     @Override
-    protected void onRemove() {
+    protected void onDisable() {
         getArena().getEventManager().unregister(this);
     }
 

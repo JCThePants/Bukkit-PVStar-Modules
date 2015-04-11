@@ -60,7 +60,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
     }
 
     @Override
-    protected void onAttach() {
+    protected void onEnable() {
 
         IDataNode settings = getDataNode();
 
@@ -74,8 +74,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
     }
 
     @Override
-    protected void onRemove() {
-
+    protected void onDisable() {
         getArena().getEventManager().unregister(this);
     }
 

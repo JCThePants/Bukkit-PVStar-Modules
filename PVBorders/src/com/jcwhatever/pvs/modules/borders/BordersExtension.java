@@ -97,7 +97,7 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
     }
 
     @Override
-    protected void onAttach() {
+    protected void onEnable() {
 
         _outOfBoundsAction = getDataNode().getEnum("out-of-bounds", _outOfBoundsAction, OutOfBoundsAction.class);
         _outsidersAction = getDataNode().getEnum("outsiders-action", _outsidersAction, OutsidersAction.class);
@@ -106,7 +106,7 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
     }
 
     @Override
-    protected void onRemove() {
+    protected void onDisable() {
         getArena().getEventManager().unregister(this);
     }
 

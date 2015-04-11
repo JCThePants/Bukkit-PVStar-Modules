@@ -101,14 +101,12 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
     }
 
     @Override
-    protected void onAttach() {
-
+    protected void onEnable() {
         getArena().getEventManager().register(this);
     }
 
     @Override
-    protected void onRemove() {
-
+    protected void onDisable() {
         getArena().getEventManager().unregister(this);
     }
 
