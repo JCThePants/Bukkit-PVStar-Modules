@@ -25,9 +25,9 @@
 
 package com.jcwhatever.pvs.modules.economy;
 
-import com.jcwhatever.nucleus.providers.economy.Economy;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.providers.economy.Economy;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.PVStarAPI;
@@ -38,6 +38,7 @@ import com.jcwhatever.pvs.api.arena.options.ArenaContext;
 import com.jcwhatever.pvs.api.events.players.PlayerAddedToContextEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerLoseEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerWinEvent;
+
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.plugin.Plugin;
@@ -54,14 +55,10 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
     private double _win = 0.0D;
     private double _lose = 0.0D;
 
-    @Override
-    public Plugin getPlugin() {
-        return PVStarAPI.getPlugin();
-    }
-
-    @Override
-    protected void onEnable() {
-
+    /**
+     * Constructor.
+     */
+    public EconomyExtension() {
         IDataNode settings = getDataNode();
 
         _kill = settings.getDouble("kill", _kill);
@@ -69,7 +66,16 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         _participant = settings.getDouble("participant", _participant);
         _win = settings.getDouble("win", _win);
         _lose = settings.getDouble("lose", _lose);
+    }
 
+
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
+
+    @Override
+    protected void onEnable() {
         getArena().getEventManager().register(this);
     }
 

@@ -74,6 +74,11 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
     private ArenaRandomChestItems _itemSettings;
     private Map<Location, ChestInfo> _openedChests = new HashMap<>(35);
 
+    public ChestExtension() {
+        _chestSettings = new ArenaChests(getArena(), getDataNode());
+        _itemSettings = new ArenaRandomChestItems(getArena(), getDataNode());
+    }
+
     @Override
     public Plugin getPlugin() {
         return PVStarAPI.getPlugin();
@@ -95,10 +100,6 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
 
     @Override
     protected void onEnable() {
-
-        _chestSettings = new ArenaChests(getArena(), getDataNode());
-        _itemSettings = new ArenaRandomChestItems(getArena(), getDataNode());
-
         getArena().getEventManager().register(this);
     }
 
