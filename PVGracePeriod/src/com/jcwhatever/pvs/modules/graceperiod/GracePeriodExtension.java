@@ -57,10 +57,6 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
 
     public boolean _isGracePeriod = false;
 
-    public GracePeriodExtension() {
-        _gracePeriodSeconds = getDataNode().getInteger("seconds", _gracePeriodSeconds);
-    }
-
     @Override
     public Plugin getPlugin() {
         return PVStarAPI.getPlugin();
@@ -81,6 +77,11 @@ public class GracePeriodExtension extends ArenaExtension implements IEventListen
 
         getDataNode().set("seconds", seconds);
         getDataNode().save();
+    }
+
+    @Override
+    protected void onAttach() {
+        _gracePeriodSeconds = getDataNode().getInteger("seconds", _gracePeriodSeconds);
     }
 
     @Override

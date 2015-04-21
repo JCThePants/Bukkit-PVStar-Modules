@@ -65,16 +65,6 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
     private IDataNode _mobNode;
     private boolean _canKeepItemsOnDeath = false;
 
-    public DeathDropsExtension() {
-
-        _canKeepItemsOnDeath = getDataNode().getBoolean("keep-items", _canKeepItemsOnDeath);
-        _mobNode = getDataNode().getNode("mobs");
-
-        _globalSettings = new DropSettings(null, getDataNode().getNode("global"));
-        _playerSettings = new DropSettings(_globalSettings, getDataNode().getNode("player"));
-        _mobSettings = new DropSettings(_globalSettings, _mobNode);
-    }
-
     @Override
     public Plugin getPlugin() {
         return PVStarAPI.getPlugin();
@@ -121,6 +111,15 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
         return settings;
     }
 
+    @Override
+    protected void onAttach() {
+        _canKeepItemsOnDeath = getDataNode().getBoolean("keep-items", _canKeepItemsOnDeath);
+        _mobNode = getDataNode().getNode("mobs");
+
+        _globalSettings = new DropSettings(null, getDataNode().getNode("global"));
+        _playerSettings = new DropSettings(_globalSettings, getDataNode().getNode("player"));
+        _mobSettings = new DropSettings(_globalSettings, _mobNode);
+    }
 
     @Override
     protected void onEnable() {

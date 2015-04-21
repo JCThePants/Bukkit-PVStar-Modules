@@ -64,10 +64,6 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
     private IScheduledTask _countdownTask;
     private boolean _isStarting;
 
-    public StartCountdownExtension() {
-        _startCountdown = getDataNode().getInteger("start-countdown", _startCountdown);
-    }
-
     @Override
     public Plugin getPlugin() {
         return PVStarAPI.getPlugin();
@@ -107,6 +103,11 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
 
         getDataNode().set("start-countdown", seconds);
         getDataNode().save();
+    }
+
+    @Override
+    protected void onAttach() {
+        _startCountdown = getDataNode().getInteger("start-countdown", _startCountdown);
     }
 
     @Override

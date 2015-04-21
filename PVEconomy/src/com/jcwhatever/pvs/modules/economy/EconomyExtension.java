@@ -55,10 +55,13 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
     private double _win = 0.0D;
     private double _lose = 0.0D;
 
-    /**
-     * Constructor.
-     */
-    public EconomyExtension() {
+    @Override
+    public Plugin getPlugin() {
+        return PVStarAPI.getPlugin();
+    }
+
+    @Override
+    protected void onAttach() {
         IDataNode settings = getDataNode();
 
         _kill = settings.getDouble("kill", _kill);
@@ -66,12 +69,6 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         _participant = settings.getDouble("participant", _participant);
         _win = settings.getDouble("win", _win);
         _lose = settings.getDouble("lose", _lose);
-    }
-
-
-    @Override
-    public Plugin getPlugin() {
-        return PVStarAPI.getPlugin();
     }
 
     @Override
