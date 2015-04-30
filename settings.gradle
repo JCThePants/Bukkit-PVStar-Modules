@@ -1,4 +1,5 @@
-include 'PVAutoRestore',
+include 'PV2DGrid',
+        'PVAutoRestore',
         'PVBasicPoints',
         'PVBasicStats',
         'PVBorders',
