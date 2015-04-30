@@ -1,0 +1,19 @@
+ext.projectName = 'PVChunkLoader'
+ext.majorVersion = '0'
+ext.minorVersion = '1'
+ext.buildBy = null
+ext.mavenRepositories = [
+        'https://github.com/JCThePants/mvn-repo/raw/master',
+        'https://hub.spigotmc.org/nexus/content/repositories/snapshots/',
+        'https://oss.sonatype.org/content/groups/public/'
+]
+ext.providedDependsFiles = null
+ext.providedDepends = [
+        'org.spigotmc:spigot-api:1.8.3-R0.1-SNAPSHOT',
+        'com.google.code.findbugs:jsr305:3.0.0',
+        'com.jcwhatever.bukkit:PV-StarAPI:+',
+        'com.jcwhatever.bukkit:NucleusFramework:+'
+]
+ext.compileDependsFiles = null
+ext.compileDepends = null
+ext.includeFiles = [ 'module.yml', 'LICENSE.txt' ]
