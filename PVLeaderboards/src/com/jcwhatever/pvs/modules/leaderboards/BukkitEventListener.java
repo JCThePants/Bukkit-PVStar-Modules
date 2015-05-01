@@ -32,7 +32,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 public class BukkitEventListener implements Listener {
 
-    @EventHandler(priority= EventPriority.HIGHEST)
+    @EventHandler(priority= EventPriority.HIGHEST, ignoreCancelled = true)
     private void onPlayerInteract(PlayerInteractEvent event) {
 
         if (!event.hasBlock())

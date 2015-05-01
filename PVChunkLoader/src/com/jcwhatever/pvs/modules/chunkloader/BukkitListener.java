@@ -5,6 +5,7 @@ import com.jcwhatever.pvs.api.arena.ArenaRegion;
 import com.jcwhatever.pvs.api.arena.IArena;
 
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.ChunkUnloadEvent;
 
@@ -15,7 +16,7 @@ import java.util.List;
  */
 public class BukkitListener implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
     private void onChunkUnload(ChunkUnloadEvent event) {
 
         List<ArenaRegion> regions = Nucleus.getRegionManager()
