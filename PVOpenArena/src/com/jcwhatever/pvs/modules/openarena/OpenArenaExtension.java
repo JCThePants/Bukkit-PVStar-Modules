@@ -81,7 +81,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
         getArena().getEventManager().unregister(this);
     }
 
-    @EventMethod(priority = EventSubscriberPriority.HIGH, ignoreCancelled = true)
+    @EventMethod(priority = EventSubscriberPriority.HIGH, invokeForCancelled = true)
     private void onPlayerJoin(PlayerPreJoinArenaEvent event) {
 
         // override default behavior of rejecting players

@@ -479,7 +479,7 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
         // TODO clear items ?
     }
 
-    @EventMethod(ignoreCancelled=true)
+    @EventMethod(invokeForCancelled =true)
     private void onChestInteractPrevented(PlayerInteractEvent event) {
 
         if (!event.hasBlock())
