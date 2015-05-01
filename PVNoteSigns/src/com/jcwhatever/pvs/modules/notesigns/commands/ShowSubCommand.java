@@ -39,7 +39,7 @@ import com.jcwhatever.pvs.modules.notesigns.Lang;
 
 import org.bukkit.command.CommandSender;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
 
 @CommandInfo(
@@ -60,7 +60,7 @@ public class ShowSubCommand extends AbstractPVCommand implements IExecutableComm
             return; // finish
 
         int showCount = 0;
-        List<ISignContainer> signs = Nucleus.getSignManager().getSigns("Note");
+        Collection<ISignContainer> signs = Nucleus.getSignManager().getSigns("Note");
 
         for (ISignContainer sign : signs) {
 

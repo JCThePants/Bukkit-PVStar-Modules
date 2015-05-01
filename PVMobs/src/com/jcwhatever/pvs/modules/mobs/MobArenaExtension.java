@@ -52,11 +52,11 @@ import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import javax.annotation.Nullable;
 
 @ArenaExtensionInfo(
@@ -389,7 +389,7 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
 
         // entity type limits
         _mobLimits.clear();
-        Set<String> entityNames = settings.getSubNodeNames("limits");
+        Collection<String> entityNames = settings.getSubNodeNames("limits");
         if (entityNames != null && !entityNames.isEmpty()) {
 
             for (String entityName : entityNames) {

@@ -41,7 +41,7 @@ import org.bukkit.Material;
 import org.bukkit.block.Sign;
 import org.bukkit.command.CommandSender;
 
-import java.util.List;
+import java.util.Collection;
 import java.util.UUID;
 
 @CommandInfo(
@@ -61,7 +61,7 @@ public class HideSubCommand extends AbstractPVCommand implements IExecutableComm
             return; // finish
 
         int hideCount = 0;
-        List<ISignContainer> signs = Nucleus.getSignManager().getSigns("Note");
+        Collection<ISignContainer> signs = Nucleus.getSignManager().getSigns("Note");
 
         for (ISignContainer sign : signs) {
 
