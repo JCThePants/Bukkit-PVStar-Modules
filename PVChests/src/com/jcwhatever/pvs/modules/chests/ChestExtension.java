@@ -464,12 +464,18 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
     @EventMethod(priority = EventSubscriberPriority.LAST)
     private void onArenaPreStart(@SuppressWarnings("unused") ArenaPreStartEvent event) {
 
+        if (_chestSettings == null)
+            return;
+
         if (_chestSettings.isChestsRandomized())
             randomHideChests();
     }
 
     @EventMethod
     private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
+
+        if (_chestSettings == null)
+            return;
 
         if (_chestSettings.isChestsRandomized())
             restoreChests();
