@@ -25,6 +25,11 @@
 
 package com.jcwhatever.pvs.modules.leaderboards.leaderboards;
 
+import com.jcwhatever.nucleus.mixins.ILoadable;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.SignUtils;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.stats.IArenaStats;
 import com.jcwhatever.pvs.api.stats.StatTracking.StatTrackType;
@@ -34,10 +39,6 @@ import com.jcwhatever.pvs.modules.leaderboards.LeaderboardsModule;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns.AnchorColumn;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns.ColumnSetting;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns.StatisticsColumn;
-import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.SignUtils;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
 
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -58,7 +59,7 @@ import java.util.Set;
 import java.util.UUID;
 import javax.annotation.Nullable;
 
-public class Leaderboard {
+public class Leaderboard implements ILoadable {
 
     private final String _name;
 
@@ -143,6 +144,7 @@ public class Leaderboard {
         return _anchorColumn;
     }
 
+    @Override
     public boolean isLoaded() {
         return _isLoaded;
     }
