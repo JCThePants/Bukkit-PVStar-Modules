@@ -94,13 +94,11 @@ public class ChestExtension extends ArenaExtension implements IEventListener, Li
     }
 
     @Override
-    protected void onAttach() {
+    protected void onEnable() {
+
         _chestSettings = new ArenaChests(getArena(), getDataNode());
         _itemSettings = new ArenaRandomChestItems(getArena(), getDataNode());
-    }
 
-    @Override
-    protected void onEnable() {
         getArena().getEventManager().register(this);
     }
 
