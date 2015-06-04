@@ -25,11 +25,11 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.IArenaPlayer;
-import com.jcwhatever.pvs.api.utils.ArenaScheduler;
-import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.managed.particles.Particles;
+import com.jcwhatever.nucleus.managed.particles.types.IExplosionLargeParticle;
+import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
+import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
@@ -37,22 +37,20 @@ import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.nucleus.utils.coords.LocationUtils;
-import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
-import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
-
+import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
+import com.jcwhatever.pvs.api.utils.ArenaPlayerHashSet;
+import com.jcwhatever.pvs.api.utils.ArenaScheduler;
+import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.util.BlockIterator;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import javax.annotation.Nullable;
+import java.util.*;
 
 @RegionTypeInfo(
         name="playergrinder",
@@ -60,6 +58,7 @@ import javax.annotation.Nullable;
 public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListener {
 
     private static Map<String, PropertyDefinition> _possibleSettings;
+    private static IExplosionLargeParticle _particle;
 
     static {
         _possibleSettings = new SettingsBuilder()
@@ -84,6 +83,10 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
 
                 .build()
         ;
+
+        _particle = Particles.createExplosionLarge();
+        _particle.setRadius(40);
+        _particle.setArea(0);
     }
 
 
@@ -97,7 +100,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
     private IScheduledTask _bladeTask;
     private BladeRotator _bladeRotator;
 
-    private Set<IArenaPlayer> _playersInRegion = new HashSet<>(25);
+    private IArenaPlayerCollection _playersInRegion = new ArenaPlayerHashSet(25);
 
     public PlayerGrinderRegion(String name) {
         super(name);
@@ -235,9 +238,11 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
             _deathLocations.add(LocationUtils.getBlockLocation(location));
         }
 
-        void explode() {
+        void explode(IArenaPlayerCollection players) {
             for (Location location : _locations) {
-                location.getWorld().createExplosion(location, 0.0F, false);
+
+                _particle.showTo(players.asPlayers(), location, 1);
+                //location.getWorld().createExplosion(location, 0.0F, false);
             }
         }
 
@@ -403,7 +408,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
             if (blade == null)
                 return;
 
-            blade.explode();
+            blade.explode(_region._playersInRegion);
 
             synchronized (_region._sync) {
 
