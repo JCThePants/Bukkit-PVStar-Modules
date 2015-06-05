@@ -27,16 +27,15 @@ package com.jcwhatever.pvs.modules.deathdrops;
 
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.player.PlayerStateSnapshot;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.Rand;
+import com.jcwhatever.nucleus.utils.player.PlayerStateSnapshot;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerArenaRespawnEvent;
-
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -45,11 +44,11 @@ import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.Plugin;
 
+import javax.annotation.Nullable;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
-import javax.annotation.Nullable;
 
 @ArenaExtensionInfo(
         name="PVDeathDrops",
@@ -112,17 +111,15 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
     }
 
     @Override
-    protected void onAttach() {
+    protected void onEnable() {
+
         _canKeepItemsOnDeath = getDataNode().getBoolean("keep-items", _canKeepItemsOnDeath);
         _mobNode = getDataNode().getNode("mobs");
 
         _globalSettings = new DropSettings(null, getDataNode().getNode("global"));
         _playerSettings = new DropSettings(_globalSettings, getDataNode().getNode("player"));
         _mobSettings = new DropSettings(_globalSettings, _mobNode);
-    }
 
-    @Override
-    protected void onEnable() {
         getArena().getEventManager().register(this);
     }
 
