@@ -29,6 +29,7 @@ import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
 import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
+import com.jcwhatever.nucleus.managed.commands.mixins.IVisibleCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
@@ -41,11 +42,12 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="arena",
         command="outofbounds",
-        staticParams={"none|kick|win|lose|respawn|prevent|info=info"},
+        staticParams={"none|kick|win|lose|respawn|prevent"},
         description="Set or view the action taken when a player in an " +
                 "arena exits the arena region. [PVBorders]")
 
-public class OutOfBoundsSubCommand extends AbstractPVCommand implements IExecutableCommand {
+public class OutOfBoundsSubCommand extends AbstractPVCommand
+        implements IExecutableCommand, IVisibleCommand {
 
     @Localizable static final String _EXTENSION_NOT_FOUND =
             "PVBorders extension is not installed in arena '{0: arena name}'.";
@@ -60,7 +62,7 @@ public class OutOfBoundsSubCommand extends AbstractPVCommand implements IExecuta
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
         IArena arena = getSelectedArena(sender,
-                ArenaReturned.getInfoToggled(args, "none|kick|win|lose|respawn|prevent|info"));
+                ArenaReturned.getInfoToggled(args, "none|kick|win|lose|respawn|prevent"));
         if (arena == null)
             return; // finished
 
@@ -68,19 +70,26 @@ public class OutOfBoundsSubCommand extends AbstractPVCommand implements IExecuta
         if (extension == null)
             throw new CommandException(Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
 
-        if (args.getString("none|kick|win|lose|respawn|prevent|info").equals("info")) {
+        if (args.isDefaultValue("none|kick|win|lose|respawn|prevent")) {
             tell(sender, Lang.get(_VIEW_OUTOFBOUNDS,
                     arena.getName(), extension.getOutOfBoundsAction().name()));
         }
         else {
 
             OutOfBoundsAction action = args.getEnum(
-                    "none|kick|win|lose|respawn|prevent|info", OutOfBoundsAction.class);
+                    "none|kick|win|lose|respawn|prevent", OutOfBoundsAction.class);
 
             extension.setOutOfBoundsAction(action);
 
             tellSuccess(sender, Lang.get(_SET_OUTOFBOUNDS, arena.getName(), action.name()));
         }
+    }
+
+    @Override
+    public boolean isVisible(CommandSender sender) {
+
+        IArena arena = getSelectedArena(sender, ArenaReturned.ALWAYS);
+        return arena != null && arena.getExtensions().has(BordersExtension.class);
     }
 }
 

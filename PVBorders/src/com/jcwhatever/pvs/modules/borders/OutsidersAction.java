@@ -45,5 +45,11 @@ public enum OutsidersAction {
     /**
      * Add the player to the game.
      */
-    JOIN
+    JOIN,
+
+    /**
+     * Prevent player from moving into the arena. If the player manages to get deep within
+     * the arena, the player may not be able to move.
+     */
+    PREVENT
 }

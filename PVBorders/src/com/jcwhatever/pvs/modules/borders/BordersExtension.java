@@ -39,8 +39,8 @@ import com.jcwhatever.pvs.api.arena.options.ArenaContext;
 import com.jcwhatever.pvs.api.events.region.PlayerEnterArenaRegionEvent;
 import com.jcwhatever.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.pvs.api.utils.Msg;
-
 import org.bukkit.Location;
+import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
 
@@ -111,9 +111,30 @@ public class BordersExtension extends ArenaExtension implements IEventListener {
     }
 
     @EventMethod
+    private void onPlayerMove(PlayerMoveEvent event) {
+        if (getOutsidersAction() != OutsidersAction.PREVENT)
+            return;
+
+        IArena arena = getArena();
+
+        Location to = event.getTo();
+        if (!arena.getRegion().contains(to))
+            return;
+
+        Player player = event.getPlayer();
+        IArenaPlayer arenaPlayer = PVStarAPI.getArenaPlayer(player);
+
+        if (arena.equals(arenaPlayer.getArena()))
+            return;
+
+        event.setCancelled(true);
+    }
+
+    @EventMethod
     private void onPlayerEnterRegion(PlayerEnterArenaRegionEvent event) {
 
-        if (getOutsidersAction() == OutsidersAction.NONE)
+        if (getOutsidersAction() == OutsidersAction.NONE ||
+                getOutsidersAction() == OutsidersAction.PREVENT)
             return;
 
         if (!getArena().getGame().isRunning())

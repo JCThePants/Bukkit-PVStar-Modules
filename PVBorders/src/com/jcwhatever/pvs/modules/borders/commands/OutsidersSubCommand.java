@@ -29,6 +29,7 @@ import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
 import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
+import com.jcwhatever.nucleus.managed.commands.mixins.IVisibleCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
@@ -41,10 +42,12 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="arena",
         command="outsiders",
+        staticParams = {"none|join|kick|prevent"},
         description="Set or view the action taken when a non-arena player " +
                 "enters the selected arenas region. [PVBorders]")
 
-public class OutsidersSubCommand extends AbstractPVCommand implements IExecutableCommand {
+public class OutsidersSubCommand extends AbstractPVCommand
+        implements IExecutableCommand, IVisibleCommand {
 
     @Localizable static final String _EXTENSION_NOT_FOUND =
             "PVBorders extension is not installed in arena '{0: arena name}'.";
@@ -58,7 +61,7 @@ public class OutsidersSubCommand extends AbstractPVCommand implements IExecutabl
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
-        IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "none|join|kick|info"));
+        IArena arena = getSelectedArena(sender, ArenaReturned.getInfoToggled(args, "none|join|kick|prevent"));
         if (arena == null)
             return; // finished
 
@@ -66,14 +69,21 @@ public class OutsidersSubCommand extends AbstractPVCommand implements IExecutabl
         if (extension == null)
             throw new CommandException(Lang.get(_EXTENSION_NOT_FOUND, arena.getName()));
 
-        if (args.getString("none|join|kick|info").equals("info")) {
+        if (args.isDefaultValue("none|join|kick|prevent")) {
             tell(sender, Lang.get(_VIEW_OUTSIDERS, arena.getName(), extension.getOutsidersAction().name()));
         }
         else {
-            OutsidersAction action = args.getEnum("none|join|kick|info", OutsidersAction.class);
+            OutsidersAction action = args.getEnum("none|join|kick|prevent", OutsidersAction.class);
             extension.setOutsidersAction(action);
 
             tellSuccess(sender, Lang.get(_SET_OUTSIDERS, arena.getName(), action.name()));
         }
+    }
+
+    @Override
+    public boolean isVisible(CommandSender sender) {
+
+        IArena arena = getSelectedArena(sender, ArenaReturned.ALWAYS);
+        return arena != null && arena.getExtensions().has(BordersExtension.class);
     }
 }
