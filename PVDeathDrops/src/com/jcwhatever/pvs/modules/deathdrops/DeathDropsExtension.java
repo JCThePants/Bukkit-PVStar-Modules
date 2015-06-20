@@ -30,12 +30,9 @@ import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.Rand;
-import com.jcwhatever.nucleus.utils.player.PlayerStateSnapshot;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
-import com.jcwhatever.pvs.api.events.players.PlayerArenaRespawnEvent;
 import org.bukkit.Material;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -46,9 +43,7 @@ import org.bukkit.plugin.Plugin;
 
 import javax.annotation.Nullable;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 @ArenaExtensionInfo(
         name="PVDeathDrops",
@@ -56,7 +51,7 @@ import java.util.UUID;
 public class DeathDropsExtension extends ArenaExtension implements IEventListener {
 
     private Map<EntityType, DropSettings> _entitySettings = new EnumMap<>(EntityType.class);
-    private Map<UUID, PlayerStateSnapshot> _itemsToRestore = new HashMap<>(25);
+    //private Map<UUID, PlayerStateSnapshot> _itemsToRestore = new PlayerMapHashMap<>(25);
 
     private DropSettings _globalSettings; // all
     private DropSettings _playerSettings; // player entity
@@ -129,30 +124,55 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
     }
 
     /*
-     *  Player kills entity (possibly another player)
+     *  Player kills entity
      */
     @EventMethod
-    private void onPlayerKill(EntityDeathEvent event) {
+    private void onPlayerKillEntity(EntityDeathEvent event) {
 
         if (event.getEntity().getKiller() == null)
             return;
 
-        DropSettings settings;
+        if (event.getEntity() instanceof Player)
+            return;
 
-        // check for player kill
-        if (event.getEntity() instanceof Player) {
-            settings = _playerSettings;
-        }
-        // check for living entity kill
-        else {
-            EntityType type = event.getEntity().getType();
-
-            settings = getLivingEntitySettings(type);
-        }
-
+        EntityType type = event.getEntity().getType();
+        DropSettings settings = getLivingEntitySettings(type);
         if (settings == null)
             return;
 
+        handleDeath(settings, event);
+    }
+
+    /*
+     *  Player kills Player
+     */
+    @EventMethod
+    private void onPlayerKillPlayer(PlayerDeathEvent event) {
+
+        if (event.getEntity().getKiller() == null)
+            return;
+
+        DropSettings settings = _playerSettings;
+        if (settings == null)
+            return;
+
+        handleDeath(settings, event);
+    }
+
+    /*
+     *  Player dies.
+     */
+    @EventMethod
+    private void onPlayerDeath(PlayerDeathEvent event) {
+
+        if (!_canKeepItemsOnDeath)
+            return;
+
+        event.setKeepInventory(true);
+        event.getDrops().clear();
+    }
+
+    private void handleDeath(DropSettings settings, EntityDeathEvent event) {
         if (settings.isItemDropEnabled()) {
             dropItems(event, settings);
         }
@@ -166,44 +186,6 @@ public class DeathDropsExtension extends ArenaExtension implements IEventListene
         else {
             event.setDroppedExp(0);
         }
-    }
-
-    /*
-     *  Player dies.
-     */
-    @EventMethod
-    private void onPlayerDeath(PlayerDeathEvent event) {
-
-        if (!_canKeepItemsOnDeath)
-            return;
-
-        PlayerStateSnapshot snapshot = new PlayerStateSnapshot(event.getEntity());
-
-        _itemsToRestore.put(event.getEntity().getUniqueId(), snapshot);
-
-        event.getDrops().clear();
-    }
-
-    /*
-     * Player respawn.
-     */
-    @EventMethod
-    private void onPlayerRespawn(PlayerArenaRespawnEvent event) {
-        if (!_canKeepItemsOnDeath)
-            return;
-
-        PlayerStateSnapshot snapshot = _itemsToRestore.remove(event.getPlayer().getUniqueId());
-        if (snapshot == null)
-            return;
-
-        Player p = event.getPlayer().getPlayer();
-        p.getInventory().setContents(snapshot.getItems());
-        p.getInventory().setArmorContents(snapshot.getArmor());
-    }
-
-    @EventMethod
-    private void  onArenaEnd(ArenaEndedEvent event) {
-        _itemsToRestore.clear();
     }
 
     private void dropItems(EntityDeathEvent event, DropSettings settings) {
