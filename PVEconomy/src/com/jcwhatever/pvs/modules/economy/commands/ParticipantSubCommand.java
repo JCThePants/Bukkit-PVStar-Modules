@@ -42,7 +42,6 @@ import org.bukkit.command.CommandSender;
         parent="economy",
         command="participant",
         staticParams={"amount=info"},
-        usage="/{plugin-command} economy participant [amount]",
         description="Set or view the currency amount rewarded/deducted from players when " +
                 "they participate in the selected arena.",
 
