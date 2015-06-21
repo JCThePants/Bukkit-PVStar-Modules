@@ -51,9 +51,11 @@ import org.bukkit.plugin.Plugin;
 public class StartCountdownExtension extends ArenaExtension implements IEventListener {
 
     @Localizable static final String _AUTO_START_INFO =
-            "{YELLOW}Countdown to start will begin once {0} or more players " +
-                    "have joined. Type '/pv vote' if you would like to start the countdown now. All players " +
-                    "must vote in order to start the countdown early.";
+            "{YELLOW}Countdown to start will begin once {0} or more players "
+                    + "have joined. Type '{GREEN}/pv vote{YELLOW}' if you would like to start "
+                    + "the countdown now. All players must vote in order to start the "
+                    + "countdown early.";
+
     @Localizable static final String _STARTING_COUNTDOWN = "{YELLOW}Starting in {0} seconds...";
     @Localizable static final String _MOD_10_SECONDS = "{YELLOW}{0} seconds...";
     @Localizable static final String _SECONDS = "{RED}{0}...";
