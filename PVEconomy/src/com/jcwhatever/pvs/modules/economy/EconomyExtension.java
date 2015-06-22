@@ -61,7 +61,8 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
     }
 
     @Override
-    protected void onAttach() {
+    protected void onEnable() {
+
         IDataNode settings = getDataNode();
 
         _kill = settings.getDouble("kill", _kill);
@@ -69,10 +70,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
         _participant = settings.getDouble("participant", _participant);
         _win = settings.getDouble("win", _win);
         _lose = settings.getDouble("lose", _lose);
-    }
 
-    @Override
-    protected void onEnable() {
         getArena().getEventManager().register(this);
     }
 
@@ -146,38 +144,34 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
     }
 
     public void setWinAmount(double amount) {
-        _win = amount;
-        getDataNode().set("win", amount);
-        getDataNode().save();
+        save("win", _win = amount);
     }
 
     public void setLoseAmount(double amount) {
-        _lose = amount;
-        getDataNode().set("lose", amount);
-        getDataNode().save();
+        save("lose", _lose = amount);
     }
 
     public void setKillAmount(double amount) {
-        _kill = amount;
-        getDataNode().set("kill", amount);
-        getDataNode().save();
+        save("kill", _kill = amount);
     }
 
     public void setDeathAmount(double amount) {
-        _death = amount;
-        getDataNode().set("death", amount);
-        getDataNode().save();
+        save("death", _death = amount);
     }
 
     public void setParticipantAmount(double amount) {
-        _participant = amount;
-        getDataNode().set("participant", amount);
-        getDataNode().save();
+        save("participant", _participant = amount);
     }
 
     private void giveMoney(IArenaPlayer player, double amount) {
         PreCon.notNull(player);
 
         Economy.depositOrWithdraw(player.getUniqueId(), amount);
+    }
+
+    private void save(String nodeName, double amount) {
+        IDataNode dataNode = getDataNode();
+        dataNode.set(nodeName, amount);
+        dataNode.save();
     }
 }
