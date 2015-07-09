@@ -60,6 +60,11 @@ public class PV2DExtension extends ArenaExtension implements IEventListener {
     }
 
     public List<Tile> getTiles() {
+        if (_tiles == null) {
+            throw new IllegalStateException("PV2DExtension for Arena '" + getArena().getName()
+                    + "' is not enabled.");
+        }
+
         return new ArrayList<>(_tiles.values());
     }
 
@@ -103,7 +108,7 @@ public class PV2DExtension extends ArenaExtension implements IEventListener {
         ArenaRegion region = getArena().getRegion();
 
         if (!region.isDefined()) {
-            Msg.debug("Region for arena '{0}' not defined yet.");
+            Msg.warning("Region for arena '{0}' not defined yet.", getArena().getName());
             return false;
         }
 
