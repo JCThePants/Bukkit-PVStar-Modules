@@ -25,6 +25,7 @@
 
 package com.jcwhatever.pvs.modules.protect;
 
+import com.jcwhatever.nucleus.events.block.PlayerTransformBlockEvent;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.pvs.api.PVStarAPI;
@@ -82,6 +83,14 @@ public class ProtectExtension extends ArenaExtension implements IEventListener {
      */
     @EventMethod
     private void onBlockPlace(BlockPlaceEvent event) {
+        event.setCancelled(true);
+    }
+
+    /**
+     * Prevent transforming blocks
+     */
+    @EventMethod
+    private void onTransformBlock(PlayerTransformBlockEvent event) {
         event.setCancelled(true);
     }
 
