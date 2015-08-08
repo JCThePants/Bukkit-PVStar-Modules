@@ -23,16 +23,16 @@
  */
 
 
-package com.jcwhatever.pvs.modules.mobs.spawners;
+package com.jcwhatever.pvs.modules.randombox;
 
-import com.jcwhatever.nucleus.storage.settings.ISettingsManager;
-import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.managed.language.Localized;
 
-import java.util.Map;
+public class Lang {
 
-public interface ISpawnerSettings {
+    private Lang() {}
 
-    Map<String, PropertyDefinition> getDefinitions();
-
-    ISettingsManager getManager();
+    @Localized
+    public static String get(String text, Object... params) {
+        return RandomBoxModule.getModule().getLanguageContext().get(text, params);
+    }
 }

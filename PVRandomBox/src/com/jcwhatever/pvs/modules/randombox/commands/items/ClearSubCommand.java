@@ -22,46 +22,28 @@
  * THE SOFTWARE.
  */
 
-package com.jcwhatever.pvs.modules.mobs.commands.limit;
+
+package com.jcwhatever.pvs.modules.randombox.commands.items;
 
 import com.jcwhatever.nucleus.managed.commands.CommandInfo;
 import com.jcwhatever.nucleus.managed.commands.arguments.ICommandArguments;
 import com.jcwhatever.nucleus.managed.commands.exceptions.CommandException;
 import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
-import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
-import com.jcwhatever.nucleus.utils.entity.EntityTypeProperty;
-import com.jcwhatever.nucleus.utils.entity.EntityTypes;
-import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
-import com.jcwhatever.pvs.api.utils.Msg;
-import com.jcwhatever.pvs.modules.mobs.Lang;
-import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
-
+import com.jcwhatever.pvs.modules.randombox.Lang;
+import com.jcwhatever.pvs.modules.randombox.RandomBoxExtension;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.EntityType;
-
-import java.util.Set;
 
 @CommandInfo(
-        parent="limit",
-        command="info",
-        staticParams = { "page=1" },
-        description="Get entity spawn limit info for the selected arena.",
+        command="clear",
+        description="Clear all random box items for the selected arena.")
 
-        paramDescriptions = {
-                "page= {PAGE}"})
+public class ClearSubCommand extends AbstractPVCommand implements IExecutableCommand {
 
-public class InfoSubCommand extends AbstractPVCommand implements IExecutableCommand {
-
-    @Localizable static final String _EXTENSION_NOT_INSTALLED =
-            "PVMobs extension is not installed in arena '{0: arena name}'.";
-
-    @Localizable static final String _PAGINATOR_TITLE =
-            "Mob Limits in arena '{0: arena name}'";
-
-    @Localizable static final String _LABEL_NONE = "none";
+    @Localizable static final String _SUCCESS =
+            "Random box items cleared for arena '{0: arena name}'.";
 
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
@@ -70,26 +52,14 @@ public class InfoSubCommand extends AbstractPVCommand implements IExecutableComm
         if (arena == null)
             return; // finish
 
-        MobArenaExtension extension = arena.getExtensions().get(MobArenaExtension.class);
-        if (extension == null)
-            throw new CommandException(Lang.get(_EXTENSION_NOT_INSTALLED, arena.getName()));
-
-        int page = args.getInteger("page");
-
-        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE, arena.getName()));
-
-        Set<EntityType> mobTypes = EntityTypes.get(EntityTypeProperty.ALIVE);
-
-        String noneLabel = Lang.get(_LABEL_NONE);
-
-        for (EntityType type : mobTypes) {
-
-            int limit = extension.getTypeLimits().get(type);
-
-            pagin.add(type.name(), limit >= 0 ? limit : noneLabel);
+        RandomBoxExtension extension = getExtension(sender, arena, RandomBoxExtension.class);
+        if (extension == null) {
+            return; // finish
         }
 
-        pagin.show(sender, page, FormatTemplate.CONSTANT_DEFINITION);
+        extension.getItems().clear();
+
+        tellSuccess(sender, Lang.get(_SUCCESS, arena.getName()));
     }
 }
 

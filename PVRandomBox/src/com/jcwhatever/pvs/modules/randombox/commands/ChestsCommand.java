@@ -23,16 +23,35 @@
  */
 
 
-package com.jcwhatever.pvs.modules.mobs.spawners;
+package com.jcwhatever.pvs.modules.randombox.commands;
 
-import com.jcwhatever.nucleus.storage.settings.ISettingsManager;
-import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.nucleus.managed.commands.mixins.IVisibleCommand;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
+import com.jcwhatever.pvs.modules.randombox.RandomBoxExtension;
+import com.jcwhatever.pvs.modules.randombox.commands.items.ItemsCommand;
+import org.bukkit.command.CommandSender;
 
-import java.util.Map;
+@CommandInfo(
+        command="randbox",
+        description="Manage arena random boxes. [PVRandomBox]")
 
-public interface ISpawnerSettings {
+public class ChestsCommand extends AbstractPVCommand implements IVisibleCommand {
 
-    Map<String, PropertyDefinition> getDefinitions();
+    public ChestsCommand() {
+        super();
 
-    ISettingsManager getManager();
+        registerCommand(MaxSubCommand.class);
+        registerCommand(ScanSubCommand.class);
+        registerCommand(RandomSubCommand.class);
+
+        registerCommand(ItemsCommand.class);
+    }
+
+    @Override
+    public boolean isVisible(CommandSender sender) {
+        IArena arena = getSelectedArena(sender, ArenaReturned.ALWAYS);
+        return arena != null && arena.getExtensions().has(RandomBoxExtension.class);
+    }
 }

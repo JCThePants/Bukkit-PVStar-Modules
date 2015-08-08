@@ -25,22 +25,21 @@
 
 package com.jcwhatever.pvs.modules.mobs.paths;
 
-import com.jcwhatever.pvs.api.arena.IArena;
-import com.jcwhatever.pvs.api.spawns.Spawnpoint;
-import com.jcwhatever.pvs.api.utils.Msg;
-import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
-import com.jcwhatever.pvs.modules.mobs.utils.DistanceUtils;
-import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.astar.AStar;
 import com.jcwhatever.nucleus.utils.astar.AStarUtils;
 import com.jcwhatever.nucleus.utils.astar.PathAreaFinder;
 import com.jcwhatever.nucleus.utils.astar.PathAreaFinder.PathAreaResults;
+import com.jcwhatever.nucleus.utils.coords.LocationUtils;
+import com.jcwhatever.nucleus.utils.coords.SyncLocation;
 import com.jcwhatever.nucleus.utils.file.BasicByteReader;
 import com.jcwhatever.nucleus.utils.file.BasicByteWriter;
-
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.spawns.Spawnpoint;
+import com.jcwhatever.pvs.api.utils.Msg;
+import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
+import com.jcwhatever.pvs.modules.mobs.utils.DistanceUtils;
 import org.bukkit.Location;
-import org.bukkit.World;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -86,7 +85,7 @@ public class PathCacheEntry {
      *
      * @param destination  The destination to check.
      */
-    public boolean isValidDesination(Location destination) {
+    public boolean isValidDestination(Location destination) {
 
         if (LocationUtils.findSurfaceBelow(destination, DESTINATION_LOCATION) == null)
             return false;
@@ -168,9 +167,7 @@ public class PathCacheEntry {
         }
 
         reader.getString(); // location name
-        Location loc = reader.getLocation();
-
-        World world = loc.getWorld();
+        reader.getLocation(); // spawn location
 
         _isValidCachedPaths = reader.getByte() != 0;
 
@@ -179,8 +176,10 @@ public class PathCacheEntry {
         Set<Location> locations = new HashSet<Location>(totalLocations);
 
         for (int i=0; i < totalLocations; i++) {
-            Location location = reader.getLocation();
-            locations.add(location);
+            SyncLocation location = reader.getLocation();
+
+            // convert SyncLocation to Location
+            locations.add(LocationUtils.copy(location));
         }
 
         reader.close();

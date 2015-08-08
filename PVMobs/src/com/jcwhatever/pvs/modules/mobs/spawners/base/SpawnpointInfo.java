@@ -22,17 +22,45 @@
  * THE SOFTWARE.
  */
 
+package com.jcwhatever.pvs.modules.mobs.spawners.base;
 
-package com.jcwhatever.pvs.modules.mobs.spawners;
+import com.jcwhatever.pvs.api.spawns.Spawnpoint;
+import org.bukkit.entity.Entity;
 
-import com.jcwhatever.nucleus.storage.settings.ISettingsManager;
-import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
-
+import java.util.HashMap;
 import java.util.Map;
 
-public interface ISpawnerSettings {
+/*
+ * Tracks entities spawned on a spawnpoint.
+ */
+public class SpawnpointInfo {
 
-    Map<String, PropertyDefinition> getDefinitions();
+    private final Spawnpoint _spawnpoint;
+    private final Map<Entity, Void> _spawnedEntities;
 
-    ISettingsManager getManager();
+    public SpawnpointInfo(Spawnpoint spawnpoint, int maxMobsPerSpawn) {
+        _spawnpoint = spawnpoint;
+        _spawnedEntities = new HashMap<>(maxMobsPerSpawn + 5);
+    }
+
+    public Spawnpoint getSpawnpoint() {
+        return _spawnpoint;
+    }
+
+    public int getEntityCount() {
+        int count = 0;
+        for (Entity entity : _spawnedEntities.keySet()) {
+
+            if (entity.isDead())
+                continue;
+
+            count++;
+        }
+
+        return count;
+    }
+
+    public void addEntity(Entity entity) {
+        _spawnedEntities.put(entity, null);
+    }
 }

@@ -25,6 +25,11 @@
 
 package com.jcwhatever.pvs.modules.mobs.utils;
 
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.ThreadSingletons;
+import com.jcwhatever.nucleus.utils.astar.AStar;
+import com.jcwhatever.nucleus.utils.astar.AStarUtils;
+import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
@@ -32,18 +37,14 @@ import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.pvs.modules.mobs.paths.PathCache;
 import com.jcwhatever.pvs.modules.mobs.paths.PathCacheEntry;
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.astar.AStar;
-import com.jcwhatever.nucleus.utils.astar.AStarUtils;
-
 import org.bukkit.Location;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Nullable;
 
 public class DistanceUtils {
 
@@ -54,6 +55,8 @@ public class DistanceUtils {
     public static final byte MAX_DROP_HEIGHT = 6;
     public static final int MAX_ITERATIONS = 5000;
 
+    private static ThreadSingletons<Location> PLAYER_LOCATIONS = LocationUtils.createThreadSingleton();
+    private static ThreadSingletons<Location> BLOCK_LOCATIONS = LocationUtils.createThreadSingleton();
 
     /**
      * Determine if the specified destination is valid. Uses cached paths if available,
@@ -87,7 +90,7 @@ public class DistanceUtils {
             if (entry != null && entry.hasPathCache()) {
 
                 // return cached result
-                return entry.isValidDesination(destination);
+                return entry.isValidDestination(destination);
             }
         }
 
@@ -98,7 +101,7 @@ public class DistanceUtils {
         astar.setMaxIterations(MAX_ITERATIONS);
 
         int distance = AStarUtils.searchSurface(astar, source, destination)
-                    .getPathDistance();
+                .getPathDistance();
 
         return distance > -1 && distance <= maxPathDistance;
     }
@@ -119,13 +122,16 @@ public class DistanceUtils {
         List<T> playerResults = new ArrayList<>(players.size());
         Set<T> spawns = new HashSet<>(spawnpoints);
 
+        Location playerLocation = PLAYER_LOCATIONS.get();
+        Location blockLocation = BLOCK_LOCATIONS.get();
+
         for (IArenaPlayer player : players) {
 
-            Location playerLocation  = player.getLocation();
+            Location location  = LocationUtils.getBlockLocation(player.getLocation(playerLocation), blockLocation);
 
             for (T spawn : spawns) {
 
-                if (isValidMobDestination(arena, spawn, playerLocation, SEARCH_RADIUS, maxPathDistance)) {
+                if (isValidMobDestination(arena, spawn, location, SEARCH_RADIUS, maxPathDistance)) {
                     playerResults.add(spawn);
                 }
             }
@@ -140,9 +146,9 @@ public class DistanceUtils {
         return result;
     }
 
+    public static <T extends Spawnpoint> T getClosestSpawn(
+            Collection<T> spawnpoints, Location location, @Nullable T exclude) {
 
-
-    public static <T extends Spawnpoint> T getClosestSpawn(Collection<T> spawnpoints, Location location, @Nullable T exclude) {
         PreCon.notNull(spawnpoints);
         PreCon.notNull(location);
 
@@ -170,11 +176,11 @@ public class DistanceUtils {
         return result;
     }
 
+    public static IArenaPlayer getClosestPlayer(
+            Collection<IArenaPlayer> players, Location loc, int maxDistanceSquared) {
 
-    public static IArenaPlayer getClosestPlayer(Collection<IArenaPlayer> players, Location loc, int maxDistanceSquared) {
         PreCon.notNull(players);
         PreCon.notNull(loc);
-
 
         double current = maxDistanceSquared;
         IArenaPlayer result = null;
@@ -184,7 +190,7 @@ public class DistanceUtils {
             if (player.isImmobilized())
                 continue;
 
-            Location pLoc = player.getLocation();
+            Location pLoc = player.getLocation(PLAYER_LOCATIONS.get());
 
             if (!pLoc.getWorld().equals(loc.getWorld()))
                 continue;
@@ -199,5 +205,4 @@ public class DistanceUtils {
 
         return result;
     }
-
 }

@@ -29,15 +29,14 @@ import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
-
 import org.bukkit.entity.Entity;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import javax.annotation.Nullable;
 
 public class SpawnGroup extends Spawnpoint {
 
@@ -45,7 +44,9 @@ public class SpawnGroup extends Spawnpoint {
     private final Set<Spawnpoint> _spawns = new HashSet<>(10);
 
     public SpawnGroup(MobArenaExtension manager, Spawnpoint primary) {
-        super(primary.getName(), primary.getSpawnType(), primary.getTeam(), primary.getWorld(), primary.getX(), primary.getY(), primary.getZ(), primary.getYaw(), primary.getPitch());
+        super(primary.getName(), primary.getSpawnType(), primary.getTeam(), primary.getWorld(),
+                primary.getX(), primary.getY(), primary.getZ(), primary.getYaw(), primary.getPitch());
+
         _manager = manager;
         _spawns.add(primary);
     }
@@ -71,15 +72,13 @@ public class SpawnGroup extends Spawnpoint {
 
         List<Entity> result = new ArrayList<>(count * _spawns.size());
 
-        int totalPlayers = arena.getGame().getPlayers().size();
+        int maxMobs = _manager.getSpawner().getSpawnLimit();
+        int spawned = 0;
 
-        int maxMobs = Math.min(_manager.getSpawner().getSettings().getMaxMobs(),
-                               _manager.getSpawner().getSettings().getMaxMobsPerPlayer() * totalPlayers);
 
         for (Spawnpoint spawn : _spawns) {
 
-            int max =  maxMobs - _manager.getMobCount() - result.size();
-
+            int max =  maxMobs - spawned;
             if (max <= 0)
                 break;
 
@@ -88,6 +87,7 @@ public class SpawnGroup extends Spawnpoint {
                 continue;
 
             result.addAll(mobs);
+            spawned += mobs.size();
         }
 
         return result;

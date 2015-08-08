@@ -23,16 +23,24 @@
  */
 
 
-package com.jcwhatever.pvs.modules.mobs.spawners;
+package com.jcwhatever.pvs.modules.randombox.commands.items;
 
-import com.jcwhatever.nucleus.storage.settings.ISettingsManager;
-import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
+import com.jcwhatever.nucleus.managed.commands.CommandInfo;
+import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 
-import java.util.Map;
+@CommandInfo(
+        command="items",
+        description="Manage random box items.")
 
-public interface ISpawnerSettings {
+public class ItemsCommand extends AbstractPVCommand {
 
-    Map<String, PropertyDefinition> getDefinitions();
+    public ItemsCommand() {
+        super();
 
-    ISettingsManager getManager();
+        registerCommand(AddDefaultSubCommand.class);
+        registerCommand(AddSubCommand.class);
+        registerCommand(ClearSubCommand.class);
+        registerCommand(DelSubCommand.class);
+        registerCommand(ListSubCommand.class);
+    }
 }

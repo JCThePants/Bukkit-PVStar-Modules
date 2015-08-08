@@ -22,47 +22,12 @@
  * THE SOFTWARE.
  */
 
+package com.jcwhatever.pvs.modules.mobs.spawners;
 
-package com.jcwhatever.pvs.modules.mobs;
-
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.pvs.api.arena.IArena;
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.LivingEntity;
-
-import java.util.Collection;
-import java.util.Map;
-import java.util.WeakHashMap;
-
-public class ArenaMob {
-
-    private static Map<Entity, IArena> _mobs = new WeakHashMap<>(50);
-
-    public static void registerEntity(Entity entity, IArena arena) {
-        PreCon.notNull(entity);
-        PreCon.notNull(arena);
-
-        _mobs.put(entity, arena);
-    }
-
-    public static void registerLivingEntities(Collection<LivingEntity> entities, IArena arena) {
-        PreCon.notNull(entities);
-        PreCon.notNull(arena);
-
-        for (LivingEntity entity : entities)
-            _mobs.put(entity, arena);
-    }
-
-    public static void registerEntities(Collection<Entity> entities, IArena arena) {
-        PreCon.notNull(entities);
-        PreCon.notNull(arena);
-
-        for (Entity entity : entities)
-            _mobs.put(entity, arena);
-    }
-
-    public static IArena getEntityArena(Entity entity) {
-        return _mobs.get(entity);
-    }
-
+/**
+ * Reasons a mob is removed from a spawner.
+ */
+public enum MobRemoveReason {
+    OUT_OF_RANGE,
+    KILLED
 }

@@ -22,8 +22,7 @@
  * THE SOFTWARE.
  */
 
-
-package com.jcwhatever.pvs.modules.mobs.spawners.proximity;
+package com.jcwhatever.pvs.modules.mobs.spawners.wave;
 
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.ISettingsManager;
@@ -31,59 +30,72 @@ import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.nucleus.storage.settings.SettingsManager;
-import com.jcwhatever.nucleus.storage.settings.SettingsManager.PropertyValue;
 import com.jcwhatever.nucleus.utils.observer.update.UpdateSubscriber;
 import com.jcwhatever.pvs.modules.mobs.spawners.ISpawnerSettings;
 
 import java.util.Map;
 
-public class ProximitySettings implements ISpawnerSettings {
+/*
+ * 
+ */
+public class WaveSettings implements ISpawnerSettings {
 
     private static Map<String, PropertyDefinition> _possibleSettings;
 
     static {
         _possibleSettings = new SettingsBuilder()
-                .set("max-mobs", PropertyValueType.INTEGER, 20,
+                .set("max-mobs", PropertyValueType.INTEGER, 45,
                         "Maximum mobs spawned.")
 
                 .set("max-per-spawn", PropertyValueType.INTEGER, 2,
                         "Maximum mobs alive per spawnpoint.")
 
-                .set("max-mobs-per-player", PropertyValueType.INTEGER, 4,
+                .set("max-mobs-per-player", PropertyValueType.INTEGER, 8,
                         "Maximum mobs spawned per player.")
 
-                .set("max-path-distance", PropertyValueType.INTEGER, 18,
-                        "Maximum mob path distance when detecting proximity.")
+                .set("wave-multiplier", PropertyValueType.INTEGER, 1,
+                        "Sets multiplier used to determine how many mobs to spawn in current wave.")
 
                 .set("max-distance", PropertyValueType.INTEGER, 24,
                         "Maximum distance when detecting proximity.")
+
+                .set("seconds-between-waves", PropertyValueType.INTEGER, 10,
+                        "The number of seconds before the next wave begins.")
+
+                .set("display-wave-title", PropertyValueType.BOOLEAN, true,
+                        "Determine if a title message should be displayed to indicate the current wave.")
 
                 .build()
         ;
     }
 
-    private int _maxMobs = 20;
+    private int _maxMobs = 45;
     private int _maxMobsPerSpawn = 2;
-    private int _maxMobsPerPlayer = 4;
-    private int _maxMobPathDistance = 18; // max distance of a valid mob path
+    private int _maxMobsPerPlayer = 8;
+    private int _waveMultiplier = 1;
     private int _maxMobDistance = 24;
+    private int _secondsBetweenWaves = 10;
+    private boolean _displayWaveTitle = true;
     private int _maxMobDistanceSquared; // max distance when getting closest mob (squared)
+
 
     private final IDataNode _dataNode;
     private final SettingsManager _settingsManager;
 
-    ProximitySettings(ProximitySpawner spawner) {
-        _dataNode = spawner.getExtension().getDataNode().getNode("spawners.proximity");
+    WaveSettings(WaveSpawner spawner) {
+        _dataNode = spawner.getExtension().getDataNode().getNode("spawners.wave");
         _settingsManager = new SettingsManager(_dataNode, _possibleSettings);
 
-        UpdateSubscriber<PropertyValue> onChange = new UpdateSubscriber<PropertyValue>() {
+        UpdateSubscriber<SettingsManager.PropertyValue> onChange = new UpdateSubscriber<SettingsManager.PropertyValue>() {
             @Override
-            public void on(PropertyValue argument) {
+            public void on(SettingsManager.PropertyValue argument) {
                 _maxMobs = _dataNode.getInteger("max-mobs", _maxMobs);
                 _maxMobsPerSpawn = _dataNode.getInteger("max-per-spawn", _maxMobsPerSpawn);
                 _maxMobsPerPlayer = _dataNode.getInteger("max-mobs-per-player", _maxMobsPerPlayer);
-                _maxMobPathDistance = _dataNode.getInteger("max-path-distance", _maxMobPathDistance);
+                _waveMultiplier = _dataNode.getInteger("wave-multiplier", _waveMultiplier);
                 _maxMobDistance = _dataNode.getInteger("max-distance", _maxMobDistance);
+                _secondsBetweenWaves = _dataNode.getInteger("seconds-between-waves", _secondsBetweenWaves);
+                _displayWaveTitle = _dataNode.getBoolean("display-wave-title", _displayWaveTitle);
                 _maxMobDistanceSquared = _maxMobDistance * _maxMobDistance;
             }
         };
@@ -106,14 +118,6 @@ public class ProximitySettings implements ISpawnerSettings {
         return _maxMobs;
     }
 
-    public int getMaxMobsPerSpawn() {
-        return _maxMobsPerSpawn;
-    }
-
-    public void setMaxMobsPerSpawn(int value) {
-        _settingsManager.set("max-per-spawn", value);
-    }
-
     public int getMaxMobsPerPlayer() {
         return _maxMobsPerPlayer;
     }
@@ -122,12 +126,21 @@ public class ProximitySettings implements ISpawnerSettings {
         _settingsManager.set("max-mobs-per-player", value);
     }
 
-    public int getMaxPathDistance() {
-        return _maxMobPathDistance;
+    public int getMaxMobsPerSpawn() {
+        return _maxMobsPerSpawn;
     }
 
-    public void setMaxMobPathDistance(int value) {
-        _settingsManager.set("max-path-distance", value);
+    public void setMaxMobsPerSpawn(int value) {
+        _settingsManager.set("max-per-spawn", value);
+    }
+
+
+    public int getWaveMultiplier() {
+        return _waveMultiplier;
+    }
+
+    public void setWaveMultiplier(int value) {
+        _settingsManager.set("wave-multiplier", value);
     }
 
     public int getMaxDistance() {
@@ -140,5 +153,21 @@ public class ProximitySettings implements ISpawnerSettings {
 
     public int getMaxMobDistanceSquared() {
         return _maxMobDistanceSquared;
+    }
+
+    public int getSecondsBetweenWaves() {
+        return _secondsBetweenWaves;
+    }
+
+    public void setSecondsBetweenWaves(int seconds) {
+        _settingsManager.set("seconds-between-waves", seconds);
+    }
+
+    public boolean isWaveTitleDisplayed() {
+        return _displayWaveTitle;
+    }
+
+    public void setWaveTitleDisplayed(boolean isDisplayed) {
+        _settingsManager.set("display-wave-title", isDisplayed);
     }
 }

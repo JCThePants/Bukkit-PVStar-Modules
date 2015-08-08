@@ -27,6 +27,7 @@ package com.jcwhatever.pvs.modules.mobs.spawners;
 
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.modules.mobs.spawners.proximity.ProximitySpawner;
+import com.jcwhatever.pvs.modules.mobs.spawners.wave.WaveSpawner;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
@@ -43,6 +44,7 @@ public class SpawnerManager {
 
     static {
         register(ProximitySpawner.class);
+        register(WaveSpawner.class);
     }
 
     public static void register(Class<? extends ISpawner> spawnerClass) {

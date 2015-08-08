@@ -71,7 +71,7 @@ public class ResetSubCommand extends AbstractPVCommand implements IExecutableCom
         EntityType type = args.getEnum("entityType",
                 EntityType.class, EntityTypes.get(EntityTypeProperty.ALIVE));
 
-        extension.removeMobLimit(type);
+        extension.getTypeLimits().remove(type);
 
         tellSuccess(sender, Lang.get(_SUCCESS, type.name(), arena.getName()));
     }

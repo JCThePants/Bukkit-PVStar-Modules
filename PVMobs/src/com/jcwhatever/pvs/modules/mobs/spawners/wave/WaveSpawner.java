@@ -22,10 +22,12 @@
  * THE SOFTWARE.
  */
 
-
-package com.jcwhatever.pvs.modules.mobs.spawners.proximity;
+package com.jcwhatever.pvs.modules.mobs.spawners.wave;
 
 import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
+import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
+import com.jcwhatever.nucleus.managed.titles.Titles;
+import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
@@ -45,28 +47,23 @@ import org.bukkit.entity.PigZombie;
 
 import java.util.List;
 
-/**
- * Spawns mobs in an arena using the settings
- * specified in the mob manager.
- */
 @SpawnerInfo(
-        name="Proximity",
-        description = "Spawn mobs from spawns that are in proximity to players."
+        name="Wave",
+        description = "Spawn mobs in waves."
 )
-public class ProximitySpawner extends Spawner {
+public class WaveSpawner extends Spawner {
 
-    private ProximitySettings _settings;
+    private WaveSettings _settings;
     private List<Spawnpoint> _mobSpawns;
-
-    private int _maxMobs;
+    private int _wave = 1;
+    private int _totalSpawned = 0;
+    private int _totalKilled = 0;
 
     private IScheduledTask _spawnMobsTask;
     private IScheduledTask _despawnMobsTask;
 
-
-    @Override
-    protected void onInit(MobArenaExtension _extension) {
-        _settings = new ProximitySettings(this);
+    public int getWave() {
+        return _wave;
     }
 
     @Override
@@ -76,15 +73,18 @@ public class ProximitySpawner extends Spawner {
 
     @Override
     public int getSpawnLimit() {
-        return _maxMobs - getMobCount();
+        return Math.min(_settings.getMaxMobs(), Math.max(0, getWaveMobCount(_wave) - _totalSpawned));
+    }
+
+    @Override
+    protected void onInit(MobArenaExtension extension) {
+        _settings = new WaveSettings(this);
     }
 
     @Override
     protected void onRun() {
+
         int totalPlayers = getArena().getGame().getPlayers().size();
-        _maxMobs = Math.min(
-                _settings.getMaxMobs(),
-                _settings.getMaxMobsPerPlayer() * totalPlayers);
 
         _mobSpawns = getExtension().getMobSpawns();
 
@@ -93,8 +93,10 @@ public class ProximitySpawner extends Spawner {
     }
 
     @Override
-    protected void onPause() {
-        // do nothing
+    protected void onStop() {
+        _totalSpawned = 0;
+        _totalKilled = 0;
+        _wave = 1;
     }
 
     @Override
@@ -110,6 +112,38 @@ public class ProximitySpawner extends Spawner {
         }
     }
 
+    @Override
+    protected void onMobSpawn(LivingEntity entity) {
+        _totalSpawned++;
+    }
+
+    @Override
+    protected void onMobRemove(LivingEntity entity, MobRemoveReason reason) {
+
+        if (reason == MobRemoveReason.KILLED) {
+            _totalKilled++;
+        }
+        else {
+            _totalSpawned--;
+        }
+
+        if (_totalKilled >= getWaveMobCount(_wave)) {
+
+            if (_settings.isWaveTitleDisplayed()) {
+                Titles.create("{GREEN}Wave " + (_wave + 1))
+                        .showTo(getArena().getGame().getPlayers().asPlayers());
+            }
+
+            Scheduler.runTaskLater(PVStarAPI.getPlugin(), _settings.getSecondsBetweenWaves() * 20, new Runnable() {
+                @Override
+                public void run() {
+                    _wave++;
+                    _totalSpawned = 0;
+                    _totalKilled = 0;
+                }
+            });
+        }
+    }
 
     /*
      * Set mob targets
@@ -140,15 +174,19 @@ public class ProximitySpawner extends Spawner {
         }
     }
 
+    private int getWaveMobCount(int wave) {
+        return wave * _settings.getWaveMultiplier() * getArena().getGame().getPlayers().size();
+    }
+
     class SpawnTask extends SpawnMobsTask {
 
         public SpawnTask() {
-            super(getExtension(), ProximitySpawner.this);
+            super(getExtension(), WaveSpawner.this);
         }
 
         @Override
         protected int getSpawnLimit() {
-            return ProximitySpawner.this.getSpawnLimit();
+            return WaveSpawner.this.getSpawnLimit();
         }
 
         @Override
@@ -159,19 +197,19 @@ public class ProximitySpawner extends Spawner {
         @Override
         protected List<Spawnpoint> getMobSpawns(IArenaPlayerCollection players) {
             return DistanceUtils.getClosestSpawns(
-                    getArena(), players, _mobSpawns, _settings.getMaxPathDistance());
+                    getArena(), players, _mobSpawns, 34);
         }
 
         @Override
         protected void setMobTargets(List<LivingEntity> mobs) {
-            ProximitySpawner.this.setMobTargets(mobs);
+            WaveSpawner.this.setMobTargets(mobs);
         }
     }
 
     class DespawnMobs extends DespawnMobsTask {
 
         public DespawnMobs() {
-            super(getExtension(), ProximitySpawner.this);
+            super(getExtension(), WaveSpawner.this);
         }
 
         @Override
@@ -186,7 +224,7 @@ public class ProximitySpawner extends Spawner {
 
         @Override
         protected int getMaxPathDistance() {
-            return _settings.getMaxPathDistance();
+            return 34;
         }
     }
 }

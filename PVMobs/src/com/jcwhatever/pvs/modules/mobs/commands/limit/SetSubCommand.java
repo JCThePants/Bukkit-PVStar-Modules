@@ -73,7 +73,7 @@ public class SetSubCommand extends AbstractPVCommand implements IExecutableComma
 
         int limit = args.getInteger("limit");
 
-        extension.setMobLimit(type, limit);
+        extension.getTypeLimits().set(type, limit);
 
         tellSuccess(sender, Lang.get(_SUCCESS, type.name(), limit, arena.getName()));
     }

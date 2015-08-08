@@ -26,32 +26,87 @@
 package com.jcwhatever.pvs.modules.mobs.spawners;
 
 import com.jcwhatever.nucleus.mixins.IDisposable;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.spawns.Spawnpoint;
+import com.jcwhatever.pvs.modules.mobs.DespawnMethod;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
+import org.bukkit.entity.LivingEntity;
+
+import javax.annotation.Nullable;
+import java.util.List;
 
 public interface ISpawner extends IDisposable {
 
     /**
-     * Called when instantiated. Should only be called once.
+     * Invoked when instantiated. Should only be invoked once.
      */
-    public void init(MobArenaExtension manager);
+    void init(MobArenaExtension manager);
 
 
-    public ISpawnerSettings getSettings();
+    ISpawnerSettings getSettings();
+
+    IArena getArena();
+
+    MobArenaExtension getExtension();
+
+    /**
+     * Get the current limit on new mob spawns.
+     */
+    int getSpawnLimit();
+
+    /**
+     * Determine if the spawner is running.
+     */
+    boolean isRunning();
+
+    /**
+     * Determine if the spawner is paused.
+     */
+    boolean isPaused();
 
     /**
      * run or resume the spawner
      */
-    public void run();
+    void run();
 
     /**
      * Pause spawning of mobs.
      */
-    public void pause();
+    void pause();
+
+    /**
+     * Stop and reset the spawner.
+     */
+    void stop();
+
+    /**
+     * Get number of spawned mobs.
+     */
+    int getMobCount();
+
+    /**
+     * Get a list of the spawned mobs
+     */
+    List<LivingEntity> getMobs();
+
+    /**
+     *
+     * @param spawn
+     * @return
+     */
+    @Nullable
+    List<LivingEntity> spawn(Spawnpoint spawn, int count);
+
+    void reset(DespawnMethod method);
+
+    void removeMob(LivingEntity entity, DespawnMethod method, MobRemoveReason reason);
+
+    void removeDead();
 
     /**
      * Called when no longer needed. Cleans up resources, breaks down
      * association with arena and stops all internal tasks.
      */
     @Override
-    public void dispose();
+    void dispose();
 }

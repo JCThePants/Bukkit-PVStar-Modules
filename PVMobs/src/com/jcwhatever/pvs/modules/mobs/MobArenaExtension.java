@@ -25,12 +25,8 @@
 
 package com.jcwhatever.pvs.modules.mobs;
 
-import com.jcwhatever.nucleus.collections.ElementCounter;
-import com.jcwhatever.nucleus.collections.ElementCounter.RemovalPolicy;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.utils.EnumUtils;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
@@ -39,25 +35,16 @@ import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.events.ArenaStartedEvent;
 import com.jcwhatever.pvs.api.events.spawns.SpawnAddedEvent;
 import com.jcwhatever.pvs.api.events.spawns.SpawnRemovedEvent;
-import com.jcwhatever.pvs.api.spawns.SpawnType;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.pvs.modules.mobs.spawners.SpawnerManager;
 import com.jcwhatever.pvs.modules.mobs.spawners.proximity.ProximitySpawner;
 import com.jcwhatever.pvs.modules.mobs.spawngroups.SpawnGroupGenerator;
-
-import org.bukkit.entity.Entity;
-import org.bukkit.entity.EntityType;
-import org.bukkit.entity.LivingEntity;
 import org.bukkit.plugin.Plugin;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.EnumMap;
+import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import javax.annotation.Nullable;
 
 @ArenaExtensionInfo(
         name="PVMobs",
@@ -68,22 +55,21 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
 
     private SpawnGroupGenerator _groups;
     private ISpawner _spawner;
-
-    private List<LivingEntity> _mobs = new ArrayList<LivingEntity>(100);
-
-    // stores max spawn limit for an entity type
-    private Map<EntityType, Integer> _mobLimits = new EnumMap<>(EntityType.class);
-
-    // count the number of entities of each type spawned
-    private ElementCounter<EntityType> _mobCounter = new ElementCounter<EntityType>(RemovalPolicy.KEEP_COUNTING);
+    private MobTypeLimiter _limiter;
 
     @Override
     public Plugin getPlugin() {
         return PVStarAPI.getPlugin();
     }
 
+    public MobTypeLimiter getTypeLimits() {
+        return _limiter;
+    }
+
     @Override
     protected void onEnable() {
+
+        _limiter = new MobTypeLimiter(getDataNode().getNode("limits"));
 
         String spawnerName = getDataNode().getString("spawner", "proximity");
 
@@ -112,7 +98,7 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
 
     @EventMethod
     private void onArenaEnd(@SuppressWarnings("UnusedParameters") ArenaEndedEvent event) {
-        reset(DespawnMethod.REMOVE);
+        _spawner.reset(DespawnMethod.REMOVE);
     }
 
     @EventMethod
@@ -175,197 +161,6 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
         return getDataNode().getString("spawner");
     }
 
-
-    /**
-     * Determine if a spawn type is allowed to spawn.
-     * @param type  The spawn type.
-     */
-    public boolean canSpawnType(SpawnType type) {
-        PreCon.notNull(type);
-
-        // check to see if limits have been imposed
-        if (_mobLimits.size() == 0) {
-            return true; // no limits, can spawn
-        }
-
-        // make sure the spawn type hasn't reached its spawn limit
-        EntityType[] entityTypes = type.getEntityTypes();
-        if (entityTypes == null)
-            return false;
-
-        // check each entity type to see if its limit is reached.
-        for (EntityType entityType : entityTypes) {
-
-            Integer limit = _mobLimits.get(entityType);
-            if (limit == null || limit < 0) {
-                continue;
-            }
-
-            if (limit == 0) {
-                return false;
-            }
-
-            int count = _mobCounter.count(entityType);
-
-            if (count >= limit) {
-                return false;
-            }
-        }
-
-        return true;
-    }
-
-    /**
-     * Get the limit for an entity type. Returns -1
-     * if there is no limit.
-     *
-     * @param type  The entity type.
-     */
-    public int getMobLimit(EntityType type) {
-        Integer value = _mobLimits.get(type);
-        return (value != null) ? value : -1;
-    }
-
-    /**
-     * Set the limit for an entity type.
-     *
-     * @param type   The entity type.
-     * @param limit  The max allowed to spawn.
-     */
-    public void setMobLimit(EntityType type, int limit) {
-        PreCon.notNull(type);
-
-        _mobLimits.put(type, limit);
-
-        IDataNode settings = getDataNode();
-
-        if (limit >= 0)
-            settings.set("limits." + type.name(), limit);
-        else
-            settings.remove("limits." + type.name());
-
-        settings.save();
-    }
-
-    /**
-     * Remove mob limit for an entity type.
-     *
-     * @param type  The entity type.
-     */
-    public void removeMobLimit(EntityType type) {
-        PreCon.notNull(type);
-
-        if (_mobLimits.remove(type) != null) {
-            IDataNode settings = getDataNode();
-            settings.remove("limits." + type.name());
-            settings.save();
-        }
-    }
-
-    /**
-     * Get number of spawned mobs.
-     */
-    public int getMobCount() {
-        return _mobs.size();
-    }
-
-    /**
-     * Get a list of the spawned mobs
-     */
-    public List<LivingEntity> getMobs() {
-        return new ArrayList<LivingEntity>(_mobs);
-    }
-
-    /**
-     *
-     * @param spawn
-     * @return
-     */
-    @Nullable
-    public List<LivingEntity> spawn(Spawnpoint spawn, int count) {
-        PreCon.notNull(spawn);
-
-        // make sure the type hasn't reached its limit
-        if (!canSpawnType(spawn.getSpawnType()))
-            return null;
-
-        // spawn the entity
-        List<Entity> entities = spawn.spawn(getArena(), count);
-        if (entities == null)
-            return null;
-
-        List<LivingEntity> result = new ArrayList<>(entities.size());
-
-        // record each spawned entity and place into LivingEntity result list
-        Iterator<Entity> entityIterator = entities.iterator();
-        while (entityIterator.hasNext()) {
-
-            Entity entity = entityIterator.next();
-
-            if (entity == null)
-                throw new NullPointerException("Entity array has a null entry.");
-
-            if (!(entity instanceof LivingEntity)) {
-                entity.remove();
-                entityIterator.remove();
-                continue;
-            }
-
-            result.add((LivingEntity) entity);
-            _mobs.add((LivingEntity)entity);
-
-            // TODO:
-            ArenaMob.registerEntity(entity, getArena());
-
-            _mobCounter.add(entity.getType());
-        }
-
-        return result;
-    }
-
-
-    public void reset(DespawnMethod method) {
-
-
-        for (LivingEntity entity : _mobs) {
-            _mobCounter.subtract(entity.getType());
-
-            if (method == DespawnMethod.KILL)
-                entity.damage(entity.getMaxHealth());
-            else
-                entity.remove();
-        }
-
-        _mobs.clear();
-    }
-
-    public void removeMob(LivingEntity entity, DespawnMethod method) {
-        PreCon.notNull(entity);
-
-        _mobs.remove(entity);
-        _mobCounter.subtract(entity.getType());
-
-        if (method == DespawnMethod.KILL)
-            entity.damage(entity.getMaxHealth());
-        else
-            entity.remove();
-    }
-
-
-    public void removeDead() {
-        ArrayList<LivingEntity> mobs = new ArrayList<LivingEntity>(_mobs);
-        for (LivingEntity entity : mobs) {
-            if (entity.isDead()) {
-                _mobs.remove(entity);
-                _mobCounter.subtract(entity.getType());
-                entity.remove();
-            }
-        }
-    }
-
-
-
-
     // get game spawns that are alive
     private List<Spawnpoint> getGameMobSpawns() {
         List<Spawnpoint> spawns = getArena().getSpawns().getAll();
@@ -383,28 +178,6 @@ public class MobArenaExtension extends ArenaExtension implements IEventListener 
     }
 
     private void loadSettings() {
-        IDataNode settings = getDataNode();
-
         _groups = new SpawnGroupGenerator(this, getGameMobSpawns());
-
-        // entity type limits
-        _mobLimits.clear();
-        Collection<String> entityNames = settings.getSubNodeNames("limits");
-        if (entityNames != null && !entityNames.isEmpty()) {
-
-            for (String entityName : entityNames) {
-
-                EntityType type = EnumUtils.getEnum(entityName, EntityType.class);
-                if (type == null)
-                    continue;
-
-                int limit = settings.getInteger("limits." + entityName, -1);
-                if (limit < 0)
-                    continue;
-
-                _mobLimits.put(type, limit);
-            }
-        }
-
     }
 }
