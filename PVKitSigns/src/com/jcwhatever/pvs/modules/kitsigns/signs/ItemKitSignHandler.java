@@ -25,11 +25,11 @@
 
 package com.jcwhatever.pvs.modules.kitsigns.signs;
 
-import com.jcwhatever.nucleus.providers.kits.IKit;
-import com.jcwhatever.nucleus.providers.kits.Kits;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.nucleus.managed.signs.SignHandler;
+import com.jcwhatever.nucleus.providers.kits.IKit;
+import com.jcwhatever.nucleus.providers.kits.Kits;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
@@ -37,11 +37,11 @@ import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.options.ArenaContext;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.kitsigns.Lang;
-
+import com.jcwhatever.pvs.modules.kitsigns.events.KitPurchasedEvent;
 import org.bukkit.entity.Player;
 
-import java.util.regex.Matcher;
 import javax.annotation.Nullable;
+import java.util.regex.Matcher;
 
 public class ItemKitSignHandler extends SignHandler {
 
@@ -134,6 +134,16 @@ public class ItemKitSignHandler extends SignHandler {
         IKit currencyKit = getCurrencyKit(sign);
         if (currencyKit == null)
             return SignClickResult.IGNORED;
+
+        KitPurchasedEvent event = new KitPurchasedEvent(
+                player, purchaseKit, cost, KitPurchasedEvent.CurrencyType.ITEM);
+        player.getArena().getEventManager().call(this, event);
+
+        if (event.isCancelled())
+            return SignClickResult.IGNORED;
+
+        cost = (int)event.getCost();
+        purchaseKit = event.getKit();
 
         if (!currencyKit.take(p, cost)) {
             Msg.tell(p, Lang.get(_INSUFFICIENT_FUNDS));

@@ -34,6 +34,7 @@ import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.kitsigns.Lang;
+import com.jcwhatever.pvs.modules.kitsigns.events.KitPurchasedEvent;
 
 import java.util.regex.Matcher;
 
@@ -105,5 +106,10 @@ public class EconKitSignHandler extends AbstractNumberSignHandler {
     @Override
     protected String getCurrencyName() {
         return Economy.getCurrency().getName(CurrencyNoun.PLURAL);
+    }
+
+    @Override
+    protected KitPurchasedEvent.CurrencyType getCurrencyType() {
+        return KitPurchasedEvent.CurrencyType.ECONOMY;
     }
 }

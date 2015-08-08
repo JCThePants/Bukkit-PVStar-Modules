@@ -36,6 +36,7 @@ import com.jcwhatever.pvs.api.arena.options.ArenaContext;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.kitsigns.Lang;
 
+import com.jcwhatever.pvs.modules.kitsigns.events.KitPurchasedEvent;
 import org.bukkit.entity.Player;
 
 public abstract class AbstractNumberSignHandler extends SignHandler {
@@ -92,16 +93,25 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
         if (cost == -1)
             return SignClickResult.IGNORED;
 
+        IKit kit = getKit(sign);
+        if (kit == null)
+            return SignClickResult.IGNORED;
+
+        KitPurchasedEvent event = new KitPurchasedEvent(player, kit, cost, getCurrencyType());
+        player.getArena().getEventManager().call(this, event);
+
+        if (event.isCancelled())
+            return SignClickResult.IGNORED;
+
+        kit = event.getKit();
+        cost = event.getCost();
+
         double balance = getBalance(player);
 
         if (balance < cost) {
             Msg.tell(player, Lang.get(_INSUFFICIENT_FUNDS, getCurrencyName()));
             return SignClickResult.IGNORED;
         }
-
-        IKit kit = getKit(sign);
-        if (kit == null)
-            return SignClickResult.IGNORED;
 
         incrementBalance(player, -cost);
 
@@ -122,6 +132,8 @@ public abstract class AbstractNumberSignHandler extends SignHandler {
     protected abstract void incrementBalance(IArenaPlayer player, double amount);
 
     protected abstract String getCurrencyName();
+
+    protected abstract KitPurchasedEvent.CurrencyType getCurrencyType();
 
 
     private IKit getKit(ISignContainer sign) {
