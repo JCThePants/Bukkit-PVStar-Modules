@@ -26,11 +26,15 @@
 package com.jcwhatever.pvs.modules.doorsigns;
 
 import com.jcwhatever.nucleus.Nucleus;
+import com.jcwhatever.nucleus.managed.signs.ISignContainer;
+import com.jcwhatever.nucleus.managed.signs.SignHandler;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.modules.doorsigns.signs.EconDoorSignHandler;
 import com.jcwhatever.pvs.modules.doorsigns.signs.ExpDoorSignHandler;
 import com.jcwhatever.pvs.modules.doorsigns.signs.ItemDoorSignHandler;
 import com.jcwhatever.pvs.modules.doorsigns.signs.PointsDoorSignHandler;
+
+import java.util.Collection;
 
 public class DoorSignsModule extends PVStarModule {
 
@@ -67,4 +71,22 @@ public class DoorSignsModule extends PVStarModule {
         // do nothing
     }
 
+    @Override
+    protected void onArenasLoaded() {
+        loadDoors(ItemDoorSignHandler.NAME);
+        loadDoors(PointsDoorSignHandler.NAME);
+        loadDoors(ExpDoorSignHandler.NAME);
+        loadDoors(EconDoorSignHandler.NAME);
+    }
+
+    private void loadDoors(String handlerName) {
+        SignHandler handler = Nucleus.getSignManager().getSignHandler(handlerName);
+        Collection<ISignContainer> signs = Nucleus.getSignManager().getSigns(handlerName);
+
+        for (ISignContainer sign : signs) {
+            DoorBlocks blocks = _doorManager.findDoors(handler, sign);
+            if (blocks != null)
+                blocks.setOpen(false);
+        }
+    }
 }

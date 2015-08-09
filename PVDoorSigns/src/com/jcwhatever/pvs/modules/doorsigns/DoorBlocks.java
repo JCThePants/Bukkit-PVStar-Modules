@@ -25,12 +25,12 @@
 
 package com.jcwhatever.pvs.modules.doorsigns;
 
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.nucleus.managed.signs.SignHandler;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.pvs.api.arena.IArena;
-
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.block.Block;
@@ -45,6 +45,8 @@ import java.util.List;
  * Stores door blocks detected by a door sign handler.
  */
 public class DoorBlocks {
+
+    private static Location SIGN_LOCATION = new Location(null, 0, 0, 0);
 
     private final IArena _arena;
     private final SignHandler _handler;
@@ -63,7 +65,7 @@ public class DoorBlocks {
         _sign = sign;
         _doorBlocks = doorBlocks;
 
-        _id = LocationUtils.serialize(sign.getLocation());
+        _id = LocationUtils.serialize(sign.getLocation(SIGN_LOCATION));
     }
 
     public String getId() {

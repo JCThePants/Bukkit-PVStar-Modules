@@ -25,12 +25,12 @@
 
 package com.jcwhatever.pvs.modules.doorsigns.signs;
 
-import com.jcwhatever.nucleus.providers.kits.IKit;
-import com.jcwhatever.nucleus.providers.kits.Kits;
-import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.nucleus.managed.signs.SignHandler;
+import com.jcwhatever.nucleus.providers.kits.IKit;
+import com.jcwhatever.nucleus.providers.kits.Kits;
+import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
@@ -41,13 +41,14 @@ import com.jcwhatever.pvs.modules.doorsigns.DoorBlocks;
 import com.jcwhatever.pvs.modules.doorsigns.DoorManager;
 import com.jcwhatever.pvs.modules.doorsigns.DoorSignsModule;
 import com.jcwhatever.pvs.modules.doorsigns.Lang;
-
 import org.bukkit.entity.Player;
 
-import java.util.regex.Matcher;
 import javax.annotation.Nullable;
+import java.util.regex.Matcher;
 
 public class ItemDoorSignHandler extends SignHandler {
+
+    public static final String NAME = "Item_Door";
 
     @Localizable static final String _INSUFFICIENT_FUNDS =
             "You don't have enough to afford this door.";
@@ -59,7 +60,7 @@ public class ItemDoorSignHandler extends SignHandler {
      * Constructor.
      */
     public ItemDoorSignHandler() {
-        super(PVStarAPI.getPlugin(), "Item_Door");
+        super(PVStarAPI.getPlugin(), NAME);
     }
 
     @Override

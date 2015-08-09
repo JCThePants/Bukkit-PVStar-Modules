@@ -39,6 +39,8 @@ import java.util.regex.Matcher;
 
 public class EconDoorSignHandler extends AbstractNumberSignHandler {
 
+    public static final String NAME = "Econ_Door";
+
     @Localizable static final String _DESCRIPTION =
             "Open doors using player economy currency.";
 
@@ -46,7 +48,7 @@ public class EconDoorSignHandler extends AbstractNumberSignHandler {
      * Constructor.
      */
     public EconDoorSignHandler() {
-        super("Econ_Door");
+        super(NAME);
     }
 
     @Override

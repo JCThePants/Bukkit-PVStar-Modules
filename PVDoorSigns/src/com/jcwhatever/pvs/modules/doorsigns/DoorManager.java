@@ -30,29 +30,30 @@ import com.google.common.collect.MultimapBuilder;
 import com.jcwhatever.nucleus.Nucleus;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.nucleus.managed.signs.SignHandler;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.coords.LocationUtils;
+import com.jcwhatever.nucleus.utils.materials.Materials;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.events.ArenaStartedEvent;
-
-import org.bukkit.Material;
+import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.Sign;
 import org.bukkit.plugin.Plugin;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 public class DoorManager implements IEventListener {
+
+    private static Location SIGN_LOCATION = new Location(null, 0, 0, 0);
 
     private Map<String, DoorBlocks> _doorsBySign = new HashMap<>(20);
     private Multimap<IArena, DoorBlocks> _doorsByArena =
@@ -87,17 +88,16 @@ public class DoorManager implements IEventListener {
         PreCon.notNull(handler);
         PreCon.notNull(signContainer);
 
-        Sign sign = signContainer.getSign();
-        assert sign != null;
+        Location signLocation = signContainer.getLocation(SIGN_LOCATION);
 
-        IArena arena = PVStarAPI.getArenaManager().getArena(sign.getLocation());
+        IArena arena = PVStarAPI.getArenaManager().getArena(signLocation);
         if (arena == null)
             return null;
 
-        int locationX = sign.getX() - 3;
-        int locationY = sign.getY() - 3;
-        int locationZ = sign.getZ() - 3;
-        World world = sign.getWorld();
+        int locationX = signLocation.getBlockX() - 3;
+        int locationY = signLocation.getBlockY() - 3;
+        int locationZ = signLocation.getBlockZ() - 3;
+        World world = signLocation.getWorld();
         ArrayList<Block> doorBlocks = new ArrayList<>(4);
 
         int xEnd = locationX + 6;
@@ -111,7 +111,7 @@ public class DoorManager implements IEventListener {
 
                     Block searchBlock = world.getBlockAt(x, y, z);
 
-                    if (searchBlock.getType() != Material.IRON_DOOR_BLOCK)
+                    if (!Materials.isOpenable(searchBlock.getType()))
                         continue;
 
                     doorBlocks.add(searchBlock);
@@ -128,7 +128,7 @@ public class DoorManager implements IEventListener {
 
     private DoorBlocks getDoorBlocks(IArena arena, SignHandler handler, ISignContainer sign, List<Block> doorBlocks) {
 
-        String doorId = LocationUtils.serialize(sign.getLocation());
+        String doorId = LocationUtils.serialize(sign.getLocation(SIGN_LOCATION));
 
         if (_doorsBySign.containsKey(doorId)) {
             return _doorsBySign.get(doorId);
@@ -165,5 +165,4 @@ public class DoorManager implements IEventListener {
     private void onArenaEnded(ArenaEndedEvent event) {
         closeDoors(event.getArena());
     }
-
 }
