@@ -27,13 +27,12 @@ package com.jcwhatever.pvs.modules.deathdrops;
 
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
-
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nullable;
 import java.util.HashSet;
 import java.util.Set;
-import javax.annotation.Nullable;
 
 public class DropSettings {
 
@@ -208,20 +207,24 @@ public class DropSettings {
     @SuppressWarnings("unchecked")
     private <T> T getValue(String valueName, DataType type, T defaultValue) {
 
-        Object value;
+        Object value = null;
 
         switch (type) {
             case INTEGER:
-                value = _dataNode.getInteger(valueName);
+                if (_dataNode.hasNode(valueName))
+                    value = _dataNode.getInteger(valueName);
                 break;
             case LONG:
-                value = _dataNode.getLong(valueName);
+                if (_dataNode.hasNode(valueName))
+                    value = _dataNode.getLong(valueName);
                 break;
             case DOUBLE:
-                value = _dataNode.getDouble(valueName);
+                if (_dataNode.hasNode(valueName))
+                    value = _dataNode.getDouble(valueName);
                 break;
             case BOOLEAN:
-                value = _dataNode.getBoolean(valueName);
+                if (_dataNode.hasNode(valueName))
+                    value = _dataNode.getBoolean(valueName);
                 break;
             case STRING:
                 value = _dataNode.getString(valueName);
