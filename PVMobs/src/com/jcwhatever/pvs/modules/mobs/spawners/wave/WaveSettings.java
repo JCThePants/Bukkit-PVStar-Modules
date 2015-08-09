@@ -65,6 +65,12 @@ public class WaveSettings implements ISpawnerSettings {
                 .set("display-wave-title", PropertyValueType.BOOLEAN, true,
                         "Determine if a title message should be displayed to indicate the current wave.")
 
+                .set("wave-based-health", PropertyValueType.BOOLEAN, true,
+                        "Determine if mob initial health matches wave number.")
+
+                .set("wave-based-health-factor", PropertyValueType.DOUBLE, 2.0D,
+                        "Set the factor applied to the mobs health when affected by the current wave number.")
+
                 .build()
         ;
     }
@@ -77,7 +83,8 @@ public class WaveSettings implements ISpawnerSettings {
     private int _secondsBetweenWaves = 10;
     private boolean _displayWaveTitle = true;
     private int _maxMobDistanceSquared; // max distance when getting closest mob (squared)
-
+    private boolean _isWaveBasedHealth = true;
+    private double _waveBasedHealthFactor = 2.0D;
 
     private final IDataNode _dataNode;
     private final SettingsManager _settingsManager;
@@ -96,6 +103,9 @@ public class WaveSettings implements ISpawnerSettings {
                 _maxMobDistance = _dataNode.getInteger("max-distance", _maxMobDistance);
                 _secondsBetweenWaves = _dataNode.getInteger("seconds-between-waves", _secondsBetweenWaves);
                 _displayWaveTitle = _dataNode.getBoolean("display-wave-title", _displayWaveTitle);
+                _isWaveBasedHealth = _dataNode.getBoolean("wave-based-health", _isWaveBasedHealth);
+                _waveBasedHealthFactor = _dataNode.getDouble("wave-based-health-factor", _waveBasedHealthFactor);
+
                 _maxMobDistanceSquared = _maxMobDistance * _maxMobDistance;
             }
         };
@@ -134,13 +144,28 @@ public class WaveSettings implements ISpawnerSettings {
         _settingsManager.set("max-per-spawn", value);
     }
 
-
     public int getWaveMultiplier() {
         return _waveMultiplier;
     }
 
     public void setWaveMultiplier(int value) {
         _settingsManager.set("wave-multiplier", value);
+    }
+
+    public boolean isWaveBasedHealth() {
+        return _isWaveBasedHealth;
+    }
+
+    public void setWaveBasedHealth(boolean isWaveBased) {
+        _settingsManager.set("wave-based-health", isWaveBased);
+    }
+
+    public double getWaveBasedHealthFactor() {
+        return _waveBasedHealthFactor;
+    }
+
+    public void setWaveBasedHealthFactor(double factor) {
+        _settingsManager.set("wave-based-health-factor", factor);
     }
 
     public int getMaxDistance() {

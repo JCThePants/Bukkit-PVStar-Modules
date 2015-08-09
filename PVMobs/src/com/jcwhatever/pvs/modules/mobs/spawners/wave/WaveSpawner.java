@@ -115,6 +115,15 @@ public class WaveSpawner extends Spawner {
     @Override
     protected void onMobSpawn(LivingEntity entity) {
         _totalSpawned++;
+
+        if (_settings.isWaveBasedHealth()) {
+
+            double factor = _settings.getWaveBasedHealthFactor();
+            double health = _wave * factor;
+
+            entity.setMaxHealth(health);
+            entity.setHealth(health);
+        }
     }
 
     @Override
