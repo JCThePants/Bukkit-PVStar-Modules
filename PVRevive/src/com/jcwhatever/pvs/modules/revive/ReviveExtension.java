@@ -27,19 +27,25 @@ package com.jcwhatever.pvs.modules.revive;
 
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.managed.actionbar.ActionBars;
+import com.jcwhatever.nucleus.managed.particles.Particles;
+import com.jcwhatever.nucleus.managed.particles.types.IRedstoneDustParticle;
+import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
+import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
+import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
 import com.jcwhatever.nucleus.utils.MetaKey;
 import com.jcwhatever.nucleus.utils.MetaStore;
-import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.nucleus.utils.items.ItemStackMatcher;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
-import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
-import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.options.ArenaContext;
-
+import org.bukkit.Color;
+import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
@@ -159,6 +165,16 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
                     new PlayerDownedTimer(player));
 
             meta.setKey(KEY_TASK, task);
+
+            IArena arena = player.getArena();
+            if (arena != null) {
+
+                arena.getGame().tell("{RED}{0} needs to be revived!", player.getName());
+
+                String message = TextUtils.format("{RED}!!! {0} needs to be revived !!!", player.getName());
+                ActionBars.create(message)
+                        .showTo(arena.getGame().getPlayers().asPlayers());
+            }
         }
     }
 
@@ -209,6 +225,14 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
 
     private static class PlayerDownedTimer extends TaskHandler {
 
+        private static final IRedstoneDustParticle EFFECT;
+        private static final Location PLAYER_LOCATION = new Location(null, 0, 0, 0);
+
+        static {
+            EFFECT = Particles.createRedstoneDust();
+            EFFECT.setColor(Color.RED);
+        }
+
         private IArenaPlayer _player;
         private double _health;
 
@@ -240,6 +264,12 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
             }
 
             _player.getPlayer().setHealth(_health);
+
+            IArena arena = _player.getArena();
+            if (arena != null) {
+                EFFECT.showTo(arena.getGame().getPlayers().asPlayers(),
+                        _player.getLocation(PLAYER_LOCATION).add(0, 2, 0), 1);
+            }
         }
 
         @Override
