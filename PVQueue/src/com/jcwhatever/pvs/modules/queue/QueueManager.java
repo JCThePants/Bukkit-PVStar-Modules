@@ -107,7 +107,7 @@ public final class QueueManager {
                     player.getSessionMeta().set(META_PARTY_MEMBERS, partyMembers);
 
                     for (IArenaPlayer partyMember : partyMembers) {
-                        partyMember.getSessionMeta().set(META_QUEUED_ARENA, _arena);
+                        partyMember.getSessionMeta().setKey(META_QUEUED_ARENA, _arena);
                     }
 
                     break;
@@ -149,12 +149,12 @@ public final class QueueManager {
             @SuppressWarnings("unchecked")
             Set<IArenaPlayer> party = player.getSessionMeta().get(META_PARTY_MEMBERS);
 
-            player.getSessionMeta().set(META_PARTY_MEMBERS, null);
-            player.getSessionMeta().set(META_QUEUED_ARENA, null);
+            player.getSessionMeta().setKey(META_PARTY_MEMBERS, null);
+            player.getSessionMeta().setKey(META_QUEUED_ARENA, null);
 
             if (party != null) {
                 for (IArenaPlayer partyMember : party) {
-                    partyMember.getSessionMeta().set(META_QUEUED_ARENA, null);
+                    partyMember.getSessionMeta().setKey(META_QUEUED_ARENA, null);
                 }
             }
             return true;
@@ -214,7 +214,7 @@ public final class QueueManager {
         player.getSessionMeta().set(META_PARTY_MEMBERS, partyMembers);
 
         for (IArenaPlayer partyMember : partyMembers) {
-            partyMember.getSessionMeta().set(META_QUEUED_ARENA, _arena);
+            partyMember.getSessionMeta().setKey(META_QUEUED_ARENA, _arena);
         }
 
 		return _queue.add(player.getPlayer());
