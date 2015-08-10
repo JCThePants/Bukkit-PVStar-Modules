@@ -55,7 +55,7 @@ import org.bukkit.potion.PotionEffectType;
 public class ReviveExtension extends ArenaExtension implements IEventListener {
 
     private static final MetaKey<String> KEY_IS_DOWN = new MetaKey<>(String.class);
-    private static final MetaKey<IArenaPlayer> KEY_KILLER = new MetaKey<>(IArenaPlayer.class);
+    private static final MetaKey<Player> KEY_KILLER = new MetaKey<>(Player.class);
     private static final MetaKey<IScheduledTask> KEY_TASK = new MetaKey<>(IScheduledTask.class);
 
     private int _timeToReviveSeconds = 20;
@@ -93,10 +93,10 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         return _revivalItems;
     }
 
-    public void setRevivalItems(ItemStack[] items) {
+    public void setRevivalItems(ItemStack... items) {
         _revivalItems = items;
 
-        getDataNode().set("revival-items", items);
+        getDataNode().set("revival-items", _revivalItems);
         getDataNode().save();
     }
 
@@ -121,19 +121,29 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
 
         IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
 
+        if (player.getArena() == null)
+            return;
+
         if (player.getContext() != ArenaContext.GAME)
+            return;
+
+        // don't run revive if there are no other players to revive
+        // the downed player.
+        if (player.getArena().getGame().getPlayers().size() <= 1)
             return;
 
         MetaStore meta = player.getSessionMeta();
 
         if ("true".equals(meta.get(KEY_IS_DOWN))) {
             // allow death if player is down
-            meta.set(KEY_IS_DOWN, null);
+            meta.setKey(KEY_IS_DOWN, null);
         }
         else {
 
-            meta.set(KEY_IS_DOWN, "true");
-            meta.set(KEY_KILLER, event.getEntity().getKiller());
+            event.setDeathMessage(null);
+
+            meta.setKey(KEY_IS_DOWN, "true");
+            meta.setKey(KEY_KILLER, event.getEntity().getKiller());
 
             // cancel event
             double health = player.getPlayer().getHealth();
@@ -148,11 +158,11 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
             IScheduledTask task = Scheduler.runTaskRepeat(PVStarAPI.getPlugin(), 20, 20,
                     new PlayerDownedTimer(player));
 
-            meta.set(KEY_TASK, task);
+            meta.setKey(KEY_TASK, task);
         }
     }
 
-    @EventMethod(priority = EventSubscriberPriority.WATCHER)
+    @EventMethod(priority = EventSubscriberPriority.LAST, invokeForCancelled = true)
     private void onPlayerRevive(EntityDamageByEntityEvent event) {
 
         if (!(event.getEntity() instanceof Player))
@@ -177,6 +187,9 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         if (player.getTeam() != reviver.getTeam())
             return;
 
+        // do no damage
+        event.setDamage(0.0D);
+
         // get the item in the damager/reviver's hand
         ItemStack inHand = reviver.getPlayer().getItemInHand();
 
@@ -192,7 +205,6 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
                 break;
             }
         }
-
     }
 
     private static class PlayerDownedTimer extends TaskHandler {
@@ -211,9 +223,14 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
             _health -= 1.0D;
 
             if (_health <= 0.0D) {
-                IArenaPlayer killer = _player.getSessionMeta().get(KEY_KILLER);
-
-                _player.kill(killer);
+                Player killer = _player.getSessionMeta().get(KEY_KILLER);
+                if (killer != null) {
+                    IArenaPlayer arenaKiller = PVStarAPI.getArenaPlayer(killer);
+                    _player.kill(arenaKiller);
+                }
+                else {
+                    _player.kill();
+                }
 
                 cancelTask();
                 return;// finish
@@ -227,9 +244,9 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
 
         @Override
         public void onCancel() {
-            _player.getSessionMeta().set(KEY_IS_DOWN, null);
-            _player.getSessionMeta().set(KEY_KILLER, null);
-            _player.getSessionMeta().set(KEY_TASK, null);
+            _player.getSessionMeta().setKey(KEY_IS_DOWN, null);
+            _player.getSessionMeta().setKey(KEY_KILLER, null);
+            _player.getSessionMeta().setKey(KEY_TASK, null);
 
             _player.getPlayer().removePotionEffect(PotionEffectType.CONFUSION);
             _player.getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
@@ -238,5 +255,4 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
             _player.setImmobilized(false);
         }
     }
-
 }
