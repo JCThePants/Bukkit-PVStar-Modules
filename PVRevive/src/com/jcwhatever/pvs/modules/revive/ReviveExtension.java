@@ -108,18 +108,17 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
 
     @Override
     protected void onEnable() {
+
+        _timeToReviveSeconds = getDataNode().getInteger("time-to-revive", _timeToReviveSeconds);
+        _reviveHealth = getDataNode().getInteger("revive-health", _reviveHealth);
+        _revivalItems = getDataNode().getItemStacks("revival-items", _revivalItems);
+
         getArena().getEventManager().register(this);
     }
 
     @Override
     protected void onDisable() {
         getArena().getEventManager().unregister(this);
-    }
-
-    private void loadSettings() {
-        _timeToReviveSeconds = getDataNode().getInteger("time-to-revive", _timeToReviveSeconds);
-        _reviveHealth = getDataNode().getInteger("revive-health", _reviveHealth);
-        _revivalItems = getDataNode().getItemStacks("revival-items", _revivalItems);
     }
 
     @EventMethod(priority = EventSubscriberPriority.FIRST)
