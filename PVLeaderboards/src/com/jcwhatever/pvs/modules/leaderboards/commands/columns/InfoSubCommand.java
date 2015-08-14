@@ -32,12 +32,12 @@ import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
+import com.jcwhatever.pvs.api.stats.StatType;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.pvs.modules.leaderboards.commands.AbstractLeaderboardCommand;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.Leaderboard;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns.StatisticsColumn;
-
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -45,11 +45,11 @@ import java.util.List;
 @CommandInfo(
         parent="columns",
         command="info",
-        staticParams={"leaderboardName", "page=1"},
+        staticParams={"boardName", "page=1"},
         description="Display column info for the specified leaderboard name.",
 
         paramDescriptions = {
-                "leaderboardName= The name of the leaderboard",
+                "boardName= The name of the leaderboard",
                 "page= {PAGE}"})
 
 public class InfoSubCommand extends AbstractLeaderboardCommand implements IExecutableCommand {
@@ -60,19 +60,20 @@ public class InfoSubCommand extends AbstractLeaderboardCommand implements IExecu
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
-        String leaderboardName = args.getName("leaderboardName");
+        String boardName = args.getString("boardName");
         int page = args.getInteger("page");
 
-        Leaderboard leaderboard = getLeaderboard(sender, leaderboardName);
+        Leaderboard leaderboard = getLeaderboard(sender, boardName);
         if (leaderboard == null)
             return; // finish
 
-        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE, leaderboardName));
+        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE, boardName));
 
         List<StatisticsColumn> columns = leaderboard.getStatisticsColumns();
 
         for (StatisticsColumn column : columns) {
-            pagin.add(column.getStatType().getName(), column.getSettings().getSortOrder().name());
+            StatType statType = column.getStatType();
+            pagin.add(statType.getName(), statType.getOrder().name());
         }
 
         pagin.show(sender, page, FormatTemplate.LIST_ITEM_DESCRIPTION);

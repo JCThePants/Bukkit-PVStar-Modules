@@ -26,45 +26,45 @@
 package com.jcwhatever.pvs.modules.leaderboards.leaderboards;
 
 import com.jcwhatever.nucleus.mixins.ILoadable;
+import com.jcwhatever.nucleus.mixins.INamed;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.SignUtils;
+import com.jcwhatever.nucleus.utils.observer.future.FutureResultSubscriber;
+import com.jcwhatever.nucleus.utils.observer.future.Result;
+import com.jcwhatever.nucleus.utils.text.TextFormat;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.stats.IArenaStats;
+import com.jcwhatever.pvs.api.stats.IPlayerStats;
+import com.jcwhatever.pvs.api.stats.IStatsFilter;
 import com.jcwhatever.pvs.api.stats.StatTracking.StatTrackType;
 import com.jcwhatever.pvs.api.stats.StatType;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.leaderboards.LeaderboardsModule;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns.AnchorColumn;
-import com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns.ColumnSetting;
+import com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns.ColumnSettings;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns.StatisticsColumn;
-
-import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.Sign;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
-import javax.annotation.Nullable;
 
-public class Leaderboard implements ILoadable {
+/**
+ * Leaderboard.
+ */
+public class Leaderboard implements ILoadable, INamed {
 
     private final String _name;
 
     private List<UUID> _arenaIds;
-    private Set<IArenaStats> _arenaStats;
 
     private Location _anchorLocation;
     private Sign _anchorSign;
@@ -74,74 +74,32 @@ public class Leaderboard implements ILoadable {
     private AnchorColumn _anchorColumn;
     private List<StatisticsColumn> _columns;
 
-    // Store columns by statistic name
-    // keyed to column stat name
-    private Map<String, StatisticsColumn> _mappedColumns;
-
-    // List of ordered columns statistics types
-    private List<StatType> _columnStatTypes;
-
     private IDataNode _dataNode;
     private IDataNode _columnsNode;
 
     private boolean _isLoaded = false;
     private boolean _isEnabled = true;
 
-    PlayerSorter _sorter;
-
+    /**
+     * Constructor.
+     *
+     * @param name      The name of the leaderboard.
+     * @param arenaIds  The ID of arenas in the leaderboards scope.
+     * @param dataNode  The leaderboards data node.
+     */
     public Leaderboard(String name, Collection<UUID> arenaIds, IDataNode dataNode) {
         _name = name;
         _arenaIds = new ArrayList<>(arenaIds);
         _dataNode = dataNode;
         _columns = new ArrayList<StatisticsColumn>(10);
-        _mappedColumns = new HashMap<>(10);
         _columnsNode = dataNode.getNode("columns");
 
         _isLoaded = load();
     }
 
-    public IDataNode getDataNode() {
-        return _dataNode;
-    }
-
+    @Override
     public String getName() {
         return _name;
-    }
-
-    public List<UUID> getArenaIds() {
-        return new ArrayList<>(_arenaIds);
-    }
-
-    public List<IArenaStats> getArenaStats() {
-        return new ArrayList<>(_arenaStats);
-    }
-
-    public int getColumnHeight() {
-        return _anchorColumn != null ? _anchorColumn.getColumnHeight() : 0;
-    }
-
-    public StatisticsColumn getColumn(String statName) {
-        return _mappedColumns.get(statName);
-    }
-
-    public List<StatisticsColumn> getStatisticsColumns() {
-        return new ArrayList<>(_columns);
-    }
-
-    public int getLineHeight() {
-        return _anchorColumn.getTotalLines();
-    }
-
-    public Location getAnchorLocation() {
-        return _anchorLocation;
-    }
-
-    public Sign getAnchorSign() {
-        return _anchorSign;
-    }
-
-    public AnchorColumn getAnchorColumn() {
-        return _anchorColumn;
     }
 
     @Override
@@ -149,17 +107,82 @@ public class Leaderboard implements ILoadable {
         return _isLoaded;
     }
 
+    /**
+     * Determine if the leader board is enabled.
+     */
     public boolean isEnabled() {
         return _isEnabled && _isLoaded;
     }
 
+    /**
+     * Set the leader boards enabled state.
+     *
+     * @param isEnabled  True to enable, otherwise false.
+     */
     public void setEnabled(boolean isEnabled) {
         _isEnabled = isEnabled;
     }
 
+    /**
+     * Get the leaderboards data node.
+     */
+    public IDataNode getDataNode() {
+        return _dataNode;
+    }
+
+    /**
+     * Get ID's of arenas in the leaderboards scope.
+     */
+    public List<UUID> getArenaIds() {
+        return new ArrayList<>(_arenaIds);
+    }
+
+    /**
+     * Get the number of data display signs vertically available to
+     * the leaderboard.
+     */
+    public int getColumnHeight() {
+        return _anchorColumn != null ? _anchorColumn.getColumnHeight() : 0;
+    }
+
+    /**
+     * Get all columns in the leader board excluding the anchor column.
+     */
+    public List<StatisticsColumn> getStatisticsColumns() {
+        return new ArrayList<>(_columns);
+    }
+
+    /**
+     * Get the total number of lines in the leaderboard, excluding lines
+     * in the header signs.
+     */
+    public int getLineHeight() {
+        return _anchorColumn.getTotalLines();
+    }
+
+    /**
+     * Get the anchor sign.
+     */
+    public Sign getAnchorSign() {
+        return _anchorSign;
+    }
+
+    /**
+     * Get the leftmost column which includes the anchor sign.
+     */
+    public AnchorColumn getAnchorColumn() {
+        return _anchorColumn;
+    }
+
+    /**
+     * Set the text format prepended to a specific line in the leaderboard signs.
+     *
+     * @param index       The sign line (0-3)
+     * @param lineFormat  The format to prepend.
+     */
     public void setLineFormat(int index, @Nullable String lineFormat) {
         PreCon.positiveNumber(index);
-        PreCon.lessThan(index, 5);
+        PreCon.lessThan(index, 4);
 
         if (lineFormat == null)
             lineFormat = "";
@@ -172,28 +195,44 @@ public class Leaderboard implements ILoadable {
         update();
     }
 
+    /**
+     * Update players displayed in the leaderboard.
+     */
     public void update() {
+
         if (!_isLoaded) {
-            Msg.debug("Leaderboard update called on leaderboard '{0}' but the leaderboard isn't loaded.", getName());
+            Msg.debug("Leaderboard update called on leaderboard '{0}' but " +
+                    "the leaderboard isn't loaded.", getName());
             return;
         }
 
         if (!isEnabled()) {
+            Msg.debug("Leaderboard update called on leaderboard '{0}' but " +
+                    "the leaderboard isn't enabled.", getName());
             return;
         }
 
-        if (_sorter == null) {
-            Msg.debug("Leaderboard update called on leaderboard '{0}' but PlayerSorter was null.", getName());
-            return;
+        IStatsFilter filter = PVStarAPI.getStatsManager().createFilter();
+
+        for (UUID arenaId : _arenaIds) {
+            filter.addArena(arenaId);
         }
-
-        List<String> playerIds = _sorter.getSortedPlayerIds();
-
-        _anchorColumn.update(playerIds);
 
         for (StatisticsColumn column : _columns) {
-            column.update(playerIds);
+            filter.addStat(column.getStatType(), column.getSettings().getTrackType());
         }
+
+        filter.filter(0, getLineHeight())
+                .onSuccess(new FutureResultSubscriber<List<IPlayerStats>>() {
+                    @Override
+                    public void on(Result<List<IPlayerStats>> result) {
+                        for (StatisticsColumn column : _columns) {
+                            column.update(result.getResult());
+                        }
+
+                        _anchorColumn.update(result.getResult());
+                    }
+                });
     }
 
     /**
@@ -216,22 +255,12 @@ public class Leaderboard implements ILoadable {
     }
 
     /**
-     * Get ordered list of statistic types used in the leaderboard columns.
-     *
-     * @return
-     */
-    public List<StatType> getColumnStatTypes() {
-        return new ArrayList<>(_columnStatTypes);
-    }
-
-    /**
      * Set the arenas the leaderboard compiles statistics from.
      *
      * @param arenaIds A collection of arena id's
      */
     public void setArenas(Collection<UUID> arenaIds) {
         _arenaIds = new ArrayList<>(arenaIds);
-        loadArenaStats();
 
         _dataNode.set("arenas", TextUtils.concat(_arenaIds, ", "));
         _dataNode.save();
@@ -250,7 +279,7 @@ public class Leaderboard implements ILoadable {
      */
     public void setAnchor(Sign anchorSign) {
 
-        LeaderboardsModule.getModule().removeBlockLocations(this);
+        LeaderboardsModule.getModule().unregisterBlocks(this);
 
         _anchorSign = anchorSign;
         _anchorLocation = anchorSign.getLocation();
@@ -260,103 +289,93 @@ public class Leaderboard implements ILoadable {
         BlockFace direction = getSignSearchDirection(anchorSign);
         List<Sign> headers = SignUtils.getAllAdjacent(anchorSign.getBlock(), direction);
 
-        _columnStatTypes.clear();
         _columnsNode.clear();
+        _columns.clear();
 
         _dataNode.set("scope", TextUtils.concat(_arenaIds, ", "));
         _dataNode.set("world", anchorSign.getWorld().getName());
         _dataNode.set("anchor", anchorSign.getLocation());
 
-        _dataNode.set("format-line-1", ChatColor.getLastColors(ChatColor.translateAlternateColorCodes('&', anchorSign.getLine(0))));
-        _dataNode.set("format-line-2", ChatColor.getLastColors(ChatColor.translateAlternateColorCodes('&', anchorSign.getLine(1))));
-        _dataNode.set("format-line-3", ChatColor.getLastColors(ChatColor.translateAlternateColorCodes('&', anchorSign.getLine(2))));
-        _dataNode.set("format-line-4", ChatColor.getLastColors(ChatColor.translateAlternateColorCodes('&', anchorSign.getLine(3))));
+        _dataNode.set("format-line-1",
+                TextFormat.getEndFormat(TextFormat.translateFormatChars(anchorSign.getLine(0))).toString());
+
+        _dataNode.set("format-line-2",
+                TextFormat.getEndFormat(TextFormat.translateFormatChars(anchorSign.getLine(1))).toString());
+
+        _dataNode.set("format-line-3",
+                TextFormat.getEndFormat(TextFormat.translateFormatChars(anchorSign.getLine(2))).toString());
+
+        _dataNode.set("format-line-4",
+                TextFormat.getEndFormat(TextFormat.translateFormatChars(anchorSign.getLine(3))).toString());
 
         // iterate column headers
-        for (int i = 0, order = 0; i < headers.size(); i++, order++) {
-            Sign sign = headers.get(i);
+        for (int i = 0, priority = 0; i < headers.size(); i++, priority++) {
 
-            String statName = sign.getLine(0);
-            if (ChatColor.stripColor(statName).trim().isEmpty()) {
+            Sign sign = headers.get(i);
+            String statName = TextFormat.remove(sign.getLine(0)).trim();
+            StatTrackType trackingType = getTrackingTypeFromSign(sign);
+
+            if (statName.isEmpty())
                 break;
-            }
 
             StatType type = PVStarAPI.getStatsManager().getType(statName);
             if (type == null) {
-                Msg.warning("Skipped loading leaderboard column for stat type '{0}' because that stat type was not found.");
+                Msg.warning("Skipped loading leaderboard column for stat type '{0}' " +
+                        "because that stat type was not found.");
                 continue;
             }
 
-            SortOrder sortOrder = getSortOrderFromSign(sign);
-            StatTrackType trackingType = getTrackingTypeFromSign(sign);
+            ColumnStatType columnStat = new ColumnStatType(priority, type, trackingType);
 
-            IDataNode columnNode = _columnsNode.getNode(statName);
+            IDataNode columnNode = _columnsNode.getNode(getColumnNodeName(columnStat));
 
-            columnNode.set("order", order);
-            columnNode.set("sort-order", sortOrder);
-            columnNode.set("tracking", trackingType);
-
-            _columnStatTypes.add(type);
-
-            addColumn(headers.get(i), type);
+            ColumnSettings settings = new ColumnSettings(columnNode, columnStat);
+            StatisticsColumn column = new StatisticsColumn(this, sign, settings);
+            _columns.add(column);
         }
 
-        _sorter = new PlayerSorter(this);
         _columnsNode.save();
         _isLoaded = true;
 
-        LeaderboardsModule.getModule().addBlockLocations(this);
+        LeaderboardsModule.getModule().unregisterBlocks(this);
+        LeaderboardsModule.getModule().registerBlocks(this);
     }
-
 
     private boolean load() {
 
-        loadArenaStats();
-
         _anchorLocation = _dataNode.getLocation("anchor");
-
-        // setup column stats list
-        _columnStatTypes = new ArrayList<>(_columnsNode.size());
-
-        for (IDataNode statNode : _columnsNode) {
-
-            String statName = statNode.getName();
-            StatType type = PVStarAPI.getStatsManager().getType(statName);
-            if (type == null) {
-                Msg.warning("Failed to load statistic type '{0}' while loading leaderboard '{1}'.", statName, getName());
-
-                // insert dummy stat
-                _columnStatTypes.add(new MissingStatType(statName));
-            } else {
-                _columnStatTypes.add(type);
-            }
-        }
-
-        // make sure stats are in the correct order
-        Collections.sort(_columnStatTypes, new Comparator<StatType>() {
-            @Override
-            public int compare(StatType s1, StatType s2) {
-                int s1order = _columnsNode.getInteger(s1 + ".order");
-                int s2order = _columnsNode.getInteger(s2 + ".order");
-
-                return Integer.compare(s1order, s2order);
-            }
-        });
 
         if (!loadAnchorSign(_anchorLocation))
             return false;
 
-        if (!loadColumns(_columnStatTypes))
+        List<Sign> headers = SignUtils.getAllAdjacent(
+                _anchorLocation.getBlock(), getSignSearchDirection(_anchorSign));
+
+        if (headers.size() < _columnsNode.size()) {
+            Msg.warning("Failed to load columns for leaderboard '{0}' because " +
+                    "there were not enough column signs.", getName());
             return false;
+        }
 
-        _sorter = new PlayerSorter(this);
+        int totalColumns = headers.size();
 
-        LeaderboardsModule.getModule().addBlockLocations(this);
+        // setup column stats list
+        _columns = new ArrayList<>(totalColumns);
+        for (IDataNode columnNode : _columnsNode) {
+
+            ColumnSettings settings = new ColumnSettings(columnNode);
+            StatisticsColumn column = new StatisticsColumn(this, headers.get(settings.getPriority()), settings);
+
+            _columns.add(column);
+        }
+
+        // make sure stats are in the correct order
+        Collections.sort(_columns);
+
+        LeaderboardsModule.getModule().registerBlocks(this);
 
         return true;
-
     }
-
 
     private boolean loadAnchorSign(Location signLocation) {
         if (signLocation == null)
@@ -374,25 +393,8 @@ public class Leaderboard implements ILoadable {
         return true;
     }
 
-    private boolean loadColumns(List<StatType> statTypes) {
-        List<Sign> headers = SignUtils.getAllAdjacent(_anchorSign.getBlock(), getSignSearchDirection(_anchorSign));
-
-        if (headers.size() < statTypes.size()) {
-            Msg.warning("Failed to load columns for leaderboard '{0}' because there were not enough column signs.", getName());
-            return false;
-        }
-
-        for (int i = 0; i < statTypes.size(); i++) {
-            addColumn(headers.get(i), statTypes.get(i));
-        }
-
-        return true;
-    }
-
-    /**
+    /*
      * Get sign line formatting from settings
-     *
-     * @return
      */
     private String[] getLineFormats() {
         if (_lineFormats == null) {
@@ -406,46 +408,12 @@ public class Leaderboard implements ILoadable {
         return _lineFormats;
     }
 
-    /**
-     * Add column using the top most sign and the statistic property name
-     * the column will track.
-     *
-     * @param headerSign
-     * @param statType
-     */
-    private void addColumn(Sign headerSign, StatType statType) {
-
-        ColumnSetting columnSettings = new ColumnSetting(_columnsNode.getNode(statType.getName()), getLineFormats());
-        StatisticsColumn column = new StatisticsColumn(statType, this, headerSign, columnSettings);
-
-        _columns.add(column);
-        _mappedColumns.put(statType.getName(), column);
-    }
-
-
-    private SortOrder getSortOrderFromSign(Sign sign) {
-        switch (sign.getLine(1).toLowerCase()) {
-            case "high":
-            case "highest":
-            case "ascending":
-            case "ascend":
-            case "a":
-                return SortOrder.ASCENDING;
-
-            case "low":
-            case "lowest":
-            case "descending":
-            case "descend":
-            case "d":
-                return SortOrder.DESCENDING;
-
-            default:
-                return SortOrder.NONE;
-        }
+    private String getColumnNodeName(ColumnStatType columnStat) {
+        return columnStat.getStatType().getName() + '-' + columnStat.getTrackType().name();
     }
 
     private StatTrackType getTrackingTypeFromSign(Sign sign) {
-        switch (sign.getLine(2).toLowerCase().trim()) {
+        switch (sign.getLine(1).toLowerCase().trim()) {
             case "min":
             case "minimum":
                 return StatTrackType.MIN;
@@ -511,19 +479,6 @@ public class Leaderboard implements ILoadable {
 
             default:
                 return BlockFace.SOUTH;
-        }
-    }
-
-    private void loadArenaStats() {
-
-        _arenaStats = new HashSet<>(_arenaIds.size());
-
-        for (UUID arenaId : _arenaIds) {
-            IArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(arenaId);
-            if (stats == null)
-                continue;
-
-            _arenaStats.add(stats);
         }
     }
 }

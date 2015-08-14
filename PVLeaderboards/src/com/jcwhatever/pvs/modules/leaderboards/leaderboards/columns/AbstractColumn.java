@@ -25,27 +25,34 @@
 
 package com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns;
 
-import com.jcwhatever.nucleus.utils.SignUtils;
 import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.SignUtils;
+import com.jcwhatever.pvs.api.stats.IPlayerStats;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.Leaderboard;
-
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.Sign;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
+/**
+ * Abstract leaderboard column.
+ */
 public abstract class AbstractColumn {
 
     private final Leaderboard _leaderboard;
     private final Sign _headerSign;
     protected List<Sign> _signs;
 
-
+    /**
+     * Constructor.
+     *
+     * @param leaderboard   The owning leaderboard.
+     * @param columnHeader  The sign that is the column header.
+     */
     public AbstractColumn (Leaderboard leaderboard, Sign columnHeader) {
         PreCon.notNull(leaderboard);
         PreCon.notNull(columnHeader);
@@ -56,50 +63,6 @@ public abstract class AbstractColumn {
         _signs = new ArrayList<>(10);
 
         addColumnSigns(columnHeader);
-    }
-
-    /**
-     * Update column signs using the supplied player stats
-     * @param playerIds
-     */
-    public void update(Collection<String> playerIds) {
-
-        Iterator<String> playerIterator = playerIds.iterator();
-
-        for (Sign archive : _signs) {
-
-            Sign sign = SignUtils.getRecent(archive);
-
-            if (sign == null) {
-                Msg.debug("Null sign in leaderboard column");
-                continue;
-            }
-
-            // add 4 lines to the sign
-            for (int i = 0; i < 4; ++i) {
-
-                // add player info
-                String msg = playerIterator.hasNext()
-                        ? getPlayerStatDisplay(i, playerIterator.next())
-                        : "";
-
-                sign.setLine(i, msg);
-            }
-            sign.update(true);
-        }
-    }
-
-    /**
-     * Clear all signs except the header.
-     */
-    public void clear() {
-        for (Sign sign : getSigns()) {
-            sign.setLine(0, "");
-            sign.setLine(1, "");
-            sign.setLine(2, "");
-            sign.setLine(3, "");
-            sign.update(true);
-        }
     }
 
     /**
@@ -125,24 +88,35 @@ public abstract class AbstractColumn {
         return signs;
     }
 
+    /**
+     * Get the columns owning leaderboard.
+     */
     public Leaderboard getLeaderboard() {
         return _leaderboard;
     }
 
+    /**
+     * Get the total number of data display signs in the column.
+     */
     public int getColumnHeight() {
         return _signs.size();
     }
 
+    /**
+     * Get the total number of lines available to display data.
+     *
+     * <p>This is the number of data display signs in the column
+     * multiplied by the number of lines in a sign.</p>
+     */
     public int getTotalLines() {
         return _signs.size() * 4;
     }
-
-    public abstract double getPlayerStatValue(String playerId);
 
     /**
      * Get blocks that the column signs are attached to.
      */
     public List<Block> getAttachedBlocks() {
+
         List<Block> blocks = new ArrayList<>(_signs.size());
 
         if (getHeaderSign() != null) {
@@ -164,10 +138,63 @@ public abstract class AbstractColumn {
         return blocks;
     }
 
-    protected abstract String getPlayerStatDisplay(int signLine, String playerId);
+    /**
+     * Update column signs using the supplied player stats.
+     *
+     * @param playerStats  Ordered list of player statistics.
+     */
+    public void update(List<IPlayerStats> playerStats) {
+        PreCon.notNull(playerStats);
+
+        Iterator<IPlayerStats> playerIterator = playerStats.iterator();
+
+        for (Sign archive : _signs) {
+
+            Sign sign = SignUtils.getRecent(archive);
+
+            if (sign == null) {
+                Msg.debug("Null sign in leaderboard column");
+                continue;
+            }
+
+            // add 4 lines to the sign
+            for (int i = 0; i < 4; ++i) {
+
+                // add player info
+                String msg = playerIterator.hasNext()
+                        ? getPlayerStatDisplay(i, playerIterator.next())
+                        : "";
+
+                sign.setLine(i, msg);
+            }
+            sign.update(true);
+        }
+    }
+
+    /**
+     * Clear all text from the columns signs except the header.
+     */
+    public void clear() {
+        for (Sign sign : getSigns()) {
+            sign.setLine(0, "");
+            sign.setLine(1, "");
+            sign.setLine(2, "");
+            sign.setLine(3, "");
+            sign.update(true);
+        }
+    }
+
+    /**
+     * Invoked to get the string to display which represents the
+     * players score for the column statistic.
+     *
+     * @param signLine     The index of the line on the sign.
+     * @param playerStats  The player statistics.
+     */
+    protected abstract String getPlayerStatDisplay(int signLine, IPlayerStats playerStats);
 
     // get signs below the column header sign
-    protected void addColumnSigns(Sign headerSign) {
+    private void addColumnSigns(Sign headerSign) {
         for (Sign sign : SignUtils.getAllAdjacent(headerSign.getBlock(), BlockFace.DOWN)) {
             _signs.add(sign);
         }

@@ -25,6 +25,17 @@
 
 package com.jcwhatever.pvs.modules.leaderboards;
 
+import com.jcwhatever.nucleus.events.manager.EventMethod;
+import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.ThreadSingletons;
+import com.jcwhatever.nucleus.utils.coords.Coords3Di;
+import com.jcwhatever.nucleus.utils.coords.ICoords3Di;
+import com.jcwhatever.nucleus.utils.coords.LocationUtils;
+import com.jcwhatever.nucleus.utils.coords.MutableCoords3Di;
+import com.jcwhatever.nucleus.utils.performance.queued.QueueWorker;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
@@ -32,13 +43,6 @@ import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.leaderboards.commands.LBCommand;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.Leaderboard;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.UpdateTask;
-import com.jcwhatever.nucleus.events.manager.IEventListener;
-import com.jcwhatever.nucleus.events.manager.EventMethod;
-import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.performance.queued.QueueWorker;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.block.Block;
@@ -48,15 +52,28 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+/**
+ * Leaderboard module.
+ */
 public class LeaderboardsModule extends PVStarModule implements IEventListener {
+
+    private static final ThreadSingletons<Location> LOCATIONS =
+            LocationUtils.createThreadSingleton();
+
+    private static final ThreadSingletons<MutableCoords3Di> COORD_MATCHERS =
+            MutableCoords3Di.createThreadSingletons();
 
     private static LeaderboardsModule _module;
 
+    /**
+     * Get the leaderboard module instance.
+     */
     public  static LeaderboardsModule getModule() {
         return _module;
     }
@@ -67,9 +84,12 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
     // map of leader boards using the leader board name as key
     private Map<String, Leaderboard> _namedLeaderboards = new HashMap<>(15);
 
-    private Map<Location, Leaderboard> _leaderboardBlocks = new HashMap<>(500);
+    // map of leaderboard block locations which includes signs and attached surfaces.
+    private Map<ICoords3Di, Leaderboard> _leaderboardBlocks = new HashMap<>(500);
 
-
+    /**
+     * Constructor.
+     */
     public LeaderboardsModule() {
         super();
 
@@ -93,20 +113,7 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
         PVStarAPI.getEventManager().register(this);
         PVStarAPI.getCommandDispatcher().registerCommand(LBCommand.class);
 
-        BukkitEventListener _bukkitListener = new BukkitEventListener();
-        Bukkit.getPluginManager().registerEvents(_bukkitListener, PVStarAPI.getPlugin());
-    }
-
-    @EventMethod
-    private void onArenaEnded(ArenaEndedEvent event) {
-
-        Set<Leaderboard> leaderboards = _scopedLeaderboards.get(event.getArena().getId());
-        if (leaderboards == null)
-            return;
-
-        for (Leaderboard leaderboard : leaderboards) {
-            QueueWorker.get().addTask(new UpdateTask(leaderboard));
-        }
+        Bukkit.getPluginManager().registerEvents(new BukkitEventListener(), PVStarAPI.getPlugin());
     }
 
     /**
@@ -135,38 +142,45 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
     }
 
     /**
-     * Get a leader board by name
-     * @param name - The name of the leader board
+     * Get a leader board by name.
+     *
+     * @param name  The name of the leader board
      */
     public Leaderboard getLeaderboard(String name) {
         return _namedLeaderboards.get(name.toLowerCase());
     }
 
     /**
-     * Get a list of leader boards
-     *
-     * @return
+     * Get a list of all leader boards.
      */
     public List<Leaderboard> getLeaderboards() {
         return new ArrayList<>(_namedLeaderboards.values());
     }
 
     /**
-     * Determine if the block at the specified location is part of
-     * a leader board.
-     * @param blockLocaton
-     * @return
+     * Determine if a block is part of a leader board.
+     *
+     * @param block  The block to check.
      */
-    public boolean isLeaderboardBlock(Location blockLocaton) {
-        Leaderboard leaderboard = _leaderboardBlocks.get(blockLocaton);
+    public boolean isLeaderboardBlock(Block block) {
+
+        Location location = block.getLocation(LOCATIONS.get());
+
+        MutableCoords3Di matcher = COORD_MATCHERS.get();
+        matcher.setX(location.getBlockX());
+        matcher.setY(location.getBlockY());
+        matcher.setZ(location.getBlockZ());
+
+        Leaderboard leaderboard = _leaderboardBlocks.get(matcher);
         return leaderboard != null && leaderboard.isEnabled();
     }
 
     /**
      * Add a new leader board.
      *
+     * @return  The new leaderboard instance.
      */
-    public Leaderboard addLeaderboard(String name, Collection<UUID> arenaIds) {
+    public Leaderboard add(String name, Collection<UUID> arenaIds) {
 
         String key = name.toLowerCase();
 
@@ -174,19 +188,19 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
             return null;
 
         Leaderboard leaderboard = instantiateLeaderboard(name, arenaIds);
-
         getDataNode().save();
 
         return leaderboard;
     }
 
     /**
-     * Remove a leader board. World blocks need to be removed manually.
+     * Remove a leader board.
      *
-     * @param name - The name of the leader board to remove.
-     * @return
+     * @param name  The name of the leader board to remove.
+     *
+     * @return  True if found and removed, otherwise false.
      */
-    public boolean removeLeaderboard(String name) {
+    public boolean remove(String name) {
         PreCon.notNullOrEmpty(name);
 
         String key = name.toLowerCase();
@@ -209,36 +223,60 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
         leaderboard.getDataNode().clear();
         leaderboard.getDataNode().save();
 
-        removeBlockLocations(leaderboard);
+        unregisterBlocks(leaderboard);
 
         return true;
     }
 
-
-    public void addBlockLocations(Leaderboard leaderboard) {
+    /**
+     * Register a leaderboards block locations.
+     *
+     * @param leaderboard  The leaderboard.
+     */
+    public void registerBlocks(Leaderboard leaderboard) {
+        PreCon.notNull(leaderboard);
 
         List<Block> blocks = leaderboard.getAttachedBlocks();
 
+        Location location = LOCATIONS.get();
+
         for (Block block : blocks) {
-            _leaderboardBlocks.put(block.getLocation(), leaderboard);
+
+            location = block.getLocation(location);
+            _leaderboardBlocks.put(Coords3Di.fromLocation(location), leaderboard);
         }
     }
 
     /**
-     * Remove leader board block locations for the specified leader board.
-     * @param leaderboard
+     * Unregister a leaderboards block locations.
+     *
+     * @param leaderboard  The leaderboard.
      */
-    public void removeBlockLocations(Leaderboard leaderboard) {
+    public void unregisterBlocks(Leaderboard leaderboard) {
+        PreCon.notNull(leaderboard);
 
-        List<Location> blockLocations = new ArrayList<Location>(_leaderboardBlocks.keySet());
+        Iterator<Map.Entry<ICoords3Di, Leaderboard>> iterator =
+                _leaderboardBlocks.entrySet().iterator();
 
-        for (Location loc : blockLocations) {
+        while (iterator.hasNext()) {
+            Map.Entry<ICoords3Di, Leaderboard> entry = iterator.next();
 
-            Leaderboard lb = _leaderboardBlocks.get(loc);
+            Leaderboard lb = entry.getValue();
 
-            if (lb.getName().equals(leaderboard.getName())) {
-                _leaderboardBlocks.remove(loc);
-            }
+            if (leaderboard.equals(lb))
+                iterator.remove();
+        }
+    }
+
+    @EventMethod
+    private void onArenaEnded(ArenaEndedEvent event) {
+
+        Set<Leaderboard> leaderboards = _scopedLeaderboards.get(event.getArena().getId());
+        if (leaderboards == null)
+            return;
+
+        for (Leaderboard leaderboard : leaderboards) {
+            QueueWorker.get().addTask(new UpdateTask(leaderboard));
         }
     }
 
@@ -250,12 +288,14 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
             String worldName = node.getString("world");
 
             if (scope == null) {
-                Msg.warning("Failed to add leaderboard '{0}' because no scope was specified in config.", node.getName());
+                Msg.warning("Failed to add leaderboard '{0}' because no scope " +
+                        "was specified in config.", node.getName());
                 continue;
             }
 
             if (worldName == null) {
-                Msg.warning("Failed to add leaderboard '{0}' because no world was specified in config.", node.getName());
+                Msg.warning("Failed to add leaderboard '{0}' because no world was " +
+                        "specified in config.", node.getName());
                 continue;
             }
 
@@ -265,16 +305,17 @@ public class LeaderboardsModule extends PVStarModule implements IEventListener {
                 continue;
             }
 
-            Leaderboard leaderboard = instantiateLeaderboard(node.getName(), TextUtils.parseUUID(scope.split(",")));
+            Leaderboard leaderboard = instantiateLeaderboard(node.getName(),
+                    TextUtils.parseUUID(scope.split(",")));
+
             if (leaderboard == null) {
                 Msg.warning("Failed to add leaderboard '{0}'.", node.getName());
                 continue;
             }
 
-            addBlockLocations(leaderboard);
+            registerBlocks(leaderboard);
         }
     }
-
 
     private Leaderboard instantiateLeaderboard(String name, Collection<UUID> arenaIds) {
 

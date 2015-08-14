@@ -41,11 +41,11 @@ import java.util.UUID;
 @CommandInfo(
         parent="lb",
         command="setarenas",
-        staticParams={"leaderboardName", "arenaNames"},
+        staticParams={"boardName", "arenaNames"},
         description="Change arenas the leaderboard will compile from.",
 
         paramDescriptions = {
-                "leaderboardName= The name of the leaderboard.",
+                "boardName= The name of the leaderboard.",
                 "arenaNames= A comma delimited list of arena names. No spaces."})
 
 public class SetArenasSubCommand extends AbstractLeaderboardCommand implements IExecutableCommand {
@@ -56,10 +56,10 @@ public class SetArenasSubCommand extends AbstractLeaderboardCommand implements I
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
+        String boardName = args.getString("boardName");
         String arenaNames = args.getString("arenaNames");
-        String leaderboardName = args.getString("leaderboardName");
 
-        Leaderboard leaderboard = getLeaderboard(sender, leaderboardName);
+        Leaderboard leaderboard = getLeaderboard(sender, boardName);
         if (leaderboard == null)
             return; // finished
 
@@ -69,6 +69,6 @@ public class SetArenasSubCommand extends AbstractLeaderboardCommand implements I
 
         leaderboard.setArenas(arenaIds);
 
-        tellSuccess(sender, Lang.get(_SUCCESS, leaderboardName, arenaNames));
+        tellSuccess(sender, Lang.get(_SUCCESS, boardName, arenaNames));
     }
 }

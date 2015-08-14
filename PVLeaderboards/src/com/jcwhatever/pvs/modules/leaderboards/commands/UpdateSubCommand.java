@@ -38,11 +38,11 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="lb",
         command="update",
-        staticParams={ "leaderboardName" },
+        staticParams={ "boardName" },
         description="Update the specified leaderboard.",
 
         paramDescriptions = {
-                "leaderboardName= The name of the leaderboard."})
+                "boardName= The name of the leaderboard."})
 
 public class UpdateSubCommand extends AbstractLeaderboardCommand implements IExecutableCommand {
 
@@ -51,14 +51,14 @@ public class UpdateSubCommand extends AbstractLeaderboardCommand implements IExe
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
-        String leaderboardName = args.getString("leaderboardName");
+        String boardName = args.getString("boardName");
 
-        Leaderboard leaderboard = getLeaderboard(sender, leaderboardName);
+        Leaderboard leaderboard = getLeaderboard(sender, boardName);
         if (leaderboard == null)
             return; // finished
 
         leaderboard.update();
 
-        tellSuccess(sender, Lang.get(_SUCCESS, leaderboardName));
+        tellSuccess(sender, Lang.get(_SUCCESS, boardName));
     }
 }

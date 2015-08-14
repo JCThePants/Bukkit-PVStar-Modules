@@ -25,65 +25,58 @@
 
 package com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns;
 
-import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.stats.IArenaStats;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.pvs.api.stats.IPlayerStats;
 import com.jcwhatever.pvs.api.stats.StatType;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.Leaderboard;
-import com.jcwhatever.nucleus.collections.timed.TimedHashMap;
-import com.jcwhatever.nucleus.utils.PreCon;
-
 import org.bukkit.block.Sign;
 
-import java.util.List;
+/**
+ * Column used for displaying statistics values.
+ */
+public class StatisticsColumn extends AbstractColumn implements Comparable<StatisticsColumn> {
 
-public class StatisticsColumn extends AbstractColumn {
+    private ColumnSettings _settings;
 
-    private final StatType _statType;
-    // keyed to player id as a string
-    private TimedHashMap<String, Double> _cachedValues = new TimedHashMap<String, Double>(PVStarAPI.getPlugin(), 1);
-    private ColumnSetting _settings;
-
-    public StatisticsColumn(StatType type, Leaderboard leaderboard, Sign columnHeader, ColumnSetting settings) {
+    /**
+     * Constructor.
+     *
+     * @param leaderboard   The owning leaderboard.
+     * @param columnHeader  The header sign.
+     * @param settings      The columns settings.
+     */
+    public StatisticsColumn(Leaderboard leaderboard,
+                            Sign columnHeader, ColumnSettings settings) {
         super(leaderboard, columnHeader);
 
-        _statType = type;
+        PreCon.notNull(settings);
+
         _settings = settings;
     }
 
+    /**
+     * Get the columns statistic type.
+     */
     public StatType getStatType() {
-        return _statType;
+        return _settings.getStatType();
     }
 
-    public ColumnSetting getSettings() {
+    /**
+     * Get the columns settings.
+     */
+    public ColumnSettings getSettings() {
         return _settings;
     }
 
     @Override
-    protected String getPlayerStatDisplay(int signLine, String playerId) {
-        PreCon.notNullOrEmpty(playerId);
+    protected String getPlayerStatDisplay(int signLine, IPlayerStats playerStats) {
 
-        Double value = _cachedValues.get(playerId);
-        if (value == null) {
-            value = getPlayerStatValue(playerId);
-        }
-
-        return _settings.getLineFormat(signLine) + getStatType().formatDisplay(value);
+        double score = playerStats.getScore(getStatType(), _settings.getTrackType());
+        return _settings.getLineFormat(signLine) + getStatType().formatDisplay(score);
     }
 
     @Override
-    public double getPlayerStatValue(String playerId) {
-        PreCon.notNull(playerId);
-
-        double value = 0;
-
-        List<IArenaStats> arenaStats = getLeaderboard().getArenaStats();
-
-        for (IArenaStats stats : arenaStats) {
-            value += stats.getValue(getStatType(), playerId, getSettings().getTrackingType());
-        }
-
-        _cachedValues.put(playerId, value);
-
-        return value;
+    public int compareTo(StatisticsColumn o) {
+        return Integer.compare(getSettings().getPriority(), o.getSettings().getPriority());
     }
 }

@@ -42,11 +42,11 @@ import java.util.UUID;
 @CommandInfo(
         parent="lb",
         command="add",
-        staticParams={"leaderboardName", "arenaNames"},
+        staticParams={"boardName", "arenaNames"},
         description="Creates a new leaderboard that tracks the specified arenas.",
 
         paramDescriptions = {
-                "leaderboardName= The name of the leaderboard. {NAME16}",
+                "boardName= The name of the leaderboard. {NAME16}",
                 "arenaNames= A comma delimited list of arena names. No spaces."})
 
 public class AddSubCommand extends AbstractLeaderboardCommand implements IExecutableCommand {
@@ -60,18 +60,18 @@ public class AddSubCommand extends AbstractLeaderboardCommand implements IExecut
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
-        String leaderboardName = args.getName("leaderboardName");
+        String boardName = args.getName("boardName");
         String arenaNames = args.getString("arenaNames");
 
         List<UUID> arenaIds = getArenaIds(sender, arenaNames);
         if (arenaIds == null)
             return; // finish
 
-        Leaderboard leaderboard = LeaderboardsModule.getModule().getLeaderboard(leaderboardName);
+        Leaderboard leaderboard = LeaderboardsModule.getModule().getLeaderboard(boardName);
         if (leaderboard != null)
-            throw new CommandException(Lang.get(_ALREADY_EXISTS, leaderboardName));
+            throw new CommandException(Lang.get(_ALREADY_EXISTS, boardName));
 
-        leaderboard = LeaderboardsModule.getModule().addLeaderboard(leaderboardName, arenaIds);
+        leaderboard = LeaderboardsModule.getModule().add(boardName, arenaIds);
         if (leaderboard == null)
             throw new CommandException(Lang.get(_FAILED));
 

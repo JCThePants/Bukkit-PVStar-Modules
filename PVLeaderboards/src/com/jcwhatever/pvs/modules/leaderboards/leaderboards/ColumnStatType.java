@@ -22,25 +22,60 @@
  * THE SOFTWARE.
  */
 
-
 package com.jcwhatever.pvs.modules.leaderboards.leaderboards;
 
-import com.jcwhatever.pvs.api.stats.StatOrder;
+import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.stats.StatTracking;
 import com.jcwhatever.pvs.api.stats.StatType;
 
 /**
- * Statistics type used as a place filler when a {@link StatType}
- * cannot be found.
+ * Data object for column statistic and tracking type.
  */
-public class MissingStatType extends StatType {
+public class ColumnStatType implements Comparable<ColumnStatType> {
+
+    private final int _priority;
+    private final StatType _statType;
+    private final StatTracking.StatTrackType _trackType;
 
     /**
      * Constructor.
      *
-     * @param statName  The name of the missing statistic type.
+     * @param priority   The statistics priority used for sorting.
+     * @param statType   The columns statistic type.
+     * @param trackType  The columns tracking type.
      */
-    public MissingStatType(String statName) {
-        super(statName, statName + "[missing]", StatTracking.TOTAL, StatOrder.ASCENDING);
+    public ColumnStatType(int priority, StatType statType, StatTracking.StatTrackType trackType) {
+        PreCon.notNull(statType);
+        PreCon.notNull(trackType);
+
+        _priority = priority;
+        _statType = statType;
+        _trackType = trackType;
+    }
+
+    /**
+     * Get the sort order priority of the statistic.
+     */
+    public int getPriority() {
+        return _priority;
+    }
+
+    /**
+     * Get the columns statistic type.
+     */
+    public StatType getStatType() {
+        return _statType;
+    }
+
+    /**
+     * Get the tracking type for the column.
+     */
+    public StatTracking.StatTrackType getTrackType() {
+        return _trackType;
+    }
+
+    @Override
+    public int compareTo(ColumnStatType other) {
+        return Integer.compare(_priority, other._priority);
     }
 }

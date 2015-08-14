@@ -39,11 +39,11 @@ import org.bukkit.command.CommandSender;
 @CommandInfo(
         parent="lb",
         command="del",
-        staticParams={ "leaderboardName" },
+        staticParams={ "boardName" },
         description="Removes the specified leader board.",
 
         paramDescriptions = {
-                "leaderboardName= The name of the leaderboard."})
+                "boardName= The name of the leaderboard."})
 
 public class DelSubCommand extends AbstractLeaderboardCommand implements IExecutableCommand {
 
@@ -56,13 +56,13 @@ public class DelSubCommand extends AbstractLeaderboardCommand implements IExecut
     @Override
     public void execute(CommandSender sender, ICommandArguments args) throws CommandException {
 
-        String leaderboardName = args.getName("leaderboardName");
+        String boardName = args.getString("boardName");
 
-        Leaderboard leaderboard = getLeaderboard(sender, leaderboardName);
+        Leaderboard leaderboard = getLeaderboard(sender, boardName);
         if (leaderboard == null)
             return; // finish
 
-        if (!LeaderboardsModule.getModule().removeLeaderboard(leaderboardName))
+        if (!LeaderboardsModule.getModule().remove(boardName))
             throw new CommandException(Lang.get(_FAILED));
 
         tellSuccess(sender, Lang.get(_SUCCESS, leaderboard.getName()));

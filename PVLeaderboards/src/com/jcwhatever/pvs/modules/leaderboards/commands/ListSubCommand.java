@@ -97,7 +97,8 @@ public class ListSubCommand extends AbstractCommand implements IExecutableComman
                 pagin.add(leaderboard.getName(), TextUtils.concat(arenaNames, ", "));
             else {
 
-                pagin.add(leaderboard.getName(), TextUtils.concat(arenaNames, ", ") + TextColor.RED + ' ' + labelAnchorNotSet);
+                pagin.add(leaderboard.getName(), TextUtils.concat(arenaNames, ", ") +
+                        TextColor.RED + ' ' + labelAnchorNotSet);
             }
         }
 

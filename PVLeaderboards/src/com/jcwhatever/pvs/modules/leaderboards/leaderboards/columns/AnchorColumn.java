@@ -25,52 +25,47 @@
 
 package com.jcwhatever.pvs.modules.leaderboards.leaderboards.columns;
 
-import com.jcwhatever.pvs.modules.leaderboards.leaderboards.Leaderboard;
-import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.player.PlayerUtils;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
-
+import com.jcwhatever.pvs.api.stats.IPlayerStats;
+import com.jcwhatever.pvs.modules.leaderboards.leaderboards.Leaderboard;
 import org.bukkit.block.Sign;
 
 import java.util.UUID;
 
+/**
+ * Leaderboard anchor column.
+ */
 public class AnchorColumn extends AbstractColumn {
 
-    private final Sign _anchorSign;
     private final String[] _lineFormats;
 
+    /**
+     * Constructor.
+     *
+     * @param leaderboard  The owning leaderboard.
+     * @param anchorSign   The leaderboard anchor sign (top-left)
+     * @param lineFormats  Formats to prepend to text lines in the signs.
+     */
     public AnchorColumn(Leaderboard leaderboard, Sign anchorSign, String[] lineFormats) {
         super(leaderboard, anchorSign);
-        _anchorSign = anchorSign;
 
         _lineFormats = lineFormats;
     }
 
+    /**
+     * Get the anchor sign (top-left)
+     */
     public Sign getAnchorSign() {
         return getHeaderSign();
     }
 
     @Override
-    public Sign getHeaderSign() {
-        return _anchorSign;
-    }
+    protected String getPlayerStatDisplay(int signLine, IPlayerStats playerStats) {
 
-    @Override
-    public double getPlayerStatValue(String playerId) {
-        return 0;
-    }
-
-    @Override
-    protected String getPlayerStatDisplay(int signLine, String playerId) {
-        PreCon.notNullOrEmpty(playerId);
-
-        UUID playerUniqueId;
-        PreCon.isValid((playerUniqueId = TextUtils.parseUUID(playerId)) != null);
-
+        UUID playerId = playerStats.getPlayerId();
         String format = _lineFormats[signLine];
 
-        //noinspection ConstantConditions
-        String playerName = PlayerUtils.getPlayerName(playerUniqueId);
+        String playerName = PlayerUtils.getPlayerName(playerId);
         if (playerName == null)
             playerName = "?";
 

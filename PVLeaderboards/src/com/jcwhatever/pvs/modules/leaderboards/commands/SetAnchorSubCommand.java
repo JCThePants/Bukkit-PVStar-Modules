@@ -45,11 +45,11 @@ import org.bukkit.event.block.Action;
 @CommandInfo(
         parent="lb",
         command="setanchor",
-        staticParams={"leaderboardName"},
+        staticParams={"boardName"},
         description="Sets the leaderboards anchor sign (top left) to the sign the player clicks on.",
 
         paramDescriptions = {
-                "leaderboardName= The name of the leaderboard."})
+                "boardName= The name of the leaderboard."})
 
 public class SetAnchorSubCommand extends AbstractLeaderboardCommand implements IExecutableCommand {
 
@@ -67,9 +67,9 @@ public class SetAnchorSubCommand extends AbstractLeaderboardCommand implements I
 
         CommandException.checkNotConsole(getPlugin(), this, sender);
 
-        String leaderboardName = args.getString("leaderboardName");
+        String boardName = args.getString("boardName");
 
-        final Leaderboard leaderboard = getLeaderboard(sender, leaderboardName);
+        final Leaderboard leaderboard = getLeaderboard(sender, boardName);
         if (leaderboard == null)
             return; // finished
 
