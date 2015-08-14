@@ -27,6 +27,8 @@ package com.jcwhatever.pvs.modules.stats;
 
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
+import com.jcwhatever.nucleus.utils.observer.future.FutureResultSubscriber;
+import com.jcwhatever.nucleus.utils.observer.future.Result;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
@@ -38,25 +40,27 @@ import com.jcwhatever.pvs.api.events.players.PlayerPreRemoveFromContextEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerWinEvent;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 import com.jcwhatever.pvs.api.stats.IArenaStats;
+import com.jcwhatever.pvs.api.stats.IPlayerStats;
+import com.jcwhatever.pvs.api.stats.StatOrder;
 import com.jcwhatever.pvs.api.stats.StatTracking;
 import com.jcwhatever.pvs.api.stats.StatType;
-
 import org.bukkit.event.entity.EntityDeathEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.plugin.Plugin;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
-import javax.annotation.Nullable;
+import java.util.UUID;
 
 public class BasicStatsModule extends PVStarModule implements IEventListener {
 
-    public static final StatType KILLS = new StatType("kills", "Kills", StatTracking.TOTAL_MIN_MAX);
-    public static final StatType DEATHS = new StatType("deaths", "Deaths", StatTracking.TOTAL_MIN_MAX);
-    public static final StatType WINS = new StatType("wins", "Wins", StatTracking.TOTAL);
-    public static final StatType LOSSES = new StatType("losses", "Losses", StatTracking.TOTAL);
-    public static final StatType POINTS = new StatType("points", "Points", StatTracking.TOTAL_MIN_MAX);
+    public static final StatType KILLS = new StatType("kills", "Kills", StatTracking.TOTAL_MIN_MAX, StatOrder.ASCENDING);
+    public static final StatType DEATHS = new StatType("deaths", "Deaths", StatTracking.TOTAL_MIN_MAX, StatOrder.DESCENDING);
+    public static final StatType WINS = new StatType("wins", "Wins", StatTracking.TOTAL, StatOrder.ASCENDING);
+    public static final StatType LOSSES = new StatType("losses", "Losses", StatTracking.TOTAL, StatOrder.DESCENDING);
+    public static final StatType POINTS = new StatType("points", "Points", StatTracking.TOTAL_MIN_MAX, StatOrder.ASCENDING);
 
     private final Map<IArena, Map<StatType, Map<IArenaPlayer, SessionStatTracker>>> _playerMatches = new HashMap<>(30);
 
@@ -125,16 +129,35 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
 
     @EventMethod
     private void onPlayerWin(PlayerWinEvent event) {
+
+        UUID playerId = event.getPlayer().getUniqueId();
         IArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(event.getArena().getId());
 
-        stats.addScore(WINS, event.getPlayer().getUniqueId(), 1);
+        stats.get(playerId).onSuccess(new FutureResultSubscriber<IPlayerStats>() {
+            @Override
+            public void on(Result<IPlayerStats> result) {
+
+                assert result.getResult() != null;
+                result.getResult().addScore(WINS, 1);
+            }
+        });
     }
 
     @EventMethod
     private void onPlayerLose(PlayerLoseEvent event) {
+
+        UUID playerId = event.getPlayer().getUniqueId();
         IArenaStats stats = PVStarAPI.getStatsManager().getArenaStats(event.getArena().getId());
 
-        stats.addScore(LOSSES, event.getPlayer().getUniqueId(), 1);
+        stats.get(playerId).onSuccess(new FutureResultSubscriber<IPlayerStats>() {
+            @Override
+            public void on(Result<IPlayerStats> result) {
+
+                assert result.getResult() != null;
+                result.getResult().addScore(LOSSES, 1);
+
+            }
+        });
     }
 
     private void onPlayerLeave(PlayerPreRemoveFromContextEvent event) {
@@ -163,15 +186,24 @@ public class BasicStatsModule extends PVStarModule implements IEventListener {
         }
     }
 
-    private void saveSession(IArena arena, IArenaStats stats, StatType type) {
+    private void saveSession(IArena arena, IArenaStats stats, final StatType type) {
         Map<IArenaPlayer, SessionStatTracker> sessionMap = getPlayerSessionMap(arena, type);
         if (sessionMap != null) {
 
-            for (Entry<IArenaPlayer, SessionStatTracker> arenaPlayerSessionStatTrackerEntry : sessionMap.entrySet()) {
+            for (Entry<IArenaPlayer, SessionStatTracker> entry : sessionMap.entrySet()) {
 
-                SessionStatTracker tracker = arenaPlayerSessionStatTrackerEntry.getValue();
+                final SessionStatTracker tracker = entry.getValue();
 
-                stats.addScore(type, arenaPlayerSessionStatTrackerEntry.getKey().getUniqueId(), tracker.getTotal());
+                UUID playerId = entry.getKey().getUniqueId();
+
+                stats.get(playerId).onSuccess(new FutureResultSubscriber<IPlayerStats>() {
+                    @Override
+                    public void on(Result<IPlayerStats> result) {
+
+                        assert result.getResult() != null;
+                        result.getResult().addScore(type, tracker.getTotal());
+                    }
+                });
             }
         }
     }
