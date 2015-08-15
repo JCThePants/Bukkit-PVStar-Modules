@@ -39,12 +39,10 @@ import com.jcwhatever.pvs.modules.mobs.paths.PathCache;
 import com.jcwhatever.pvs.modules.mobs.paths.PathCacheEntry;
 import org.bukkit.Location;
 
-import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 public class DistanceUtils {
 
@@ -119,58 +117,27 @@ public class DistanceUtils {
         if (spawnpoints.isEmpty())
             return result;
 
-        List<T> playerResults = new ArrayList<>(players.size());
-        Set<T> spawns = new HashSet<>(spawnpoints);
+        List<T> spawns = new ArrayList<>(spawnpoints);
 
         Location playerLocation = PLAYER_LOCATIONS.get();
         Location blockLocation = BLOCK_LOCATIONS.get();
 
         for (IArenaPlayer player : players) {
 
+            if (spawns.isEmpty())
+                break;
+
             Location location  = LocationUtils.getBlockLocation(player.getLocation(playerLocation), blockLocation);
 
-            for (T spawn : spawns) {
+            Iterator<T> iterator = spawns.iterator();
+            while (iterator.hasNext()) {
+                T spawn = iterator.next();
 
                 if (isValidMobDestination(arena, spawn, location, SEARCH_RADIUS, maxPathDistance)) {
-                    playerResults.add(spawn);
+                    result.add(spawn);
+                    iterator.remove();
                 }
             }
-
-            if (!playerResults.isEmpty()) {
-                spawns.removeAll(playerResults);
-                result.addAll(playerResults);
-                playerResults.clear();
-            }
-        }
-
-        return result;
-    }
-
-    public static <T extends Spawnpoint> T getClosestSpawn(
-            Collection<T> spawnpoints, Location location, @Nullable T exclude) {
-
-        PreCon.notNull(spawnpoints);
-        PreCon.notNull(location);
-
-        double dist;
-        double current = 1000000;
-        T result = null;
-
-        for (T spawn : spawnpoints) {
-
-            if (!spawn.getWorld().equals(location.getWorld()))
-                continue;
-
-            dist = spawn.distanceSquared(location);
-
-            if (dist >= current || dist >= 256.0)
-                continue;
-
-            if (spawn.equals(exclude))
-                continue;
-
-            current = dist;
-            result = spawn;
         }
 
         return result;

@@ -27,6 +27,7 @@ package com.jcwhatever.pvs.modules.mobs.spawners.wave;
 import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
 import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.nucleus.managed.titles.Titles;
+import com.jcwhatever.nucleus.utils.Rand;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
@@ -84,12 +85,10 @@ public class WaveSpawner extends Spawner {
     @Override
     protected void onRun() {
 
-        int totalPlayers = getArena().getGame().getPlayers().size();
-
         _mobSpawns = getExtension().getMobSpawns();
 
-        _spawnMobsTask = ArenaScheduler.runTaskRepeat(getArena(), 5, 20 + (3 * totalPlayers), new SpawnTask());
-        _despawnMobsTask = ArenaScheduler.runTaskRepeat(getArena(), 10, 10, new DespawnMobs());
+        _spawnMobsTask = ArenaScheduler.runTaskRepeat(getArena(), Rand.getInt(19), 19, new SpawnTask());
+        _despawnMobsTask = ArenaScheduler.runTaskRepeat(getArena(), Rand.getInt(12), 12, new DespawnMobs());
     }
 
     @Override
@@ -212,6 +211,11 @@ public class WaveSpawner extends Spawner {
         @Override
         protected void setMobTargets(List<LivingEntity> mobs) {
             WaveSpawner.this.setMobTargets(mobs);
+        }
+
+        @Override
+        protected int getSpawnCount(int maxMobsPerSpawn) {
+            return Math.min(1, super.getSpawnCount(maxMobsPerSpawn));
         }
     }
 

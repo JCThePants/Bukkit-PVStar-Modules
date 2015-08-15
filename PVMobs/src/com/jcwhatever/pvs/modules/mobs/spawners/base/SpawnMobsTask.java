@@ -74,47 +74,45 @@ public abstract class SpawnMobsTask extends TaskHandler {
             // get spawns in proximity to players
             List<Spawnpoint> spawns = getMobSpawns(players);
 
-            if (!spawns.isEmpty()) {
+            // spawn till max is reached
+            while (!spawns.isEmpty() && canAddMobs()) {
 
-                // spawn till max is reached
-                while (canAddMobs() && !spawns.isEmpty()) {
+                Spawnpoint spawn = Rand.get(spawns);
 
-                    Spawnpoint spawn = Rand.get(spawns);
+                spawns.remove(spawn);
 
-                    spawns.remove(spawn);
+                SpawnpointInfo info = null;
 
-                    SpawnpointInfo info = null;
-
-                    if (maxMobsPerSpawn > -1) {
-                        // get spawn info to track entities spawned at spawnpoint
-                        info = _spawnInfoMap.get(spawn);
-                        if (info == null) {
-                            info = new SpawnpointInfo(spawn, maxMobsPerSpawn);
-                            _spawnInfoMap.put(spawn, info);
-                        }
-
-                        // make sure mobs per spawn is not reached.
-                        if (info.getEntityCount() >= maxMobsPerSpawn) {
-
-                            // remove maxed spawn from candidates
-                            continue;
-                        }
+                if (maxMobsPerSpawn > -1) {
+                    // get spawn info to track entities spawned at spawnpoint
+                    info = _spawnInfoMap.get(spawn);
+                    if (info == null) {
+                        info = new SpawnpointInfo(spawn, maxMobsPerSpawn);
+                        _spawnInfoMap.put(spawn, info);
                     }
 
-                    int spawnCount = getSpawnCount(maxMobsPerSpawn);
+                    // make sure mobs per spawn is not reached.
+                    if (info.getEntityCount() >= maxMobsPerSpawn) {
 
-                    List<LivingEntity> spawned = _spawner.spawn(spawn, spawnCount);
-                    if (spawned != null) {
-                        setMobTargets(spawned);
+                        // remove maxed spawn from candidates
+                        continue;
+                    }
+                }
 
-                        if (info != null) {
-                            for (LivingEntity entity : spawned) {
-                                info.addEntity(entity);
-                            }
+                int spawnCount = getSpawnCount(maxMobsPerSpawn);
+
+                List<LivingEntity> spawned = _spawner.spawn(spawn, spawnCount);
+                if (spawned != null) {
+                    setMobTargets(spawned);
+
+                    if (info != null) {
+                        for (LivingEntity entity : spawned) {
+                            info.addEntity(entity);
                         }
                     }
                 }
             }
+
         }
     }
 
