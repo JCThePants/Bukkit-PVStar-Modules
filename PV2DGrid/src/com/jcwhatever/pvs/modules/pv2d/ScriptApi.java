@@ -7,14 +7,13 @@ import com.jcwhatever.nucleus.utils.coords.Coords2Di;
 import com.jcwhatever.nucleus.utils.coords.MutableCoords2Di;
 import com.jcwhatever.pvs.api.arena.ArenaRegion;
 import com.jcwhatever.pvs.api.arena.IArena;
-
 import org.bukkit.Location;
 import org.bukkit.World;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 /*
  * 
@@ -87,13 +86,13 @@ public class ScriptApi implements IDisposable {
             if (!world.equals(location.getWorld()))
                 return null;
 
-            double x = location.getBlockX() - region.getXStart();
-            double z = location.getBlockZ() - region.getZStart();
+            double x = region.getXBlockWidth() - (region.getXEnd() - location.getBlockX());
+            double z = region.getZBlockWidth() - (region.getZEnd() - location.getBlockZ());
 
             if (x < 0 || z < 0)
                 return null;
 
-            if (x > region.getXEnd() || z > region.getZEnd())
+            if (x > region.getXBlockWidth() || z > region.getZBlockWidth())
                 return null;
 
             return getTile(
@@ -106,8 +105,6 @@ public class ScriptApi implements IDisposable {
 
             return getMeta(tile.getTileX(), tile.getTileZ());
         }
-
-
 
         public MetaStore getMeta(int x, int z) {
             COORDS.setX(x);
