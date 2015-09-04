@@ -27,9 +27,15 @@ package com.jcwhatever.pvs.modules.revive;
 
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
+import com.jcwhatever.pvs.api.stats.StatOrder;
+import com.jcwhatever.pvs.api.stats.StatTracking;
+import com.jcwhatever.pvs.api.stats.StatType;
 import com.jcwhatever.pvs.modules.revive.commands.ReviveCommand;
 
 public class ReviveModule extends PVStarModule {
+
+    public static final StatType REVIVES = new StatType("revives", "Revives",
+            StatTracking.TOTAL_MIN_MAX, StatOrder.ASCENDING);
 
     private static ReviveModule _module;
 
@@ -45,14 +51,13 @@ public class ReviveModule extends PVStarModule {
 
     @Override
     protected void onRegisterTypes() {
-        // do nothing
+        PVStarAPI.getStatsManager().registerType(REVIVES);
     }
 
     @Override
     protected void onEnable() {
 
         PVStarAPI.getCommandDispatcher().registerCommand(ReviveCommand.class);
-
         PVStarAPI.getExtensionManager().registerType(ReviveExtension.class);
     }
 }

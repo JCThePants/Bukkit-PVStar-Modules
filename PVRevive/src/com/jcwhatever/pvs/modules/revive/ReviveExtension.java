@@ -217,6 +217,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
                     task.cancel();
                 }
                 player.getPlayer().setHealth(_reviveHealth);
+                reviver.getSessionStats().increment(ReviveModule.REVIVES, 1);
                 break;
             }
         }
