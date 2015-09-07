@@ -32,6 +32,7 @@ import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.utils.MetaStore;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
@@ -51,6 +52,7 @@ import com.jcwhatever.pvs.api.events.region.PlayerEnterArenaRegionEvent;
 import com.jcwhatever.pvs.api.events.region.PlayerLeaveArenaRegionEvent;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 
+import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -61,6 +63,8 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
 
     private static final String META_LEAVE = OpenArenaExtension.class.getName() + "META_LEAVE";
     private static final String META_ENTER = OpenArenaExtension.class.getName() + "META_ENTER";
+    private static final String META_TRANSFER = OpenArenaExtension.class.getName() + "META_TRANSFER";
+    private static final Location PLAYER_LOCATION = new Location(null, 0, 0, 0);
 
     // stores player-->arena so players entering an arena that is busy can be added
     // when it becomes idle.
@@ -148,7 +152,6 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     @EventMethod
     private void onArenaPreStart(ArenaPreStartEvent event) {
         IArenaPlayerCollection players = getArena().getLobby().getPlayers();
-
         event.getJoiningPlayers().addAll(players);
     }
 
@@ -158,15 +161,30 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     @EventMethod
     private void onPlayerEnterArena(PlayerEnterArenaRegionEvent event) {
 
-        if (event.getPlayer().getArena() == null) {
+        IArenaPlayer arenaPlayer = event.getPlayer();
+        IArena arena = event.getArena();
 
-            if (getArena().isBusy()) {
-                _joinOnIdle.add(event.getPlayer().getPlayer());
+        IArena current = arenaPlayer.getArena();
+        if (current != null) {
+
+            if (arena.equals(current)) {
+                return;
             }
-            else {
-                event.getPlayer().getMeta().set(META_ENTER, true);
-                getArena().join(event.getPlayer());
-            }
+
+            arenaPlayer.getMeta().set(META_TRANSFER, true);
+            arenaPlayer.leaveArena();
+
+            // make sure player is still in arena after leaving previous one
+            if (!arena.getRegion().contains(arenaPlayer.getLocation(PLAYER_LOCATION)))
+                return;
+        }
+
+        if (getArena().isBusy()) {
+            _joinOnIdle.add(arenaPlayer.getPlayer());
+        }
+        else {
+            arenaPlayer.getMeta().set(META_ENTER, true);
+            getArena().join(arenaPlayer);
         }
     }
 
@@ -193,16 +211,19 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     }
 
     /*
-     * Prevent location restore if the player is leaving the arena on foot.
+     * Prevent location restore if the player is leaving the arena on foot
+     * or if leaving due to transfer to another open arena.
      */
     @EventMethod
     private void onPlayerRemove(PlayerLeaveArenaEvent event) {
 
         MetaStore meta = event.getPlayer().getMeta();
 
-        if (meta.get(META_LEAVE) == Boolean.TRUE) {
+        if (meta.get(META_LEAVE) == Boolean.TRUE ||
+                meta.get(META_TRANSFER) == Boolean.TRUE) {
             event.setRestoreLocation(null);
             meta.set(META_LEAVE, null);
+            meta.set(META_TRANSFER, null);
         }
     }
 
