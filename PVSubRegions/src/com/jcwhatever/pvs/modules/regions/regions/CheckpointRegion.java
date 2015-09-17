@@ -53,6 +53,7 @@ import java.util.UUID;
 public class CheckpointRegion extends AbstractPVRegion implements IEventListener {
 
     private static Map<String, PropertyDefinition> _possibleSettings;
+    private static final Map<UUID, CheckpointRegion> PLAYER_REGION_MAP = new HashMap<>(25);
 
     static {
         _possibleSettings = new SettingsBuilder()
@@ -95,10 +96,18 @@ public class CheckpointRegion extends AbstractPVRegion implements IEventListener
     }
 
     @Override
-    protected void onPlayerEnter(IArenaPlayer player, EnterRegionReason reason) {
+    protected void onPlayerEnter(IArenaPlayer arenaPlayer, EnterRegionReason reason) {
+
+        UUID playerId = arenaPlayer.getUniqueId();
         Spawnpoint spawn = Rand.get(_spawnpoints);
 
-        _checkpointMap.put(player.getUniqueId(), spawn);
+        CheckpointRegion region = PLAYER_REGION_MAP.remove(playerId);
+        if (region != null) {
+            region._checkpointMap.remove(playerId);
+        }
+
+        _checkpointMap.put(playerId, spawn);
+        PLAYER_REGION_MAP.put(playerId, this);
     }
 
     @Override
@@ -118,7 +127,9 @@ public class CheckpointRegion extends AbstractPVRegion implements IEventListener
 
     @Override
     protected boolean canDoPlayerEnter(Player p, EnterRegionReason reason) {
-        return _spawnpoints != null && !_spawnpoints.isEmpty() && !_checkpointMap.containsKey(p.getUniqueId());
+        return _spawnpoints != null
+                && !_spawnpoints.isEmpty()
+                && !_checkpointMap.containsKey(p.getUniqueId());
     }
 
     @EventMethod
@@ -133,6 +144,9 @@ public class CheckpointRegion extends AbstractPVRegion implements IEventListener
 
     @EventMethod
     private void onArenaEnd(@SuppressWarnings("unused") ArenaEndedEvent event) {
+        for (UUID playerId : _checkpointMap.keySet()) {
+            PLAYER_REGION_MAP.remove(playerId);
+        }
         _checkpointMap.clear();
     }
 }
