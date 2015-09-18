@@ -45,8 +45,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.Set;
 
 public class PathCacheEntry {
@@ -224,7 +225,7 @@ public class PathCacheEntry {
 
         BasicByteWriter writer = new BasicByteWriter(new FileOutputStream(file));
 
-        LinkedList<Location> locations = new LinkedList<Location>(_cachedPaths);
+        Deque<Location> locations = new ArrayDeque<>(_cachedPaths);
 
         writer.write(CACHE_FILE_VERSION);
         writer.write(_spawnpoint.getName());

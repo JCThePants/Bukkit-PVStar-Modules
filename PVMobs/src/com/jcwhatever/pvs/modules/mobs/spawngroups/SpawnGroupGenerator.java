@@ -37,10 +37,11 @@ import com.jcwhatever.nucleus.utils.astar.AStarUtils;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -234,7 +235,7 @@ public class SpawnGroupGenerator {
 
             List<Spawnpoint> groups = new ArrayList<>(_mobSpawns.size());
 
-            LinkedList<Spawnpoint> spawnPool = new LinkedList<>(_mobSpawns.values());
+            Deque<Spawnpoint> spawnPool = new ArrayDeque<>(_mobSpawns.values());
             int searchRadiusSquared = DistanceUtils.SEARCH_RADIUS * DistanceUtils.SEARCH_RADIUS;
 
             while (!spawnPool.isEmpty()) {
@@ -249,7 +250,7 @@ public class SpawnGroupGenerator {
                 astar.setRange(DistanceUtils.SEARCH_RADIUS);
 
                 // find candidates to add to the group
-                LinkedList<Spawnpoint> groupCandidates = new LinkedList<>(spawnPool);
+                Deque<Spawnpoint> groupCandidates = new ArrayDeque<>(spawnPool);
 
                 while (!groupCandidates.isEmpty()) {
 

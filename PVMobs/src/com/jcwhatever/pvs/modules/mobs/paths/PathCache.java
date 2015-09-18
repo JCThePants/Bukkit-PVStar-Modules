@@ -33,9 +33,10 @@ import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 import javax.annotation.Nullable;
 
@@ -81,7 +82,7 @@ public class PathCache {
         if (_entries.size() == 0)
             return;
 
-        final LinkedList<PathCacheEntry> entries = new LinkedList<>(_entries.values());
+        final Deque<PathCacheEntry> entries = new ArrayDeque<>(_entries.values());
 
         Scheduler.runTaskRepeat(PVStarAPI.getPlugin(), 7, 7, new TaskHandler() {
             @Override

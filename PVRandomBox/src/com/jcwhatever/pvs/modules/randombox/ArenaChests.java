@@ -40,8 +40,8 @@ import org.bukkit.inventory.ItemStack;
 
 import javax.annotation.Nullable;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -161,7 +161,7 @@ public class ArenaChests implements IArenaOwned {
      * Scan for and update the collection of chests that are known to exist.
      */
     public void scan() {
-        LinkedList<Location> chestLocations = _arena.getRegion().find(Material.CHEST);
+        Deque<Location> chestLocations = _arena.getRegion().find(Material.CHEST);
         Map<Location, ChestInfo> chestInfo = new HashMap<>(chestLocations.size());
 
         _chestNode.clear();

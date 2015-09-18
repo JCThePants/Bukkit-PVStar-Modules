@@ -48,8 +48,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.material.MaterialData;
 import org.bukkit.plugin.Plugin;
 
+import java.util.ArrayDeque;
+import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -61,7 +62,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
         return _module;
     }
 
-    private Map<IArena, LinkedList<BlockState>> _blockStates = new HashMap<>(20);
+    private Map<IArena, Deque<BlockState>> _blockStates = new HashMap<>(20);
 
     public ShowSpawnsModule() {
         _module = this;
@@ -94,7 +95,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
         hideSigns(arena);
 
         List<Spawnpoint> spawnpoints = arena.getSpawns().getAll();
-        LinkedList<BlockState> states = new LinkedList<>();
+        Deque<BlockState> states = new ArrayDeque<>(spawnpoints.size());
 
         for (Spawnpoint spawn : spawnpoints) {
 
@@ -134,7 +135,7 @@ public class ShowSpawnsModule extends PVStarModule implements IEventListener {
     }
 
     public void hideSigns(IArena arena) {
-        LinkedList<BlockState> signList = _blockStates.remove(arena);
+        Deque<BlockState> signList = _blockStates.remove(arena);
         if (signList == null)
             return;
 
