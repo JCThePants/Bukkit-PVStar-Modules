@@ -45,18 +45,17 @@ import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.api.utils.ArenaScheduler;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="crumble",
@@ -120,12 +119,12 @@ public class CrumbleFloorRegion extends AbstractPVRegion implements IEventListen
 
             result.onCancel(new FutureSubscriber() {
                 @Override
-                public void on(FutureStatus status, @Nullable String message) {
+                public void on(FutureStatus status, @Nullable CharSequence message) {
                     setEnabled(false);
                 }
             }).onError(new FutureSubscriber() {
                 @Override
-                public void on(FutureStatus status, @Nullable String message) {
+                public void on(FutureStatus status, @Nullable CharSequence message) {
                     setEnabled(false);
                 }
             });

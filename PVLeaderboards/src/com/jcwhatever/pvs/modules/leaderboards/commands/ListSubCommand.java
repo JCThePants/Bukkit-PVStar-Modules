@@ -72,9 +72,9 @@ public class ListSubCommand extends AbstractCommand implements IExecutableComman
 
         List<Leaderboard> leaderboards = LeaderboardsModule.getModule().getLeaderboards();
 
-        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE));
 
-        String labelAnchorNotSet = Lang.get(_LABEL_ANCHOR_NOT_SET);
+        String labelAnchorNotSet = Lang.get(_LABEL_ANCHOR_NOT_SET).toString();
 
         for (Leaderboard leaderboard : leaderboards) {
             if (leaderboard == null) {

@@ -54,7 +54,7 @@ public class PointsDoorSignHandler extends AbstractNumberSignHandler {
 
     @Override
     public String getDescription() {
-        return Lang.get(_DESCRIPTION);
+        return Lang.get(_DESCRIPTION).toString();
     }
 
     @Override
@@ -108,7 +108,7 @@ public class PointsDoorSignHandler extends AbstractNumberSignHandler {
 
     @Override
     protected String getCurrencyName() {
-        return Lang.get(_CURRENCY_NAME);
+        return Lang.get(_CURRENCY_NAME).toString();
     }
 
     @Override

@@ -117,7 +117,7 @@ public class AbstractDropsCommand extends AbstractPVCommand {
 
         @Override
         public String getDescription() {
-            return Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", "));
+            return Lang.get(_INVALID_SPECIFICITY, TextUtils.concat(_settingTypes, ", ")).toString();
         }
     }
 

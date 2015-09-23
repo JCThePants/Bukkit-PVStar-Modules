@@ -33,12 +33,10 @@ import com.jcwhatever.nucleus.managed.commands.utils.AbstractCommand;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
-import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.party.Lang;
 import com.jcwhatever.pvs.modules.party.Party;
 import com.jcwhatever.pvs.modules.party.PartyManager;
 import com.jcwhatever.pvs.modules.party.PartyModule;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.permissions.PermissionDefault;
@@ -85,16 +83,16 @@ public class PartyCommand extends AbstractCommand implements IExecutableCommand 
 		if (party.isDisbanded())
 			return; // finish
 		
-		ChatPaginator pagin = Msg.getPaginator(party.getPartyName());
+		ChatPaginator pagin = createPagin(args, 7, party.getPartyName());
 		
 		List<Player> members = party.getMembers();
 		List<Player> invitees = party.getInvitations();
 		
 		String label = null;
-		String noneLabel = Lang.get("<none>");
+		String noneLabel = Lang.get("<none>").toString();
 		
 		// Leader
-		label = Lang.get("Leader");
+		label = Lang.get("Leader").toString();
 		pagin.add(label, party.getLeader().getName());
 
 		// Members
@@ -104,7 +102,7 @@ public class PartyCommand extends AbstractCommand implements IExecutableCommand 
 				names.add(member.getName());
 		}
 		
-		label = Lang.get("Members");
+		label = Lang.get("Members").toString();
 		pagin.add(label, names.size() > 0 ? TextUtils.concat(names, ", ") : noneLabel);
 
 		// Invitations
@@ -113,7 +111,7 @@ public class PartyCommand extends AbstractCommand implements IExecutableCommand 
 			invited.add(invitee.getName());
 		}
 		
-		label = Lang.get("Invitations");
+		label = Lang.get("Invitations").toString();
 		pagin.add(label, invited.size() > 0 ? TextUtils.concat(invited, ", ") : noneLabel);
 		
 		pagin.show(sender, page, FormatTemplate.CONSTANT_DEFINITION);

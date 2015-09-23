@@ -38,6 +38,7 @@ import com.jcwhatever.nucleus.utils.MetaStore;
 import com.jcwhatever.nucleus.utils.items.ItemStackMatcher;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
+import com.jcwhatever.nucleus.utils.text.components.IChatMessage;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
@@ -170,7 +171,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
 
                 arena.getGame().tell("{RED}{0} needs to be revived!", player.getName());
 
-                String message = TextUtils.format("{RED}!!! {0} needs to be revived !!!", player.getName());
+                IChatMessage message = TextUtils.format("{RED}!!! {0} needs to be revived !!!", player.getName());
                 ActionBars.create(message)
                         .showTo(arena.getGame().getPlayers().asPlayers());
             }

@@ -35,11 +35,9 @@ import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.pvs.api.arena.IArena;
-import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.regions.Lang;
 import com.jcwhatever.pvs.modules.regions.commands.AbstractRegionCommand;
 import com.jcwhatever.pvs.modules.regions.regions.AbstractPVRegion;
-
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 
@@ -76,7 +74,7 @@ public class InfoSubCommand extends AbstractRegionCommand implements IExecutable
         if (region == null)
             return; // finish
 
-        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE, region.getName()));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE, region.getName()));
 
         pagin.add(Lang.get(_LABEL_ENABLED), region.isEnabled());
         pagin.add(Lang.get(_LABEL_TYPE), region.getTypeName());
@@ -103,5 +101,4 @@ public class InfoSubCommand extends AbstractRegionCommand implements IExecutable
 
         pagin.show(sender, page, FormatTemplate.CONSTANT_DEFINITION);
     }
-
 }

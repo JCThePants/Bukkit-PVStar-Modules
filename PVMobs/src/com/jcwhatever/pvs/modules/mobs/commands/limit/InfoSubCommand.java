@@ -35,10 +35,8 @@ import com.jcwhatever.nucleus.utils.entity.EntityTypes;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
-import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.mobs.Lang;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.EntityType;
 
@@ -76,11 +74,11 @@ public class InfoSubCommand extends AbstractPVCommand implements IExecutableComm
 
         int page = args.getInteger("page");
 
-        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE, arena.getName()));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE, arena.getName()));
 
         Set<EntityType> mobTypes = EntityTypes.get(EntityTypeProperty.ALIVE);
 
-        String noneLabel = Lang.get(_LABEL_NONE);
+        String noneLabel = Lang.get(_LABEL_NONE).toString();
 
         for (EntityType type : mobTypes) {
 

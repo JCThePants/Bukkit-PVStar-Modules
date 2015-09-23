@@ -33,12 +33,10 @@ import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.pvs.api.arena.IArena;
-import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.regions.Lang;
 import com.jcwhatever.pvs.modules.regions.RegionManager;
 import com.jcwhatever.pvs.modules.regions.SubRegionsModule;
 import com.jcwhatever.pvs.modules.regions.regions.AbstractPVRegion;
-
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -67,7 +65,7 @@ public class ListSubCommand extends AbstractRegionCommand implements IExecutable
 
         RegionManager manager = SubRegionsModule.getModule().getManager(arena);
 
-        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE, arena.getName()));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE, arena.getName()));
 
         List<AbstractPVRegion> regions = manager.getRegions();
 

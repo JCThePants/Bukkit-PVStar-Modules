@@ -53,7 +53,7 @@ public class EconDoorSignHandler extends AbstractNumberSignHandler {
 
     @Override
     public String getDescription() {
-        return Lang.get(_DESCRIPTION);
+        return Lang.get(_DESCRIPTION).toString();
     }
 
     @Override

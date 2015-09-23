@@ -36,10 +36,8 @@ import com.jcwhatever.nucleus.utils.items.ItemStackUtils;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
-import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.chests.ChestExtension;
 import com.jcwhatever.pvs.modules.chests.Lang;
-
 import org.bukkit.command.CommandSender;
 import org.bukkit.inventory.ItemStack;
 
@@ -71,7 +69,7 @@ public class ListSubCommand extends AbstractPVCommand implements IExecutableComm
 
         int page = args.getInteger("page");
 
-        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE));
 
         WeightedIterator<ItemStack> iterator = extension.getItemSettings().getItems().weightedIterator();
 

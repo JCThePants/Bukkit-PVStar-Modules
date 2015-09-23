@@ -34,12 +34,10 @@ import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
-import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.mobs.Lang;
 import com.jcwhatever.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.pvs.modules.mobs.spawners.SpawnerInfo;
 import com.jcwhatever.pvs.modules.mobs.spawners.SpawnerManager;
-
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -63,7 +61,7 @@ public class TypesSubCommand extends AbstractPVCommand implements IExecutableCom
 
         int page = args.getInteger("page");
 
-        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE));
 
         List<Class<? extends ISpawner>> spawnerTypes = SpawnerManager.getSpawnerClasses();
         for (Class<? extends ISpawner> type : spawnerTypes) {

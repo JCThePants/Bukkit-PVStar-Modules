@@ -38,15 +38,14 @@ import com.jcwhatever.nucleus.utils.observer.future.IFuture;
 import com.jcwhatever.nucleus.utils.observer.future.IFuture.FutureStatus;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
-
 import org.bukkit.material.MaterialData;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="delete",
@@ -99,7 +98,7 @@ public class DeleteRegion extends AbstractPVRegion {
 
             restoreData(LoadSpeed.FAST).onSuccess(new FutureSubscriber() {
                 @Override
-                public void on(FutureStatus status, @Nullable String message) {
+                public void on(FutureStatus status, @Nullable CharSequence message) {
                     _isTriggered = false;
                 }
             });
@@ -128,12 +127,12 @@ public class DeleteRegion extends AbstractPVRegion {
 
             result.onCancel(new FutureSubscriber() {
                 @Override
-                public void on(FutureStatus status, @Nullable String message) {
+                public void on(FutureStatus status, @Nullable CharSequence message) {
                     setEnabled(false);
                 }
             }).onError(new FutureSubscriber() {
                 @Override
-                public void on(FutureStatus status, @Nullable String message) {
+                public void on(FutureStatus status, @Nullable CharSequence message) {
                     setEnabled(false);
                 }
             });

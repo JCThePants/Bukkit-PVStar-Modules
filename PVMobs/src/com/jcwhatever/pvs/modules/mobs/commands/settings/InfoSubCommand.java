@@ -35,12 +35,10 @@ import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
-import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.mobs.Lang;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.pvs.modules.mobs.spawners.SpawnerInfo;
-
 import org.bukkit.command.CommandSender;
 
 import java.util.Map;
@@ -81,7 +79,7 @@ public class InfoSubCommand extends AbstractPVCommand implements IExecutableComm
         if (spawner == null)
             throw new CommandException(Lang.get(_SPAWNER_NOT_FOUND, arena.getName()));
 
-        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE));
 
         pagin.add("ARENA", arena.getName());
         pagin.add("SPAWNER", spawner.getClass().getAnnotation(SpawnerInfo.class).name());

@@ -44,7 +44,7 @@ public class ListSubCommand extends AbstractPVCommand implements IExecutableComm
         if (extension == null)
             return;
 
-        ChatPaginator pagin = createPagin(7, Lang.get(_PAGINATOR_TITLE, arena.getName()));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE, arena.getName()));
 
         List<String> commands = extension.getCommands();
 

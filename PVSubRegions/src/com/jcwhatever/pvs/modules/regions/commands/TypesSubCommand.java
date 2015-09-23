@@ -32,12 +32,10 @@ import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
-import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.regions.Lang;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.pvs.modules.regions.SubRegionsModule;
 import com.jcwhatever.pvs.modules.regions.regions.AbstractPVRegion;
-
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -60,7 +58,7 @@ public class TypesSubCommand extends AbstractRegionCommand implements IExecutabl
 
         int page = args.getInteger("page");
 
-        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE));
 
         List<Class<? extends AbstractPVRegion>> types = SubRegionsModule.getModule().getTypesManager().getRegionTypes();
 

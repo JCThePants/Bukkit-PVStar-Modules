@@ -30,6 +30,7 @@ import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.managed.actionbar.ActionBarPriority;
 import com.jcwhatever.nucleus.managed.actionbar.ActionBars;
 import com.jcwhatever.nucleus.managed.language.Localizable;
+import com.jcwhatever.nucleus.utils.text.components.IChatMessage;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaTeam;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
@@ -99,8 +100,8 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
 
         event.setWinMessage(Lang.get(_PLAYER_WIN, event.getPlayer().getName()));
 
-        String globalMessage = Lang.get(_PLAYER_WIN_GLOBAL, event.getPlayer().getName(), getArena().getName());
-        if (!globalMessage.isEmpty())
+        IChatMessage globalMessage = Lang.get(_PLAYER_WIN_GLOBAL, event.getPlayer().getName(), getArena().getName());
+        if (globalMessage.length() != 0)
             ActionBars.showTo(Bukkit.getOnlinePlayers(), globalMessage, ActionBarPriority.LOW);
     }
 

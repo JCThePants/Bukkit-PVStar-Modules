@@ -43,16 +43,15 @@ import com.jcwhatever.nucleus.utils.observer.future.IFuture.FutureStatus;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="spleeffloor",
@@ -113,12 +112,12 @@ public class SpleefFloorRegion extends AbstractPVRegion implements IEventListene
 
             result.onCancel(new FutureSubscriber() {
                 @Override
-                public void on(FutureStatus status, @Nullable String message) {
+                public void on(FutureStatus status, @Nullable CharSequence message) {
                     setEnabled(false);
                 }
             }).onError(new FutureSubscriber() {
                 @Override
-                public void on(FutureStatus status, @Nullable String message) {
+                public void on(FutureStatus status, @Nullable CharSequence message) {
                     setEnabled(false);
                 }
             });

@@ -45,7 +45,6 @@ import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
-
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -53,11 +52,11 @@ import org.bukkit.block.BlockState;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.inventory.ItemStack;
 
+import javax.annotation.Nullable;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
-import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="recrumble",
@@ -142,13 +141,13 @@ public class ReCrumbleFloorRegion extends AbstractPVRegion implements IEventList
 
             result.onCancel(new FutureSubscriber() {
                 @Override
-                public void on(FutureStatus status, @Nullable String message) {
+                public void on(FutureStatus status, @Nullable CharSequence message) {
                     // disable to prevent loss of build
                     setEnabled(false);
                 }
             }).onError(new FutureSubscriber() {
                 @Override
-                public void on(FutureStatus status, @Nullable String message) {
+                public void on(FutureStatus status, @Nullable CharSequence message) {
                     // disable to prevent loss of build
                     setEnabled(false);
                 }

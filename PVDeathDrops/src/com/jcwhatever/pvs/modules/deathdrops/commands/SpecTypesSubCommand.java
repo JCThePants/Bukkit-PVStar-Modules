@@ -32,9 +32,7 @@ import com.jcwhatever.nucleus.managed.commands.mixins.IExecutableCommand;
 import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
-import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.deathdrops.Lang;
-
 import org.bukkit.command.CommandSender;
 
 import java.util.List;
@@ -58,7 +56,7 @@ public class SpecTypesSubCommand extends AbstractDropsCommand implements IExecut
 
         int page = args.getInteger("page");
 
-        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE));
 
         List<String> types = getSpecificityTypes();
 

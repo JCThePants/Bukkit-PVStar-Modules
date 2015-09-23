@@ -68,7 +68,7 @@ public class ListSubCommand extends AbstractPVCommand implements IExecutableComm
 
         int page = args.getInteger("page");
 
-        ChatPaginator pagin = createPagin(Lang.get(_PAGINATOR_TITLE));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE));
 
         WeightedIterator<ItemStack> iterator = extension.getItems().iterator();
 

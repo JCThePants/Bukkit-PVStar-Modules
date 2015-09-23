@@ -33,7 +33,6 @@ import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.nucleus.managed.messaging.ChatPaginator;
 import com.jcwhatever.nucleus.utils.text.TextUtils.FormatTemplate;
 import com.jcwhatever.pvs.api.stats.StatType;
-import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.leaderboards.Lang;
 import com.jcwhatever.pvs.modules.leaderboards.commands.AbstractLeaderboardCommand;
 import com.jcwhatever.pvs.modules.leaderboards.leaderboards.Leaderboard;
@@ -67,7 +66,7 @@ public class InfoSubCommand extends AbstractLeaderboardCommand implements IExecu
         if (leaderboard == null)
             return; // finish
 
-        ChatPaginator pagin = Msg.getPaginator(Lang.get(_PAGINATOR_TITLE, boardName));
+        ChatPaginator pagin = createPagin(args, 7, Lang.get(_PAGINATOR_TITLE, boardName));
 
         List<StatisticsColumn> columns = leaderboard.getStatisticsColumns();
 
