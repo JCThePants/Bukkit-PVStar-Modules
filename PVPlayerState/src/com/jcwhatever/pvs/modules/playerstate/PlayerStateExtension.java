@@ -33,7 +33,7 @@ import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.options.AddToContextReason;
-import com.jcwhatever.pvs.api.events.players.PlayerAddedToContextEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerAddToContextEvent;
 
 import org.bukkit.plugin.Plugin;
 
@@ -58,7 +58,7 @@ public class PlayerStateExtension extends ArenaExtension implements IEventListen
     }
 
     @EventMethod
-    private void onPlayerAdded(PlayerAddedToContextEvent event) {
+    private void onPlayerAdded(PlayerAddToContextEvent event) {
 
         if (event.getReason() == AddToContextReason.CONTEXT_CHANGE ||
                 event.getReason() == AddToContextReason.FORWARDING) {

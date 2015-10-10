@@ -35,7 +35,7 @@ import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.ArenaTeam;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.events.players.PlayerAddedToLobbyEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerAddToLobbyEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerLoseEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerReadyEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerWinEvent;
@@ -84,7 +84,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
     }
 
     @EventMethod
-    private void onPlayerAdded(PlayerAddedToLobbyEvent event) {
+    private void onPlayerAdded(PlayerAddToLobbyEvent event) {
         if (event.getMessage() != null)
             return;
 

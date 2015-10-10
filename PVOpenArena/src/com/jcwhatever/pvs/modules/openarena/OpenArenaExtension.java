@@ -44,7 +44,7 @@ import com.jcwhatever.pvs.api.arena.options.ArenaContext;
 import com.jcwhatever.pvs.api.arena.options.ArenaStartReason;
 import com.jcwhatever.pvs.api.events.ArenaIdleEvent;
 import com.jcwhatever.pvs.api.events.ArenaPreStartEvent;
-import com.jcwhatever.pvs.api.events.players.PlayerAddedToContextEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerAddToContextEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerLeaveArenaEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerPreAddToContextEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerPreJoinArenaEvent;
@@ -120,7 +120,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
      *  Make sure players added to lobby are automatically moved to the game.
      */
     @EventMethod
-    private void onPlayerAdded(PlayerAddedToContextEvent event) {
+    private void onPlayerAdded(PlayerAddToContextEvent event) {
 
         if (event.getReason() != AddToContextReason.PLAYER_JOIN &&
                 event.getReason() != AddToContextReason.FORWARDING)

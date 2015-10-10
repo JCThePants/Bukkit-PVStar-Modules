@@ -35,7 +35,7 @@ import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.options.ArenaContext;
-import com.jcwhatever.pvs.api.events.players.PlayerAddedToContextEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerAddToContextEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerLoseEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerWinEvent;
 
@@ -107,7 +107,7 @@ public class EconomyExtension extends ArenaExtension implements IEventListener {
     }
 
     @EventMethod
-    private void onAddPlayer(PlayerAddedToContextEvent event) {
+    private void onAddPlayer(PlayerAddToContextEvent event) {
         if (event.getPlayer().getContext() == ArenaContext.GAME) {
             giveMoney(event.getPlayer(), getParticipantAmount());
         }

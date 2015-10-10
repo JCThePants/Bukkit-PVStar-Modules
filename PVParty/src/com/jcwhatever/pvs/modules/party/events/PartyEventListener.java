@@ -32,20 +32,19 @@ import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.options.AddToContextReason;
-import com.jcwhatever.pvs.api.events.players.PlayerAddedToContextEvent;
+import com.jcwhatever.pvs.api.events.players.PlayerAddToContextEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerJoinQueryEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerPreAddToContextEvent;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.party.Party;
 import com.jcwhatever.pvs.modules.party.PartyManager;
 import com.jcwhatever.pvs.modules.party.PartyModule;
-
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
+import javax.annotation.Nullable;
 import java.util.Iterator;
 import java.util.List;
-import javax.annotation.Nullable;
 
 public class PartyEventListener implements IEventListener {
 
@@ -98,7 +97,7 @@ public class PartyEventListener implements IEventListener {
     // player has already been allowed to join, add party members if applicable.
     // handled separately in case another module cancels the PlayerPreAddEvent
     @EventMethod
-    private void onPlayerAdded(PlayerAddedToContextEvent event) {
+    private void onPlayerAdded(PlayerAddToContextEvent event) {
 
         Player p = event.getPlayer().getPlayer();
         IArena arena = event.getArena();
