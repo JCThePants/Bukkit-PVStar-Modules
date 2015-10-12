@@ -25,23 +25,22 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.nucleus.Nucleus;
-import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.IArenaPlayer;
-import com.jcwhatever.pvs.api.utils.Msg;
-import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.playlist.PlayList.PlayerSoundQueue;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.playlist.SimplePlayList;
+import com.jcwhatever.nucleus.managed.resourcepacks.sounds.types.IResourceSound;
+import com.jcwhatever.nucleus.managed.sounds.SoundSettings;
+import com.jcwhatever.nucleus.managed.sounds.Sounds;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
-import com.jcwhatever.nucleus.managed.sounds.types.ResourceSound;
-import com.jcwhatever.nucleus.managed.sounds.SoundSettings;
-import com.jcwhatever.nucleus.managed.sounds.playlist.PlayList.PlayerSoundQueue;
-import com.jcwhatever.nucleus.managed.sounds.playlist.SimplePlayList;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
-
+import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.utils.Msg;
+import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import org.bukkit.entity.Player;
 
 import java.util.ArrayList;
@@ -129,11 +128,11 @@ public class MusicRegion extends AbstractPVRegion {
             return;
 
         String[] soundNames = TextUtils.PATTERN_COMMA.split(rawSounds);
-        List<ResourceSound> sounds = new ArrayList<>(soundNames.length);
+        List<IResourceSound> sounds = new ArrayList<>(soundNames.length);
 
         for (String soundName : soundNames) {
 
-            ResourceSound sound = Nucleus.getSoundManager().getSound(soundName.trim());
+            IResourceSound sound = Sounds.get(soundName);
             if (sound == null) {
                 Msg.debug("Sound '{0}' not found while loading musical region '{1}'.", soundName, getName());
                 continue;
