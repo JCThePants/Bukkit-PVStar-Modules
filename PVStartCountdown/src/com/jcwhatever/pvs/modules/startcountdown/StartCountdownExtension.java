@@ -33,16 +33,20 @@ import com.jcwhatever.nucleus.managed.scheduler.Scheduler;
 import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
 import com.jcwhatever.nucleus.managed.titles.Titles;
 import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
+import com.jcwhatever.nucleus.utils.text.components.IChatClickable;
+import com.jcwhatever.nucleus.utils.text.components.IChatHoverable;
+import com.jcwhatever.nucleus.utils.text.format.args.ClickableArgModifier;
+import com.jcwhatever.nucleus.utils.text.format.args.HoverableArgModifier;
+import com.jcwhatever.nucleus.utils.text.format.args.TextArg;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
+import com.jcwhatever.pvs.api.arena.context.IGameContext;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
-import com.jcwhatever.pvs.api.arena.context.IGameContext;
 import com.jcwhatever.pvs.api.arena.options.ArenaStartReason;
 import com.jcwhatever.pvs.api.events.ArenaPreStartEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerJoinedArenaEvent;
 import com.jcwhatever.pvs.api.utils.Msg;
-
 import org.bukkit.plugin.Plugin;
 
 @ArenaExtensionInfo(
@@ -51,10 +55,12 @@ import org.bukkit.plugin.Plugin;
 public class StartCountdownExtension extends ArenaExtension implements IEventListener {
 
     @Localizable static final String _AUTO_START_INFO =
-            "{YELLOW}Countdown to start will begin once {0} or more players "
-                    + "have joined. Type '{GREEN}/pv vote{YELLOW}' if you would like to start "
+            "{GOLD}-------------------------\n"
+                    + "{YELLOW}Countdown to start will begin once {0: min players} or more players "
+                    + "have joined. Type '{AQUA}{1: vote command}{YELLOW}' if you would like to start "
                     + "the countdown now. All players must vote in order to start the "
-                    + "countdown early.";
+                    + "countdown early.\n"
+                    + "{GOLD}-------------------------";
 
     @Localizable static final String _STARTING_COUNTDOWN = "{YELLOW}Starting in {0} seconds...";
     @Localizable static final String _MOD_10_SECONDS = "{YELLOW}{0} seconds...";
@@ -125,8 +131,12 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
     @EventMethod
     private void onPlayerJoin(PlayerJoinedArenaEvent event) {
 
-        Msg.tell(event.getPlayer(), Lang.get(_AUTO_START_INFO,
-                getArena().getLobby().getSettings().getMinAutoStartPlayers()));
+        int minPlayers = getArena().getLobby().getSettings().getMinAutoStartPlayers();
+        TextArg voteCommand = new TextArg("/pv vote",
+                new ClickableArgModifier(IChatClickable.ClickAction.RUN_COMMAND, "/pv vote"),
+                new HoverableArgModifier(IChatHoverable.HoverAction.SHOW_TEXT, "{YELLOW}Click to vote"));
+
+        Msg.tell(event.getPlayer(), Lang.get(_AUTO_START_INFO, minPlayers, voteCommand));
     }
 
     @EventMethod(priority = EventSubscriberPriority.FIRST)
