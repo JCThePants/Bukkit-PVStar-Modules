@@ -63,7 +63,7 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
             "{GREEN}{0: team name} wins!";
 
     @Localizable static final String _READY =
-            "{LIGHT_PURPLE}{0: player name} is ready to start.";
+            "{LIGHT_PURPLE}{0: player name} is ready to start. {GRAY}({1: votes required} more needed)";
 
     @Localizable static final String _PLAYER_LOSE =
             "{RED}{0: player name} lost.";
@@ -121,8 +121,11 @@ public class MessagesExtension extends ArenaExtension implements IEventListener 
         if (event.getMessage() != null)
             return;
 
+        int totalPlayers = event.getArena().getLobby().getPlayers().size();
+        int totalNeeded = totalPlayers - event.getTotalReady();
+
         event.setMessage(Lang.get(_READY,
-                event.getPlayer().getTeam().getTextColor() + event.getPlayer().getName()));
+                event.getPlayer().getTeam().getTextColor() + event.getPlayer().getName(), totalNeeded));
     }
 
     @EventMethod
