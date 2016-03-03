@@ -25,13 +25,14 @@
 
 package com.jcwhatever.pvs.modules.mobs.paths;
 
+import com.jcwhatever.nucleus.managed.astar.AStar;
+import com.jcwhatever.nucleus.managed.astar.IAStarSettings;
+import com.jcwhatever.nucleus.managed.astar.area.IPathAreaResult;
 import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.astar.AStar;
-import com.jcwhatever.nucleus.utils.astar.AStarUtils;
-import com.jcwhatever.nucleus.utils.astar.PathAreaFinder;
-import com.jcwhatever.nucleus.utils.astar.PathAreaFinder.PathAreaResults;
+import com.jcwhatever.nucleus.utils.coords.Coords3Di;
+import com.jcwhatever.nucleus.utils.coords.ICoords3Di;
 import com.jcwhatever.nucleus.utils.coords.LocationUtils;
-import com.jcwhatever.nucleus.utils.coords.SyncLocation;
+import com.jcwhatever.nucleus.utils.coords.MutableCoords3Di;
 import com.jcwhatever.nucleus.utils.file.BasicByteReader;
 import com.jcwhatever.nucleus.utils.file.BasicByteWriter;
 import com.jcwhatever.pvs.api.arena.IArena;
@@ -52,18 +53,17 @@ import java.util.Set;
 
 public class PathCacheEntry {
 
-    private static Location DESTINATION_LOCATION = new Location(null, 0, 0, 0);
-
-    private static int CACHE_FILE_VERSION = 1;
+    private static final Location DESTINATION_LOCATION = new Location(null, 0, 0, 0);
+    private static final MutableCoords3Di COORDS_MATCHER = new MutableCoords3Di();
+    private static final int CACHE_FILE_VERSION = 2;
 
     private final MobArenaExtension _manager;
     private final Spawnpoint _spawnpoint;
     private final IArena _arena;
+    private final IAStarSettings _settings = AStar.createSettings();
 
-
-    private Set<Location> _cachedPaths;
+    private Set<ICoords3Di> _cachedPaths;
     private boolean _isValidCachedPaths;
-
 
     public PathCacheEntry (MobArenaExtension manager, Spawnpoint spawnpoint) {
         PreCon.notNull(manager);
@@ -87,6 +87,11 @@ public class PathCacheEntry {
      * @param destination  The destination to check.
      */
     public boolean isValidDestination(Location destination) {
+        if (_arena.getRegion().getWorld() == null)
+            return false;
+
+        if (!_arena.getRegion().getWorld().equals(destination.getWorld()))
+            return false;
 
         if (LocationUtils.findSurfaceBelow(destination, DESTINATION_LOCATION) == null)
             return false;
@@ -94,9 +99,11 @@ public class PathCacheEntry {
         if (_cachedPaths == null)
             throw new IllegalStateException("Cannot check destination because there is no path cache.");
 
+        COORDS_MATCHER.copyFrom(DESTINATION_LOCATION);
+
         return _isValidCachedPaths
-                ? _cachedPaths.contains(DESTINATION_LOCATION)
-                : !_cachedPaths.contains(DESTINATION_LOCATION);
+                ? _cachedPaths.contains(COORDS_MATCHER)
+                : !_cachedPaths.contains(COORDS_MATCHER);
     }
 
     /**
@@ -111,13 +118,11 @@ public class PathCacheEntry {
         PreCon.greaterThanZero(searchRadius);
         PreCon.greaterThanZero(maxPathDistance);
 
-        AStar astar = AStarUtils.getAStar(_spawnpoint.getWorld());
-        astar.setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT);
-        astar.setRange(searchRadius);
-        //astar.setMaxTravelDistance(maxPathDistance);
 
-        PathAreaFinder finder = new PathAreaFinder();
-        PathAreaResults result = finder.search(astar, _spawnpoint);
+        _settings.setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT);
+        _settings.setRange(searchRadius);
+
+        IPathAreaResult result = AStar.searchArea(_spawnpoint, _settings);
 
         if (result.getValid().size() > result.getInvalid().size()) {
             _isValidCachedPaths = false;
@@ -174,13 +179,15 @@ public class PathCacheEntry {
 
         int totalLocations = reader.getInteger();
 
-        Set<Location> locations = new HashSet<Location>(totalLocations);
+        Set<ICoords3Di> locations = new HashSet<>(totalLocations);
 
         for (int i=0; i < totalLocations; i++) {
-            SyncLocation location = reader.getLocation();
+            int x = reader.getInteger();
+            int y = reader.getInteger();
+            int z = reader.getInteger();
 
             // convert SyncLocation to Location
-            locations.add(LocationUtils.copy(location));
+            locations.add(new Coords3Di(x, y, z));
         }
 
         reader.close();
@@ -225,18 +232,21 @@ public class PathCacheEntry {
 
         BasicByteWriter writer = new BasicByteWriter(new FileOutputStream(file));
 
-        Deque<Location> locations = new ArrayDeque<>(_cachedPaths);
+        Deque<ICoords3Di> locations = new ArrayDeque<>(_cachedPaths);
 
         writer.write(CACHE_FILE_VERSION);
         writer.write(_spawnpoint.getName());
         writer.write(_spawnpoint);
         writer.write(_isValidCachedPaths ? (byte)1 : (byte)0);
+        writer.write(_arena.getRegion().getWorldName());
 
         writer.write(locations.size()); // int
 
         while (!locations.isEmpty()) {
-            Location location = locations.remove();
-            writer.write(location);
+            ICoords3Di location = locations.remove();
+            writer.write(location.getX());
+            writer.write(location.getY());
+            writer.write(location.getZ());
         }
 
         writer.close();

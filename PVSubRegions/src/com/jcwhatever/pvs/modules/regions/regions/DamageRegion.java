@@ -25,16 +25,15 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.arena.IArenaPlayer;
-import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
-
-import org.bukkit.entity.Player;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
+import org.bukkit.entity.LivingEntity;
 
 import java.util.Map;
 
@@ -63,16 +62,19 @@ public class DamageRegion extends AbstractPVRegion {
     @Override
     protected void onPlayerEnter(IArenaPlayer player, EnterRegionReason reason) {
 
-        Player p = player.getPlayer();
+        if (!(player.getEntity() instanceof LivingEntity))
+            return;
+
+        LivingEntity entity = (LivingEntity)player.getEntity();
 
         if (_damage < 0) {
-            double health = p.getHealth() + Math.abs(_damage);
-            health = Math.min(p.getMaxHealth(), health);
+            double health = entity.getHealth() + Math.abs(_damage);
+            health = Math.min(entity.getMaxHealth(), health);
 
-            p.setHealth(health);
+            entity.setHealth(health);
         }
         else {
-            p.damage(_damage);
+            entity.damage(_damage);
         }
     }
 

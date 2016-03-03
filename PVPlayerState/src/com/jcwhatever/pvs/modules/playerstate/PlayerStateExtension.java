@@ -30,11 +30,12 @@ import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.utils.player.PlayerState;
 import com.jcwhatever.nucleus.utils.player.PlayerUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IBukkitPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.options.AddToContextReason;
 import com.jcwhatever.pvs.api.events.players.PlayerAddToContextEvent;
-
 import org.bukkit.plugin.Plugin;
 
 @ArenaExtensionInfo(
@@ -65,15 +66,23 @@ public class PlayerStateExtension extends ArenaExtension implements IEventListen
             return;
         }
 
+        IArenaPlayer arenaPlayer = event.getPlayer();
+
+        if (!(arenaPlayer instanceof IBukkitPlayer))
+            return;
+
+        IBukkitPlayer player = (IBukkitPlayer)arenaPlayer;
+
+
         // store player state
-        PlayerState state = PlayerState.get(PVStarAPI.getPlugin(), event.getPlayer().getPlayer());
+        PlayerState state = PlayerState.get(PVStarAPI.getPlugin(), player.getPlayer());
         if (state == null) {
-            state = PlayerState.store(PVStarAPI.getPlugin(), event.getPlayer().getPlayer());
+            state = PlayerState.store(PVStarAPI.getPlugin(), player.getPlayer());
         }
 
         if (state != null) {
             // clear players chest and reset state
-            PlayerUtils.resetPlayer(event.getPlayer().getPlayer());
+            PlayerUtils.resetPlayer(player.getPlayer());
         }
     }
 

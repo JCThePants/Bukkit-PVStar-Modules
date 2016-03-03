@@ -47,7 +47,10 @@ import com.jcwhatever.pvs.api.arena.options.ArenaStartReason;
 import com.jcwhatever.pvs.api.events.ArenaPreStartEvent;
 import com.jcwhatever.pvs.api.events.players.PlayerJoinedArenaEvent;
 import com.jcwhatever.pvs.api.utils.Msg;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
+
+import java.util.Collection;
 
 @ArenaExtensionInfo(
         name="PVStartCountdown",
@@ -68,7 +71,6 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
     @Localizable static final String _GO = "{GREEN}Go!";
 
     private int _startCountdown = 10; // setting
-
     private IScheduledTask _countdownTask;
     private boolean _isStarting;
 
@@ -169,7 +171,8 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
             return;
 
         // tell players the countdown is starting.
-        Titles.showTo(players.asPlayers(), Lang.get(_STARTING_COUNTDOWN, getStartCountdownSeconds()));
+        Titles.showTo(players.toBukkit(),
+                Lang.get(_STARTING_COUNTDOWN, getStartCountdownSeconds()));
 
         // schedule countdown task
         _countdownTask = Scheduler.runTaskRepeat(PVStarAPI.getPlugin(), 20, 20, new TaskHandler() {
@@ -187,6 +190,8 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
                         ? getArena().getLobby().getNextGroup()
                         : getArena().getLobby().getReadyGroup();
 
+                Collection<Player> players = group.toBukkit();
+
                 // cancel countdown if there is no longer a group of players to start the game
                 if (group.isEmpty()) {
                     cancelTask();
@@ -197,7 +202,7 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
 
                     getArena().getGame().start(reason);
 
-                    Titles.showTo(group.asPlayers(), Lang.get(_GO));
+                    Titles.showTo(players, Lang.get(_GO));
 
                     cancelTask();
 
@@ -207,13 +212,13 @@ public class StartCountdownExtension extends ArenaExtension implements IEventLis
                 else if (remaining > 5) {
 
                     if (remaining % 10 == 0) {
-                        Titles.showTo(group.asPlayers(), Lang.get(_MOD_10_SECONDS, remaining));
+                        Titles.showTo(players, Lang.get(_MOD_10_SECONDS, remaining));
                     }
 
                 }
                 // tell current time left at 1 seconds intervals
                 else {
-                    Titles.showTo(group.asPlayers(), Lang.get(_SECONDS, remaining));
+                    Titles.showTo(players, Lang.get(_SECONDS, remaining));
                 }
             }
 

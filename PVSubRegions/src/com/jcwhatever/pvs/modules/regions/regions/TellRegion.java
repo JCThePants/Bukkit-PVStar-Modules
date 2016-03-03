@@ -25,10 +25,6 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.arena.IArenaPlayer;
-import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
-import com.jcwhatever.pvs.api.utils.Msg;
-import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.collections.ElementCounter;
 import com.jcwhatever.nucleus.collections.ElementCounter.RemovalPolicy;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
@@ -40,12 +36,16 @@ import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.nucleus.utils.converters.Converters;
-
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IBukkitPlayer;
+import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
+import com.jcwhatever.pvs.api.utils.Msg;
+import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
 import java.util.Map;
 import java.util.UUID;
-import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="tell",
@@ -170,7 +170,11 @@ public class TellRegion extends AbstractPVRegion implements IEventListener {
     }
 
     protected void tellMessage(IArenaPlayer player, String message) {
-        Msg.tell(player.getPlayer(), message);
+
+        if (!(player instanceof IBukkitPlayer))
+            return;
+
+        Msg.tell(((IBukkitPlayer) player).getPlayer(), message);
     }
 
     @EventMethod

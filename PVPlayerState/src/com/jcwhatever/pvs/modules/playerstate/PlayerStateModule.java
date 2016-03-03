@@ -30,6 +30,7 @@ import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.utils.player.PlayerState;
 import com.jcwhatever.nucleus.utils.player.PlayerState.RestoreLocation;
 import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.pvs.api.arena.IBukkitPlayer;
 import com.jcwhatever.pvs.api.events.players.PlayerLeaveArenaEvent;
 import com.jcwhatever.pvs.api.modules.PVStarModule;
 
@@ -63,10 +64,14 @@ public class PlayerStateModule extends PVStarModule implements IEventListener {
     @EventMethod
     private void onPlayerLeave(PlayerLeaveArenaEvent event) {
 
-        if (!event.isRestoring() || event.getPlayer().getPlayer().isDead())
+        if (!(event.getPlayer() instanceof IBukkitPlayer))
             return;
 
-        PlayerState state = PlayerState.get(PVStarAPI.getPlugin(), event.getPlayer().getPlayer());
+        if (!event.isRestoring() || event.getPlayer().isDead())
+            return;
+
+        PlayerState state = PlayerState.get(PVStarAPI.getPlugin(),
+                ((IBukkitPlayer) event.getPlayer()).getPlayer());
         if (state == null || !state.isSaved())
             return;
 

@@ -24,10 +24,10 @@
 
 package com.jcwhatever.pvs.modules.mobs.spawners.base;
 
+import com.jcwhatever.nucleus.managed.astar.AStar;
+import com.jcwhatever.nucleus.managed.astar.IAStarSettings;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.Rand;
-import com.jcwhatever.nucleus.utils.astar.AStar;
-import com.jcwhatever.nucleus.utils.astar.AStarUtils;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.modules.mobs.DespawnMethod;
@@ -35,6 +35,7 @@ import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.pvs.modules.mobs.spawners.ISpawner;
 import com.jcwhatever.pvs.modules.mobs.spawners.MobRemoveReason;
 import com.jcwhatever.pvs.modules.mobs.utils.DistanceUtils;
+import org.bukkit.Location;
 import org.bukkit.entity.LivingEntity;
 
 import java.util.List;
@@ -44,8 +45,12 @@ import java.util.List;
      */
 public abstract class DespawnMobsTask implements Runnable {
 
+    private static final Location MOB_LOCATION = new Location(null, 0, 0, 0);
+    private static final Location CLOSEST_LOCATION = new Location(null, 0, 0, 0);
+
     private final ISpawner _spawner;
     private final IArena _arena;
+    private final IAStarSettings _settings = AStar.createSettings();
 
     public DespawnMobsTask(MobArenaExtension extension, ISpawner spawner) {
         PreCon.notNull(extension);
@@ -77,14 +82,15 @@ public abstract class DespawnMobsTask implements Runnable {
                 return;
             }
 
-            if (!mob.hasLineOfSight(closest.getPlayer())) {
+            if (!mob.hasLineOfSight(closest.getEntity())) {
 
-                AStar astar = AStarUtils.getAStar(mob.getWorld());
-                astar.setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT);
-                astar.setRange(getMaxDistance());
+                _settings.setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT);
+                _settings.setRange(getMaxDistance());
 
-                int distance = AStarUtils.searchSurface(
-                        astar, mob.getLocation(), closest.getLocation())
+                int distance = AStar.search(
+                        mob.getLocation(MOB_LOCATION),
+                        closest.getLocation(CLOSEST_LOCATION),
+                        _settings)
                         .getPathDistance();
 
                 if (distance == -1 || distance > getMaxPathDistance()) {

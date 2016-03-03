@@ -32,6 +32,7 @@ import com.jcwhatever.nucleus.managed.signs.ISignContainer;
 import com.jcwhatever.nucleus.utils.text.TextColor;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IBukkitPlayer;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.kitsigns.Lang;
 import com.jcwhatever.pvs.modules.kitsigns.events.KitPurchasedEvent;
@@ -95,11 +96,19 @@ public class EconKitSignHandler extends AbstractNumberSignHandler {
 
     @Override
     protected double getBalance(IArenaPlayer player) {
-        return Economy.getBalance(player.getPlayer().getUniqueId());
+
+        if (!(player instanceof IBukkitPlayer))
+            return 0.0D;
+
+        return Economy.getBalance(player.getUniqueId());
     }
 
     @Override
     protected void incrementBalance(IArenaPlayer player, double amount) {
+
+        if (!(player instanceof IBukkitPlayer))
+            return;
+
         Economy.depositOrWithdraw(player.getUniqueId(), amount);
     }
 

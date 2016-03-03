@@ -42,6 +42,7 @@ import com.jcwhatever.nucleus.utils.text.components.IChatMessage;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IBukkitPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.arena.options.ArenaContext;
@@ -152,11 +153,11 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
             meta.setKey(KEY_KILLER, event.getEntity().getKiller());
 
             // cancel event
-            double health = player.getPlayer().getHealth();
+            double health = player.getHealth();
             if (Double.compare(health, 0.0D) == 0 || health < 0.0D)
-                player.getPlayer().setHealth(1.0D);
+                player.setHealth(1.0D);
 
-            player.getPlayer().setHealth(_timeToReviveSeconds);
+            player.setHealth(_timeToReviveSeconds);
 
             player.setInvulnerable(true);
             player.setImmobilized(true);
@@ -173,7 +174,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
 
                 IChatMessage message = TextUtils.format("{RED}!!! {0} needs to be revived !!!", player.getName());
                 ActionBars.create(message)
-                        .showTo(arena.getGame().getPlayers().asPlayers());
+                        .showTo(arena.getGame().getPlayers().toBukkit());
             }
         }
     }
@@ -189,6 +190,11 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
 
         IArenaPlayer player = PVStarAPI.getArenaPlayer(event.getEntity());
         IArenaPlayer reviver = PVStarAPI.getArenaPlayer(event.getDamager());
+
+        if (!(reviver.getEntity() instanceof Player))
+            return;
+
+        Player reviverPlayer = (Player)reviver.getEntity();
 
         if (player.getContext() != ArenaContext.GAME)
             return;
@@ -207,7 +213,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
         event.setDamage(0.0D);
 
         // get the item in the damager/reviver's hand
-        ItemStack inHand = reviver.getPlayer().getItemInHand();
+        ItemStack inHand = reviverPlayer.getItemInHand();
 
         // see if the item is a revival item
         for (ItemStack revivalItem : _revivalItems) {
@@ -217,7 +223,7 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
                 if (task != null) {
                     task.cancel();
                 }
-                player.getPlayer().setHealth(_reviveHealth);
+                player.setHealth(_reviveHealth);
                 reviver.getSessionStats().increment(ReviveModule.REVIVES, 1);
                 break;
             }
@@ -239,8 +245,13 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
 
         public PlayerDownedTimer(IArenaPlayer player) {
             _player = player;
-            _health = player.getPlayer().getHealth();
-            _player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.CONFUSION, 50000, 2));
+            _health = player.getHealth();
+
+            if (!(_player instanceof IBukkitPlayer))
+                return;
+
+            ((IBukkitPlayer) _player).getPlayer().addPotionEffect(
+                    new PotionEffect(PotionEffectType.CONFUSION, 50000, 2));
         }
 
         @Override
@@ -261,14 +272,19 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
                 return;// finish
             }
             else if (Double.compare(_health, 4.0D) == 0) {
-                _player.getPlayer().addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 50000, 2));
+
+                if (!(_player instanceof IBukkitPlayer))
+                    return;
+
+                ((IBukkitPlayer) _player).getPlayer().addPotionEffect(
+                        new PotionEffect(PotionEffectType.BLINDNESS, 50000, 2));
             }
 
-            _player.getPlayer().setHealth(_health);
+            _player.setHealth(_health);
 
             IArena arena = _player.getArena();
             if (arena != null) {
-                EFFECT.showTo(arena.getGame().getPlayers().asPlayers(),
+                EFFECT.showTo(arena.getGame().getPlayers().toBukkit(),
                         _player.getLocation(PLAYER_LOCATION).add(0, 2, 0), 1);
             }
         }
@@ -279,8 +295,11 @@ public class ReviveExtension extends ArenaExtension implements IEventListener {
             _player.getSessionMeta().setKey(KEY_KILLER, null);
             _player.getSessionMeta().setKey(KEY_TASK, null);
 
-            _player.getPlayer().removePotionEffect(PotionEffectType.CONFUSION);
-            _player.getPlayer().removePotionEffect(PotionEffectType.BLINDNESS);
+            if (_player instanceof IBukkitPlayer) {
+                Player player = ((IBukkitPlayer) _player).getPlayer();
+                player.removePotionEffect(PotionEffectType.CONFUSION);
+                player.removePotionEffect(PotionEffectType.BLINDNESS);
+            }
 
             _player.setInvulnerable(false);
             _player.setImmobilized(false);

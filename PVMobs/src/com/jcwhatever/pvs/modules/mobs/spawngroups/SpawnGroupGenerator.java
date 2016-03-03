@@ -25,16 +25,16 @@
 
 package com.jcwhatever.pvs.modules.mobs.spawngroups;
 
+import com.jcwhatever.nucleus.managed.astar.AStar;
+import com.jcwhatever.nucleus.managed.astar.IAStarSettings;
+import com.jcwhatever.nucleus.storage.IDataNode;
+import com.jcwhatever.nucleus.utils.PreCon;
+import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.spawns.Spawnpoint;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.mobs.MobArenaExtension;
 import com.jcwhatever.pvs.modules.mobs.paths.PathCache;
 import com.jcwhatever.pvs.modules.mobs.utils.DistanceUtils;
-import com.jcwhatever.nucleus.storage.IDataNode;
-import com.jcwhatever.nucleus.utils.PreCon;
-import com.jcwhatever.nucleus.utils.astar.AStar;
-import com.jcwhatever.nucleus.utils.astar.AStarUtils;
-import com.jcwhatever.nucleus.utils.text.TextUtils;
 
 import java.io.IOException;
 import java.util.ArrayDeque;
@@ -230,6 +230,11 @@ public class SpawnGroupGenerator {
      */
     private class CreateSpawnGroups implements Runnable {
 
+        final IAStarSettings settings = AStar.createSettings()
+                .setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT)
+                .setMaxIterations(DistanceUtils.MAX_ITERATIONS)
+                .setRange(DistanceUtils.SEARCH_RADIUS);
+
         @Override
         public void run() {
 
@@ -244,11 +249,6 @@ public class SpawnGroupGenerator {
                 Spawnpoint primary = spawnPool.remove();
                 SpawnGroup group = new SpawnGroup(_manager, primary);
 
-                AStar astar = AStarUtils.getAStar(primary.getWorld());
-                astar.setMaxDropHeight(DistanceUtils.MAX_DROP_HEIGHT);
-                astar.setMaxIterations(DistanceUtils.MAX_ITERATIONS);
-                astar.setRange(DistanceUtils.SEARCH_RADIUS);
-
                 // find candidates to add to the group
                 Deque<Spawnpoint> groupCandidates = new ArrayDeque<>(spawnPool);
 
@@ -260,7 +260,7 @@ public class SpawnGroupGenerator {
 
                     if (distance <= searchRadiusSquared) {
 
-                        int pathDistance = AStarUtils.searchSurface(astar, primary, candidate)
+                        int pathDistance = AStar.search(primary, candidate, settings)
                                 .getPathDistance();
 
                         if (pathDistance > -1 && pathDistance <= DistanceUtils.SEARCH_RADIUS) {

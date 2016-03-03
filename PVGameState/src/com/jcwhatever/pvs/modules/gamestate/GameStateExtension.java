@@ -11,6 +11,7 @@ import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.events.ArenaStartedEvent;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 
@@ -109,16 +110,23 @@ public class GameStateExtension extends ArenaExtension implements IEventListener
         IArenaPlayerCollection players = getArena().getGame().getPlayers();
         for (IArenaPlayer arenaPlayer : players) {
 
-            Player player = arenaPlayer.getPlayer();
+            if (!(arenaPlayer.getEntity() instanceof LivingEntity))
+                continue;
+
+            LivingEntity entity = (LivingEntity)arenaPlayer.getEntity();
 
             if (kit != null)
-                kit.give(player);
+                kit.give(entity);
 
-            player.setMaxHealth(_maxHealth);
-            player.setHealth(_health);
-            player.setLevel(_expLevels);
-            player.setWalkSpeed(_walkSpeed);
-            player.setFoodLevel(_hunger);
+            entity.setMaxHealth(_maxHealth);
+            entity.setHealth(_health);
+
+            if (entity instanceof Player) {
+                Player player = (Player)entity;
+                player.setLevel(_expLevels);
+                player.setWalkSpeed(_walkSpeed);
+                player.setFoodLevel(_hunger);
+            }
         }
     }
 

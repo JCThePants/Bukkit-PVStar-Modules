@@ -34,6 +34,7 @@ import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IBukkitPlayer;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
@@ -162,8 +163,10 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     private void onPlayerEnterArena(PlayerEnterArenaRegionEvent event) {
 
         IArenaPlayer arenaPlayer = event.getPlayer();
-        IArena arena = event.getArena();
+        if (!(arenaPlayer instanceof IBukkitPlayer))
+            return;
 
+        IArena arena = event.getArena();
         IArena current = arenaPlayer.getArena();
         if (current != null) {
 
@@ -180,7 +183,7 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
         }
 
         if (getArena().isBusy()) {
-            _joinOnIdle.add(arenaPlayer.getPlayer());
+            _joinOnIdle.add(((IBukkitPlayer) arenaPlayer).getPlayer());
         }
         else {
             arenaPlayer.getMeta().set(META_ENTER, true);
@@ -194,18 +197,23 @@ public class OpenArenaExtension extends ArenaExtension implements IEventListener
     @EventMethod
     private void onPlayerLeaveArena(PlayerLeaveArenaRegionEvent event) {
 
+        if (!(event.getPlayer() instanceof IBukkitPlayer))
+            return;
+
+        IBukkitPlayer bukkitPlayer = (IBukkitPlayer)event.getPlayer();
+
         // prevent removing player if they are simply dead
         if (event.getReason() == LeaveRegionReason.DEAD)
             return;
 
-        if (getArena().equals(event.getPlayer().getArena())) {
+        if (getArena().equals(bukkitPlayer.getArena())) {
 
-            if (_joinOnIdle.contains(event.getPlayer().getPlayer())) {
-                _joinOnIdle.remove(event.getPlayer().getPlayer());
+            if (_joinOnIdle.contains(bukkitPlayer.getPlayer())) {
+                _joinOnIdle.remove(bukkitPlayer.getPlayer());
             }
             else {
-                event.getPlayer().getMeta().set(META_LEAVE, true);
-                event.getPlayer().leaveArena();
+                bukkitPlayer.getMeta().set(META_LEAVE, true);
+                bukkitPlayer.leaveArena();
             }
         }
     }

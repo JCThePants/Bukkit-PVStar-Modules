@@ -25,11 +25,7 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.arena.IArenaPlayer;
-import com.jcwhatever.pvs.api.spawns.Spawnpoint;
-import com.jcwhatever.pvs.api.utils.ArenaScheduler;
-import com.jcwhatever.pvs.api.utils.SpawnFilter;
-import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
+import com.jcwhatever.nucleus.managed.teleport.TeleportMode;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
@@ -38,16 +34,20 @@ import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.nucleus.utils.Rand;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
-
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.spawns.Spawnpoint;
+import com.jcwhatever.pvs.api.utils.ArenaScheduler;
+import com.jcwhatever.pvs.api.utils.SpawnFilter;
+import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
-import org.bukkit.event.player.PlayerTeleportEvent.TeleportCause;
 import org.bukkit.util.Vector;
 
+import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Nullable;
 
 @RegionTypeInfo(
         name="teleport",
@@ -117,16 +117,18 @@ public class TeleportRegion extends AbstractPVRegion {
             }
         }
 
-        final Vector v = player.getPlayer().getVelocity();
-        player.getPlayer().teleport(tpLocation, TeleportCause.PLUGIN);
+        final Entity entity = player.getEntity();
+        assert entity != null;
+
+        final Vector v = entity.getVelocity();
+        player.teleport(tpLocation, TeleportMode.TARGET_ONLY);
 
         ArenaScheduler.runTaskLater(getArena(), 1, new Runnable() {
 
             @Override
             public void run() {
-                player.getPlayer().setVelocity(v);
+                entity.setVelocity(v);
             }
-
         });
     }
 

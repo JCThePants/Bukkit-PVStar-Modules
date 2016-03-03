@@ -47,10 +47,16 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.entity.LivingEntity;
 import org.bukkit.util.BlockIterator;
 
 import javax.annotation.Nullable;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RegionTypeInfo(
         name="playergrinder",
@@ -241,7 +247,7 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
         void explode(IArenaPlayerCollection players) {
             for (Location location : _locations) {
 
-                _particle.showTo(players.asPlayers(), location, 1);
+                _particle.showTo(players.toBukkit(), location, 1);
                 //location.getWorld().createExplosion(location, 0.0F, false);
             }
         }
@@ -430,8 +436,11 @@ public class PlayerGrinderRegion extends AbstractPVRegion implements IEventListe
                     return;
                 }
 
+                if (!(player.getEntity() instanceof LivingEntity))
+                    return;
+
                 // damage players
-                player.getPlayer().damage(_region._damage);
+                ((LivingEntity) player.getEntity()).damage(_region._damage);
             }
         }
 

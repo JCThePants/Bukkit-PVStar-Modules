@@ -11,6 +11,7 @@ import com.jcwhatever.nucleus.utils.observer.event.EventSubscriberPriority;
 import com.jcwhatever.nucleus.views.ViewSession;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IBukkitPlayer;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtension;
 import com.jcwhatever.pvs.api.arena.extensions.ArenaExtensionInfo;
 import com.jcwhatever.pvs.api.events.ArenaEndedEvent;
@@ -136,9 +137,14 @@ public class RandomBoxExtension extends ArenaExtension implements IEventListener
 
     private void openRandomBox(final Player player, Block block) {
 
-        final IArenaPlayer arenaPlayer = PVStarAPI.getArenaPlayer(player);
+        IArenaPlayer arenaPlayer = PVStarAPI.getArenaPlayer(player);
         assert arenaPlayer != null;
         assert arenaPlayer.getArena() != null;
+
+        if (!(arenaPlayer instanceof IBukkitPlayer))
+            return;
+
+        final IBukkitPlayer bukkitPlayer = (IBukkitPlayer)arenaPlayer;
 
         RandomBoxPreOpenEvent event = new RandomBoxPreOpenEvent(arenaPlayer, block, _xpLevelCost);
         arenaPlayer.getArena().getEventManager().call(this, event);
@@ -168,12 +174,12 @@ public class RandomBoxExtension extends ArenaExtension implements IEventListener
         Scheduler.runTaskLater(PVStarAPI.getPlugin(), 80, new Runnable() {
             @Override
             public void run() {
-                showBoxView(arenaPlayer);
+                showBoxView(bukkitPlayer);
             }
         });
     }
 
-    private void showBoxView(IArenaPlayer arenaPlayer) {
+    private void showBoxView(IBukkitPlayer arenaPlayer) {
 
         assert arenaPlayer.getArena() != null;
 

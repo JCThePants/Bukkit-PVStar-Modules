@@ -39,6 +39,7 @@ import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
 import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IBukkitPlayer;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import org.bukkit.entity.Player;
@@ -78,13 +79,18 @@ public class MusicRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected void onPlayerEnter(IArenaPlayer player, EnterRegionReason reason) {
+    protected void onPlayerEnter(IArenaPlayer arenaPlayer, EnterRegionReason reason) {
 
-        PlayerSoundQueue currentQueue = _playList.getSoundQueue(player.getPlayer());
+        if (!(arenaPlayer instanceof IBukkitPlayer))
+            return;
+
+        Player player = ((IBukkitPlayer) arenaPlayer).getPlayer();
+
+        PlayerSoundQueue currentQueue = _playList.getSoundQueue(player);
         if (currentQueue != null)
             return;
 
-        _playList.addPlayer(player.getPlayer(), new SoundSettings().addLocations(getCenter()));
+        _playList.addPlayer(player, new SoundSettings().addLocations(getCenter()));
     }
 
     @Override
@@ -93,8 +99,11 @@ public class MusicRegion extends AbstractPVRegion {
     }
 
     @Override
-    protected void onPlayerLeave(IArenaPlayer player, LeaveRegionReason reason) {
-        _playList.removePlayer(player.getPlayer());
+    protected void onPlayerLeave(IArenaPlayer arenaPlayer, LeaveRegionReason reason) {
+        if (!(arenaPlayer instanceof IBukkitPlayer))
+            return;
+
+        _playList.removePlayer(((IBukkitPlayer) arenaPlayer).getPlayer());
     }
 
     @Override

@@ -33,6 +33,7 @@ import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IBukkitPlayer;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.queue.Lang;
 import com.jcwhatever.pvs.modules.queue.QueueManager;
@@ -63,12 +64,15 @@ public class LeaveSubCommand extends AbstractPVCommand implements IExecutableCom
         Player p = (Player)sender;
         IArenaPlayer player = PVStarAPI.getArenaPlayer(p);
 
+        if (!(player instanceof IBukkitPlayer))
+            return;
+
         // check queue
         IArena arena = QueueManager.getCurrentQueue(player);
         if (arena == null)
             throw new CommandException(Lang.get(_FAILED));
 
-        QueueManager.removePlayer(player);
+        QueueManager.removePlayer((IBukkitPlayer)player);
         tellSuccess(p, Lang.get(_SUCCESS, arena.getName()));
     }
 }

@@ -25,10 +25,10 @@
 
 package com.jcwhatever.pvs.modules.mobs.utils;
 
+import com.jcwhatever.nucleus.managed.astar.AStar;
+import com.jcwhatever.nucleus.managed.astar.IAStarSettings;
 import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.nucleus.utils.ThreadSingletons;
-import com.jcwhatever.nucleus.utils.astar.AStar;
-import com.jcwhatever.nucleus.utils.astar.AStarUtils;
 import com.jcwhatever.nucleus.utils.coords.LocationUtils;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
@@ -93,12 +93,12 @@ public class DistanceUtils {
         }
 
         // Use real time path checking (slower)
-        AStar astar = AStarUtils.getAStar(source.getWorld());
-        astar.setRange(searchRadius);
-        astar.setMaxDropHeight(MAX_DROP_HEIGHT);
-        astar.setMaxIterations(MAX_ITERATIONS);
+        IAStarSettings settings = AStar.createSettings()
+                .setRange(searchRadius)
+                .setMaxDropHeight(MAX_DROP_HEIGHT)
+                .setMaxIterations(MAX_ITERATIONS);
 
-        int distance = AStarUtils.searchSurface(astar, source, destination)
+        int distance = AStar.search(source, destination, settings)
                 .getPathDistance();
 
         return distance > -1 && distance <= maxPathDistance;

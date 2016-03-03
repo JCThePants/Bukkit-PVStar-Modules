@@ -30,6 +30,7 @@ import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IBukkitPlayer;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.arena.options.AddToContextReason;
 import com.jcwhatever.pvs.api.events.players.PlayerAddToContextEvent;
@@ -99,7 +100,11 @@ public class PartyEventListener implements IEventListener {
     @EventMethod
     private void onPlayerAdded(PlayerAddToContextEvent event) {
 
-        Player p = event.getPlayer().getPlayer();
+        IArenaPlayer arenaPlayer = event.getPlayer();
+        if (!(arenaPlayer instanceof IBukkitPlayer))
+            return;
+
+        Player p = ((IBukkitPlayer) arenaPlayer).getPlayer();
         IArena arena = event.getArena();
 
         PartyManager manager = PartyModule.getModule().getManager();
@@ -137,7 +142,10 @@ public class PartyEventListener implements IEventListener {
     @Nullable
     private IArenaPlayer getPartyLeader(IArenaPlayer player) {
 
-        Player p = player.getPlayer();
+        if (!(player instanceof IBukkitPlayer))
+            return null;
+
+        Player p = ((IBukkitPlayer) player).getPlayer();
 
         PartyManager manager = PartyModule.getModule().getManager();
 
@@ -159,11 +167,14 @@ public class PartyEventListener implements IEventListener {
 
     private boolean canJoin(IArena arena, IArenaPlayer player, boolean verbose) {
 
+        if (!(player instanceof IBukkitPlayer))
+            return false;
+
         if (arena.equals(player.getSessionMeta().get(META_ALLOW_JOIN_ARENA))) {
             return true;
         }
 
-        Player p = player.getPlayer();
+        Player p = ((IBukkitPlayer) player).getPlayer();
 
         PartyManager manager = PartyModule.getModule().getManager();
 

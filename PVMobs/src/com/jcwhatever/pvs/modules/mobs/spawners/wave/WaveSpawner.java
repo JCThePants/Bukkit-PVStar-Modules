@@ -139,7 +139,7 @@ public class WaveSpawner extends Spawner {
 
             if (_settings.isWaveTitleDisplayed()) {
                 Titles.create("{GREEN}Wave " + (_wave + 1))
-                        .showTo(getArena().getGame().getPlayers().asPlayers());
+                        .showTo(getArena().getGame().getPlayers().toBukkit());
             }
 
             Scheduler.runTaskLater(PVStarAPI.getPlugin(), _settings.getSecondsBetweenWaves() * 20, new Runnable() {
@@ -173,7 +173,10 @@ public class WaveSpawner extends Spawner {
                 continue;
             }
 
-            creature.setTarget(closest.getPlayer());
+            if (!(closest.getEntity() instanceof LivingEntity))
+                continue;
+
+            creature.setTarget((LivingEntity)closest.getEntity());
 
             if (creature instanceof PigZombie) {
                 PigZombie pigZ = (PigZombie)creature;

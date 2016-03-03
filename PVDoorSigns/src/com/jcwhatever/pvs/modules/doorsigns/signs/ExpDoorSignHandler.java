@@ -32,6 +32,7 @@ import com.jcwhatever.nucleus.utils.text.TextUtils;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
 import com.jcwhatever.pvs.api.utils.Msg;
 import com.jcwhatever.pvs.modules.doorsigns.Lang;
+import org.bukkit.entity.Player;
 
 import java.util.regex.Matcher;
 
@@ -97,17 +98,25 @@ public class ExpDoorSignHandler extends AbstractNumberSignHandler {
     }
 
     @Override
-    protected double getPlayerBalance(IArenaPlayer player) {
-        return player.getPlayer().getLevel();
+    protected double getPlayerBalance(IArenaPlayer arenaPlayer) {
+
+        if (!(arenaPlayer.getEntity() instanceof Player))
+            return 0.0D;
+
+        return ((Player) arenaPlayer.getEntity()).getLevel();
     }
 
     @Override
-    protected void incrementPlayerBalance(IArenaPlayer player, double amount) {
+    protected void incrementPlayerBalance(IArenaPlayer arenaPlayer, double amount) {
 
-        int level = player.getPlayer().getLevel();
+        if (!(arenaPlayer.getEntity() instanceof Player))
+            return;
 
-        player.getPlayer().setLevel(0);
-        player.getPlayer().setLevel(level + (int)amount);
+        Player player = (Player)arenaPlayer.getEntity();
+
+        int level = player.getLevel();
+        player.setLevel(0);
+        player.setLevel(level + (int) amount);
     }
 
     @Override

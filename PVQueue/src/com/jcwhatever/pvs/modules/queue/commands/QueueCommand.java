@@ -33,6 +33,7 @@ import com.jcwhatever.nucleus.managed.language.Localizable;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IBukkitPlayer;
 import com.jcwhatever.pvs.api.commands.AbstractPVCommand;
 import com.jcwhatever.pvs.modules.queue.Lang;
 import com.jcwhatever.pvs.modules.queue.QueueManager;
@@ -90,6 +91,9 @@ public class QueueCommand extends AbstractPVCommand implements IExecutableComman
         Player p = (Player)sender;
         IArenaPlayer player = PVStarAPI.getArenaPlayer(p);
 
+        if (!(player instanceof IBukkitPlayer))
+            return;
+
         // get info about players current queue status.
         if (args.getString("arenaName").equals("$info")) {
 
@@ -130,7 +134,7 @@ public class QueueCommand extends AbstractPVCommand implements IExecutableComman
         }
 
         QueueManager manager = QueueManager.get(arena);
-        if (manager.addPlayer(player)) {
+        if (manager.addPlayer((IBukkitPlayer)player)) {
             tellSuccess(p, Lang.get(_SUCCESS, arena.getName(), manager.getQueuePosition(player)));
         }
         else {

@@ -31,16 +31,16 @@ import com.jcwhatever.nucleus.utils.PreCon;
 import com.jcwhatever.pvs.api.PVStarAPI;
 import com.jcwhatever.pvs.api.arena.IArena;
 import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.arena.IBukkitPlayer;
 import com.jcwhatever.pvs.api.arena.collections.IArenaPlayerCollection;
 import com.jcwhatever.pvs.api.events.players.PlayerJoinQueryEvent;
-
 import org.bukkit.entity.Player;
 
+import javax.annotation.Nullable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.Set;
-import javax.annotation.Nullable;
 
 public final class QueueManager {
 
@@ -134,7 +134,7 @@ public final class QueueManager {
         return player.getSessionMeta().get(META_QUEUED_ARENA);
 	}
 		
-	public static boolean removePlayer(IArenaPlayer player) {
+	public static boolean removePlayer(IBukkitPlayer player) {
 		PreCon.notNull(player);
 
         IArena arena = getCurrentQueue(player);
@@ -194,7 +194,7 @@ public final class QueueManager {
 		return 0;
 	}
 	
-	public boolean addPlayer(IArenaPlayer player) {
+	public boolean addPlayer(IBukkitPlayer player) {
 		PreCon.notNull(player);
 
         // make sure other modules agree to the player joining the arena

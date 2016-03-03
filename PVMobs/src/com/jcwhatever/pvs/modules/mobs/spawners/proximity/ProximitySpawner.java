@@ -131,7 +131,10 @@ public class ProximitySpawner extends Spawner {
                 continue;
             }
 
-            creature.setTarget(closest.getPlayer());
+            if (!(closest.getEntity() instanceof LivingEntity))
+                continue;
+
+            creature.setTarget((LivingEntity)closest.getEntity());
 
             if (creature instanceof PigZombie) {
                 PigZombie pigZ = (PigZombie)creature;

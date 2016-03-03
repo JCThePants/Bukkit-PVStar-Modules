@@ -25,13 +25,6 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.PVStarAPI;
-import com.jcwhatever.pvs.api.arena.IArena;
-import com.jcwhatever.pvs.api.arena.IArenaPlayer;
-import com.jcwhatever.pvs.api.events.players.PlayerAddToContextEvent;
-import com.jcwhatever.pvs.api.utils.ArenaScheduler;
-import com.jcwhatever.pvs.api.utils.ArenaConverters;
-import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import com.jcwhatever.nucleus.events.manager.EventMethod;
 import com.jcwhatever.nucleus.events.manager.IEventListener;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
@@ -40,8 +33,15 @@ import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
-
+import com.jcwhatever.pvs.api.PVStarAPI;
+import com.jcwhatever.pvs.api.arena.IArena;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.events.players.PlayerAddToContextEvent;
+import com.jcwhatever.pvs.api.utils.ArenaConverters;
+import com.jcwhatever.pvs.api.utils.ArenaScheduler;
+import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
 import org.bukkit.Location;
+import org.bukkit.entity.Entity;
 import org.bukkit.entity.Player;
 import org.bukkit.util.Vector;
 
@@ -107,7 +107,10 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
 
             @Override
             public void run() {
-                 event.getPlayer().getPlayer().setVelocity(vector);
+
+                Entity entity = event.getPlayer().getEntity();
+                if (entity != null)
+                    entity.setVelocity(vector);
             }
         });
     }
@@ -128,7 +131,10 @@ public class ForwardingRegion extends AbstractPVRegion implements IEventListener
             Location destination = getRegionDestination(player);
             _forwardLocMap.put(player.getUniqueId(), destination);
 
-            Vector vector = player.getPlayer().getVelocity();
+            Entity entity = player.getEntity();
+            assert entity != null;
+
+            Vector vector = entity.getVelocity();
             _vectorMap.put(player.getUniqueId(), vector);
         }
 

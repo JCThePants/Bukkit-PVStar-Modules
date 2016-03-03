@@ -25,19 +25,18 @@
 
 package com.jcwhatever.pvs.modules.regions.regions;
 
-import com.jcwhatever.pvs.api.arena.IArenaPlayer;
-import com.jcwhatever.pvs.api.utils.ArenaScheduler;
-import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
+import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
+import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
 import com.jcwhatever.nucleus.regions.options.EnterRegionReason;
 import com.jcwhatever.nucleus.regions.options.LeaveRegionReason;
 import com.jcwhatever.nucleus.storage.IDataNode;
 import com.jcwhatever.nucleus.storage.settings.PropertyDefinition;
 import com.jcwhatever.nucleus.storage.settings.PropertyValueType;
 import com.jcwhatever.nucleus.storage.settings.SettingsBuilder;
-import com.jcwhatever.nucleus.managed.scheduler.IScheduledTask;
-import com.jcwhatever.nucleus.managed.scheduler.TaskHandler;
-
-import org.bukkit.entity.Player;
+import com.jcwhatever.pvs.api.arena.IArenaPlayer;
+import com.jcwhatever.pvs.api.utils.ArenaScheduler;
+import com.jcwhatever.pvs.modules.regions.RegionTypeInfo;
+import org.bukkit.entity.LivingEntity;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -73,25 +72,33 @@ public class DamageIntervalRegion extends AbstractPVRegion {
     @Override
     protected void onPlayerEnter(final IArenaPlayer player, EnterRegionReason reason) {
 
+        if (!(player.getEntity() instanceof LivingEntity))
+            return;
+
         IScheduledTask task = ArenaScheduler.runTaskRepeat(getArena(), 1, _interval * 20, new TaskHandler() {
 
             @Override
             public void run() {
 
-                Player p = player.getPlayer();
+                if (!(player.getEntity() instanceof LivingEntity)) {
+                    cancelTask();
+                    return;
+                }
 
-                if (p.isDead() || !p.isOnline()) {
+                LivingEntity entity = (LivingEntity)player.getEntity();
+
+                if (entity.isDead() || !player.isOnline()) {
                     cancelTask();
                     return;
                 }
 
                 if (_damage < 0) { // give health
-                    double health = p.getHealth() + Math.abs(_damage);
-                    health = Math.min(p.getMaxHealth(), health);
+                    double health = entity.getHealth() + Math.abs(_damage);
+                    health = Math.min(entity.getMaxHealth(), health);
 
-                    p.setHealth(health);
+                    entity.setHealth(health);
                 } else { // damage
-                    p.damage(_damage);
+                    entity.damage(_damage);
                 }
             }
 
